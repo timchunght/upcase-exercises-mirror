@@ -27,3 +27,9 @@ then
 else
   echo "Pow not set up but the team uses it for this project. Setup: http://goo.gl/RaDPO"
 fi
+
+# Set up deploys
+git remote add staging git@heroku.com:tbot-whetstone-staging.git
+heroku join --app tbot-whetstone-staging
+git remote add production git@heroku.com:tbot-whetstone-production.git
+heroku join --app tbot-whetstone-production
