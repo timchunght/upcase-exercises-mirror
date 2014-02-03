@@ -1,0 +1,41 @@
+%nav
+  = link_to 'Back to learn', 'http://learn.thoughtbot.com'
+
+%header
+  %h1 Shakespeare Analyzer
+  %h2.difficulty Intermediate Exercise
+
+%section.video
+  %iframe{ 'src' => 'http://fast.wistia.net/embed/iframe/e4a27b971d?controlsVisibleOnLoad=true&playerColor=688AAD&videoFoam=true&version=v1&videoHeight=360&videoWidth=640&wmode=transparent', 'allowtransparency' => 'true', 'frameborder' => '0', 'scrolling' => 'no', 'width' => '640', 'height' => '360' }
+
+%section.explanation
+  %h3 Your Task
+  %p As a Shakespeare buff, statistics junkie, and unix lover, Ben finds himself wanting a command-line tool for analyzing Macbeth.
+  %p 
+    %strong Write a command-line program that prints the number of lines spoken by each character in the play.
+  %p Sample usage/output (using made-up numbers):
+  %pre
+    %code
+      :preserve
+        $ ruby macbeth_analyzer.rb
+          543 Macbeth
+          345 Banquo
+          220 Duncan
+          (etc.)
+  %p
+    You can find an XML-encoded version of Macbeth here:
+    %a{href: "http://www.ibiblio.org/xml/examples/shakespeare/macbeth.xml"} http://www.ibiblio.org/xml/examples/shakespeare/macbeth.xml
+%section.instructions
+  %h3 Working/Submitting
+  %p Your solution must be tested, preferably via TDD.
+  %ol
+    %li
+      To work on this exercise,
+      = link_to 'fork the repo', 'https://github.com/thoughtbot/shakespeare_analyzer/fork'
+      and begin implementing your solution.
+    %li When you are done, copy the output of your program into a file in your repository.
+    %li Create a pull request so your code can be reviewed.
+    %li
+      Perform a code review on at least one other person's solution. Your comments should follow our
+      = link_to 'code review guidelines.', 'https://github.com/thoughtbot/guides/tree/master/code-review'
+    %li Improve your solution based on the comments you've received and approaches you've learned from reviewing others' attempts.

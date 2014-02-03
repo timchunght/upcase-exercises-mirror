@@ -9,7 +9,9 @@
 </head>
 <body class="<%= body_class %>">
   <%= render 'flashes' -%>
-  <%= yield %>
+  <article class="main">
+    <%= yield %>
+  </article>
   <%= render 'javascript' %>
 </body>
 </html>
