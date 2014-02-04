@@ -5,9 +5,10 @@ class FakeLearn < Sinatra::Base
   set :raise_errors, true
 
   LEARN_USER = {
-    'id' => 1,
     'email' => 'user@example.com',
     'first_name' => 'Test',
+    'has_active_subscription' => true,
+    'id' => 1,
     'last_name' => 'User'
   }
 

@@ -29,21 +29,24 @@ describe User do
         expect(user.last_name).to eq(auth_hash['info']['last_name'])
         expect(user.learn_uid).to eq(auth_hash['uid'])
         expect(user.auth_token).to eq(auth_hash['credentials']['token'])
+        expect(user.subscriber?).
+          to eq(auth_hash['info']['has_active_subscription'])
       end
     end
 
     def build_auth_hash(overrides = {})
       {
-        'provider' => 'learn',
-        'uid' => 1,
+        'credentials' => {
+          'token' => 'abc123'
+        },
         'info' => {
           'email' => 'user@example.com',
           'first_name' => 'Test',
+          'has_active_subscription' => true,
           'last_name' => 'User'
         },
-        'credentials' => {
-          'token' => 'abc123'
-        }
+        'provider' => 'learn',
+        'uid' => 1
       }.merge(overrides)
     end
   end
