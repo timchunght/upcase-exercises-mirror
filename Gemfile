@@ -4,6 +4,7 @@ ruby '2.0.0'
 
 gem 'airbrake'
 gem 'bourbon'
+gem 'clearance'
 gem 'coffee-rails'
 gem 'delayed_job_active_record', '>= 4.0.0'
 gem 'email_validator'
@@ -12,6 +13,7 @@ gem 'haml'
 gem 'high_voltage'
 gem 'jquery-rails'
 gem 'neat'
+gem 'omniauth-oauth2'
 gem 'pg'
 gem 'rack-timeout'
 gem 'rails', '>= 4.0.0'
@@ -30,6 +32,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'factory_girl_rails'
   gem 'rspec-rails', '>= 2.14'
 end
@@ -40,6 +43,7 @@ group :test do
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'sinatra', require: false
   gem 'timecop'
   gem 'webmock'
 end
