@@ -45,7 +45,8 @@ textarea,
   box-shadow: $form-box-shadow;
   font-family: $form-font-family;
   font-size: $form-font-size;
-  margin-bottom: $base-line-height / 2;
+  line-height: 1.5em;
+  margin: 0;
   padding: ($base-line-height / 3) ($base-line-height / 3);
   resize: vertical;
   width: 100%;

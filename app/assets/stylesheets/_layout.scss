@@ -1,3 +1,42 @@
-article.main {
-  @include outer-container;
+body {
+  margin: 0;
+}
+
+section.main article {
+  margin-left: 17rem;
+  padding-bottom: 2.5rem;
+  width: 45rem;
+}
+
+ol {
+  @extend %default-ol;
+}
+
+nav.main {
+  height: 3.5rem;
+  margin: 0 0 2rem 0;
+  overflow: auto;
+  position: relative;
+
+  a {
+    display: block;
+    float: left;
+    padding: 1rem 0;
+  }
+
+  .back {
+    @include position(absolute, 0px 0 0 1rem);
+    color: #999;
+  }
+
+  .toggle {
+    margin-left: 17rem;
+    overflow: auto;
+    width: 45rem;
+
+    a {
+      font-weight: bold;
+      margin-right: 1rem;
+    }
+  }
 }

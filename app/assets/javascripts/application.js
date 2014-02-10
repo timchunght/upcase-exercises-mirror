@@ -12,4 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require prettify
+//= require masonry.pkgd.min
+//= require solutions
 //= require_tree .

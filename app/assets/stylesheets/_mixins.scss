@@ -1,0 +1,31 @@
+@mixin pseudo-circle {
+  background: #fff;
+  border: 3px solid #ddd;
+  border-radius: 50%;
+  box-sizing: border-box;
+  content: '';
+  display: block;
+  height: $avatar-size;
+  @include position(absolute, 0 0 0 0px);
+  width: $avatar-size;
+}
+
+@mixin pseudo-circle-small {
+  border-radius: 50%;
+  content: '';
+  display: block;
+  height: 10px;
+  margin-top: 6px;
+  @include position(absolute, 0 0 0 0px);
+  width: 10px;
+}
+
+@mixin pseudo-connecting-line {
+  border-left: 3px solid #eee;
+  content: '';
+  display: block;
+  margin-left: .5rem;
+  margin-top: 1.5rem;
+  @include position(absolute, 2rem 0 -1rem 10px);
+  z-index: -1;
+}

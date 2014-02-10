@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %meta{ 'charset' => "utf-8" }
+    %meta{ 'name' => "ROBOTS", 'content' => "NOODP" }
+    %title= page_title
+    = stylesheet_link_tag '//cloud.typography.com/6716232/776984/css/fonts.css', :media => 'all'
+    = stylesheet_link_tag :application, :media => 'all'
+    = csrf_meta_tags
+  %body{ 'class' => "#{body_class}" }
+    = render 'flashes'
+    %nav.main
+      = link_to '&larr; back to learn'.html_safe, 'http://learn.thoughtbot.com', class: 'back'
+    %section.main
+      = yield
+    = render 'javascript'
