@@ -1,8 +1,22 @@
 en:
+
+  admin:
+    exercises:
+      index:
+        create_exercise: 'Create Exercise'
+    dashboards:
+      show:
+        exercises: 'Exercises'
+
   date:
     formats:
       default: '%m/%d/%Y'
       with_weekday: '%a %m/%d/%y'
+
+  helpers:
+    submit:
+      exercise:
+        create: 'Create Exercise'
 
   time:
     formats:

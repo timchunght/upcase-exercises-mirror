@@ -29,6 +29,7 @@ describe User do
         expect(user.last_name).to eq(auth_hash['info']['last_name'])
         expect(user.learn_uid).to eq(auth_hash['uid'])
         expect(user.auth_token).to eq(auth_hash['credentials']['token'])
+        expect(user.admin).to eq(auth_hash['info']['admin'])
         expect(user.subscriber?).
           to eq(auth_hash['info']['has_active_subscription'])
       end
@@ -40,6 +41,7 @@ describe User do
           'token' => 'abc123'
         },
         'info' => {
+          'admin' => true,
           'email' => 'user@example.com',
           'first_name' => 'Test',
           'has_active_subscription' => true,

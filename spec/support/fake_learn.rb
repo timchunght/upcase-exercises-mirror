@@ -4,13 +4,17 @@ class FakeLearn < Sinatra::Base
   set :show_exceptions, false
   set :raise_errors, true
 
-  LEARN_USER = {
-    'email' => 'user@example.com',
-    'first_name' => 'Test',
-    'has_active_subscription' => true,
-    'id' => 1,
-    'last_name' => 'User'
-  }
+
+  def self.sign_in(attributes = {})
+    @@learn_user = {
+      'admin' => false,
+      'email' => 'user@example.com',
+      'first_name' => 'Test',
+      'has_active_subscription' => true,
+      'id' => 1,
+      'last_name' => 'User'
+    }.merge(attributes)
+  end
 
   get '/oauth/authorize' do
     redirect_uri = URI.parse(params[:redirect_uri])
@@ -29,7 +33,7 @@ class FakeLearn < Sinatra::Base
 
   get '/api/v1/me.json' do
     content_type :json
-    { 'user' => LEARN_USER }.to_json
+    { 'user' => @@learn_user }.to_json
   end
 end
 
@@ -61,6 +65,7 @@ WebMock.disable_net_connect!
 
 RSpec.configure do |config|
   config.before do
+    FakeLearn.sign_in
     WebMock.
       stub_request(:any, %r{#{Regexp.escape(LEARN_URL)}.*}).
       to_rack(FakeLearn)

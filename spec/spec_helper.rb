@@ -21,7 +21,7 @@ RSpec.configure do |config|
 
   config.fail_fast = true
   config.include Features, type: :feature
-  config.infer_base_class_for_anonymous_controllers = false
+  config.infer_base_class_for_anonymous_controllers = true
   config.order = 'random'
   config.use_transactional_fixtures = false
 end

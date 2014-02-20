@@ -5,7 +5,11 @@ class OauthCallbacksController < ApplicationController
     @user = User.find_or_create_from_auth_hash(auth_hash)
     if @user.subscriber?
       sign_in @user
-      redirect_to root_url
+      if @user.admin?
+        redirect_to admin_root_url
+      else
+        redirect_to root_url
+      end
     else
       redirect_to 'https://learn.thoughtbot.com/prime'
     end

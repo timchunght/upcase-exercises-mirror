@@ -1,0 +1,5 @@
+= link_to t('.create_exercise'), new_admin_exercise_path
+
+%ul
+  - @exercises.each do |exercise|
+    %li= exercise.title
