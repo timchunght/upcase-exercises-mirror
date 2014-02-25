@@ -11,6 +11,11 @@ FactoryGirl.define do
     n
   end
 
+  factory :exercise do
+    title 'Title'
+    body 'Body'
+  end
+
   factory :user do
     auth_token
     email

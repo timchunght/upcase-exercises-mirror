@@ -10,6 +10,7 @@
 <body class="<%= body_class %>">
   <%= render 'flashes' -%>
   <article class="main">
+    <nav><%= link_to 'Back to learn', 'http://learn.thoughtbot.com' %></nav>
     <%= yield %>
   </article>
   <%= render 'javascript' %>

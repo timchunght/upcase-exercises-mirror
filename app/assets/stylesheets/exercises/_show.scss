@@ -32,11 +32,12 @@
     width: 100%;
     height: 450px;
   }
-  code {
+
+  pre code {
     width: 100%;
     padding: $base-padding;
     background: #f6f6f6;
     border-radius: 3px;
-    display:block;
+    display: block;
   }
 }
