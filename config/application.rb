@@ -39,3 +39,5 @@ module Whetstone
     config.i18n.enforce_available_locales = true
   end
 end
+
+require 'tilt/git_hub_flavored_markdown'
