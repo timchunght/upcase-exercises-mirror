@@ -14,5 +14,13 @@
 //= require jquery_ujs
 //= require prettify
 //= require masonry.pkgd.min
+//
+//= require jquery.caret
+//= require jquery.scrollTo.min
+//= require marked
+//= require crevasse
+//= require admin
+//
 //= require solutions
+//
 //= require_tree .

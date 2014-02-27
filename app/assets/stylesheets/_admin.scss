@@ -32,18 +32,37 @@
 }
 
 .new_exercise, .edit_exercise {
-  .exercise_title, .exercise_body {
-    margin-bottom: 1rem;
+  .exercise_title {
+    margin-bottom: 2rem;
   }
 
-  textarea {
-    height: 50vh;
+  .editor {
+    height: 48vh;
+    @include position(absolute, 0 1rem 0 1rem);
+
+    textarea, .preview {
+      float: left;
+      height: 100%;
+      width: 50%;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .preview {
+      overflow: scroll;
+      padding: 0 1rem;
+    }
   }
 
   input[type=submit] {
     display: block;
     line-height: 1.5rem;
+    margin-top: 4rem;
     padding: .5rem 1rem;
+    position: relative;
+    top: 48vh;
     width: 100%;
   }
 }

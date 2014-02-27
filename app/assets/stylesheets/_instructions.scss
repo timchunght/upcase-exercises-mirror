@@ -1,4 +1,4 @@
-section.main article {
+section.main article, .preview {
   header {
     margin-bottom: 1.5rem;
 
@@ -8,12 +8,12 @@ section.main article {
     }
   }
 
+  h3 {
+    margin-bottom: 0.25em;
+  }
+
   .video, .explanation {
     margin-bottom: 2.5rem;
-
-    h3 {
-      margin-bottom: 0.25em;
-    }
   }
 
   .video iframe {
