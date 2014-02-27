@@ -3,9 +3,7 @@ body {
 }
 
 section.main article {
-  margin-left: 17rem;
-  padding-bottom: 2.5rem;
-  width: 45rem;
+  @include align-main-container;
 }
 
 ol {

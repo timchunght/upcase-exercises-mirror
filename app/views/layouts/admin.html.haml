@@ -6,11 +6,15 @@
     %title= page_title
     = stylesheet_link_tag '//cloud.typography.com/6716232/776984/css/fonts.css', :media => 'all'
     = stylesheet_link_tag :application, :media => 'all'
+    = stylesheet_link_tag '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'
     = csrf_meta_tags
   %body{ 'class' => "#{body_class}" }
     = render 'flashes'
     %nav.main
-      = link_to '&larr; back to Learn'.html_safe, 'http://learn.thoughtbot.com', class: 'back'
+      = link_to '&larr; back to Whetstone'.html_safe, root_path, class: 'back'
+      .toggle
+        = link_to 'Edit Exercises', admin_exercises_path, class: 'exercises'
     %section.main
       = yield
     = render 'javascript'
+

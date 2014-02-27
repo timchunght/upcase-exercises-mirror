@@ -1,3 +1,28 @@
+@mixin align-main-container {
+  margin-left: 17rem;
+  padding-bottom: 2.5rem;
+  width: 45rem;
+}
+
+@mixin exercise-button($color: $blue) {
+  border: 2px solid $color;
+  border-radius: .25rem;
+  color: $color;
+  display: block;
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+    color: darken($color, 12%);
+    border-color: darken($color, 12%);
+  }
+
+  i {
+    float: right;
+    line-height: 1.5rem;
+  }
+}
+
 @mixin pseudo-circle {
   background: #fff;
   border: 3px solid #ddd;

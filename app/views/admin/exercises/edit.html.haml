@@ -1,1 +1,6 @@
-= render 'admin/exercises/form', exercise: @exercise
+.edit-exercise
+  = link_to exercise_path(@exercise), class: 'exercise-link', target: '_blank' do
+    = @exercise.title
+    %i.fa.fa-arrow-circle-o-right.fa-lg
+
+  = render 'admin/exercises/form', exercise: @exercise
