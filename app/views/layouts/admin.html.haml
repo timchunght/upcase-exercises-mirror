@@ -13,7 +13,8 @@
     %nav.main
       = link_to '&larr; back to Whetstone'.html_safe, root_path, class: 'back'
       .toggle
-        = link_to 'Edit Exercises', admin_exercises_path, class: 'exercises'
+        = link_to 'Edit Exercises', admin_exercises_path
+        = link_to 'Create Exercise', new_admin_exercise_path
     %section.main
       = yield
     = render 'javascript'
