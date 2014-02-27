@@ -4,6 +4,9 @@ en:
     exercises:
       index:
         create_exercise: 'Create Exercise'
+        update_exercise: 'Update Exercise'
+      update:
+        notice: 'Exercise updated.'
     dashboards:
       show:
         exercises: 'Exercises'

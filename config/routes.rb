@@ -6,6 +6,6 @@ Whetstone::Application.routes.draw do
 
   namespace :admin do
     root to: 'dashboards#show'
-    resources :exercises, only: [:index, :new, :create]
+    resources :exercises, only: [:index, :new, :create, :edit, :update]
   end
 end

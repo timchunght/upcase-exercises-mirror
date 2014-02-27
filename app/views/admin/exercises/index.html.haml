@@ -2,4 +2,4 @@
 
 %ul
   - @exercises.each do |exercise|
-    %li= exercise.title
+    %li= link_to exercise.title, edit_admin_exercise_path(exercise)

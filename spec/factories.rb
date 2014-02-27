@@ -22,5 +22,13 @@ FactoryGirl.define do
     first_name 'Joe'
     last_name 'User'
     learn_uid
+
+    factory :admin do
+      admin true
+    end
+
+    factory :subscriber do
+      admin false
+    end
   end
 end

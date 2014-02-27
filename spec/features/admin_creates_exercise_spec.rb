@@ -18,8 +18,7 @@ feature 'Admin creates exercise' do
   end
 
   def visit_new_exercise_form
-    user = create(:user, admin: true)
-    visit admin_root_path(as: user)
+    sign_in_as_admin
     click_on I18n.t('admin.dashboards.show.exercises')
     click_on I18n.t('admin.exercises.index.create_exercise')
   end

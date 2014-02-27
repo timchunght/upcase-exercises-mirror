@@ -9,7 +9,7 @@ describe Admin::BaseController do
 
   context 'as an admin' do
     it 'allows access' do
-      sign_in_as create(:user, admin: true)
+      sign_in_as create(:admin)
 
       get :index
 
@@ -19,7 +19,7 @@ describe Admin::BaseController do
 
   context 'as a subscriber' do
     it 'denies access' do
-      sign_in_as create(:user, admin: false)
+      sign_in_as create(:subscriber)
 
       get :index
 
