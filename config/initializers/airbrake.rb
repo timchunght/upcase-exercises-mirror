@@ -1,3 +1,3 @@
 Airbrake.configure do |config|
-  config.api_key = 'd10b6e15ed1bac58b226fd562929c5bd06b137e8'
+  config.api_key = '61f2169958512194de6fdb97d36bf50f'
 end
