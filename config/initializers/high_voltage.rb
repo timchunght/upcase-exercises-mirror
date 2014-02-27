@@ -1,3 +1,3 @@
 HighVoltage.configure do |config|
-  config.routes = false
+  config.layout = 'application-v2'
 end
