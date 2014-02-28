@@ -5,6 +5,6 @@ feature 'Learn admin signs in' do
     FakeLearn.sign_in 'admin' => true
     visit root_url
     click_on 'Authorize'
-    expect(page).to have_content('Admin Dashboard')
+    expect(page).to have_translation('admin.exercises.index.create_exercise')
   end
 end
