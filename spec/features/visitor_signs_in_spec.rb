@@ -16,4 +16,10 @@ feature 'Visitor signs in' do
 
     expect(page).to have_content('Viewed Exercise')
   end
+
+  scenario 'using invalid OAuth token' do
+    visit '/auth/failure'
+
+    expect(page).to have_content('Authorize')
+  end
 end
