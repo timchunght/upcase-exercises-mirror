@@ -35,6 +35,10 @@ class FakeLearn < Sinatra::Base
     content_type :json
     { 'user' => @@learn_user }.to_json
   end
+
+  get '/dashboard' do
+    'Learn Dashboard'
+  end
 end
 
 class HostMap

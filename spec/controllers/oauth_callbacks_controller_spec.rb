@@ -2,10 +2,24 @@ require 'spec_helper'
 
 describe OauthCallbacksController do
   describe '#show' do
-    context 'with a subscriber' do
+    context "with a return to URL" do
+      it 'returns to the return to URL' do
+        session[:return_to] = 'http://otherhost.com/return_to'
+        user = stub_user_from_auth_hash
+        user.stub(:admin?).and_return(false)
+        user.stub(:subscriber?).and_return(true)
+
+        request_callback
+
+        should redirect_to('/return_to')
+      end
+    end
+
+    context 'with a non-admin subscriber' do
       it 'signs in' do
         user = stub_user_from_auth_hash
         user.stub(:subscriber?).and_return(true)
+        user.stub(:admin?).and_return(false)
 
         request_callback
 
@@ -23,6 +37,18 @@ describe OauthCallbacksController do
 
         should redirect_to('https://learn.thoughtbot.com/prime')
         should_not be_signed_in
+      end
+    end
+
+    context "with an admin subscriber" do
+      it 'redirects to the admin dashboard' do
+        user = stub_user_from_auth_hash
+        user.stub(:admin?).and_return(true)
+        user.stub(:subscriber?).and_return(true)
+
+        request_callback
+
+        should redirect_to(admin_root_url)
       end
     end
 
