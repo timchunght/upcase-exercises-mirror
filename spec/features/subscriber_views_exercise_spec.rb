@@ -9,5 +9,6 @@ feature 'User views exercise' do
 
     expect(page).to have_content(exercise.title)
     expect(page).to have_content(exercise.body)
+    expect(page).to have_title(exercise.title)
   end
 end
