@@ -15,6 +15,7 @@ nav.main {
   margin: 0 0 2rem 0;
   overflow: auto;
   position: relative;
+  z-index: 1;
 
   a {
     display: block;
@@ -37,4 +38,10 @@ nav.main {
       margin-right: 1rem;
     }
   }
+}
+
+.main-inner {
+  @include clearfix;
+  margin-left: $sidebar-width;
+  padding: 0 2em 2em;
 }

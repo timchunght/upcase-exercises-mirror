@@ -1,20 +1,4 @@
-.next-steps
-  %div
-    %h3 Great Job!
-    %ol.status
-      %li.finished You reviewed a peer
-      %li Your solution has been reviewed
-
-  %div
-    %h3 Pending review
-    %p We'll email you when your solution has been reviewed
-
-  %div
-    %h3 Ready for the next exercise?
-    %p Polymorphism in a pinch
-    = link_to 'Next exercise', '#', class: 'next-exercise'
-
-%aside.participants
+%nav.participants
   %ul
     %li.you
       = link_to '#' do
@@ -43,94 +27,112 @@
         = image_tag('http://www.gravatar.com/avatar/374cb8ccd196db80af224b28a4f604dd?size=24')
         %span.username Cpytel's solution
 
-%section.files.next-steps-active
-  %section.file
-    %span.filename days_controller.rb
-    .code
-      .line
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
-              class DaysController < ApplicationController
-      .line
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
-                include Moves
-      .line
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
-                include Maps
-      .line.blank
-      .line.comments#days_controller.rb-5
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
-                before_filter :authorize, :authorized_moves
-        .comments-link= link_to '3', '#'
-      .line-comments
-        %ol
-          %li
-            = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
-            %span.username Plapier
-            %span.date Feb 12th 12:30pm
-            %span.comment Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dapibus odio id purus lacinia porta. Aenean a sapien arcu. Nulla nisi nulla, euismod sed augue ac, posuere ullamcorper leo.
-          %li
-            = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
-            %span.username You
-            %span.date Feb 12th 12:33pm
-            %span.comment Praesent sed leo vel tortor hendrerit posuere sed quis est. Duis arcu orci, semper vitae iaculis consequat, luctus ac sapien. Fusce tincidunt massa.
-          %li
-            = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
-            %span.username Plapier
-            %span.date Feb 12th 1:12pm
-            %span.comment Praesent vitae egestas turpis.
-          %li.form
-            %form
-              %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
-          %li.form
-            %form
-              %textarea{ 'placeholder' => 'Write a specific comment about this line' }
-              %input{ 'type' => 'submit', 'value' => 'Comment' }
-      .line.blank
-      .line
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
-                def show
-      .line
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
-                  true
-      .line
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
+.main-inner
+  .next-steps
+    %div
+      %h3 Great Job!
+      %ol.status
+        %li.finished You reviewed a peer
+        %li Your solution has been reviewed
+
+    %div
+      %h3 Pending review
+      %p We'll email you when your solution has been reviewed
+
+    %div
+      %h3 Ready for the next exercise?
+      %p Polymorphism in a pinch
+      = link_to 'Next exercise', '#', class: 'next-exercise'
+
+
+  %section.files.next-steps-active
+    %section.file
+      %span.filename days_controller.rb
+      .code
+        .line
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                class DaysController < ApplicationController
+        .line
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                  include Moves
+        .line
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                  include Maps
+        .line.blank
+        .line.comments#days_controller.rb-5
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                  before_filter :authorize, :authorized_moves
+          .comments-link= link_to '3', '#'
+        .line-comments
+          %ol
+            %li
+              = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+              %span.username Plapier
+              %span.date Feb 12th 12:30pm
+              %span.comment Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dapibus odio id purus lacinia porta. Aenean a sapien arcu. Nulla nisi nulla, euismod sed augue ac, posuere ullamcorper leo.
+            %li
+              = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+              %span.username You
+              %span.date Feb 12th 12:33pm
+              %span.comment Praesent sed leo vel tortor hendrerit posuere sed quis est. Duis arcu orci, semper vitae iaculis consequat, luctus ac sapien. Fusce tincidunt massa.
+            %li
+              = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+              %span.username Plapier
+              %span.date Feb 12th 1:12pm
+              %span.comment Praesent vitae egestas turpis.
+            %li.form
+              %form
+                %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
+            %li.form
+              %form
+                %textarea{ 'placeholder' => 'Write a specific comment about this line' }
+                %input{ 'type' => 'submit', 'value' => 'Comment' }
+        .line.blank
+        .line
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                  def show
+        .line
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                    true
+        .line
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                  end
+        .line
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
                 end
-      .line
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
-              end
 
-%aside.comments.next-steps-active
-  %ol
-    %li
-      = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
-      %span Plapier submitted a solution
-    %li.status-red
-      %span Plapier is waiting for review
-    %li.new-comments
-      = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
-      %span
-        = link_to 'You commented on days_controller.rb line#5', '#days_controller.rb-5'
-    %li.form
-      %form
-        %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
+  %aside.comments.next-steps-active
+    %ol
+      %li
+        = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+        %span Plapier submitted a solution
+      %li.status-red
+        %span Plapier is waiting for review
+      %li.new-comments
+        = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+        %span
+          = link_to 'You commented on days_controller.rb line#5', '#days_controller.rb-5'
+      %li.form
+        %form
+          %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
 
-    %li.form
-      %form
-        %textarea{ 'placeholder' => 'Write a general comment about this solution' }
-        %input{ 'type' => 'submit', 'value' => 'Comment' }
+      %li.form
+        %form
+          %textarea{ 'placeholder' => 'Write a general comment about this solution' }
+          %input{ 'type' => 'submit', 'value' => 'Comment' }
