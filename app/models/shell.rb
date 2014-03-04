@@ -1,0 +1,5 @@
+class Shell
+  def execute(*terms)
+    Cocaine::CommandLine.new(*terms).run
+  end
+end
