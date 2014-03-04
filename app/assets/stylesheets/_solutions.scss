@@ -1,25 +1,33 @@
 .next-steps {
-  background: #fff9B8;
-  color: #492B06;
+  background: #FFF5C2;
+  border-radius: 3px;
+  color: #5C4A33;
   @include display(flex);
   @include position(absolute, 4.5rem 1rem 0 17rem);
   z-index: 2;
 
   div {
-    padding: 1.5rem;
+    padding: 1.5rem 2.2rem;
     border-right: 1px solid rgba(140, 120, 65, 0.2);
 
     &:last-child {
       border: 0;
     }
 
-    p {
-      margin-top: .5rem;
-    }
-
     .next-exercise {
       @extend %button;
     }
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  p, li {
+    font-size: em(13px);
+    font-weight: 500;
+    line-height: 1.5em;
+    margin-top: .5rem;
   }
 
   .status {
@@ -30,7 +38,6 @@
     li {
       padding-left: 2rem;
       position: relative;
-      margin-top: .5rem;
     }
 
     .finished:before {
