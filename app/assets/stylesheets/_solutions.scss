@@ -10,13 +10,35 @@
     border-right: 1px solid rgba($next-steps-border, 0.3);
     @include flex(1);
     padding: 1.5rem 2.2rem;
+    position: relative;
 
     &:last-child {
       border: 0;
+
+      &:after {
+        display: none;
+      }
     }
 
     .next-exercise {
       @extend %button;
+    }
+
+    &:after {
+      $size: 33px;
+      background-color: $next-steps-bg;
+      background-image: image_url('arrow-next-step.svg');
+      background-position: 50%;
+      background-repeat: no-repeat;
+      border: 1px solid $next-steps-border;
+      border-radius: $size;
+      content: "";
+      height: $size;
+      margin-top: -$size/2;
+      position: absolute;
+      right: -$size/2;
+      top: 50%;
+      width: $size;
     }
   }
 
@@ -37,7 +59,7 @@
     list-style-type: none;
 
     li {
-      padding-left: 2rem;
+      padding-left: 33px;
       position: relative;
     }
 
@@ -46,9 +68,19 @@
       background-size: contain;
       content: '';
       display: block;
-      height: 1.5rem;
-      @include position(absolute, 0px 0 0 0px);
-      width: 1.5rem;
+      height: 16px;
+      @include position(absolute, 1px 0 0 6px);
+      width: 20px;
+    }
+
+    .unfinished:before {
+      background: url('x.svg') no-repeat;
+      background-size: contain;
+      content: '';
+      display: block;
+      height: 16px;
+      @include position(absolute, 1px 0 0 6px);
+      width: 20px;
     }
   }
 }
