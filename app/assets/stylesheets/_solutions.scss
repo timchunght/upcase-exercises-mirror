@@ -1,14 +1,14 @@
 .next-steps {
-  background: #FFF5C2;
+  background: $next-steps-bg;
   border-radius: 3px;
-  color: #5C4A33;
+  color: $next-steps-color;
   @include display(flex);
   margin-bottom: 2em;
   z-index: 2;
 
   div {
     padding: 1.5rem 2.2rem;
-    border-right: 1px solid rgba(140, 120, 65, 0.2);
+    border-right: 1px solid rgba($next-steps-border, 0.3);
 
     &:last-child {
       border: 0;
@@ -20,7 +20,7 @@
   }
 
   h3 {
-    font-size: 20px;
+    font-size: em(20px);
   }
 
   p, li {
