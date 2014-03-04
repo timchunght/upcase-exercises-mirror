@@ -43,5 +43,7 @@ nav.main {
 .main-inner {
   @include clearfix;
   margin-left: $sidebar-width;
+  max-width: 1400px;
+  min-width: 800px;
   padding: 0 2em 2em;
 }

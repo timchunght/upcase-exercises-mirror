@@ -55,6 +55,7 @@
               :preserve
                 class DaysController < ApplicationController
         .line
+          %a.show-comments
           %pre.prettyprint.lang-ruby
             %code
               :preserve
@@ -127,10 +128,8 @@
       %li.new-comments
         = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
         %span
-          = link_to 'You commented on days_controller.rb line#5', '#days_controller.rb-5'
-      %li.form
-        %form
-          %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
+          = link_to 'You commented on days_controller.rb', '#days_controller.rb-5'
+          %span.line-num Line #5
 
       %li.form
         %form

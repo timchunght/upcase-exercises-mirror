@@ -46,11 +46,11 @@
 }
 
 @mixin pseudo-connecting-line {
-  border-left: 3px solid #eee;
+  border-left: 2px solid #eee;
   content: '';
   display: block;
   margin-left: .5rem;
   margin-top: 1.5rem;
-  @include position(absolute, 2rem 0 -1rem 10px);
+  @include position(absolute, 2rem 0 -1rem 11px);
   z-index: -1;
 }
