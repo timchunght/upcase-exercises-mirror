@@ -1,8 +1,15 @@
 %button {
-  @include button(simple, $base-accent-color);
+  background: $base-accent-color;
+  border: 0;
+  border-radius: 2px;
+  color: #fff;
   font-size: .9rem;
-  font-weight: 500;
+  padding: 0.6em 1.2em;
   line-height: 1;
   margin: 0;
   -webkit-font-smoothing: subpixel-antialiased;
+
+  &:hover {
+    background: saturate($base-accent-color, 15%);
+  }
 }
