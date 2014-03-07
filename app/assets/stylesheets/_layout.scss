@@ -11,39 +11,41 @@ ol {
 }
 
 nav.main {
-  height: 3.5rem;
-  margin: 0 0 2rem 0;
-  overflow: auto;
-  position: relative;
-  z-index: 1;
+  background: #3E3C44;
 
   a {
+    color: #fff;
     display: block;
     float: left;
-    padding: 1rem 0;
+    padding: 1.2rem 0;
   }
 
   .back {
-    @include position(absolute, 0px 0 0 1rem);
+    @include position(absolute, 0px 0 0 3.8rem);
     color: #999;
   }
 
   .toggle {
-    margin-left: 17.5rem;
+    margin-left: $sidebar-width + $main-padding;
     overflow: auto;
     width: 45rem;
 
     a {
       font-weight: bold;
-      margin-right: 1rem;
+      margin-right: 2rem;
     }
   }
 }
 
 .main-inner {
+  position: relative;
+  padding-top: 2rem;
+}
+
+.main-body {
   @include clearfix;
   margin-left: $sidebar-width;
   max-width: 1400px;
   min-width: 800px;
-  padding: 0 2em 2em 2.5em;
+  padding: 0 2rem 2rem 3rem;
 }

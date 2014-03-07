@@ -1,0 +1,28 @@
+header.solutions-main {
+  $padding: 2.3rem;
+  background: rgba(0, 0, 0, 0.03);
+  bottom: auto;
+  box-shadow: 0 1px 0 hsla(0, 0%, 0%, 0.06);
+  padding: $padding 0;
+  position: relative;
+  z-index: 1;
+
+  .participants {
+    background: none;
+    margin-top: $padding;
+    padding-top: 0;
+
+    &:after {
+      display: none;
+    }
+  }
+
+  ul.solutions {
+    background: $sidebar-bg;
+    margin: 0;
+
+    .active a {
+      box-shadow: 0 1px 0 rgba($highlight-blue, 0.4);
+    }
+  }
+}

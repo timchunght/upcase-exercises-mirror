@@ -1,0 +1,83 @@
+aside.comments {
+  float: right;
+  font-size: em(13px);
+  padding-left: $base-margin*1.5;
+  width: $timeline-width;
+
+  ol {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    padding: 1.5rem 1rem 1.5rem .5rem;
+    position: relative;
+    color: $medium-gray;
+
+    &:before {
+      @include pseudo-circle;
+      left: .5rem;
+    }
+
+    &:after {
+      @include pseudo-connecting-line;
+    }
+
+    &:first-child {
+      padding-top: .5rem;
+
+      &:after {
+        top: 1rem;
+      }
+    }
+
+    &.form:after {
+      display: none;
+    }
+
+    &.status-red {
+      color: $red;
+
+      &:before {
+        border-color: $red;
+      }
+    }
+
+    &.status-blue {
+      color: $highlight-blue;
+
+      &:before {
+        border-color: $highlight-blue;
+      }
+    }
+
+    img {
+      border-radius: 50%;
+      @include position(absolute, 0 0 0 .5rem);
+    }
+
+    a {
+      color: $medium-gray;
+      border-bottom: 1px solid $light-gray;
+    }
+
+    span {
+      display: block;
+      margin-left: $avatar-size;
+      padding-left: 1.25rem;
+
+      &.line-num {
+        font-size: em(12px);
+        line-height: 1.5em;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  form {
+    margin-left: 1.25rem;
+    padding-left: $avatar-size;
+  }
+}

@@ -1,0 +1,100 @@
+.next-steps {
+  // display: none;
+  background: $next-steps-bg;
+  border: 1px solid #EDDAA5;
+  border-radius: 3px;
+  color: $next-steps-color;
+  @include display(flex);
+  margin-left: $sidebar-width + $main-padding;
+  margin-right: $main-padding;
+  z-index: 2;
+
+  > div {
+    border-right: 1px solid rgba($next-steps-border, 0.3);
+    @include display(flex);
+    @include flex(1);
+    padding: 1.2rem 2.2rem 1.2rem 3rem;
+    position: relative;
+
+    &:first-of-type {
+      padding-left: 2.4rem;
+    }
+
+    &:last-of-type {
+      border: 0;
+
+      &:after {
+        display: none;
+      }
+    }
+
+    .inner, ol {
+      align-self: center; //v-center content
+    }
+
+    .next-exercise {
+      border-bottom: 1px solid currentColor;
+      color: #8A5FC8;
+      font-weight: bold;
+    }
+
+    &:after {
+      $size: 33px;
+      background-color: $next-steps-bg;
+      background-image: image_url('arrow-next-step.svg');
+      background-position: 50%;
+      background-repeat: no-repeat;
+      border: 1px solid $next-steps-border;
+      border-radius: $size;
+      content: "";
+      height: $size;
+      margin-top: -$size/2;
+      position: absolute;
+      right: -$size/2 - 1;
+      top: 50%;
+      width: $size;
+    }
+  }
+
+  p, li, a {
+    font-size: em(13px);
+    font-weight: 500;
+    line-height: 1.6em;
+    margin-bottom: 0;
+  }
+
+  .status {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+      line-height: 1.4em;
+      margin: 0 0 0.6em;
+      padding-left: 33px;
+      position: relative;
+
+      &:before {
+        background-repeat: no-repeat;
+        background-size: contain;
+        content: '';
+        display: block;
+        height: 18px;
+        @include position(absolute, 0px 0 0 6px);
+        width: 20px;
+      }
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+
+    .finished:before {
+      background-image: url('check.svg');
+    }
+
+    .unfinished:before {
+      background-image: url('x.svg');
+    }
+  }
+}

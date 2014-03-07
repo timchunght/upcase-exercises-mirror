@@ -1,0 +1,128 @@
+.revision-history {
+  $margin-bottom: 18px;
+  @include clearfix;
+  line-height: 0;
+
+  ol {
+    @include clearfix;
+    display: inline-block;
+    list-style: none;
+    margin-bottom: $margin-bottom;
+    padding: 0;
+    position: relative;
+
+    &:after {
+      background: #D4D4D4;
+      content: "";
+      height: 2px;
+      left: 0;
+      margin-top: -1px;
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+
+  li {
+    float: left;
+    margin-right: 35px;
+    position: relative;
+
+    &:hover .tooltip {
+      display: block;
+    }
+
+    &:last-of-type {
+      margin: 0;
+    }
+
+    &.current {
+      &:after {
+        background: #8AAEF3;
+        content: "";
+        height: $margin-bottom;
+        left: 50%;
+        margin-left: -1px;
+        position: absolute;
+        width: 2px;
+        z-index: -1;
+      }
+
+      a {
+        border-color: #8AAEF3;
+      }
+    }
+
+    a {
+      $size: 27px;
+      background: #fff;
+      border: 2px solid #D4D4D4;
+      border-radius: $size;
+      display: block;
+      height: $size;
+      width: $size;
+    }
+  }
+
+  .tooltip {
+    $img-size: 50px;
+    $height: $img-size + $base-margin + 2;
+    $padding-left: $img-size + $base-margin;
+    $nub-size: 20px;
+
+    background: #fff;
+    display: none;
+    border: 1px solid $base-border-color;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.09);
+    height: $height;
+    left: -$padding-left + 2;
+    line-height: 1.2em;
+    min-width: 285px;
+    padding: $base-margin/2;
+    padding-left: $padding-left;
+    position: absolute;
+    top: -$height - 15px;
+    z-index: 1;
+
+    &:before, &:after {
+      @include triangle($nub-size + 2, #fff, down);
+      content: "";
+      position: absolute;
+      bottom: -$nub-size;
+    }
+
+    &:before {
+      border-top-color: $base-border-color;
+      bottom: -$nub-size - 2;
+    }
+
+    &:after {
+      border-top-color: #fff;
+    }
+
+    img {
+      position: absolute;
+      left: 0.5em;
+      border-radius: $img-size;
+    }
+
+    span {
+      display: block;
+      font-weight: 500;
+
+      &.title {
+        font-size: em(14px);
+        font-weight: bold;
+        margin-top: 6px;
+      }
+
+      &.timestamp {
+        font-size: em(12px);
+        color: $medium-gray;
+      }
+    }
+  }
+}
+
