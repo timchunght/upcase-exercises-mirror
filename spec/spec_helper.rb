@@ -24,6 +24,15 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = true
   config.order = 'random'
   config.use_transactional_fixtures = false
+
+  config.before(:suite) do
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
+  end
 end
 
 Capybara.javascript_driver = :webkit
