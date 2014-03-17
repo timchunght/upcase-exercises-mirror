@@ -1,13 +1,29 @@
 class Repository
   include ActiveModel::Conversion
 
-  attr_reader :slug
-
-  def initialize(slug)
-    @slug = slug
+  def initialize(attributes)
+    @host = attributes[:host]
+    @path = attributes[:path]
   end
 
-  def exercise_path
-    "sources/#{@slug}"
+  def name
+    File.basename(path)
   end
+
+  def url
+    "git@#{host}:#{path}.git"
+  end
+
+  def ==(other)
+    other.respond_to?(:host, true) &&
+      other.respond_to?(:path, true) &&
+      host == other.host &&
+      path == other.path
+  end
+
+  attr_reader :path
+
+  protected
+
+  attr_reader :host
 end

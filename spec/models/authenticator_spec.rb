@@ -28,6 +28,7 @@ describe Authenticator do
         expect(user.admin).to eq(auth_hash['info']['admin'])
         expect(user.subscriber?)
           .to eq(auth_hash['info']['has_active_subscription'])
+        expect(user.username).to eq(auth_hash['info']['username'])
       end
     end
 
@@ -41,7 +42,8 @@ describe Authenticator do
           'email' => 'user@example.com',
           'first_name' => 'Test',
           'has_active_subscription' => true,
-          'last_name' => 'User'
+          'last_name' => 'User',
+          'username' => 'testuser'
         },
         'provider' => 'learn',
         'uid' => 1

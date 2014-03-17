@@ -11,7 +11,8 @@ class Authenticator
         email: info['email'],
         first_name: info['first_name'],
         last_name: info['last_name'],
-        subscriber: info['has_active_subscription']
+        subscriber: info['has_active_subscription'],
+        username: info['username']
       )
     end
   end

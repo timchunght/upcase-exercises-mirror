@@ -11,9 +11,27 @@ FactoryGirl.define do
     n
   end
 
+  sequence :title do |n|
+    "Title #{n} Text"
+  end
+
+  factory :clone do
+    exercise
+    user
+  end
+
   factory :exercise do
-    title 'Title'
+    title
     body 'Body'
+  end
+
+  factory :git_server do
+    config_directory '/tmp'
+    host 'localhost'
+    shell { FakeShell.new }
+
+    initialize_with { GitServer.new(shell, host, config_directory) }
+    to_create {}
   end
 
   factory :user do
@@ -22,6 +40,7 @@ FactoryGirl.define do
     first_name 'Joe'
     last_name 'User'
     learn_uid
+    username 'username'
 
     factory :admin do
       admin true

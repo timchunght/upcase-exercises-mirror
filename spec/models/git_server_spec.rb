@@ -1,13 +1,41 @@
 require 'spec_helper'
 
 describe GitServer do
-  describe '#exercise_url' do
-    it 'returns the full url of the given repository' do
-      repository = double('repository', exercise_path: 'exercises/repo')
+  describe '#create_clone' do
+    it 'executes a Gitolite fork command' do
+      exercise = double('exercise', slug: 'exercise')
+      user = double('user', username: 'username')
+      shell = FakeShell.new
+      git_server = build(:git_server, shell: shell, host: 'example.com')
 
-      exercise_url = build_git_server.exercise_url(repository)
+      git_server.create_clone(exercise, user)
 
-      expect(exercise_url).to eq('git@host:exercises/repo.git')
+      expect(shell).to have_executed_command(
+        'ssh git@example.com fork sources/exercise username/exercise'
+      )
+    end
+  end
+
+  describe '#clone' do
+    it 'returns a repository for the clone' do
+      user = double('user', username: 'username')
+      exercise = double('exercise', slug: 'exercise')
+
+      clone = build(:git_server, host: 'example.com').clone(exercise, user)
+
+      expect(clone)
+        .to eq(Repository.new(host: 'example.com', path: 'username/exercise'))
+    end
+  end
+
+  describe '#source' do
+    it 'returns the source repository for the given exercise' do
+      exercise = double('exercise', slug: 'exercise')
+
+      source = build(:git_server, host: 'example.com').source(exercise)
+
+      expect(source)
+        .to eq(Repository.new(host: 'example.com', path: 'sources/exercise'))
     end
   end
 
@@ -16,18 +44,14 @@ describe GitServer do
       `mkdir -p /tmp/#{GitServer::ADMIN_REPO_NAME}`
 
       begin
-        expect(build_git_server).to have_gitolite_repo
+        expect(build(:git_server)).to have_gitolite_repo
       ensure
         `rm -rf /tmp/#{GitServer::ADMIN_REPO_NAME}`
       end
     end
 
     it 'returns false if the repo does not exist' do
-      expect(build_git_server).not_to have_gitolite_repo
+      expect(build(:git_server)).not_to have_gitolite_repo
     end
-  end
-
-  def build_git_server
-    GitServer.new(FakeShell.new, 'host', '/tmp')
   end
 end

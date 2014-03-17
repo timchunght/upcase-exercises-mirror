@@ -1,5 +1,6 @@
 class GitServer
   ADMIN_REPO_NAME = 'gitolite-admin'
+  SOURCE_ROOT = 'sources'
 
   def initialize(shell, host, config_directory)
     @shell = shell
@@ -7,8 +8,18 @@ class GitServer
     @config_directory = config_directory
   end
 
-  def exercise_url(repository)
-    "git@#{host}:#{repository.exercise_path}.git"
+  def clone(exercise, user)
+    Repository.new(host: host, path: "#{user.username}/#{exercise.slug}")
+  end
+
+  def create_clone(exercise, user)
+    source = source(exercise)
+    clone = clone(exercise, user)
+    @shell.execute("ssh git@#{@host} fork #{source.path} #{clone.path}")
+  end
+
+  def source(exercise)
+    Repository.new(host: host, path: "#{SOURCE_ROOT}/#{exercise.slug}")
   end
 
   def has_gitolite_repo?

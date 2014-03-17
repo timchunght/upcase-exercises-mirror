@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317172404) do
+ActiveRecord::Schema.define(version: 20140317200308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "clones", force: true do |t|
+    t.integer  "user_id",     null: false
+    t.integer  "exercise_id", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "clones", ["exercise_id"], name: "index_clones_on_exercise_id", using: :btree
+  add_index "clones", ["user_id", "exercise_id"], name: "index_clones_on_user_id_and_exercise_id", unique: true, using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -62,10 +72,12 @@ ActiveRecord::Schema.define(version: 20140317172404) do
     t.string   "last_name",                                      null: false
     t.boolean  "subscriber",                     default: false, null: false
     t.boolean  "admin",                          default: false
+    t.string   "username",                                       null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
   add_index "users", ["learn_uid"], name: "index_users_on_learn_uid", unique: true, using: :btree
   add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

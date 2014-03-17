@@ -1,0 +1,23 @@
+%article
+  %header
+    %h1= @clone.title
+
+  %section.setup
+    %h3 Complete the exercise and submit your solution to get a peer review
+
+    %ol
+      %li
+        %p Clone and setup the exercise repository
+        %pre
+          %code= render @clone.repository
+      %li
+        %p
+          Complete the exercise in your master branch. Instructions are in
+          %code README.md.
+          Your solution must be tested, preferably via TDD.
+      %li
+        %ol
+          %li
+            Push your solution to your fork by running
+            %code git push origin master
+          %li Submit your solution below.
