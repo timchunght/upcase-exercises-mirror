@@ -60,8 +60,9 @@ describe OauthCallbacksController do
   def stub_user_from_auth_hash
     build_stubbed(:user).tap do |user|
       auth_hash = double('auth_hash')
+      authenticator = double('authenticator', authenticate: user)
+      Authenticator.stub(:new).and_return(authenticator)
       request.env['omniauth.auth'] = auth_hash
-      User.stub(:find_or_create_from_auth_hash).with(auth_hash).and_return(user)
     end
   end
 end

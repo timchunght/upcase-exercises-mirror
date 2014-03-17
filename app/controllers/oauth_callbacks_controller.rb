@@ -2,7 +2,7 @@ class OauthCallbacksController < ApplicationController
   skip_before_filter :authorize
 
   def show
-    @user = User.find_or_create_from_auth_hash(auth_hash)
+    @user = Authenticator.new(auth_hash).authenticate
     if @user.subscriber?
       sign_in @user
       redirect_back_or default_after_auth_url
