@@ -76,28 +76,30 @@
         %span.filename days_controller.rb
         .code
           .line
+            .make-comment= link_to '', '#'
             %pre.prettyprint.lang-ruby
               %code
                 :preserve
                   class DaysController < ApplicationController
           .line
-            %a.show-comments
+            .make-comment= link_to '', '#'
             %pre.prettyprint.lang-ruby
               %code
                 :preserve
                     include Moves
           .line
+            .make-comment= link_to '', '#'
             %pre.prettyprint.lang-ruby
               %code
                 :preserve
                     include Maps
           .line.blank
           .line.comments#days_controller.rb-5
+            .show-comments= link_to '3', '#'
             %pre.prettyprint.lang-ruby
               %code
                 :preserve
-                    before_filter :authorize, :authorized_moves
-            .comments-link= link_to '3', '#'
+                    before_filter :authorize, :authorized_moves this line is very long and overflows its container meaning the container has to scroll...
           .line-comments
             %ol
               %li
@@ -124,21 +126,25 @@
                   %input{ 'type' => 'submit', 'value' => 'Comment' }
           .line.blank
           .line
+            .make-comment= link_to '', '#'
             %pre.prettyprint.lang-ruby
               %code
                 :preserve
                     def show
           .line
+            .make-comment= link_to '', '#'
             %pre.prettyprint.lang-ruby
               %code
                 :preserve
                       true
           .line
+            .make-comment= link_to '', '#'
             %pre.prettyprint.lang-ruby
               %code
                 :preserve
                     end
           .line
+            .make-comment= link_to '', '#'
             %pre.prettyprint.lang-ruby
               %code
                 :preserve
