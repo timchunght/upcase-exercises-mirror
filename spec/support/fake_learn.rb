@@ -12,7 +12,8 @@ class FakeLearn < Sinatra::Base
       'first_name' => 'Test',
       'has_active_subscription' => true,
       'id' => 1,
-      'last_name' => 'User'
+      'last_name' => 'User',
+      'public_keys' => ['ssh-rsa abcdefg']
     }.merge(attributes)
   end
 

@@ -2,7 +2,7 @@ class OauthCallbacksController < ApplicationController
   skip_before_filter :authorize
 
   def show
-    @user = Authenticator.new(auth_hash).authenticate
+    @user = authenticate
     if @user.subscriber?
       sign_in @user
       redirect_back_or default_after_auth_url
@@ -12,6 +12,13 @@ class OauthCallbacksController < ApplicationController
   end
 
   private
+
+  def authenticate
+    PublicKeySyncronizer.new(
+      Authenticator.new(auth_hash),
+      auth_hash
+    ).authenticate
+  end
 
   def default_after_auth_url
     if @user.admin?

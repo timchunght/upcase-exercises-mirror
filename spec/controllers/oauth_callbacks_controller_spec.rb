@@ -59,10 +59,31 @@ describe OauthCallbacksController do
 
   def stub_user_from_auth_hash
     build_stubbed(:user).tap do |user|
-      auth_hash = double('auth_hash')
-      authenticator = double('authenticator', authenticate: user)
-      Authenticator.stub(:new).and_return(authenticator)
+      auth_hash = stub_auth_hash
+      authenticator = stub_authenticator(auth_hash)
+      stub_public_key_syncronizer(authenticator, auth_hash, user)
+    end
+  end
+
+  def stub_auth_hash
+    double('auth_hash').tap do |auth_hash|
       request.env['omniauth.auth'] = auth_hash
     end
+  end
+
+  def stub_authenticator(auth_hash)
+    double('authenticator').tap do |authenticator|
+      Authenticator.stub(:new).with(auth_hash).and_return(authenticator)
+    end
+  end
+
+  def stub_public_key_syncronizer(authenticator, auth_hash, user)
+    double('public_key_syncronizer', authenticate: user)
+      .tap do |public_key_syncronizer|
+        PublicKeySyncronizer
+          .stub(:new)
+          .with(authenticator, auth_hash)
+          .and_return(public_key_syncronizer)
+      end
   end
 end
