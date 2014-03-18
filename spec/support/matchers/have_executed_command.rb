@@ -11,7 +11,7 @@ RSpec::Matchers.define :have_executed_command do |command|
   def inspect_commands(commands)
     if commands.any?
       "commands:\n" +
-        shell.commands.map { |command| "  #{command}" }.join("\n")
+        commands.map { |command| "  #{command}" }.join("\n")
     else
       'no commands'
     end
