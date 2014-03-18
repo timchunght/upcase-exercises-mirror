@@ -7,3 +7,10 @@ notifications:
   campfire:
     rooms:
       secure: E34DTYhqAkhPe27UyV2qmxvycrArkOLspkOwOrjBaJo1TixlUOXalFTrQDZrTPykZQiQ9aFfNPFvMgAKc/o8GwU0a5wasAITk5riu5aYM8HPzcjn6fjx+ZEX/7wB+VdxNtM78y7Exz1JQLWSnTzElxPAMu7DXEdt9aTory+KLlE=
+    on_success: change
+    on_failure: always
+    template: '%{repository_name} build #%{build_number} on %{branch} by %{author} finished: %{message}: %{build_url}'
+branches:
+  only:
+  - master
+  - v2
