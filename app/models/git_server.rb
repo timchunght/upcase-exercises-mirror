@@ -22,15 +22,61 @@ class GitServer
     Repository.new(host: host, path: "#{SOURCE_ROOT}/#{exercise.slug}")
   end
 
-  def has_gitolite_repo?
-    File.directory?(gitolite_repo_path)
+  def create_exercise(repository)
+    pull_admin_repository
+    add_configuration_entry(
+      new_exercise_entry(repository.path),
+      "add exercise: #{repository.name}"
+    )
+    push_admin_repository
   end
 
   private
 
-  attr_reader :shell, :host, :config_directory
+  attr_reader :shell, :config_directory, :host
+
+  def has_gitolite_repo?
+    File.directory?(gitolite_repo_path)
+  end
+
+  def in_admin_repository(&block)
+    Dir.chdir(gitolite_repo_path, &block)
+  end
+
+  def clone_admin_repository
+    if !has_gitolite_repo?
+      cmd = "git clone git@#{host}:#{ADMIN_REPO_NAME} #{gitolite_repo_path}"
+      shell.execute(cmd)
+    end
+  end
+
+  def pull_admin_repository
+    clone_admin_repository
+
+    in_admin_repository do
+      shell.execute('git pull')
+    end
+  end
+
+  def push_admin_repository
+    in_admin_repository do
+      shell.execute('git push')
+    end
+  end
+
+  def add_configuration_entry(entry, commit_message = 'updated configuration')
+    in_admin_repository do
+      shell.execute("echo -e '#{entry}' >> conf/gitolite.conf")
+      shell.execute('git add conf/gitolite.conf')
+      shell.execute("git commit -m '#{commit_message}'")
+    end
+  end
 
   def gitolite_repo_path
     File.join(config_directory, ADMIN_REPO_NAME)
+  end
+
+  def new_exercise_entry(exercise_path)
+    "\n\nrepo #{exercise_path}\n    RW+ = @admins\n"
   end
 end

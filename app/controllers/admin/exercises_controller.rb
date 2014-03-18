@@ -12,6 +12,7 @@ class Admin::ExercisesController < Admin::BaseController
   def create
     @exercise = Exercise.new(exercise_params)
     if @exercise.save
+      GIT_SERVER.create_exercise(GIT_SERVER.source(@exercise))
       redirect_to admin_exercises_path
     else
       render :new

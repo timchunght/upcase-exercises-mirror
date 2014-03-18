@@ -39,19 +39,36 @@ describe GitServer do
     end
   end
 
-  describe '#has_gitolite_repo?' do
-    it 'returns true if the repo exists' do
-      `mkdir -p /tmp/#{GitServer::ADMIN_REPO_NAME}`
+  describe '#create_exercise' do
+    it 'executes the correct shell commands' do
+      FileUtils.mkdir_p "/tmp/#{GitServer::ADMIN_REPO_NAME}"
 
       begin
-        expect(build(:git_server)).to have_gitolite_repo
-      ensure
-        `rm -rf /tmp/#{GitServer::ADMIN_REPO_NAME}`
-      end
-    end
+        shell = FakeShell.new
+        git_server = GitServer.new(shell, 'host', '/tmp')
+        exercise_name = 'new-exercise-name'
+        shell_commands = [
+          'git pull',
+          "echo -e '\n\nrepo sources/#{exercise_name}\n" +
+            "    RW+ = @admins\n' >> conf/gitolite.conf",
+          'git add conf/gitolite.conf',
+          "git commit -m 'add exercise: #{exercise_name}'",
+          'git push'
+        ]
 
-    it 'returns false if the repo does not exist' do
-      expect(build(:git_server)).not_to have_gitolite_repo
+        git_server.create_exercise(
+          Repository.new(
+            host: 'host',
+            path: "sources/#{exercise_name}"
+          )
+        )
+
+        shell_commands.each do |shell_command|
+          expect(shell).to have_executed_command(shell_command)
+        end
+      ensure
+        FileUtils.rm_rf "/tmp/#{GitServer::ADMIN_REPO_NAME}"
+      end
     end
   end
 end
