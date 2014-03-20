@@ -10,6 +10,7 @@
   z-index: 2;
 
   > div {
+    @include align-items(center);
     border-right: 1px solid rgba($next-steps-border, 0.3);
     @include display(flex);
     @include flex(1);
@@ -26,10 +27,6 @@
       &:after {
         display: none;
       }
-    }
-
-    .inner, ol {
-      align-self: center; //v-center content
     }
 
     .next-exercise {
