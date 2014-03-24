@@ -53,12 +53,6 @@ describe GitServer do
         shell = FakeShell.new
         git_server = GitServer.new(shell, 'host', '/tmp')
         exercise_name = 'new-exercise-name'
-        shell_commands = [
-          'git pull',
-          'git add conf/gitolite.conf',
-          "git commit -m 'Add exercise: #{exercise_name}'",
-          'git push'
-        ]
 
         git_server.create_exercise(
           Repository.new(
@@ -67,9 +61,12 @@ describe GitServer do
           )
         )
 
-        shell_commands.each do |shell_command|
-          expect(shell).to have_executed_command(shell_command)
-        end
+        expect(shell).to have_executed_commands(
+          'git pull',
+          'git add conf/gitolite.conf',
+          "git commit -m 'Add exercise: #{exercise_name}'",
+          'git push'
+        )
         expect(gitolite_config).to have_received(:write)
       ensure
         FileUtils.rm_rf admin_repo_path
