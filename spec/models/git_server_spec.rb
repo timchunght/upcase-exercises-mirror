@@ -41,7 +41,13 @@ describe GitServer do
 
   describe '#create_exercise' do
     it 'executes the correct shell commands' do
-      FileUtils.mkdir_p "/tmp/#{GitServer::ADMIN_REPO_NAME}"
+      FileUtils.mkdir_p admin_repo_path
+      gitolite_config = double('gitolite_config')
+      GitoliteConfig
+        .stub(:new)
+        .with(admin_repo_path)
+        .and_return(gitolite_config)
+      gitolite_config.stub(:write)
 
       begin
         shell = FakeShell.new
@@ -49,10 +55,8 @@ describe GitServer do
         exercise_name = 'new-exercise-name'
         shell_commands = [
           'git pull',
-          "echo -e '\n\nrepo sources/#{exercise_name}\n" +
-            "    RW+ = @admins\n' >> conf/gitolite.conf",
           'git add conf/gitolite.conf',
-          "git commit -m 'add exercise: #{exercise_name}'",
+          "git commit -m 'Add exercise: #{exercise_name}'",
           'git push'
         ]
 
@@ -66,9 +70,12 @@ describe GitServer do
         shell_commands.each do |shell_command|
           expect(shell).to have_executed_command(shell_command)
         end
+        expect(gitolite_config).to have_received(:write)
       ensure
-        FileUtils.rm_rf "/tmp/#{GitServer::ADMIN_REPO_NAME}"
+        FileUtils.rm_rf admin_repo_path
       end
     end
   end
+
+  let(:admin_repo_path) { "/tmp/#{GitServer::ADMIN_REPO_NAME}" }
 end

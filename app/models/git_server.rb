@@ -24,10 +24,7 @@ class GitServer
 
   def create_exercise(repository)
     pull_admin_repository
-    add_configuration_entry(
-      new_exercise_entry(repository.path),
-      "add exercise: #{repository.name}"
-    )
+    add_configuration_entry("Add exercise: #{repository.name}")
     push_admin_repository
   end
 
@@ -64,9 +61,9 @@ class GitServer
     end
   end
 
-  def add_configuration_entry(entry, commit_message = 'updated configuration')
+  def add_configuration_entry(commit_message)
     in_admin_repository do
-      shell.execute("echo -e '#{entry}' >> conf/gitolite.conf")
+      GitoliteConfig.new(gitolite_repo_path).write
       shell.execute('git add conf/gitolite.conf')
       shell.execute("git commit -m '#{commit_message}'")
     end
@@ -74,9 +71,5 @@ class GitServer
 
   def gitolite_repo_path
     File.join(config_directory, ADMIN_REPO_NAME)
-  end
-
-  def new_exercise_entry(exercise_path)
-    "\n\nrepo #{exercise_path}\n    RW+ = @admins\n"
   end
 end

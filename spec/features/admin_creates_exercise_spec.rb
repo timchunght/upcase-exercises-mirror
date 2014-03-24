@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature 'Admin creates exercise' do
   scenario 'with valid data' do
-    FileUtils.mkdir_p "/tmp/#{GitServer::ADMIN_REPO_NAME}"
+    FileUtils.mkdir_p "/tmp/#{GitServer::ADMIN_REPO_NAME}/config"
     visit_new_exercise_form
     fill_in 'Title', with: 'Shakespeare Analyzer'
     fill_in 'exercise_body', with: 'As a Shakespeare buff, do this exercise'
