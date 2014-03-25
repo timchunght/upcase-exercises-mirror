@@ -5,7 +5,7 @@ describe GitoliteConfigWriter do
     it 'writes the template into the given directory' do
       in_config_dir do
         stub_users([{ username: 'one' }, { username: 'two' }])
-        config = GitoliteConfigWriter.new
+        config = GitoliteConfigWriter.new('ssh-rsa server')
 
         config.write
 
@@ -27,6 +27,38 @@ describe GitoliteConfigWriter do
           repo two/.*
               RW master = two
         CONFIG
+      end
+    end
+
+    it 'rewrites the public key directory' do
+      in_config_dir do
+        create_preexisting_key
+
+        stub_users([
+          {
+            username: 'one',
+            public_keys: [
+              stub_key(1, 'abc'),
+              stub_key(2, 'def')
+            ]
+          },
+          {
+            username: 'two',
+            public_keys: [
+              stub_key(3, 'ghi')
+            ]
+          }
+        ])
+        config = GitoliteConfigWriter.new('ssh-rsa server')
+
+        config.write
+
+        expect(existing_keys).to eq(
+          '1/one.pub' => 'abc',
+          '2/one.pub' => 'def',
+          '3/two.pub' => 'ghi',
+          'server.pub' => 'ssh-rsa server'
+        )
       end
     end
   end
@@ -51,7 +83,26 @@ describe GitoliteConfigWriter do
   def stub_user(attributes)
     double(
       'user',
-      username: attributes[:username] || 'mruser'
+      username: attributes[:username] || 'mruser',
+      public_keys: attributes[:public_keys] || []
     )
+  end
+
+  def create_preexisting_key
+    FileUtils.mkdir('keydir')
+    File.open('keydir/preexisting.pub', 'w') do |file|
+      file.puts 'pre-existing key'
+    end
+  end
+
+  def stub_key(id, data)
+    double('public_key', id: id, data: data)
+  end
+
+  def existing_keys
+    Dir.glob('keydir/**/*.*').inject({}) do |result, path|
+      key = path.sub(%r{^keydir/}, '')
+      result.update(key => IO.read(path))
+    end
   end
 end

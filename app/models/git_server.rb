@@ -26,6 +26,10 @@ class GitServer
     config_committer.write("Add exercise: #{repository.name}")
   end
 
+  def add_key(username)
+    config_committer.write("Add public key for user: #{username}")
+  end
+
   private
 
   attr_reader :config_committer, :shell, :host

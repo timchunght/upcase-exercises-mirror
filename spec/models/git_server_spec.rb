@@ -62,6 +62,20 @@ describe GitServer do
     end
   end
 
+  describe '#add_key' do
+    it 'rewrites the Gitolite config' do
+      username = 'mrunix'
+      public_key = 'rsa-ssh lbj'
+      config_committer = stub_config_committer
+      git_server = build(:git_server, config_committer: config_committer)
+
+      git_server.add_key(username)
+
+      expect(config_committer).to have_received(:write)
+        .with("Add public key for user: #{username}")
+    end
+  end
+
   def stub_config_committer
     double('config_committer').tap do |config_committer|
       config_committer.stub(:write)

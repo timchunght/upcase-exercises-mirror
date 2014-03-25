@@ -10,7 +10,7 @@ describe PublicKeyAuthenticator do
       syncronizer.stub(:syncronize)
       PublicKeySyncronizer
         .stub(:new)
-        .with(local_keys, remote_keys)
+        .with(user, local_keys, remote_keys)
         .and_return(syncronizer)
       authenticator = double('authenticator', authenticate: user)
       auth_hash = {

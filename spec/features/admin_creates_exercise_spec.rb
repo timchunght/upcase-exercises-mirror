@@ -25,22 +25,6 @@ feature 'Admin creates exercise' do
     click_link I18n.t('admin.exercises.index.create_exercise'), match: :first
   end
 
-  around do |example|
-    stub_gitolite_admin_clone do
-      example.run
-    end
-  end
-
-  def stub_gitolite_admin_clone
-    FakeShell.with_stubs do |stubs|
-      stubs.add(%r{git clone [^ ]+gitolite-admin\.git (\w+)}) do |target|
-        FileUtils.mkdir_p(File.join(target, 'config'))
-      end
-
-      yield
-    end
-  end
-
   def have_git_url(slug)
     git_url = "#{GitServer::SOURCE_ROOT}/#{slug}"
     have_content(git_url)

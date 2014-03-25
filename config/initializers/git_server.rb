@@ -11,7 +11,7 @@ end
 
 identified_shell = IdentifiedShell.new(base_shell, ENV['IDENTITY'])
 
-config_writer = GitoliteConfigWriter.new
+config_writer = GitoliteConfigWriter.new(ENV['IDENTITY'])
 
 config_committer = GitoliteConfigCommitter.new(
   host: host,

@@ -8,7 +8,7 @@ class PublicKeyAuthenticator
 
   def authenticate
     @authenticator.authenticate.tap do |user|
-      PublicKeySyncronizer.new(user.public_keys, remote_keys).syncronize
+      PublicKeySyncronizer.new(user, user.public_keys, remote_keys).syncronize
     end
   end
 

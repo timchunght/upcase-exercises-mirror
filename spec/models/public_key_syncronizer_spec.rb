@@ -3,14 +3,28 @@ require 'spec_helper'
 describe PublicKeySyncronizer do
   describe '#syncronize' do
     it 'adds new keys' do
-      remote_keys = %w(key-one key-two)
-      local_keys = double('user.public_keys')
-      local_keys.stub(:find_or_create_by!)
+      remote_keys = %w(new-one new-two existing)
+      user = double('user', username: 'example')
+      local_keys = stub_local_keys(%w(new-one new-two))
+      GIT_SERVER.stub(:add_key)
 
-      PublicKeySyncronizer.new(local_keys, remote_keys).syncronize
+      PublicKeySyncronizer.new(user, local_keys, remote_keys).syncronize
 
-      remote_keys.each do |key|
-        expect(local_keys).to have_received(:find_or_create_by!).with(data: key)
+      %w(new-one new-two).each do |key|
+        expect(local_keys).to have_received(:create!).with(data: key)
+      end
+
+      expect(GIT_SERVER).to have_received(:add_key).with(user.username).twice
+      expect(local_keys).not_to have_received(:create!).with(data: 'existing')
+    end
+
+    def stub_local_keys(existing_keys)
+      double('local_keys').tap do |keys|
+        keys.stub(:create!)
+        keys.stub(:exists?).and_return(true)
+        existing_keys.each do |existing_key|
+          keys.stub(:exists?).with(data: existing_key).and_return(false)
+        end
       end
     end
   end

@@ -18,7 +18,7 @@ FactoryGirl.define do
   factory :gitolite_config_committer do
     host 'localhost'
     shell { FakeShell.new }
-    writer { GitoliteConfigWriter.new }
+    writer { GitoliteConfigWriter.new('ssh-rsa key') }
 
     initialize_with { GitoliteConfigCommitter.new(attributes) }
     to_create {}
