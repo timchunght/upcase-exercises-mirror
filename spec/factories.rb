@@ -26,11 +26,10 @@ FactoryGirl.define do
   end
 
   factory :git_server do
-    config_directory '/tmp'
     host 'localhost'
     shell { FakeShell.new }
 
-    initialize_with { GitServer.new(shell, host, config_directory) }
+    initialize_with { GitServer.new(shell, host) }
     to_create {}
   end
 

@@ -2,7 +2,6 @@ require 'spec_helper'
 
 feature 'Admin creates exercise' do
   scenario 'with valid data' do
-    FileUtils.mkdir_p "/tmp/#{GitServer::ADMIN_REPO_NAME}/config"
     visit_new_exercise_form
     fill_in 'Title', with: 'Shakespeare Analyzer'
     fill_in 'exercise_body', with: 'As a Shakespeare buff, do this exercise'
@@ -11,8 +10,6 @@ feature 'Admin creates exercise' do
     click_on 'Shakespeare Analyzer'
     expect(page).to have_content('Shakespeare Analyzer')
     expect(page).to have_git_url('shakespeare-analyzer')
-
-    FileUtils.rm_rf "/tmp/#{GitServer::ADMIN_REPO_NAME}"
   end
 
   scenario 'with invalid data' do
@@ -26,6 +23,22 @@ feature 'Admin creates exercise' do
     sign_in_as_admin
     click_on I18n.t('admin.dashboards.show.exercises')
     click_link I18n.t('admin.exercises.index.create_exercise'), match: :first
+  end
+
+  around do |example|
+    stub_gitolite_admin_clone do
+      example.run
+    end
+  end
+
+  def stub_gitolite_admin_clone
+    FakeShell.with_stubs do |stubs|
+      stubs.add(%r{git clone [^ ]+gitolite-admin\.git (\w+)}) do |target|
+        FileUtils.mkdir_p(File.join(target, 'config'))
+      end
+
+      yield
+    end
   end
 
   def have_git_url(slug)
