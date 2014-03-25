@@ -1,10 +1,10 @@
 class GitServer
-  ADMIN_REPO_NAME = 'gitolite-admin'
   SOURCE_ROOT = 'sources'
 
-  def initialize(shell, host)
-    @shell = shell
-    @host = host
+  def initialize(attributes)
+    @config_committer = attributes[:config_committer]
+    @shell = attributes[:shell]
+    @host = attributes[:host]
   end
 
   def clone(exercise, user)
@@ -22,13 +22,10 @@ class GitServer
   end
 
   def create_exercise(repository)
-    CommitCreator.new(shell, Repository.new(host: host, path: ADMIN_REPO_NAME))
-      .commit("Add exercise: #{repository.name}") do
-        GitoliteConfig.new('.').write
-      end
+    config_committer.write("Add exercise: #{repository.name}")
   end
 
   private
 
-  attr_reader :shell, :host
+  attr_reader :config_committer, :shell, :host
 end

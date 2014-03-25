@@ -40,14 +40,15 @@ describe GitServer do
   end
 
   describe '#create_exercise' do
-    it 'executes the correct shell commands' do
+    it 'rewrites the Gitolite config' do
       exercise_name = 'new-exercise-name'
       host = 'example.com'
-      shell = FakeShell.new
-      gitolite_config = stub_gitolite_config
-      checkout = stub_checkout(host, shell)
-
-      git_server = build(:git_server, shell: shell, host: host)
+      config_committer = stub_config_committer
+      git_server = build(
+        :git_server,
+        host: host,
+        config_committer: config_committer
+      )
 
       git_server.create_exercise(
         Repository.new(
@@ -56,30 +57,14 @@ describe GitServer do
         )
       )
 
-      expect(gitolite_config).to have_received(:write)
-      expect(checkout).to have_received(:commit)
+      expect(config_committer).to have_received(:write)
         .with("Add exercise: #{exercise_name}")
-    end
-
-    def stub_gitolite_config
-      double('gitolite_config').tap do |config|
-        GitoliteConfig.stub(:new).with('.').and_return(config)
-        config.stub(:write)
-      end
-    end
-
-    def stub_checkout(host, shell)
-      double('checkout').tap do |checkout|
-        remote_repository =
-          Repository.new(host: host, path: GitServer::ADMIN_REPO_NAME)
-        CommitCreator
-          .stub(:new)
-          .with(shell, remote_repository)
-          .and_return(checkout)
-        checkout.stub(:commit).and_yield
-      end
     end
   end
 
-  let(:admin_repo_path) { "/tmp/#{GitServer::ADMIN_REPO_NAME}" }
+  def stub_config_committer
+    double('config_committer').tap do |config_committer|
+      config_committer.stub(:write)
+    end
+  end
 end

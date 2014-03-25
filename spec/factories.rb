@@ -15,6 +15,15 @@ FactoryGirl.define do
     "Title #{n} Text"
   end
 
+  factory :gitolite_config_committer do
+    host 'localhost'
+    shell { FakeShell.new }
+    writer { GitoliteConfigWriter.new }
+
+    initialize_with { GitoliteConfigCommitter.new(attributes) }
+    to_create {}
+  end
+
   factory :clone do
     exercise
     user
@@ -26,10 +35,11 @@ FactoryGirl.define do
   end
 
   factory :git_server do
+    association :config_committer, factory: :gitolite_config_committer
     host 'localhost'
     shell { FakeShell.new }
 
-    initialize_with { GitServer.new(shell, host) }
+    initialize_with { GitServer.new(attributes) }
     to_create {}
   end
 
