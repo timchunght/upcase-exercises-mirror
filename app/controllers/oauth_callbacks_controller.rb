@@ -14,7 +14,7 @@ class OauthCallbacksController < ApplicationController
   private
 
   def authenticate
-    PublicKeySyncronizer.new(
+    PublicKeyAuthenticator.new(
       Authenticator.new(auth_hash),
       auth_hash
     ).authenticate

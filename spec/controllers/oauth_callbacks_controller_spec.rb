@@ -80,7 +80,7 @@ describe OauthCallbacksController do
   def stub_public_key_syncronizer(authenticator, auth_hash, user)
     double('public_key_syncronizer', authenticate: user)
       .tap do |public_key_syncronizer|
-        PublicKeySyncronizer
+        PublicKeyAuthenticator
           .stub(:new)
           .with(authenticator, auth_hash)
           .and_return(public_key_syncronizer)

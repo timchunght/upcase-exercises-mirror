@@ -1,26 +1,13 @@
-# Syncronizes a User's public keys with the local PublicKey model when they
-# sign in.
+# Syncronizes the local key collection with the remote key collection.
 class PublicKeySyncronizer
-  def initialize(authenticator, auth_hash)
-    @authenticator = authenticator
-    @auth_hash = auth_hash
+  def initialize(local_keys, remote_keys)
+    @local_keys = local_keys
+    @remote_keys = remote_keys
   end
 
-  def authenticate
-    @authenticator.authenticate.tap do |user|
-      syncronize_public_keys_for user
+  def syncronize
+    @remote_keys.each do |remote_key|
+      @local_keys.find_or_create_by!(data: remote_key)
     end
-  end
-
-  private
-
-  def syncronize_public_keys_for(user)
-    public_keys.each do |public_key|
-      user.public_keys.find_or_create_by!(data: public_key)
-    end
-  end
-
-  def public_keys
-    @auth_hash['info']['public_keys']
   end
 end
