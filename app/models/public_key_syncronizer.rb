@@ -1,3 +1,5 @@
+# Syncronizes a User's public keys with the local PublicKey model when they
+# sign in.
 class PublicKeySyncronizer
   def initialize(authenticator, auth_hash)
     @authenticator = authenticator

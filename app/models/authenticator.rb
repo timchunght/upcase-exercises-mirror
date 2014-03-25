@@ -1,3 +1,4 @@
+# Uses an omniauth hash to find or create a user from Learn.
 class Authenticator
   def initialize(auth_hash)
     @auth_hash = auth_hash

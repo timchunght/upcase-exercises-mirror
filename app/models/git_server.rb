@@ -1,3 +1,4 @@
+# Encapsulates paths to repositories and commands to manipulate them.
 class GitServer
   SOURCE_ROOT = 'sources'
 

@@ -1,3 +1,5 @@
+# Uses a writer and a CommitCreator to write changes to the Gitolite
+# configuration repository.
 class GitoliteConfigCommitter
   ADMIN_REPO_NAME = 'gitolite-admin'.freeze
 

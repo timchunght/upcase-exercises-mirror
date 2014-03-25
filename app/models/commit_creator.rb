@@ -1,3 +1,10 @@
+# Performs modifications to a remote repository.
+#
+# Given a shell to execute commands, and a repository to execute commands
+# against, CommitCreator will clone the repository locally, change to the
+# repository's working directory, yield to allow the consumer to perform
+# modifications, commit those changes, and then push them to the remote
+# repository.
 class CommitCreator
   def initialize(shell, repository)
     @shell = shell

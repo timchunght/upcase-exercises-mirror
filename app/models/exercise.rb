@@ -1,3 +1,4 @@
+# Exercises are for improving skills.
 class Exercise < ActiveRecord::Base
   extend FriendlyId
 

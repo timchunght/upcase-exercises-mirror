@@ -1,3 +1,5 @@
+# Fake implementation of a shell to avoid running slow or destructive commands
+# during tests.
 class FakeShell
   attr_reader :commands
 

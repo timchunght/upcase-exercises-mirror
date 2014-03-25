@@ -1,3 +1,4 @@
+# Value object for a Git repository.
 class Repository
   include ActiveModel::Conversion
 
