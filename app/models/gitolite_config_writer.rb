@@ -7,8 +7,9 @@ class GitoliteConfigWriter
   TEMPLATE_PATH =
     Rails.root.join('app', 'views', 'gitolite_config', 'gitolite.conf.erb')
 
-  def initialize(server_key)
+  def initialize(server_key, sources)
     @server_key = server_key
+    @sources = sources
   end
 
   def write
@@ -17,6 +18,8 @@ class GitoliteConfigWriter
   end
 
   private
+
+  attr_reader :sources
 
   def write_config_file
     open_config_file do |file|

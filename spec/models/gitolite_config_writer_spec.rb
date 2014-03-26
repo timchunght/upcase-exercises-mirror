@@ -8,7 +8,8 @@ describe GitoliteConfigWriter do
           [{ username: 'one' }, { username: 'two' }],
           admin_usernames: %w(apple berry)
         )
-        config = GitoliteConfigWriter.new('ssh-rsa server')
+        sources = stub_sources(%w(sources/adam sources/billy))
+        config = GitoliteConfigWriter.new('ssh-rsa server', sources)
 
         config.write
 
@@ -19,9 +20,12 @@ describe GitoliteConfigWriter do
           repo gitolite-admin
               RW+     =   @admins
 
-          repo [a-zA-Z0-9].*
+
+          repo sources/adam
               RW+     =   @admins
-              C       =   @admins
+
+          repo sources/billy
+              RW+     =   @admins
 
 
           repo one/.*
@@ -52,7 +56,8 @@ describe GitoliteConfigWriter do
             ]
           }
         ])
-        config = GitoliteConfigWriter.new('ssh-rsa server')
+        sources = stub_sources
+        config = GitoliteConfigWriter.new('ssh-rsa server', sources)
 
         config.write
 
@@ -90,6 +95,12 @@ describe GitoliteConfigWriter do
       username: attributes[:username] || 'mruser',
       public_keys: attributes[:public_keys] || []
     )
+  end
+
+  def stub_sources(paths = [])
+    paths.map do |path|
+      double('source', path: path)
+    end
   end
 
   def create_preexisting_key

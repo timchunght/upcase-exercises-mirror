@@ -9,6 +9,10 @@ class Exercise < ActiveRecord::Base
 
   friendly_id :title, use: [:slugged, :finders]
 
+  def self.alphabetical
+    order(:slug)
+  end
+
   def find_or_create_clone_for(user)
     find_clone_for(user) || create_clone_for(user)
   end

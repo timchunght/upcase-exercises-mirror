@@ -11,6 +11,18 @@ describe Exercise do
     should validate_uniqueness_of(:title)
   end
 
+  describe '.alphabetical' do
+    it 'returns exercises alphabetically by title' do
+      create :exercise, title: 'def'
+      create :exercise, title: 'abc'
+      create :exercise, title: 'ghi'
+
+      result = Exercise.alphabetical
+
+      expect(result.pluck(:title)).to eq(%w(abc def ghi))
+    end
+  end
+
   describe '#find_or_create_clone_for' do
     context 'with no existing clone' do
       it 'tells the Git server to clone for the given user' do
