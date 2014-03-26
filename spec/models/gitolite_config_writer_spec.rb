@@ -9,7 +9,7 @@ describe GitoliteConfigWriter do
 
         config.write
 
-        result = IO.read('config/gitolite.conf')
+        result = IO.read('conf/gitolite.conf')
         expect(result).to eq(<<-CONFIG.strip_heredoc)
           @admins = server
 
@@ -66,7 +66,7 @@ describe GitoliteConfigWriter do
   def in_config_dir
     Dir.mktmpdir do |path|
       FileUtils.chdir(path) do
-        FileUtils.mkdir(File.join(path, 'config'))
+        FileUtils.mkdir('conf')
         yield
       end
     end
@@ -102,7 +102,7 @@ describe GitoliteConfigWriter do
   def existing_keys
     Dir.glob('keydir/**/*.*').inject({}) do |result, path|
       key = path.sub(%r{^keydir/}, '')
-      result.update(key => IO.read(path))
+      result.update(key => IO.read(path).chop)
     end
   end
 end

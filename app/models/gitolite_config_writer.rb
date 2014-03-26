@@ -1,14 +1,14 @@
 # Writes a full Gitolite configuration into the current directory based on
 # application state.
 class GitoliteConfigWriter
-  CONFIG_FILE_PATH = 'config/gitolite.conf'.freeze
+  CONFIG_FILE_PATH = 'conf/gitolite.conf'.freeze
   KEYDIR_PATH = 'keydir'.freeze
   SERVER_KEY_NAME = 'server.pub'.freeze
   TEMPLATE_PATH =
     Rails.root.join('app', 'views', 'gitolite_config', 'gitolite.conf.erb')
 
-  def initialize(server_identity)
-    @server_identity = server_identity
+  def initialize(server_key)
+    @server_key = server_key
   end
 
   def write
@@ -51,7 +51,7 @@ class GitoliteConfigWriter
   end
 
   def write_staging_key
-    write_key "#{KEYDIR_PATH}/#{SERVER_KEY_NAME}", @server_identity
+    write_key "#{KEYDIR_PATH}/#{SERVER_KEY_NAME}", @server_key
   end
 
   def write_user_keys
@@ -71,6 +71,6 @@ class GitoliteConfigWriter
 
   def write_key(path, data)
     FileUtils.mkdir_p(File.dirname(path))
-    File.open(path, 'w') { |file| file.write(data) }
+    File.open(path, 'w') { |file| file.puts(data) }
   end
 end

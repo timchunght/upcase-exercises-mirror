@@ -2,7 +2,7 @@ module Features
   def stub_gitolite_admin_clone
     FakeShell.with_stubs do |stubs|
       stubs.add(%r{git clone [^ ]+gitolite-admin\.git (\w+)}) do |target|
-        FileUtils.mkdir_p(File.join(target, 'config'))
+        FileUtils.mkdir_p(File.join(target, 'conf'))
       end
 
       yield
