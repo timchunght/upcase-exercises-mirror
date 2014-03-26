@@ -15,7 +15,7 @@ class GitServer
   def create_clone(exercise, user)
     source = source(exercise)
     clone = clone(exercise, user)
-    @shell.execute("command ssh git@#{@host} fork #{source.path} #{clone.path}")
+    @shell.execute("ssh git@#{@host} fork #{source.path} #{clone.path}")
   end
 
   def source(exercise)

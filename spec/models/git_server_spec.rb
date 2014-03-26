@@ -11,7 +11,7 @@ describe GitServer do
       git_server.create_clone(exercise, user)
 
       expect(shell).to have_executed_command(
-        'command ssh git@example.com fork sources/exercise username/exercise'
+        'ssh git@example.com fork sources/exercise username/exercise'
       )
     end
   end
