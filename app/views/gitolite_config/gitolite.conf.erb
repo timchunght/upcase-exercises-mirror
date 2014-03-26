@@ -3,6 +3,10 @@
 repo gitolite-admin
     RW+     =   @admins
 
+repo [a-zA-Z0-9].*
+    RW+     =   @admins
+    C       =   @admins
+
 <% sources.each do |source| %>
 repo <%= source.path %>
     RW+     =   @admins

@@ -20,6 +20,10 @@ describe GitoliteConfigWriter do
           repo gitolite-admin
               RW+     =   @admins
 
+          repo [a-zA-Z0-9].*
+              RW+     =   @admins
+              C       =   @admins
+
 
           repo sources/adam
               RW+     =   @admins
