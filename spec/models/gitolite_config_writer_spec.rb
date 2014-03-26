@@ -4,14 +4,17 @@ describe GitoliteConfigWriter do
   describe '#write' do
     it 'writes the template into the given directory' do
       in_config_dir do
-        stub_users([{ username: 'one' }, { username: 'two' }])
+        stub_users(
+          [{ username: 'one' }, { username: 'two' }],
+          admin_usernames: %w(apple berry)
+        )
         config = GitoliteConfigWriter.new('ssh-rsa server')
 
         config.write
 
         result = IO.read('conf/gitolite.conf')
         expect(result).to eq(<<-CONFIG.strip_heredoc)
-          @admins = server
+          @admins = server apple berry
 
           repo gitolite-admin
               RW+     =   @admins
@@ -72,12 +75,13 @@ describe GitoliteConfigWriter do
     end
   end
 
-  def stub_users(attributes_collection)
+  def stub_users(attributes_collection, options = {})
     users = attributes_collection.map do |attributes|
       stub_user(attributes)
     end
 
     User.stub(:by_username).and_return(users)
+    User.stub(:admin_usernames).and_return(options[:admin_usernames] || [])
   end
 
   def stub_user(attributes)

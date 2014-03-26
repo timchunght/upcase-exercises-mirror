@@ -1,4 +1,4 @@
-@admins = server
+@admins = <%= admin_usernames.join(' ') %>
 
 repo gitolite-admin
     RW+     =   @admins

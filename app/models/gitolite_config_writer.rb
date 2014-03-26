@@ -3,7 +3,7 @@
 class GitoliteConfigWriter
   CONFIG_FILE_PATH = 'conf/gitolite.conf'.freeze
   KEYDIR_PATH = 'keydir'.freeze
-  SERVER_KEY_NAME = 'server.pub'.freeze
+  SERVER_USERNAME = 'server'.freeze
   TEMPLATE_PATH =
     Rails.root.join('app', 'views', 'gitolite_config', 'gitolite.conf.erb')
 
@@ -36,6 +36,10 @@ class GitoliteConfigWriter
     IO.read(TEMPLATE_PATH)
   end
 
+  def admin_usernames
+    [SERVER_USERNAME] + User.admin_usernames
+  end
+
   def usernames
     User.by_username.map(&:username)
   end
@@ -51,7 +55,7 @@ class GitoliteConfigWriter
   end
 
   def write_staging_key
-    write_key "#{KEYDIR_PATH}/#{SERVER_KEY_NAME}", @server_key
+    write_key "#{KEYDIR_PATH}/#{SERVER_USERNAME}.pub", @server_key
   end
 
   def write_user_keys
