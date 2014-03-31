@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Clone do
   it { should belong_to(:exercise) }
   it { should belong_to(:user) }
+  it { should have_one(:solution).dependent(:destroy) }
 
   describe '#repository' do
     it 'returns the repository for itself' do

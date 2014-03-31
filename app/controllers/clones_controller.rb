@@ -1,11 +1,12 @@
 class ClonesController < ApplicationController
   def create
     exercise = Exercise.find(params[:exercise_id])
-    clone = exercise.find_or_create_clone_for(current_user)
-    redirect_to clone
+    exercise.find_or_create_clone_for(current_user)
+    redirect_to exercise_clone_url(exercise)
   end
 
   def show
-    @clone = Clone.find(params[:id])
+    exercise = Exercise.find(params[:exercise_id])
+    @clone = exercise.find_clone_for(current_user)
   end
 end

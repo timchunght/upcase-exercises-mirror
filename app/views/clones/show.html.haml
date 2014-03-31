@@ -21,3 +21,9 @@
             Push your solution to your fork by running
             %code git push origin master
           %li Submit your solution below.
+
+  = button_to(                                  |
+      t('.submit_solution'),                    |
+      exercise_solutions_path(@clone.exercise), |
+      method: :post                             |
+    )                                           |

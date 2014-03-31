@@ -15,6 +15,10 @@ FactoryGirl.define do
     "Title #{n} Text"
   end
 
+  sequence :username do |n|
+    sprintf('username%04d', n)
+  end
+
   factory :gitolite_config_committer do
     host 'localhost'
     shell { FakeShell.new }
@@ -43,13 +47,28 @@ FactoryGirl.define do
     to_create {}
   end
 
+  factory :solution do
+    clone
+  end
+
+  factory :viewable_solution do
+    solution
+    active false
+    assigned false
+
+    to_create {}
+    initialize_with do
+      ViewableSolution.new(solution, active: active, assigned: assigned)
+    end
+  end
+
   factory :user do
     auth_token
     email
     first_name 'Joe'
     last_name 'User'
     learn_uid
-    username 'username'
+    username
 
     factory :admin do
       admin true

@@ -3,10 +3,9 @@ Whetstone::Application.routes.draw do
   get '/auth/:provider/callback', to: 'oauth_callbacks#show'
   get '/auth/failure', to: 'dashboards#show'
 
-  resources :clones, only: :show
-
   resources :exercises, only: :show do
-    resources :clones, only: :create
+    resource :clone, only: [:create, :show]
+    resources :solutions, only: [:create, :show]
   end
 
   namespace :admin do

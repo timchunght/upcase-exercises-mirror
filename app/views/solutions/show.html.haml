@@ -1,0 +1,146 @@
+%header.solutions-main
+  %nav.participants
+    %ul.solutions
+      %li.you
+        = render @solution.my_solution
+
+  %section.next-steps
+    %div
+      %ol.status
+        %li.finished You reviewed a peer
+        %li.unfinished Your solution has been reviewed
+
+    %div
+      %div.inner
+        %p We'll email you when your solution has been reviewed.
+
+    %div
+      %div.inner
+        %p.title Next Exercise
+        = link_to 'Polymorphism in a pinch', '#', class: 'next-exercise'
+
+
+%div.main-inner
+  %nav.participants
+    %h1 Peer Solutions
+    %ul.solutions
+      = render @solution.solutions_by_other_users
+
+  %div.main-body
+    %section.revision-history
+      %ol
+        %li
+          %div.tooltip
+            = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=50')
+            %span.title Revision 1
+            %span.timestamp 4 hours ago
+          %a
+        %li
+          %div.tooltip
+            = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=50')
+            %span.title Revision 2
+            %span.timestamp 3 hours ago
+          %a
+        %li.current
+          %div.tooltip
+            = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=50')
+            %span.title Revision 3
+            %span.timestamp 2 hours ago
+          %a
+
+    %section.files.next-steps-active
+      %section.file
+        %span.filename days_controller.rb
+        .code
+          .line
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                  class DaysController < ApplicationController
+          .line
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    include Moves
+          .line
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    include Maps
+          .line.blank
+          .line.comments#days_controller.rb-5
+            .show-comments= link_to '3', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    before_filter :authorize, :authorized_moves this line is very long and overflows its container meaning the container has to scroll...
+          .line-comments
+            %ol
+              %li
+                = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+                %span.username Plapier
+                %span.date Feb 12th 12:30pm
+                %span.comment Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dapibus odio id purus lacinia porta. Aenean a sapien arcu. Nulla nisi nulla, euismod sed augue ac, posuere ullamcorper leo.
+              %li
+                = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+                %span.username You
+                %span.date Feb 12th 12:33pm
+                %span.comment Praesent sed leo vel tortor hendrerit posuere sed quis est. Duis arcu orci, semper vitae iaculis consequat, luctus ac sapien. Fusce tincidunt massa.
+              %li
+                = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+                %span.username Plapier
+                %span.date Feb 12th 1:12pm
+                %span.comment Praesent vitae egestas turpis.
+              %li.form
+                %form
+                  %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
+              %li.form
+                %form
+                  %textarea{ 'placeholder' => 'Write a specific comment about this line' }
+                  %input{ 'type' => 'submit', 'value' => 'Comment' }
+          .line.blank
+          .line
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    def show
+          .line
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                      true
+          .line
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    end
+          .line
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                  end
+
+    %aside.comments.next-steps-active
+      %ol
+        %li
+          = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+          %span Plapier submitted a solution
+        %li.status-red
+          %span Plapier is waiting for review
+        %li.new-comments
+          = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+          %span
+            = link_to 'You commented on days_controller.rb', '#days_controller.rb-5'
+            %span.line-num Line #5
+
+        %li.form
+          %form
+            %textarea{ 'placeholder' => 'Write a general comment about this solution' }
+            %input{ 'type' => 'submit', 'value' => 'Comment' }

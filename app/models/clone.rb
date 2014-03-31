@@ -2,6 +2,7 @@
 class Clone < ActiveRecord::Base
   belongs_to :user
   belongs_to :exercise
+  has_one :solution, dependent: :destroy
 
   def repository
     GIT_SERVER.clone(exercise, user)

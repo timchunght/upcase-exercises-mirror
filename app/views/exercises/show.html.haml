@@ -8,4 +8,8 @@
     :markdown
       #{@exercise.body}
 
-  = button_to "Start Exercise", exercise_clones_path(@exercise), method: :post
+  = button_to(                      |
+    t('.start_exercise'),           |
+    exercise_clone_path(@exercise), |
+    method: :post                   |
+  )                                 |

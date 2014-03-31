@@ -11,6 +11,18 @@ en:
       show:
         exercises: 'Exercises'
 
+  clones:
+    show:
+      submit_solution: 'Submit Solution'
+
+  exercises:
+    show:
+        start_exercise: 'Start Exercise'
+
+  solutions:
+    solution:
+      assigned: 'Please review this solution.'
+
   date:
     formats:
       default: '%m/%d/%Y'

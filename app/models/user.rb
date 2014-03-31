@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
   include Clearance::User
+  extend FriendlyId
 
   has_many :clones, dependent: :destroy
   has_many :public_keys, dependent: :destroy
+
+  friendly_id :username, use: [:finders]
 
   def self.admin_usernames
     admins.by_username.usernames

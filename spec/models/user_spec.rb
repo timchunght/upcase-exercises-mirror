@@ -32,4 +32,18 @@ describe User do
   describe '#valid?' do
     it { should_not validate_presence_of(:password) }
   end
+
+  describe '#to_param' do
+    it 'uses its username' do
+      user = build_stubbed(:user, username: 'mrunix')
+
+      expect(user.to_param).to eq(user.username)
+    end
+
+    it 'returns a findable value' do
+      user = create(:user)
+
+      expect(User.find(user.to_param)).to eq(user)
+    end
+  end
 end

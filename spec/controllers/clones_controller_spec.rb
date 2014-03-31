@@ -12,7 +12,7 @@ describe ClonesController do
       sign_in_as user
       post :create, exercise_id: exercise.to_param
 
-      should redirect_to(clone_url(clone))
+      should redirect_to(exercise_clone_url(exercise))
     end
   end
 end
