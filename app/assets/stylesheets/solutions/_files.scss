@@ -11,8 +11,10 @@
       border: 1px solid $base-border-color;
       color: #444;
       display: block;
-      font-size: .9rem;
-      padding: .25rem .75rem;
+      font-size: .74rem;
+      font-weight: 600;
+      line-height: 2.3em;
+      padding: .35rem .75rem;
     }
   }
 
@@ -125,22 +127,19 @@
     }
 
     header {
+      color: #666;
+      font-size: .8rem;
+      line-height: 1.6rem;
+
       img {
         border-radius: 50%;
         float: left;
       }
 
       .username {
-        font-size: .9rem;
+        color: $base-font-color;
+        font-weight: 600;
         padding: 1px 0 1px .75rem;
-        font-weight: 500;
-      }
-
-      .date {
-        color: #666;
-        font-size: .75rem;
-        line-height: 1.6rem;
-        float: right;
       }
     }
 
