@@ -8,7 +8,7 @@
 
     .filename {
       background: #f6f6f6;
-      border: 2px solid #efefef;
+      border: 1px solid $base-border-color;
       color: #444;
       display: block;
       font-size: .9rem;
@@ -17,8 +17,8 @@
   }
 
   .code {
-    border: 1px solid #efefef;
-    border-width: 0 2px 2px 2px;
+    border: 1px solid $base-border-color;
+    border-top-width: 0;
     overflow-x: scroll;
     padding: .5rem 0;
   }
@@ -104,20 +104,17 @@
     li {
       display: block;
       font-size: em(14px);
-      padding: .5rem 1rem 1rem;
+      padding: 1rem 3rem 1.2rem;
       position: relative;
+      border-bottom: 1px solid $base-border-color-2;
 
       &:first-child {
-        border-top: 2px solid #efefef;
+        border-top: 1px solid $base-border-color;
         padding-top: 1rem;
-
-        .date {
-          top: 1rem;
-        }
       }
 
       &:last-child {
-        border-bottom: 2px solid #efefef;
+        border-bottom: 1px solid $base-border-color;
       }
 
       &.form form {
@@ -125,35 +122,37 @@
         padding-left: .75rem;
       }
 
+    }
+
+    header {
       img {
-        border: 1px solid #efefef;
         border-radius: 50%;
-        @include position(absolute, 0 0 0 1rem);
+        float: left;
       }
-    }
 
-    .username {
-      background: #efefef;
-      border-radius: 1.5rem;
-      color: #666;
-      display: block;
-      font-size: .9rem;
-      padding: 1px 0 1px $avatar-size+.75rem;
-    }
+      .username {
+        font-size: .9rem;
+        padding: 1px 0 1px .75rem;
+        font-weight: 500;
+      }
 
-    .date {
-      color: #666;
-      font-size: .75rem;
-      line-height: 1.5rem;
-      position: absolute;
-      right: 1.7rem;
-      top: .5rem;
+      .date {
+        color: #666;
+        font-size: .75rem;
+        line-height: 1.6rem;
+        float: right;
+      }
     }
 
     .comment {
       display: block;
       margin: .5rem 0 0 $avatar-size;
       padding-left: .75rem;
+    }
+
+    textarea {
+      margin: 0.5rem 0;
+      font-size: 0.8rem;
     }
   }
 }
