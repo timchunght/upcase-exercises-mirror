@@ -7,11 +7,7 @@ Cocaine::CommandLine.runner = Cocaine::CommandLine::BackticksRunner.new
 
 host = ENV['GIT_SERVER_HOST']
 
-if Rails.env.test?
-  base_shell = FakeShell.new
-else
-  base_shell = Shell.new
-end
+base_shell = ENV['SHELL_CLASS'].constantize.new
 
 identified_shell = IdentifiedShell.new(base_shell, ENV['IDENTITY'])
 
