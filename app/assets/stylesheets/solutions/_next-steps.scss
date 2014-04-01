@@ -1,8 +1,5 @@
 .next-steps {
   // display: none;
-  background: $next-steps-bg;
-  border: 1px solid #EDDAA5;
-  border-radius: 3px;
   color: $next-steps-color;
   @include display(flex);
   margin-left: $sidebar-width + $main-padding;
@@ -11,18 +8,25 @@
 
   > div {
     @include align-items(center);
-    border-right: 1px solid rgba($next-steps-border, 0.3);
-    @include display(flex);
-    @include flex(1);
+    background: $next-steps-bg;
+    border: 1px solid #EDDAA5;
+    border-right-width: 0;
+    border-left: 1px solid rgba($next-steps-border, 0.3);
+    @include display(inline-flex);
     padding: 1.2rem 2.2rem 1.2rem 3rem;
     position: relative;
+    width: 430px;
 
     &:first-of-type {
       padding-left: 2.4rem;
+      border-left-width: 1px;
+      border-radius: 3px 0 0 3px;
+      border-left-color: #EDDAA5;
     }
 
-    &:last-of-type {
-      border: 0;
+    &:last-of-type, &:only-of-type {
+      @include border-right-radius(3px);
+      border-right-width: 1px;
 
       &:after {
         display: none;
@@ -50,6 +54,7 @@
       right: -$size/2 - 1;
       top: 50%;
       width: $size;
+      z-index: 1;
     }
   }
 
