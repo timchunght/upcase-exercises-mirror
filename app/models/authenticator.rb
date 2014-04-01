@@ -20,6 +20,7 @@ class Authenticator
     {
       admin: info['admin'],
       auth_token: auth_hash['credentials']['token'],
+      avatar_url: info['avatar_url'],
       email: info['email'],
       first_name: info['first_name'],
       last_name: info['last_name'],

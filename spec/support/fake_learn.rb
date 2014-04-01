@@ -8,6 +8,7 @@ class FakeLearn < Sinatra::Base
   def self.sign_in(attributes = {})
     @@learn_user = {
       'admin' => false,
+      'avatar_url' => 'https://gravat.ar/',
       'email' => 'user@example.com',
       'first_name' => 'Test',
       'has_active_subscription' => true,

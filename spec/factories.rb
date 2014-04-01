@@ -54,6 +54,7 @@ FactoryGirl.define do
 
   factory :user do
     auth_token
+    avatar_url 'https://gravat.ar/'
     email
     first_name 'Joe'
     last_name 'User'
