@@ -8,9 +8,10 @@ describe PublicKeyAuthenticator do
       user = double('user', public_keys: local_keys)
       syncronizer = double('syncronizer')
       syncronizer.stub(:syncronize)
-      PublicKeySyncronizer
+      syncronizer_factory = double('syncronizer_factory')
+      syncronizer_factory
         .stub(:new)
-        .with(user, local_keys, remote_keys)
+        .with(user: user, local_keys: local_keys, remote_keys: remote_keys)
         .and_return(syncronizer)
       authenticator = double('authenticator', authenticate: user)
       auth_hash = {
@@ -19,7 +20,11 @@ describe PublicKeyAuthenticator do
         }
       }
 
-      result = PublicKeyAuthenticator.new(authenticator, auth_hash).authenticate
+      result = PublicKeyAuthenticator.new(
+        authenticator,
+        auth_hash,
+        syncronizer_factory
+      ).authenticate
 
       expect(result).to eq(user)
       expect(syncronizer).to have_received(:syncronize)

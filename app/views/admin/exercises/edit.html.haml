@@ -3,6 +3,6 @@
     = @exercise.title
     %i.fa.fa-arrow-circle-o-right.fa-lg
 
-  = render GIT_SERVER.source(@exercise)
+  = render @exercise.source
 
   = render 'admin/exercises/form', exercise: @exercise

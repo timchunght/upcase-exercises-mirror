@@ -1,10 +1,10 @@
 # Finds and decorates related solutions for the solution review page.
 class ReviewableSolution < SimpleDelegator
   def initialize(attributes)
-    super(attributes[:solution])
+    super(attributes[:viewed_solution])
     @exercise = attributes.fetch(:exercise)
-    @solution = attributes.fetch(:solution)
-    @user = attributes.fetch(:user)
+    @viewed_solution = attributes.fetch(:viewed_solution)
+    @submitted_solution = attributes.fetch(:submitted_solution)
   end
 
   def assigned_solution
@@ -12,18 +12,14 @@ class ReviewableSolution < SimpleDelegator
   end
 
   def solutions_by_other_users
-    decorate_solutions(@exercise.solutions - [solution_for_user])
+    decorate_solutions(@exercise.solutions - [@submitted_solution])
   end
 
   def my_solution
-    decorate_solution solution_for_user
+    decorate_solution @submitted_solution
   end
 
   private
-
-  def solution_for_user
-    @exercise.find_solution_for(@user)
-  end
 
   def decorate_solutions(solutions)
     solutions.each_with_index.map do |solution, index|
@@ -34,7 +30,7 @@ class ReviewableSolution < SimpleDelegator
   def decorate_solution(solution, assigned = false)
     ViewableSolution.new(
       solution,
-      active: solution == @solution,
+      active: solution == @viewed_solution,
       assigned: assigned
     )
   end

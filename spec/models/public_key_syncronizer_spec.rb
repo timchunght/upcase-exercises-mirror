@@ -6,15 +6,21 @@ describe PublicKeySyncronizer do
       remote_keys = %w(new-one new-two existing)
       user = double('user', username: 'example')
       local_keys = stub_local_keys(%w(new-one new-two))
-      GIT_SERVER.stub(:add_key)
+      git_server = double('git_server')
+      git_server.stub(:add_key)
 
-      PublicKeySyncronizer.new(user, local_keys, remote_keys).syncronize
+      PublicKeySyncronizer.new(
+        git_server: git_server,
+        local_keys: local_keys,
+        remote_keys: remote_keys,
+        user: user
+      ).syncronize
 
       %w(new-one new-two).each do |key|
         expect(local_keys).to have_received(:create!).with(data: key)
       end
 
-      expect(GIT_SERVER).to have_received(:add_key).with(user.username).twice
+      expect(git_server).to have_received(:add_key).with(user.username).twice
       expect(local_keys).not_to have_received(:create!).with(data: 'existing')
     end
 

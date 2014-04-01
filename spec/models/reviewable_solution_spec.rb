@@ -5,8 +5,8 @@ describe ReviewableSolution do
     solution = build_stubbed(:solution)
     reviewable_solution = ReviewableSolution.new(
       exercise: double('exercise'),
-      solution: solution,
-      user: double('user')
+      viewed_solution: solution,
+      submitted_solution: double('solution')
     )
 
     expect(reviewable_solution.user).to eq(solution.user)
@@ -15,19 +15,17 @@ describe ReviewableSolution do
 
   describe '#solutions_by_other_users' do
     it "returns solutions besides the current user's" do
-      user = build_stubbed(:user)
       my_solution = stub_solution('my_solution')
       active_solution = stub_solution('active_solution')
       other_solution = stub_solution('other_solution')
       exercise = stub_exercise_with_solutions(
-        user,
         my_solution,
         [other_solution, active_solution]
       )
       reviewable_solution = ReviewableSolution.new(
         exercise: exercise,
-        solution: active_solution,
-        user: user
+        viewed_solution: active_solution,
+        submitted_solution: my_solution
       )
 
       result = reviewable_solution.solutions_by_other_users
@@ -42,19 +40,17 @@ describe ReviewableSolution do
 
   describe '#assigned_solution' do
     it 'returns the first solution from another user' do
-      user = double('user')
       my_solution = stub_solution('my_solution')
       other_solutions =
         [stub_solution('first_other'), stub_solution('second_other')]
       exercise = stub_exercise_with_solutions(
-        user,
         my_solution,
         other_solutions
       )
       reviewable_solution = ReviewableSolution.new(
         exercise: exercise,
-        solution: double('active_solution'),
-        user: user
+        viewed_solution: double('active_solution'),
+        submitted_solution: my_solution
       )
 
       expect(reviewable_solution.assigned_solution).to eq other_solutions.first
@@ -63,17 +59,15 @@ describe ReviewableSolution do
 
   describe '#my_solution' do
     it 'returns the solution for the reviewing user' do
-      user = double('user')
       my_solution = stub_solution('my_solution')
       exercise = stub_exercise_with_solutions(
-        user,
         my_solution,
         []
       )
       reviewable_solution = ReviewableSolution.new(
         exercise: exercise,
-        solution: double('active_solution'),
-        user: user
+        viewed_solution: double('active_solution'),
+        submitted_solution: my_solution
       )
 
       result = reviewable_solution.my_solution
@@ -84,10 +78,9 @@ describe ReviewableSolution do
     end
   end
 
-  def stub_exercise_with_solutions(user, my_solution, other_solutions)
+  def stub_exercise_with_solutions(my_solution, other_solutions)
     double('exercise').tap do |exercise|
       exercise.stub(:solutions).and_return([my_solution, *other_solutions])
-      exercise.stub(:find_solution_for).with(user).and_return(my_solution)
     end
   end
 

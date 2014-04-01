@@ -2,8 +2,9 @@
 class SourceCollection
   include Enumerable
 
-  def initialize(exercises)
+  def initialize(exercises, git_server)
     @exercises = exercises
+    @git_server = git_server
   end
 
   def each(&block)
@@ -14,7 +15,7 @@ class SourceCollection
 
   def sources
     @exercises.map do |exercise|
-      GIT_SERVER.source(exercise)
+      @git_server.source(exercise)
     end
   end
 end

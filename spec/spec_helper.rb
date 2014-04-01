@@ -7,6 +7,7 @@ require File.expand_path('../../config/environment', __FILE__)
 
 require 'rspec/rails'
 require 'webmock/rspec'
+require 'dependencies/testing'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |file| require file }
 
@@ -32,6 +33,8 @@ RSpec.configure do |config|
       DatabaseCleaner.clean
     end
   end
+
+  config.include Dependencies::Testing
 end
 
 Capybara.javascript_driver = :webkit

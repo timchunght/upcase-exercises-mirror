@@ -19,15 +19,6 @@ FactoryGirl.define do
     sprintf('username%04d', n)
   end
 
-  factory :gitolite_config_committer do
-    host 'localhost'
-    shell { FakeShell.new }
-    writer { GitoliteConfigWriter.new('ssh-rsa key', []) }
-
-    initialize_with { GitoliteConfigCommitter.new(attributes) }
-    to_create {}
-  end
-
   factory :clone do
     exercise
     user
@@ -39,7 +30,6 @@ FactoryGirl.define do
   end
 
   factory :git_server do
-    association :config_committer, factory: :gitolite_config_committer
     host 'localhost'
     shell { FakeShell.new }
 

@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
   def url_after_denied_access_when_signed_out
     '/auth/learn'
   end
+
+  def dependencies
+    request.env[:dependencies]
+  end
 end

@@ -3,7 +3,7 @@ class GitServer
   SOURCE_ROOT = 'sources'
 
   def initialize(attributes)
-    @config_committer = attributes[:config_committer]
+    @config_committer_factory = attributes[:config_committer_factory]
     @shell = attributes[:shell]
     @host = attributes[:host]
   end
@@ -32,5 +32,9 @@ class GitServer
 
   private
 
-  attr_reader :config_committer, :shell, :host
+  attr_reader :config_committer_factory, :shell, :host
+
+  def config_committer
+    config_committer_factory.new(git_server: self)
+  end
 end

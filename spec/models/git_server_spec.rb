@@ -44,11 +44,13 @@ describe GitServer do
       exercise_name = 'new-exercise-name'
       host = 'example.com'
       config_committer = stub_config_committer
-      git_server = build(
-        :git_server,
-        host: host,
-        config_committer: config_committer
-      )
+      git_server = stub_config_committer_factory(config_committer) do |factory|
+        build(
+          :git_server,
+          host: host,
+          config_committer_factory: factory
+        )
+      end
 
       git_server.create_exercise(
         Repository.new(
@@ -65,9 +67,10 @@ describe GitServer do
   describe '#add_key' do
     it 'rewrites the Gitolite config' do
       username = 'mrunix'
-      public_key = 'rsa-ssh lbj'
       config_committer = stub_config_committer
-      git_server = build(:git_server, config_committer: config_committer)
+      git_server = stub_config_committer_factory(config_committer) do |factory|
+        build(:git_server, config_committer_factory: factory)
+      end
 
       git_server.add_key(username)
 
@@ -80,5 +83,12 @@ describe GitServer do
     double('config_committer').tap do |config_committer|
       config_committer.stub(:write)
     end
+  end
+
+  def stub_config_committer_factory(committer)
+    factory = double('config_committer_factory')
+    git_server = yield(factory)
+    factory.stub(:new).with(git_server: git_server).and_return(committer)
+    git_server
   end
 end

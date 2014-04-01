@@ -1,6 +1,6 @@
 class SolutionsController < ApplicationController
   def create
-    exercise.find_or_create_solution_for(current_user)
+    participation_by(current_user).find_or_create_solution
     redirect_to exercise_solution_path(
       exercise,
       reviewable_solution_by(current_user).assigned_solution
@@ -17,24 +17,27 @@ class SolutionsController < ApplicationController
 
   private
 
+  def participation_by(user)
+    dependencies[:participation].new(
+      exercise: exercise,
+      user: user
+    )
+  end
+
   def exercise
     @exercise ||= Exercise.find(params[:exercise_id])
   end
 
   def solved_by_current_user?
-    exercise.solved_by?(current_user)
+    participation_by(current_user).has_solution?
   end
 
   def reviewable_solution_by(user)
     ReviewableSolution.new(
       exercise: exercise,
-      solution: find_solution_by(user),
-      user: current_user
+      viewed_solution: participation_by(user).find_solution,
+      submitted_solution: participation_by(current_user).find_solution
     )
-  end
-
-  def find_solution_by(user)
-    exercise.find_solution_for(user)
   end
 
   def user_from_params

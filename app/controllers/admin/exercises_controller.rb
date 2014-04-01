@@ -12,7 +12,9 @@ class Admin::ExercisesController < Admin::BaseController
   def create
     @exercise = Exercise.new(exercise_params)
     if @exercise.save
-      GIT_SERVER.create_exercise(GIT_SERVER.source(@exercise))
+      dependencies[:git_server].create_exercise(
+        dependencies[:git_server].source(@exercise)
+      )
       redirect_to admin_exercises_path
     else
       render :new
@@ -39,6 +41,6 @@ class Admin::ExercisesController < Admin::BaseController
   end
 
   def find_exercise
-    Exercise.find(params[:id])
+    GitExercise.new(Exercise.find(params[:id]), dependencies[:git_server])
   end
 end

@@ -1,12 +1,27 @@
 class ClonesController < ApplicationController
   def create
-    exercise = Exercise.find(params[:exercise_id])
-    exercise.find_or_create_clone_for(current_user)
+    participation.find_or_create_clone
     redirect_to exercise_clone_url(exercise)
   end
 
   def show
-    exercise = Exercise.find(params[:exercise_id])
-    @clone = exercise.find_clone_for(current_user)
+    clone = participation.find_clone
+    @clone = GitClone.new(
+      clone,
+      dependencies[:git_server]
+    )
+  end
+
+  private
+
+  def participation
+    dependencies[:participation].new(
+      exercise: exercise,
+      user: current_user
+    )
+  end
+
+  def exercise
+    @exercise ||= Exercise.find(params[:exercise_id])
   end
 end

@@ -5,9 +5,8 @@ describe SolutionsController do
     context 'as a user with a solution' do
       it 'renders the solution' do
         with_viewable_solution do |exercise, user|
-          current_user = build_stubbed(:user)
-          exercise.stub(:solved_by?).with(current_user).and_return(true)
-          sign_in_as current_user
+          participation = sign_in_as_user_with_participation_to(exercise)
+          participation.stub(:has_solution?).and_return(true)
 
           show(exercise, user)
 
@@ -19,9 +18,8 @@ describe SolutionsController do
     context 'as a user without a solution' do
       it 'redirects to the exercise' do
         with_viewable_solution do |exercise, user|
-          current_user = build_stubbed(:user)
-          exercise.stub(:solved_by?).with(current_user).and_return(false)
-          sign_in_as current_user
+          participation = sign_in_as_user_with_participation_to(exercise)
+          participation.stub(:has_solution?).and_return(false)
 
           show(exercise, user)
 
@@ -37,8 +35,20 @@ describe SolutionsController do
     user = build_stubbed(:user)
     User.stub(:find).with(user.to_param).and_return(user)
     solution = build_stubbed(:solution)
-    exercise.stub(:find_solution_for).with(user).and_return(solution)
+    participation =
+      stub_factory_instance(:participation, exercise: exercise, user: user)
+    participation.stub(:find_solution).and_return(solution)
     yield exercise, user
+  end
+
+  def sign_in_as_user_with_participation_to(exercise)
+    solution = double('solution')
+    user = build_stubbed(:user)
+    sign_in_as user
+    stub_factory_instance(:participation, exercise: exercise, user: user)
+      .tap do |participation|
+        participation.stub(:find_solution).and_return(solution)
+      end
   end
 
   def show(exercise, user)

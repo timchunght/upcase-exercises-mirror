@@ -6,13 +6,15 @@ describe ClonesController do
       user = build_stubbed(:user)
       exercise = build_stubbed(:exercise)
       Exercise.stub(:find).with(exercise.to_param).and_return(exercise)
-      clone = build_stubbed(:clone)
-      exercise.stub(:find_or_create_clone_for).with(user).and_return(clone)
+      participation =
+        stub_factory_instance(:participation, exercise: exercise, user: user)
+      participation.stub(:find_or_create_clone)
 
       sign_in_as user
       post :create, exercise_id: exercise.to_param
 
       should redirect_to(exercise_clone_url(exercise))
+      expect(participation).to have_received(:find_or_create_clone)
     end
   end
 end
