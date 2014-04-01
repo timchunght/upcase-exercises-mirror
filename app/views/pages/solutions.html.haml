@@ -97,26 +97,29 @@
                 %header
                   = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
                   %span.username Plapier
-                  %span.date Feb 12th 12:30pm
+                  &ndash;
+                  %span.timestamp 1 day ago
                 %span.comment Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dapibus odio id purus lacinia porta. Aenean a sapien arcu. Nulla nisi nulla, euismod sed augue ac, posuere ullamcorper leo.
               %li
                 %header
                   = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
                   %span.username You
-                  %span.date Feb 12th 12:33pm
+                  &ndash;
+                  %span.timestamp 10 hours ago
                 %span.comment Praesent sed leo vel tortor hendrerit posuere sed quis est. Duis arcu orci, semper vitae iaculis consequat, luctus ac sapien. Fusce tincidunt massa.
               %li
                 %header
                   = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
                   %span.username Plapier
-                  %span.date Feb 12th 1:12pm
+                  &ndash;
+                  %span.timestamp 3 hours ago
                 %span.comment Praesent vitae egestas turpis.
               %li.form
                 %form
                   %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
               %li.form
                 %form
-                  %textarea{ 'placeholder' => 'Write a specific comment about this line' }
+                  %textarea{ 'placeholder' => 'Write a comment about this line' }
                   %input{ 'type' => 'submit', 'value' => 'Comment' }
           .line.blank
           .line
@@ -159,5 +162,5 @@
 
         %li.form
           %form
-            %textarea{ 'placeholder' => 'Write a general comment about this solution' }
+            %textarea{ 'placeholder' => 'Write a comment about this solution' }
             %input{ 'type' => 'submit', 'value' => 'Comment' }
