@@ -116,11 +116,61 @@
                 %span.comment Praesent vitae egestas turpis.
               %li.form
                 %form
-                  %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
+                  %input{ 'type' => 'submit', 'value' => 'Leave a comment', 'class' => 'expand-textarea' }
+                  %div.comment-textarea
+                    %textarea{ 'placeholder' => 'Write a comment about this line' }
+                    %input{ 'type' => 'submit', 'value' => 'Comment' }
+          .line.blank
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    def send
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                      recipients.each do |recipient|
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                        Mailer.
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                          invitation(recipient['name'], recipient['email'], @message).
+          .line-comments
+            %ol
               %li.form
                 %form
-                  %textarea{ 'placeholder' => 'Write a comment about this line' }
-                  %input{ 'type' => 'submit', 'value' => 'Comment' }
+                  %input{ 'type' => 'submit', 'value' => 'Leave a comment', 'class' => 'expand-textarea' }
+                  %div.comment-textarea
+                    %textarea{ 'placeholder' => 'Write a comment about this line' }
+                    %input{ 'type' => 'submit', 'value' => 'Comment' }
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                          deliver
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                      end
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    end
           .line.blank
           .line
             .make-comment= link_to '', '#'
@@ -151,7 +201,9 @@
       %ol
         %li
           = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
-          %span Plapier submitted a solution
+          %span
+            Plapier submitted a solution
+            %span.timestamp 5 hours ago
         %li.status-red
           %span Plapier is waiting for review
         %li.new-comments
@@ -159,6 +211,15 @@
           %span
             = link_to 'You commented on days_controller.rb', '#days_controller.rb-5'
             %span.line-num Line #5
+        %li.solution-comment
+          = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+          %span
+            Really great solution. I think the before_filter was a really smart addition.
+            %span.timestamp 4 hours ago
+        %li.status-green
+          %span
+            You reviewed Plapier's solution
+            %span.timestamp 4 hours ago
 
         %li.form
           %form

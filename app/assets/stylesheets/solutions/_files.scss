@@ -26,7 +26,7 @@
   }
 
   .line {
-    display: inline-block;
+    display: block;
     min-width: 100%;
     padding: 0 .75rem;
 
@@ -98,6 +98,7 @@
   }
 
   .line-comments {
+    display: none;
     ol {
       margin: 0;
       padding: 0;
@@ -147,6 +148,10 @@
       display: block;
       margin: .5rem 0 0 $avatar-size;
       padding-left: .75rem;
+    }
+
+    .comment-textarea {
+      display: none;
     }
 
     textarea {

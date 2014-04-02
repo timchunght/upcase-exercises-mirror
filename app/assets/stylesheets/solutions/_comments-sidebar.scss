@@ -52,6 +52,14 @@ aside.comments {
       }
     }
 
+    &.status-green {
+      color: $green;
+
+      &:before {
+        border-color: $green;
+      }
+    }
+
     img {
       border-radius: 50%;
       @include position(absolute, 0 0 0 .5rem);
@@ -67,12 +75,18 @@ aside.comments {
       margin-left: $avatar-size;
       padding-left: 1.25rem;
 
-      &.line-num {
+      &.line-num, &.timestamp {
         font-size: em(12px);
+        color: $medium-gray;
         line-height: 1.5em;
         margin: 0;
         padding: 0;
       }
+
+    }
+
+    &.solution-comment {
+      color: $base-font-color;
     }
   }
 
