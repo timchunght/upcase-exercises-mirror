@@ -1,8 +1,6 @@
 # Uses an omniauth hash to find or create a user from Learn.
 class Authenticator
-  def initialize(auth_hash)
-    @auth_hash = auth_hash
-  end
+  pattr_initialize :auth_hash
 
   def authenticate
     find_or_initialize_user.tap do |user|
@@ -36,6 +34,4 @@ class Authenticator
   def info
     auth_hash['info']
   end
-
-  attr_reader :auth_hash
 end

@@ -7,15 +7,12 @@
 class IdentifiedShell
   TEMPFILE_PREFIX = 'identity'
 
-  def initialize(component, identity)
-    @component = component
-    @identity = identity
-  end
+  pattr_initialize :component, :identity
 
   def execute(*args)
     with_identity_file do |path|
       ClimateControl.modify 'IDENTITY_FILE' => path do
-        @component.execute(*args)
+        component.execute(*args)
       end
     end
   end
@@ -24,7 +21,7 @@ class IdentifiedShell
 
   def with_identity_file
     with_temp_file Tempfile.new(TEMPFILE_PREFIX) do |file|
-      file.write(@identity)
+      file.write(identity)
       file.flush
       yield file.path
     end

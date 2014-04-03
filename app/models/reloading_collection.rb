@@ -3,11 +3,9 @@
 class ReloadingCollection
   include Enumerable
 
-  def initialize(relation)
-    @relation = relation
-  end
+  pattr_initialize :relation
 
   def each(&block)
-    @relation.reload.each(&block)
+    relation.reload.each(&block)
   end
 end

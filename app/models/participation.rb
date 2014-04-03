@@ -1,11 +1,7 @@
 # Determine's a User's current state of participation in an exercise and
 # provides methods for moving them through the workflow.
 class Participation
-  def initialize(exercise, user, observer)
-    @exercise = exercise
-    @user = user
-    @observer = observer
-  end
+  pattr_initialize :exercise, :user, :observer
 
   def find_or_create_clone
     existing_clone || create_clone
@@ -42,6 +38,4 @@ class Participation
   def clones
     exercise.clones
   end
-
-  attr_reader :exercise, :observer, :user
 end

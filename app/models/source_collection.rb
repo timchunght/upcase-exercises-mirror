@@ -2,10 +2,7 @@
 class SourceCollection
   include Enumerable
 
-  def initialize(exercises, git_server)
-    @exercises = exercises
-    @git_server = git_server
-  end
+  pattr_initialize :exercises, :git_server
 
   def each(&block)
     sources.each(&block)
@@ -14,8 +11,8 @@ class SourceCollection
   private
 
   def sources
-    @exercises.map do |exercise|
-      @git_server.source(exercise)
+    exercises.map do |exercise|
+      git_server.source(exercise)
     end
   end
 end

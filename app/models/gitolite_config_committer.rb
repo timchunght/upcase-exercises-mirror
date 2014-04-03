@@ -3,11 +3,7 @@
 class GitoliteConfigCommitter
   ADMIN_REPO_NAME = 'gitolite-admin'.freeze
 
-  def initialize(attributes)
-    @host = attributes[:host]
-    @shell = attributes[:shell]
-    @writer = attributes[:writer]
-  end
+  pattr_initialize [:host, :shell, :writer]
 
   def write(message)
     commit_creator.commit(message) { write_config }
@@ -20,12 +16,10 @@ class GitoliteConfigCommitter
   end
 
   def write_config
-    @writer.write
+    writer.write
   end
 
   def admin_repository
     Repository.new(host: host, path: ADMIN_REPO_NAME)
   end
-
-  attr_reader :host, :shell
 end

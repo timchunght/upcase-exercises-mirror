@@ -6,10 +6,7 @@
 # modifications, commit those changes, and then push them to the remote
 # repository.
 class CommitCreator
-  def initialize(shell, repository)
-    @shell = shell
-    @repository = repository
-  end
+  pattr_initialize :shell, :repository
 
   def commit(message)
     in_temp_dir do
@@ -33,19 +30,19 @@ class CommitCreator
   end
 
   def clone(&block)
-    @shell.execute("git clone #{@repository.url} local")
+    shell.execute("git clone #{@repository.url} local")
     FileUtils.cd('local', &block)
   end
 
   def add_to_index
-    @shell.execute('git add -A')
+    shell.execute('git add -A')
   end
 
   def create_commit(message)
-    @shell.execute(%{git commit -m "#{message}"})
+    shell.execute(%{git commit -m "#{message}"})
   end
 
   def push
-    @shell.execute('git push')
+    shell.execute('git push')
   end
 end

@@ -2,11 +2,7 @@
 class GitServer
   SOURCE_ROOT = 'sources'
 
-  def initialize(attributes)
-    @config_committer_factory = attributes[:config_committer_factory]
-    @shell = attributes[:shell]
-    @host = attributes[:host]
-  end
+  pattr_initialize [:config_committer_factory, :shell, :host]
 
   def clone(exercise, user)
     Repository.new(host: host, path: "#{user.username}/#{exercise.slug}")
@@ -15,7 +11,7 @@ class GitServer
   def create_clone(exercise, user)
     source = source(exercise)
     clone = clone(exercise, user)
-    @shell.execute("ssh git@#{@host} fork #{source.path} #{clone.path}")
+    shell.execute("ssh git@#{host} fork #{source.path} #{clone.path}")
   end
 
   def source(exercise)
@@ -31,8 +27,6 @@ class GitServer
   end
 
   private
-
-  attr_reader :config_committer_factory, :shell, :host
 
   def config_committer
     config_committer_factory.new(git_server: self)
