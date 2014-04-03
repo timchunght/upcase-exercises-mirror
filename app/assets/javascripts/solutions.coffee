@@ -14,9 +14,11 @@ $('.show-comments').on('click', ->
     $comments.hide()
   else
     $comments.show()
+  event.preventDefault()
 )
 $('.expand-textarea').on('click', ->
   $(@).next().show().end().hide()
+  event.preventDefault()
 )
 $('.make-comment').on('click', ->
   $comment = $(@).parent().next('.line-comments')
@@ -25,4 +27,5 @@ $('.make-comment').on('click', ->
   else
     $comment.show()
     $comment.find('.expand-textarea').hide().next().show()
+  event.preventDefault()
 )
