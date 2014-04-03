@@ -35,10 +35,18 @@ class FakeShell
     end
 
     def run(command)
-      @stubs.each do |pattern, result|
-        if match = pattern.match(command)
-          result.call(*match.captures)
-        end
+      pattern, result = find(command)
+      if pattern
+        match = pattern.match(command)
+        result.call(*match.captures)
+      end
+    end
+
+    private
+
+    def find(command)
+      @stubs.find do |pattern, _|
+        pattern =~ command
       end
     end
   end

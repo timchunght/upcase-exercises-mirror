@@ -6,33 +6,18 @@
 # modifications, commit those changes, and then push them to the remote
 # repository.
 class CommitCreator
-  pattr_initialize :shell, :repository
+  pattr_initialize :shell, :clonable
 
   def commit(message)
-    in_temp_dir do
-      clone do
-        yield
-        add_to_index
-        create_commit(message)
-        push
-      end
+    clonable.clone do
+      yield
+      add_to_index
+      create_commit(message)
+      push
     end
   end
 
   private
-
-  def in_temp_dir
-    Dir.mktmpdir do |path|
-      FileUtils.cd path do
-        yield
-      end
-    end
-  end
-
-  def clone(&block)
-    shell.execute("git clone #{@repository.url} local")
-    FileUtils.cd('local', &block)
-  end
 
   def add_to_index
     shell.execute('git add -A')

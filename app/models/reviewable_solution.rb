@@ -19,6 +19,14 @@ class ReviewableSolution < SimpleDelegator
     decorate_solution @submitted_solution
   end
 
+  def viewed_snapshot
+    decorate_snapshot @viewed_solution.snapshot
+  end
+
+  def files
+    viewed_snapshot.files
+  end
+
   private
 
   def decorate_solutions(solutions)
@@ -33,5 +41,9 @@ class ReviewableSolution < SimpleDelegator
       active: solution == @viewed_solution,
       assigned: assigned
     )
+  end
+
+  def decorate_snapshot(snapshot)
+    ViewableSnapshot.new(snapshot)
   end
 end

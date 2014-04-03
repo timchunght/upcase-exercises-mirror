@@ -12,7 +12,7 @@ class Participation
   end
 
   def find_or_create_solution
-    find_clone.solution || find_clone.create_solution!
+    find_clone.solution || create_solution
   end
 
   def has_solution?
@@ -32,6 +32,12 @@ class Participation
   def create_clone
     clones.create!(user: user).tap do |clone|
       observer.clone_created(clone)
+    end
+  end
+
+  def create_solution
+    find_clone.create_solution!.tap do |solution|
+      observer.solution_created(solution)
     end
   end
 

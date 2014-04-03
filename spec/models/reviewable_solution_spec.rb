@@ -78,6 +78,23 @@ describe ReviewableSolution do
     end
   end
 
+  describe '#viewed_snapshot' do
+    it 'returns the changed files from a clone' do
+      snapshot = build_stubbed(:snapshot)
+      reviewable_solution = ReviewableSolution.new(
+        exercise: double('exercise'),
+        viewed_solution: build_stubbed(:solution, snapshot: snapshot),
+        submitted_solution: double('user')
+      )
+      viewed_snapshot = ViewableSnapshot.new(snapshot)
+
+      result = reviewable_solution.viewed_snapshot
+
+      expect(result).to be_a ViewableSnapshot
+      expect(result.id).to eq viewed_snapshot.id
+    end
+  end
+
   def stub_exercise_with_solutions(my_solution, other_solutions)
     double('exercise').tap do |exercise|
       exercise.stub(:solutions).and_return([my_solution, *other_solutions])

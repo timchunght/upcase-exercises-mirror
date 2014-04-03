@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Solution do
   it { should belong_to(:clone) }
+  it { should have_one(:snapshot) }
 
   it { should validate_presence_of(:clone) }
 

@@ -57,9 +57,6 @@ describe Participation do
           existing_clone: existing_clone,
           user: user
         )
-        participation =
-          build_participation(existing_clone: existing_clone, user: user)
-
         result = participation.find_or_create_clone
 
         expect(result).to eq(existing_clone)
@@ -190,6 +187,7 @@ describe Participation do
   def build_participation(arguments)
     observer = arguments[:observer] || double('observer')
     observer.stub(:clone_created)
+    observer.stub(:solution_created)
     exercise = arguments[:exercise] || build_stubbed(:exercise)
     exercise
       .clones

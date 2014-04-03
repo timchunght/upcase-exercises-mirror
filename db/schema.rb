@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140401152928) do
+ActiveRecord::Schema.define(version: 20140403214308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140401152928) do
     t.integer  "exercise_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "parent_sha"
   end
 
   add_index "clones", ["exercise_id"], name: "index_clones_on_exercise_id", using: :btree
@@ -58,6 +59,11 @@ ActiveRecord::Schema.define(version: 20140401152928) do
   end
 
   add_index "public_keys", ["user_id"], name: "index_public_keys_on_user_id", using: :btree
+
+  create_table "snapshots", force: true do |t|
+    t.text    "diff"
+    t.integer "solution_id"
+  end
 
   create_table "solutions", force: true do |t|
     t.integer  "clone_id",   null: false

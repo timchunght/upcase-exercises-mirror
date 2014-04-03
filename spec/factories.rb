@@ -22,6 +22,7 @@ FactoryGirl.define do
   factory :clone do
     exercise
     user
+    parent_sha '123456789'
   end
 
   factory :exercise do
@@ -39,10 +40,14 @@ FactoryGirl.define do
 
   factory :solution do
     clone
+
+    trait :with_snapshot do
+      snapshot
+    end
   end
 
   factory :viewable_solution do
-    solution
+    solution factory: [:solution, :with_snapshot]
     active false
     assigned false
 
@@ -68,5 +73,9 @@ FactoryGirl.define do
     factory :subscriber do
       admin false
     end
+  end
+  factory :snapshot do
+    solution
+    diff 'diff deploy.rb'
   end
 end

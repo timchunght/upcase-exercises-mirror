@@ -18,6 +18,7 @@ end
 end
 .service :git_server do |config|
   GitServer.new(
+    clonable_repository_factory: config[:clonable_repository],
     config_committer_factory: config[:config_committer],
     host: ENV['GIT_SERVER_HOST'],
     shell: config[:shell]
@@ -56,5 +57,11 @@ end
     config[:exercise],
     config[:user],
     config[:git_observer]
+  )
+end
+.factory :clonable_repository do |config|
+  ClonableRepository.new(
+    config[:shell],
+    config[:repository]
   )
 end
