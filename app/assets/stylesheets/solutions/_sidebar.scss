@@ -31,15 +31,8 @@ ul.solutions {
   margin: 0 0 2rem 0;
   padding: 0;
 
-  li {
-    border-bottom: 1px solid $light-gray;
-    position: relative;
-
-    &:last-of-type {
-      border: 0;
-    }
-
-    &.you {
+  &.my-solution {
+    li {
       .username {
         color: darken(desaturate($highlight-blue, 30%), 15%);
       }
@@ -51,58 +44,70 @@ ul.solutions {
           background: $highlight-blue;
         }
       }
-    }
-
-    &.assigned .review-status {
-      color: $red;
-
-      &:before {
-        background: $red;
+      &.active {
+        box-shadow: 0 1px 0 rgba($highlight-blue, 0.4);
       }
     }
 
-    &.active a {
-      background: #fff;
-      box-shadow: 0 1px 0 rgba($red, 0.4);
-    }
+    li {
+      border-bottom: 1px solid $light-gray;
+      position: relative;
 
-    a {
-      display: block;
-      padding: 1rem .5rem 1rem 1rem;
-      text-decoration: none;
+      &:last-of-type {
+        border: 0;
+      }
 
-      &:hover {
+      &.assigned .review-status {
+        color: $red;
+
+        &:before {
+          background: $red;
+        }
+      }
+
+      &.active a {
         background: #fff;
+        box-shadow: 0 1px 0 rgba($red, 0.4);
       }
-    }
 
-    img {
-      border-radius: 50%;
-      float: left;
-      height: 24px;
-      margin-right: .75rem;
-      width: 24px;
-    }
+      a {
+        display: block;
+        padding: 1rem .5rem 1rem 1rem;
+        text-decoration: none;
 
-    .username {
-      color: #333;
-      display: block;
-      font-size: .9rem;
-      line-height: $avatar-size;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+        &:hover {
+          background: #fff;
+        }
+      }
 
-    .review-status {
-      display: block;
-      font-size: .75rem;
-      margin-left: $avatar-size;
-      padding-left: .75rem;
+      img {
+        border-radius: 50%;
+        float: left;
+        height: 24px;
+        margin-right: .75rem;
+        width: 24px;
+      }
 
-      &:before {
-        @include pseudo-circle-small;
-        left: 23px;
+      .username {
+        color: #333;
+        display: block;
+        font-size: .9rem;
+        line-height: $avatar-size;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .review-status {
+        display: block;
+        font-size: .75rem;
+        margin-left: $avatar-size;
+        padding-left: .75rem;
+
+        &:before {
+          @include pseudo-circle-small;
+          left: 23px;
+        }
       }
     }
   }
