@@ -1,6 +1,8 @@
 $button-green: #57C75C;
 $green: #7BAF49;
 $red: #ff4856;
+$blue: $blue;
+$blue-alt: #1785E7;
 $avatar-size: 1.5rem;
 
 $sidebar-width: 18.5rem;
@@ -9,9 +11,11 @@ $sidebar-border: #efefef;
 
 $next-steps-bg: #FFF5C2;
 $next-steps-border: #C49B61;
+$next-steps-border: #EDDAA5;;
 $next-steps-color: #5C4A33;
 
-$highlight-blue: #0181e9;
+// Backgrounds for code highlighting
+$highlight-blue: #DFFDFF;
 $highlight-green: #dcfedc;
 $highlight-yellow: #FFF5C2;
 

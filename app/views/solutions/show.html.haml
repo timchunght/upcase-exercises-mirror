@@ -11,10 +11,6 @@
 
     %div
       %div.inner
-        %p We'll email you when your solution has been reviewed.
-
-    %div
-      %div.inner
         %p.title Next Exercise
         = link_to 'Polymorphism in a pinch', '#', class: 'next-exercise'
 
@@ -24,6 +20,9 @@
     %h1 Peer Solutions
     %ul.solutions
       = render @solution.solutions_by_other_users
+    .no-solutions
+      %b You are the first to complete this exercise!
+      Return back shortly to review a peer.
 
   %div.main-body
     %section.revision-history
@@ -79,27 +78,83 @@
           .line-comments
             %ol
               %li
-                = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
-                %span.username Plapier
-                %span.date Feb 12th 12:30pm
+                %header
+                  = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+                  %span.username Plapier
+                  &ndash;
+                  %span.timestamp 1 day ago
                 %span.comment Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dapibus odio id purus lacinia porta. Aenean a sapien arcu. Nulla nisi nulla, euismod sed augue ac, posuere ullamcorper leo.
               %li
-                = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
-                %span.username You
-                %span.date Feb 12th 12:33pm
+                %header
+                  = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+                  %span.username You
+                  &ndash;
+                  %span.timestamp 10 hours ago
                 %span.comment Praesent sed leo vel tortor hendrerit posuere sed quis est. Duis arcu orci, semper vitae iaculis consequat, luctus ac sapien. Fusce tincidunt massa.
               %li
-                = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
-                %span.username Plapier
-                %span.date Feb 12th 1:12pm
+                %header
+                  = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+                  %span.username Plapier
+                  &ndash;
+                  %span.timestamp 3 hours ago
                 %span.comment Praesent vitae egestas turpis.
               %li.form
                 %form
-                  %input{ 'type' => 'submit', 'value' => 'Leave a comment' }
+                  %input{ 'type' => 'submit', 'value' => 'Leave a comment', 'class' => 'expand-textarea' }
+                  %div.comment-textarea
+                    %textarea{ 'placeholder' => 'Write a comment about this line' }
+                    %input{ 'type' => 'submit', 'value' => 'Comment' }
+          .line.blank
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    def send
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                      recipients.each do |recipient|
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                        Mailer.
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                          invitation(recipient['name'], recipient['email'], @message).
+          .line-comments
+            %ol
               %li.form
                 %form
-                  %textarea{ 'placeholder' => 'Write a specific comment about this line' }
-                  %input{ 'type' => 'submit', 'value' => 'Comment' }
+                  %input{ 'type' => 'submit', 'value' => 'Leave a comment', 'class' => 'expand-textarea' }
+                  %div.comment-textarea
+                    %textarea{ 'placeholder' => 'Write a comment about this line' }
+                    %input{ 'type' => 'submit', 'value' => 'Comment' }
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                          deliver
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                      end
+          .line.comments
+            .make-comment= link_to '', '#'
+            %pre.prettyprint.lang-ruby
+              %code
+                :preserve
+                    end
           .line.blank
           .line
             .make-comment= link_to '', '#'
@@ -126,11 +181,14 @@
                 :preserve
                   end
 
+
     %aside.comments.next-steps-active
       %ol
         %li
           = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
-          %span Plapier submitted a solution
+          %span
+            Plapier submitted a solution
+            %span.timestamp 5 hours ago
         %li.status-red
           %span Plapier is waiting for review
         %li.new-comments
@@ -138,8 +196,17 @@
           %span
             = link_to 'You commented on days_controller.rb', '#days_controller.rb-5'
             %span.line-num Line #5
+        %li.solution-comment
+          = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+          %span
+            Really great solution. I think the before_filter was a really smart addition.
+            %span.timestamp 4 hours ago
+        %li.status-green
+          %span
+            You reviewed Plapier's solution
+            %span.timestamp 4 hours ago
 
         %li.form
           %form
-            %textarea{ 'placeholder' => 'Write a general comment about this solution' }
+            %textarea{ 'placeholder' => 'Write a comment about this solution' }
             %input{ 'type' => 'submit', 'value' => 'Comment' }
