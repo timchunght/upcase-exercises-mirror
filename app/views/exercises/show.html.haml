@@ -1,12 +1,68 @@
 - content_for :page_title, @exercise.title
 
-%article
+%article.main-inner
+  %nav.exercise
+    = link_to 'Instructions', '/pages/instructions', class: 'instructions active'
+    = link_to 'Solutions', '/pages/solutions-steps', class: 'solutions'
+
   %header
     %h1= @exercise.title
+    %h2.difficulty Intermediate Exercise
 
   %section.explanation
+    %h3 Your task
     :markdown
       #{@exercise.body}
+  
+  %section.exercise-demo
+    %h3 Example Solution
+    %ol
+      %li.active
+        = link_to 'Step 1', '#'
+      %li
+        = link_to 'Step 2', '#'
+      %li
+        = link_to 'Step 3', '#'
+      %li
+        = link_to 'Step 4', '#'
+      %li
+        = link_to 'Step 5', '#'
+    %section.tabs
+      %header
+        The Sender class has two responsibilities: parsing CSV and sending invitations. Let's break it up.
+      %article
+        .left
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                class Sender
+                  def initialize(csv, message)
+                    @csv = csv
+                    @message = message
+                  end
+
+                  def send
+                    recipients.each do |recipient|
+                      Mailer.
+                        invitation(recipient['name'], recipient['email'], @message).
+                        deliver
+                    end
+                  end
+
+                  private
+
+                  def recipients
+                    CSV.parse(@csv, headers: true)
+                  end
+                end
+        .right
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                class Parser
+
+                end
+
 
   = button_to(                      |
     t('.start_exercise'),           |

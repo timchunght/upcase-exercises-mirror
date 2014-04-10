@@ -1,7 +1,9 @@
 @mixin align-main-container {
-  margin-left: $sidebar-width + $main-padding;
-  padding: 2.5rem 0;
-  width: 45rem;
+  @include box-sizing(content-box);
+  margin: 0 auto;
+  max-width: 860px;
+  min-width: 600px;
+  padding: 2.5rem 5% 4.5rem;
 }
 
 @mixin exercise-button($color: $blue) {

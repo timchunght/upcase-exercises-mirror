@@ -1,9 +1,24 @@
-body {
-  margin: 0;
+html, body {
+  height: 100%;
 }
 
-section.main article {
-  @include align-main-container;
+body {
+  margin: 0;
+
+  &.exercises, &.clones {
+    background: $sidebar-bg;
+  }
+}
+
+section.main {
+  &.solutions {
+    background: none;
+  }
+
+  article.main-inner {
+    @include align-main-container;
+    background: #fff;
+  }
 }
 
 ol {
@@ -19,20 +34,67 @@ nav.main {
     float: left;
     padding: 1.2rem 0;
   }
+  .nav-inner {
+    @include align-main-container;
+    padding-bottom: 0;
+    padding-top: 0;
+    @include clearfix;
+  }
 
   .back {
-    @include position(absolute, 0px 0 0 3.8rem);
     color: #999;
   }
 
-  .toggle {
-    margin-left: $sidebar-width + $main-padding;
+  .exercise-nav {
+    float: right;
     overflow: auto;
-    width: 45rem;
 
     a {
       font-weight: bold;
       margin-right: 2rem;
+    }
+  }
+}
+
+nav.exercise {
+  border-bottom: 2px solid $sidebar-border;
+  margin-bottom: 2rem;
+
+  a {
+    display: inline-block;
+    font-size: 1rem;
+    margin-right: 1rem;
+    padding: 1rem 1.5rem 1rem 40px;
+    position: relative;
+
+    &:before {
+      height: 30px;
+      width: 30px;
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 0;
+      background-position: center;
+    }
+
+    &.active {
+      box-shadow: 0 2px 0 #ccc;
+    }
+
+    &.instructions:before {
+      background: image_url('instructions.svg') no-repeat center;
+      background-size: 30px;
+    }
+
+    &.solutions {
+      padding-left: 46px;
+
+      &:before {
+        background: image_url('solutions.svg') no-repeat center;
+        background-size: 36px;
+        width: 36px;
+        top: 11px;
+      }
     }
   }
 }

@@ -1,9 +1,12 @@
-%article
+%article.main-inner
+  %nav.exercise
+    = link_to 'Instructions', '/pages/instructions', class: 'instructions'
+    = link_to 'Solutions', '/pages/solutions-steps', class: 'solutions active'
+
   %header
     %h1= @clone.title
 
   %section.setup
-    %h3 Complete the exercise and submit your solution to get a peer review
 
     %ol
       %li

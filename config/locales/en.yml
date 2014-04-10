@@ -13,7 +13,7 @@ en:
 
   clones:
     show:
-      submit_solution: 'Submit Solution'
+      submit_solution: 'Submit solution for peer review'
 
   exercises:
     show:

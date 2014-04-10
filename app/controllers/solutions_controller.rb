@@ -1,4 +1,5 @@
 class SolutionsController < ApplicationController
+  layout "solutions"
   def create
     participation_by(current_user).find_or_create_solution
     redirect_to exercise_solution_path(
