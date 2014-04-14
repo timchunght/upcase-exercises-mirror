@@ -1,11 +1,17 @@
 require 'spec_helper'
 
-describe DiffCreator do
+describe DiffableRepository do
+  it_behaves_like :repository_decorator do
+    def decorate(repository)
+      DiffableRepository.new(repository, double('shell'))
+    end
+  end
+
   describe '#diff' do
     it 'performs a diff in the local directory' do
       shell = FakeShell.new
-      clonable = FakeClonableRepository.new
-      diff_creator = DiffCreator.new(shell, clonable)
+      repository = FakeClonableRepository.new
+      diff_creator = DiffableRepository.new(repository, shell)
 
       stub_diff do
         diff_creator.diff('some_sha')

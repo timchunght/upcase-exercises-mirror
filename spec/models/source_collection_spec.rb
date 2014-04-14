@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SourceCollection do
   it 'is enumerable' do
-    source_collection = SourceCollection.new([], double('git_server'))
+    source_collection = SourceCollection.new([], double('repository_finder'))
 
     expect(source_collection).to be_a(Enumerable)
   end
@@ -10,14 +10,14 @@ describe SourceCollection do
   describe '#each' do
     it 'yields a source repository for each exercise' do
       exercises = [double('exercise'), double('exercise')]
-      git_server = double('git_server')
+      repository_finder = double('repository_finder')
       sources = exercises.map do |exercise|
         double('source').tap do |source|
-          git_server.stub(:source).with(exercise).and_return(source)
+          repository_finder.stub(:find_source).with(exercise).and_return(source)
         end
       end
       result = []
-      source_collection = SourceCollection.new(exercises, git_server)
+      source_collection = SourceCollection.new(exercises, repository_finder)
 
       source_collection.each do |source|
         result << source

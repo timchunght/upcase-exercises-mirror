@@ -26,7 +26,6 @@ feature 'Admin creates exercise' do
   end
 
   def have_git_url(slug)
-    git_url = "#{GitServer::SOURCE_ROOT}/#{slug}"
-    have_content(git_url)
+    have_content("sources/#{slug}")
   end
 end

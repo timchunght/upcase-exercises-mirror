@@ -2,7 +2,7 @@
 class SourceCollection
   include Enumerable
 
-  pattr_initialize :exercises, :git_server
+  pattr_initialize :exercises, :repository_finder
 
   def each(&block)
     sources.each(&block)
@@ -12,7 +12,7 @@ class SourceCollection
 
   def sources
     exercises.map do |exercise|
-      git_server.source(exercise)
+      repository_finder.find_source(exercise)
     end
   end
 end

@@ -32,6 +32,7 @@ FactoryGirl.define do
 
   factory :git_server do
     host 'localhost'
+    repository_factory { Repository }
     shell { FakeShell.new }
 
     initialize_with { GitServer.new(attributes) }

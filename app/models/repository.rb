@@ -22,9 +22,5 @@ class Repository
       path == other.path
   end
 
-  attr_reader :path
-
-  protected
-
-  attr_reader :host
+  attr_reader :path, :host
 end

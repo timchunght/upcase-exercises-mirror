@@ -18,24 +18,21 @@ end
 end
 .service :git_server do |config|
   GitServer.new(
-    clonable_repository_factory: config[:clonable_repository],
-    config_committer_factory: config[:config_committer],
-    host: ENV['GIT_SERVER_HOST'],
-    shell: config[:shell]
+    config_committer: config[:config_committer],
+    repository_finder: config[:repository_finder]
   )
 end
-.factory :config_committer do |config|
+.service :config_committer do |config|
   GitoliteConfigCommitter.new(
-    host: ENV['GIT_SERVER_HOST'],
-    shell: config[:shell],
-    writer: config[:config_writer]
+    repository_factory: config[:repository],
+    config_writer: config[:config_writer]
   )
 end
 .service :config_writer do |config|
   GitoliteConfigWriter.new(ENV['PUBLIC_KEY'], config[:sources])
 end
 .service :sources do |config|
-  SourceCollection.new(config[:exercises], config[:git_server])
+  SourceCollection.new(config[:exercises], config[:repository_finder])
 end
 .service :exercises do |config|
   Exercise.alphabetical
@@ -59,9 +56,24 @@ end
     config[:git_observer]
   )
 end
-.factory :clonable_repository do |config|
-  ClonableRepository.new(
-    config[:shell],
-    config[:repository]
-  )
+.factory :repository do |config|
+  Repository.new(host: ENV['GIT_SERVER_HOST'], path: config[:path])
+end
+.service :repository_finder do |config|
+  RepositoryFinder.new(config[:repository])
+end
+.decorate :repository do |component, config|
+  ClonableRepository.new(component, config[:shell])
+end
+.decorate :repository do |component, config|
+  ForkableRepository.new(component, config[:shell])
+end
+.decorate :repository do |component, config|
+  CommittableRepository.new(component, config[:shell])
+end
+.decorate :repository do |component, config|
+  RepositoryWithHistory.new(component, config[:shell])
+end
+.decorate :repository do |component, config|
+  DiffableRepository.new(component, config[:shell])
 end

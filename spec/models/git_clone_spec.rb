@@ -16,7 +16,7 @@ describe GitClone do
       exercise = double('exercise')
       repository = double('repository')
       git_server = double('git_server')
-      git_server.stub(:clone).with(exercise, user).and_return(repository)
+      git_server.stub(:find_clone).with(exercise, user).and_return(repository)
       clone = double('clone', user: user, exercise: exercise)
       git_clone = GitClone.new(clone, git_server)
 

@@ -1,7 +1,11 @@
-class ClonableRepository
-  pattr_initialize :shell, :repository
+class ClonableRepository < SimpleDelegator
+  def initialize(repository, shell)
+    super(repository)
+    @repository = repository
+    @shell = shell
+  end
 
-  def clone(&block)
+  def in_local_clone(&block)
     in_temp_dir do
       shell.execute("git clone #{repository.url} local")
       Dir.chdir('local', &block)
@@ -9,6 +13,8 @@ class ClonableRepository
   end
 
   private
+
+  attr_reader :repository, :shell
 
   def in_temp_dir
     Dir.mktmpdir do |path|

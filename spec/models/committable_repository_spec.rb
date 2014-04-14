@@ -1,13 +1,19 @@
 require 'spec_helper'
 
-describe CommitCreator do
+describe CommittableRepository do
+  it_behaves_like :repository_decorator do
+    def decorate(repository)
+      CommittableRepository.new(repository, double('shell'))
+    end
+  end
+
   describe '#commit' do
     it 'performs a commit in a local checkout' do
       shell = FakeShell.new
-      clonable = FakeClonableRepository.new
+      repository = FakeClonableRepository.new
 
       result = stub_clone do
-        CommitCreator.new(shell, clonable).commit('Message') do
+        CommittableRepository.new(repository, shell).commit('Message') do
           FileUtils.touch('example.txt')
         end
       end

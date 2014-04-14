@@ -27,6 +27,14 @@ describe Repository do
     end
   end
 
+  describe '#host' do
+    it 'returns its host' do
+      repository = Repository.new(host: 'example.com', path: 'user/repo')
+
+      expect(repository.host).to eq('example.com')
+    end
+  end
+
   describe '#name' do
     it 'returns the last component of its path' do
       repository = Repository.new(host: 'example.com', path: 'path/to/repo')

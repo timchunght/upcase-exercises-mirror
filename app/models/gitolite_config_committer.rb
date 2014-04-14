@@ -1,25 +1,17 @@
-# Uses a writer and a CommitCreator to write changes to the Gitolite
+# Uses a writer and a CommittableRepository to write changes to the Gitolite
 # configuration repository.
 class GitoliteConfigCommitter
   ADMIN_REPO_NAME = 'gitolite-admin'.freeze
 
-  pattr_initialize [:host, :shell, :writer]
+  pattr_initialize [:config_writer, :repository_factory]
 
   def write(message)
-    commit_creator.commit(message) { write_config }
+    admin_repository.commit(message) { config_writer.write }
   end
 
   private
 
-  def commit_creator
-    CommitCreator.new(shell, admin_repository)
-  end
-
-  def write_config
-    writer.write
-  end
-
   def admin_repository
-    Repository.new(host: host, path: ADMIN_REPO_NAME)
+    repository_factory.new(path: ADMIN_REPO_NAME)
   end
 end

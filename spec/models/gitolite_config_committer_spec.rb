@@ -3,40 +3,34 @@ require 'spec_helper'
 describe GitoliteConfigCommitter do
   describe '#write' do
     it 'clones the config, rewrites it, and pushes it' do
-      host = 'example.com'
       message = 'Updated config'
-      shell = FakeShell.new
-      writer = stub_writer
-      commit_creator = stub_commit_creator(host, shell)
+      repository_factory = double('factory')
+      config_writer = stub_config_writer
+      commit_creator = stub_committable_repository(repository_factory)
       gitolite_config_committer = GitoliteConfigCommitter.new(
-        host: host,
-        shell: shell,
-        writer: writer
+        repository_factory: repository_factory,
+        config_writer: config_writer
       )
 
       gitolite_config_committer.write(message)
 
-      expect(writer).to have_received(:write)
+      expect(config_writer).to have_received(:write)
       expect(commit_creator).to have_received(:commit).with(message)
     end
 
-    def stub_writer
+    def stub_config_writer
       double('gitolite_config_writer').tap do |config|
         config.stub(:write)
       end
     end
 
-    def stub_commit_creator(host, shell)
-      double('commit_creator').tap do |commit_creator|
-        remote_repository = Repository.new(
-          host: host,
-          path: GitoliteConfigCommitter::ADMIN_REPO_NAME
-        )
-        CommitCreator
+    def stub_committable_repository(repository_factory)
+      double('repository').tap do |repository|
+        repository_factory
           .stub(:new)
-          .with(shell, remote_repository)
-          .and_return(commit_creator)
-        commit_creator.stub(:commit).and_yield
+          .with(path: GitoliteConfigCommitter::ADMIN_REPO_NAME)
+          .and_return(repository)
+        repository.stub(:commit).and_yield
       end
     end
   end

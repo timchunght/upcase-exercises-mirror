@@ -1,6 +1,5 @@
 class FakeClonableRepository
-
-  def clone
+  def in_local_clone
     in_temp_dir do
       yield
     end

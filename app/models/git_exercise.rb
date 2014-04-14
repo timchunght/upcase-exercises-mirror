@@ -7,6 +7,6 @@ class GitExercise < SimpleDelegator
   end
 
   def source
-    @git_server.source(@exercise)
+    @git_server.find_source(@exercise)
   end
 end

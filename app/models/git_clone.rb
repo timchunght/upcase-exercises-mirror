@@ -7,6 +7,6 @@ class GitClone < SimpleDelegator
   end
 
   def repository
-    @git_server.clone(@clone.exercise, @clone.user)
+    @git_server.find_clone(@clone.exercise, @clone.user)
   end
 end
