@@ -41,6 +41,6 @@ class Admin::ExercisesController < Admin::BaseController
   end
 
   def find_exercise
-    GitExercise.new(Exercise.find(params[:id]), dependencies[:git_server])
+    Git::Exercise.new(Exercise.find(params[:id]), dependencies[:git_server])
   end
 end

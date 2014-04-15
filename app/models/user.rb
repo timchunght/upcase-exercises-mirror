@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   extend FriendlyId
 
   has_many :clones, dependent: :destroy
-  has_many :public_keys, dependent: :destroy
+  has_many :public_keys, dependent: :destroy, class_name: 'Gitolite::PublicKey'
 
   friendly_id :username, use: [:finders]
 

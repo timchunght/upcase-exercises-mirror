@@ -6,7 +6,7 @@ class ClonesController < ApplicationController
 
   def show
     clone = participation.find_clone
-    @clone = GitClone.new(
+    @clone = Git::Clone.new(
       clone,
       dependencies[:git_server]
     )

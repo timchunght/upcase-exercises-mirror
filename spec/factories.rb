@@ -30,12 +30,12 @@ FactoryGirl.define do
     body 'Body'
   end
 
-  factory :git_server do
+  factory :git_server, class: 'Gitolite::Server' do
     host 'localhost'
-    repository_factory { Repository }
-    shell { FakeShell.new }
+    repository_factory { Git::Repository }
+    shell { Gitolite::FakeShell.new }
 
-    initialize_with { GitServer.new(attributes) }
+    initialize_with { new(attributes) }
     to_create {}
   end
 

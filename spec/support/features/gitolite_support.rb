@@ -1,6 +1,6 @@
 module Features
   def stub_git_commands
-    FakeShell.with_stubs do |stubs|
+    Gitolite::FakeShell.with_stubs do |stubs|
       stubs.add(%r{git clone [^ ]+gitolite-admin\.git (\w+)}) do |target|
         FileUtils.mkdir_p(File.join(target, 'conf'))
       end
@@ -16,7 +16,7 @@ module Features
   end
 
   def stub_diff_command(diff)
-    FakeShell.with_stubs do |stubs|
+    Gitolite::FakeShell.with_stubs do |stubs|
       stubs.add(%r{git diff}) do
         diff
       end
