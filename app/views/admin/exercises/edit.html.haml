@@ -4,10 +4,10 @@
     %i.fa.fa-arrow-circle-o-right.fa-lg
 
   - if @exercise.has_solutions?
-    = link_to(                                                     |
-      'View Solutions',                                            |
-      exercise_solution_path(@exercise, @exercise.solutions.first) |
-    )                                                              |
+    = link_to(                                                   |
+      'View Solutions',                                          |
+      exercise_solution_path(@exercise, @exercise.solvers.first) |
+    )                                                            |
 
   = render @exercise.source
 

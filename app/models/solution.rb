@@ -12,8 +12,4 @@ class Solution < ActiveRecord::Base
   def exercise
     clone.exercise
   end
-
-  def to_param
-    user.to_param
-  end
 end

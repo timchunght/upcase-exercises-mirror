@@ -23,12 +23,4 @@ describe Solution do
       expect(solution.exercise).to eq(clone.exercise)
     end
   end
-
-  describe '#to_param' do
-    it 'returns the user ID' do
-      solution = build_stubbed(:solution)
-
-      expect(solution.to_param).to eq(solution.user.to_param)
-    end
-  end
 end

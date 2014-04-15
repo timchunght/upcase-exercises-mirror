@@ -83,6 +83,26 @@ describe ReviewableSolution do
     end
   end
 
+  describe '#assigned_solver' do
+    it 'returns the first solver besides the reviewer' do
+      my_solution = stub_solution('my_solution')
+      other_solutions =
+        [stub_solution('first_other', user: 'first user'),
+         stub_solution('second_other', user: 'second user')]
+      exercise = stub_exercise_with_solutions(
+        my_solution,
+        other_solutions
+      )
+      reviewable_solution = ReviewableSolution.new(
+        exercise: exercise,
+        viewed_solution: double('active_solution'),
+        submitted_solution: my_solution
+      )
+
+      expect(reviewable_solution.assigned_solver).to eq 'first user'
+    end
+  end
+
   describe '#my_solution' do
     it 'returns the solution for the reviewing user' do
       my_solution = stub_solution('my_solution')
@@ -127,7 +147,7 @@ describe ReviewableSolution do
     end
   end
 
-  def stub_solution(name)
-    double(name, name: name)
+  def stub_solution(name, attributes = {})
+    double(name, attributes.merge(name: name))
   end
 end

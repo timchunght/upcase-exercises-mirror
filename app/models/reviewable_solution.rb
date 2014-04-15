@@ -11,6 +11,10 @@ class ReviewableSolution < SimpleDelegator
     solutions_by_other_users.detect(&:assigned?)
   end
 
+  def assigned_solver
+    assigned_solution.user
+  end
+
   def solutions_by_other_users
     decorate_solutions(@exercise.solutions - [@submitted_solution])
   end

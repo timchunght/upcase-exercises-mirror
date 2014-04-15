@@ -4,6 +4,7 @@ class Exercise < ActiveRecord::Base
 
   has_many :clones, dependent: :destroy
   has_many :solutions, through: :clones
+  has_many :solvers, source: :user, through: :clones
 
   validates :body, presence: true
   validates :title, presence: true, uniqueness: true

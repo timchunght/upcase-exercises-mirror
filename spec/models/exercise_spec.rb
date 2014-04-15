@@ -6,6 +6,7 @@ describe Exercise do
 
   it { should have_many(:clones).dependent(:destroy) }
   it { should have_many(:solutions).through(:clones) }
+  it { should have_many(:solvers).through(:clones) }
 
   it 'validates uniqueness of title' do
     create(:exercise)

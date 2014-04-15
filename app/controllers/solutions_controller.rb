@@ -4,7 +4,7 @@ class SolutionsController < ApplicationController
     participation_by_current_user.find_or_create_solution
     redirect_to exercise_solution_path(
       exercise,
-      reviewable_solution_by(current_user).assigned_solution
+      reviewable_solution_by(current_user).assigned_solver
     )
   end
 
