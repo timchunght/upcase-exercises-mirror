@@ -32,4 +32,20 @@ Whetstone::Application.configure do
 
 
   config.action_mailer.default_url_options = { host: 'whetstone.local' }
+
+  config.to_prepare do
+    Gitolite::FakeShell.stub do |stubs|
+      stubs.add(%r{git clone [^ ]+gitolite-admin\.git}) do
+        FileUtils.mkdir_p('conf')
+      end
+
+      stubs.add(%r{git [^ ]+ rev-parse HEAD}) do
+        '8586a6fc08b7ca29b41f'
+      end
+
+      stubs.add(%r{git diff}) do
+        IO.read(Rails.root.join('spec', 'fixtures', 'example.diff').to_s)
+      end
+    end
+  end
 end

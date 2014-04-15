@@ -6,10 +6,10 @@ module Gitolite
       @shell = shell
     end
 
-    def in_local_clone(&block)
+    def in_local_clone
       in_temp_dir do
-        shell.execute("git clone #{repository.url} local")
-        Dir.chdir('local', &block)
+        shell.execute("git clone #{repository.url} .")
+        yield
       end
     end
 

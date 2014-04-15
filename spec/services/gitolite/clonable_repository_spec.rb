@@ -11,18 +11,21 @@ describe Gitolite::ClonableRepository do
     it 'creates temporarily cloned repository' do
       shell = Gitolite::FakeShell.new
       repository = double('repository', url: 'git@something:example.git')
-      stub_clone do
+      result = "Block wasn't called"
+      stub_clone('local') do
         Gitolite::ClonableRepository.new(repository, shell).in_local_clone do
-          expect(Dir.pwd).to match('local')
+          result = Dir.glob('*')
         end
       end
+
+      expect(result).to eq(%w(local))
     end
   end
 
-  def stub_clone
+  def stub_clone(filename)
     Gitolite::FakeShell.with_stubs do |stubs|
-      stubs.add(%r{git clone [^ ]+ (\w+)}) do |target|
-        FileUtils.mkdir(target)
+      stubs.add(%r{git clone [^ ]+ \.}) do |target|
+        FileUtils.touch(filename)
       end
       yield
     end

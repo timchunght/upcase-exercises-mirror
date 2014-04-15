@@ -20,6 +20,11 @@ module Gitolite
       @stubs = Stubs.new
     end
 
+    def self.stub
+      @stubs = Stubs.new
+      yield stubs
+    end
+
     private
 
     def self.stubs
