@@ -6,6 +6,16 @@ describe Solution do
 
   it { should validate_presence_of(:clone) }
 
+  describe '#diff' do
+    it 'delegates to its snapshot' do
+      diff = 'diff example.txt'
+      snapshot = build_stubbed(:snapshot, diff: diff)
+      solution = build_stubbed(:solution, snapshot: snapshot)
+
+      expect(solution.diff).to eq(diff)
+    end
+  end
+
   describe '#user' do
     it 'delegates to its clone' do
       clone = build_stubbed(:clone)

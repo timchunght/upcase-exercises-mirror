@@ -5,6 +5,10 @@ class Solution < ActiveRecord::Base
 
   validates :clone, presence: true
 
+  def diff
+    snapshot.diff
+  end
+
   def user
     clone.user
   end

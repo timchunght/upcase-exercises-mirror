@@ -54,14 +54,8 @@
 
     %section.files.next-steps-active
       - @solution.files.each do |file|
-        %section.file
-          %span.filename file.name
-          .code
-            - file.each_line do |line|
-              .line
-                %pre.prettyprint.lang-ruby
-                  %code
-                    ~ line
+        = render 'file', file: file
+
       %section.file
         %span.filename days_controller.rb
         .code

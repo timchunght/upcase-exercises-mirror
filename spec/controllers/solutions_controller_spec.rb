@@ -4,54 +4,63 @@ describe SolutionsController do
   describe '#show' do
     context 'as a subscriber with a solution' do
       it 'renders the solution' do
-        with_viewable_solution do |exercise, user|
-          sign_in_as_user_with_solution_to(exercise, :subscriber)
+        view_solution_with_submission as: :subscriber
 
-          show(exercise, user)
-
-          should respond_with(:success)
-        end
+        should respond_with(:success)
       end
     end
 
     context 'as a subscriber without a solution' do
       it 'redirects to the exercise' do
-        with_viewable_solution do |exercise, user|
-          sign_in_as_user_without_solution_to(exercise, :subscriber)
+        exercise = view_solution_without_submission(as: :subscriber)
 
-          show(exercise, user)
-
-          should redirect_to(exercise_url(exercise))
-        end
+        should redirect_to(exercise_url(exercise))
       end
     end
 
     context 'as an admin without a solution' do
       it 'renders the solution' do
-        with_viewable_solution do |exercise, user|
-          sign_in_as_user_without_solution_to(exercise, :admin)
+        view_solution_without_submission as: :admin
 
-          show(exercise, user)
-
-          should respond_with(:success)
-        end
+        should respond_with(:success)
       end
     end
   end
 
-  def with_viewable_solution
+  def view_solution_with_submission(arguments)
     exercise = build_stubbed(:exercise)
+    role = arguments.fetch(:as)
+    participation = sign_in_as_user_with_submission_to(exercise, role)
+    submitted_solution = participation.find_solution
+    view_solution_to exercise, submitted_solution
+  end
+
+  def view_solution_without_submission(arguments)
+    build_stubbed(:exercise).tap do |exercise|
+      sign_in_as_user_without_submission_to(exercise, arguments.fetch(:as))
+      view_solution_to exercise, nil
+    end
+  end
+
+  def view_solution_to(exercise, submitted_solution)
     Exercise.stub(:find).with(exercise.to_param).and_return(exercise)
     user = build_stubbed(:user)
     User.stub(:find).with(user.to_param).and_return(user)
-    solution = build_stubbed(:solution)
+    viewed_solution = build_stubbed(:solution)
     participation =
       stub_factory_instance(:participation, exercise: exercise, user: user)
-    participation.stub(:find_solution).and_return(solution)
-    yield exercise, user
+    participation.stub(:find_solution).and_return(viewed_solution)
+    stub_factory_instance(
+      :review,
+      exercise: exercise,
+      submitted_solution: submitted_solution,
+      viewed_solution: viewed_solution
+    )
+
+    show(exercise, user)
   end
 
-  def sign_in_as_user_with_solution_to(exercise, user_type)
+  def sign_in_as_user_with_submission_to(exercise, user_type)
     sign_in_as_user_with_participation_to(exercise, user_type)
       .tap do |participation|
         participation.stub(:find_solution).and_return(double('solution'))
@@ -59,7 +68,7 @@ describe SolutionsController do
       end
   end
 
-  def sign_in_as_user_without_solution_to(exercise, user_type)
+  def sign_in_as_user_without_submission_to(exercise, user_type)
     sign_in_as_user_with_participation_to(exercise, user_type)
       .tap do |participation|
         participation.stub(:find_solution).and_raise

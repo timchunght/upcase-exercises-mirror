@@ -77,3 +77,21 @@ end
 .decorate :repository do |component, config|
   Gitolite::DiffableRepository.new(component, config[:shell])
 end
+.factory :review do |config|
+  viewed_solution = Git::Solution.new(
+    config[:viewed_solution],
+    config[:diff_parser]
+  )
+
+  Review.new(
+    exercise: config[:exercise],
+    submitted_solution: config[:submitted_solution],
+    viewed_solution: viewed_solution
+  )
+end
+.factory :diff_parser do |config|
+  Git::DiffParser.new(config[:diff], config[:diff_file])
+end
+.factory :diff_file do |config|
+  Git::DiffFile.new
+end

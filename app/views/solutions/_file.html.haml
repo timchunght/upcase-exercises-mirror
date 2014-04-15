@@ -1,0 +1,9 @@
+%section.file
+  %span.filename= file.name
+  .code
+    - file.each_line do |line|
+      .line
+        %pre.prettyprint.lang-ruby
+          %code
+            :preserve
+              #{line}

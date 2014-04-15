@@ -1,16 +1,17 @@
 class SolutionsController < ApplicationController
   layout "solutions"
+
   def create
     participation_by_current_user.find_or_create_solution
     redirect_to exercise_solution_path(
       exercise,
-      reviewable_solution_by(current_user).assigned_solver
+      review_solution_by(current_user).assigned_solver
     )
   end
 
   def show
     if can_view_solution?
-      @solution = reviewable_solution_by(user_from_params)
+      @solution = review_solution_by(user_from_params)
     else
       redirect_to exercise
     end
@@ -45,8 +46,8 @@ class SolutionsController < ApplicationController
     participation_by_current_user.has_solution?
   end
 
-  def reviewable_solution_by(user)
-    ReviewableSolution.new(
+  def review_solution_by(user)
+    dependencies[:review].new(
       exercise: exercise,
       viewed_solution: participation_by(user).find_solution,
       submitted_solution: solution_by_current_user

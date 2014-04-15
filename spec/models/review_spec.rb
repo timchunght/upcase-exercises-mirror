@@ -1,40 +1,43 @@
 require 'spec_helper'
 
-describe ReviewableSolution do
-  it 'delegates attributes to its solution' do
-    solution = build_stubbed(:solution)
-    reviewable_solution = ReviewableSolution.new(
-      exercise: double('exercise'),
-      viewed_solution: solution,
-      submitted_solution: double('solution')
-    )
+describe Review do
+  describe '#exercise' do
+    it 'returns its exercise' do
+      exercise = double('exercise')
+      review = Review.new(
+        exercise: exercise,
+        viewed_solution: double('viewed_solution'),
+        submitted_solution: double('submitted_solution')
+      )
 
-    expect(reviewable_solution.user).to eq(solution.user)
-    expect(reviewable_solution).to be_a(SimpleDelegator)
+      result = review.exercise
+
+      expect(result).to eq(exercise)
+    end
   end
 
   describe '#submitted?' do
     context 'with a submitted solution' do
       it 'returns true' do
-        reviewable_solution = ReviewableSolution.new(
+        review = Review.new(
           exercise: double('exercise'),
           viewed_solution: double('viewed_solution'),
           submitted_solution: double('submitted_solution')
         )
 
-        expect(reviewable_solution).to be_submitted
+        expect(review).to be_submitted
       end
     end
 
     context 'without a submitted solution' do
       it 'returns false' do
-        reviewable_solution = ReviewableSolution.new(
+        review = Review.new(
           exercise: double('exercise'),
           viewed_solution: double('viewed_solution'),
           submitted_solution: nil
         )
 
-        expect(reviewable_solution).not_to be_submitted
+        expect(review).not_to be_submitted
       end
     end
   end
@@ -48,13 +51,13 @@ describe ReviewableSolution do
         my_solution,
         [other_solution, active_solution]
       )
-      reviewable_solution = ReviewableSolution.new(
+      review = Review.new(
         exercise: exercise,
         viewed_solution: active_solution,
         submitted_solution: my_solution
       )
 
-      result = reviewable_solution.solutions_by_other_users
+      result = review.solutions_by_other_users
 
       expect(result.map(&:name)).to eq(%w(other_solution active_solution))
       expect(result[0]).to be_assigned
@@ -73,13 +76,13 @@ describe ReviewableSolution do
         my_solution,
         other_solutions
       )
-      reviewable_solution = ReviewableSolution.new(
+      review = Review.new(
         exercise: exercise,
-        viewed_solution: double('active_solution'),
+        viewed_solution: stub_solution('active_solution'),
         submitted_solution: my_solution
       )
 
-      expect(reviewable_solution.assigned_solution).to eq other_solutions.first
+      expect(review.assigned_solution).to eq other_solutions.first
     end
   end
 
@@ -93,13 +96,13 @@ describe ReviewableSolution do
         my_solution,
         other_solutions
       )
-      reviewable_solution = ReviewableSolution.new(
+      review = Review.new(
         exercise: exercise,
-        viewed_solution: double('active_solution'),
+        viewed_solution: stub_solution('active_solution'),
         submitted_solution: my_solution
       )
 
-      expect(reviewable_solution.assigned_solver).to eq 'first user'
+      expect(review.assigned_solver).to eq 'first user'
     end
   end
 
@@ -110,13 +113,13 @@ describe ReviewableSolution do
         my_solution,
         []
       )
-      reviewable_solution = ReviewableSolution.new(
+      review = Review.new(
         exercise: exercise,
-        viewed_solution: double('active_solution'),
+        viewed_solution: stub_solution('active_solution'),
         submitted_solution: my_solution
       )
 
-      result = reviewable_solution.my_solution
+      result = review.my_solution
 
       expect(result).to eq my_solution
       expect(result).not_to be_active
@@ -124,20 +127,19 @@ describe ReviewableSolution do
     end
   end
 
-  describe '#viewed_snapshot' do
-    it 'returns the changed files from a clone' do
-      snapshot = build_stubbed(:snapshot)
-      reviewable_solution = ReviewableSolution.new(
+  describe '#files' do
+    it 'delegates to its viewed solution' do
+      files = double('files')
+      viewed_solution = double('solution', files: files)
+      review = Review.new(
         exercise: double('exercise'),
-        viewed_solution: build_stubbed(:solution, snapshot: snapshot),
+        viewed_solution: viewed_solution,
         submitted_solution: double('user')
       )
-      viewed_snapshot = ViewableSnapshot.new(snapshot)
 
-      result = reviewable_solution.viewed_snapshot
+      result = review.files
 
-      expect(result).to be_a ViewableSnapshot
-      expect(result.id).to eq viewed_snapshot.id
+      expect(result).to eq(files)
     end
   end
 
@@ -148,6 +150,8 @@ describe ReviewableSolution do
   end
 
   def stub_solution(name, attributes = {})
-    double(name, attributes.merge(name: name))
+    double(name, attributes.merge(name: name)).tap do |solution|
+      solution.stub(:id).and_return(solution.object_id)
+    end
   end
 end
