@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Solution do
   it { should belong_to(:clone) }
-  it { should have_one(:snapshot) }
+  it { should have_one(:snapshot).dependent(:destroy) }
+  it { should have_many(:comments).dependent(:destroy) }
 
   it { should validate_presence_of(:clone) }
 

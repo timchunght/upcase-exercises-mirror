@@ -32,7 +32,7 @@ aside.comments {
       }
     }
 
-    &.form:after {
+    &:last-of-type:after {
       display: none;
     }
 

@@ -198,24 +198,6 @@
           %span
             Plapier submitted a solution
             %span.timestamp 5 hours ago
-        %li.status-red
-          %span Plapier is waiting for review
-        %li.new-comments
-          = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
-          %span
-            = link_to 'You commented on days_controller.rb', '#days_controller.rb-5'
-            %span.line-num Line #5
-        %li.solution-comment
-          = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
-          %span
-            Really great solution. I think the before_filter was a really smart addition.
-            %span.timestamp 4 hours ago
-        %li.status-green
-          %span
-            You reviewed Plapier's solution
-            %span.timestamp 4 hours ago
+        = render @solution.comments
 
-        %li.form
-          %form
-            %textarea{ 'placeholder' => 'Write a comment about this solution' }
-            %input{ 'type' => 'submit', 'value' => 'Comment' }
+        = render 'comments/form'

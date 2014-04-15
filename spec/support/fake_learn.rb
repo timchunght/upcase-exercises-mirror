@@ -81,5 +81,6 @@ end
 
 Capybara.app = HostMap.new(
   'www.example.com' => Capybara.app,
+  '127.0.0.1' => Capybara.app,
   URI.parse(LEARN_URL).host => FakeLearn
 )

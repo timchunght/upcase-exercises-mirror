@@ -2,6 +2,7 @@
 class Solution < ActiveRecord::Base
   belongs_to :clone
   has_one :snapshot, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :clone, presence: true
 

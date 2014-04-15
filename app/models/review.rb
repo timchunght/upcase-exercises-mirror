@@ -1,7 +1,7 @@
 # Solutions and files to be displayed to a user performing a review.
 class Review
   pattr_initialize [:exercise, :submitted_solution, :viewed_solution]
-  attr_reader :exercise
+  attr_reader :exercise, :viewed_solution
 
   def assigned_solution
     solutions_by_other_users.detect(&:assigned?)
@@ -25,6 +25,10 @@ class Review
 
   def files
     viewed_solution.files
+  end
+
+  def comments
+    viewed_solution.comments
   end
 
   private

@@ -16,6 +16,19 @@ describe Review do
     end
   end
 
+  describe '#viewed_solution' do
+    it 'returns its viewed solution' do
+      viewed_solution = double('viewed_solution')
+      review = Review.new(
+        exercise: double('exercise'),
+        viewed_solution: viewed_solution,
+        submitted_solution: double('submitted_solution')
+      )
+
+      expect(review.viewed_solution).to eq(viewed_solution)
+    end
+  end
+
   describe '#submitted?' do
     context 'with a submitted solution' do
       it 'returns true' do
@@ -140,6 +153,22 @@ describe Review do
       result = review.files
 
       expect(result).to eq(files)
+    end
+  end
+
+  describe '#comments' do
+    it 'delegates to its viewed solution' do
+      comments = double('comments')
+      viewed_solution = double('solution', comments: comments)
+      review = Review.new(
+        exercise: double('exercise'),
+        viewed_solution: viewed_solution,
+        submitted_solution: double('user')
+      )
+
+      result = review.comments
+
+      expect(result).to eq(comments)
     end
   end
 

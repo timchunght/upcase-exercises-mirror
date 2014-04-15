@@ -11,6 +11,10 @@ en:
       show:
         exercises: 'Exercises'
 
+  comments:
+    form:
+      submit: 'Comment'
+
   clones:
     show:
       submit_solution: 'Submit solution for peer review'
