@@ -20,6 +20,8 @@ en:
         start_exercise: 'Start Exercise'
 
   solutions:
+    show:
+      no_solution: 'You have not submitted a solution.'
     solution:
       assigned: 'Please review this solution.'
 

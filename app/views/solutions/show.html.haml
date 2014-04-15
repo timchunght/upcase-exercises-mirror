@@ -1,7 +1,13 @@
 %header.solutions-main
   %nav.participants
     %ul.solutions.my-solution
-      = render @solution.my_solution
+      %li.you
+        - if @solution.submitted?
+          = render @solution.my_solution
+        - else
+          = link_to exercise_path(@solution.exercise) do
+            = render current_user
+            %span.review-status= t('.no_solution')
 
   %section.next-steps
     %div

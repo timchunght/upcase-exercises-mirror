@@ -13,4 +13,8 @@ class Exercise < ActiveRecord::Base
   def self.alphabetical
     order(:slug)
   end
+
+  def has_solutions?
+    solutions.any?
+  end
 end

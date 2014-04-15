@@ -24,6 +24,26 @@ describe Exercise do
     end
   end
 
+  describe '#has_solutions?' do
+    context 'with a solution' do
+      it 'returns true' do
+        exercise = create(:exercise)
+        clone = create(:clone, exercise: exercise)
+        create(:solution, clone: clone)
+
+        expect(exercise).to have_solutions
+      end
+    end
+
+    context 'with no solutions' do
+      it 'returns false' do
+        exercise = build_stubbed(:exercise)
+
+        expect(exercise).not_to have_solutions
+      end
+    end
+  end
+
   describe '#slug' do
     it 'generates a slug based on the title' do
       exercise = create(:exercise, title: 'Example Title')

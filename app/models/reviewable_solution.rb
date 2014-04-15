@@ -19,6 +19,10 @@ class ReviewableSolution < SimpleDelegator
     decorate_solution @submitted_solution
   end
 
+  def submitted?
+    @submitted_solution.present?
+  end
+
   def viewed_snapshot
     decorate_snapshot @viewed_solution.snapshot
   end

@@ -13,6 +13,32 @@ describe ReviewableSolution do
     expect(reviewable_solution).to be_a(SimpleDelegator)
   end
 
+  describe '#submitted?' do
+    context 'with a submitted solution' do
+      it 'returns true' do
+        reviewable_solution = ReviewableSolution.new(
+          exercise: double('exercise'),
+          viewed_solution: double('viewed_solution'),
+          submitted_solution: double('submitted_solution')
+        )
+
+        expect(reviewable_solution).to be_submitted
+      end
+    end
+
+    context 'without a submitted solution' do
+      it 'returns false' do
+        reviewable_solution = ReviewableSolution.new(
+          exercise: double('exercise'),
+          viewed_solution: double('viewed_solution'),
+          submitted_solution: nil
+        )
+
+        expect(reviewable_solution).not_to be_submitted
+      end
+    end
+  end
+
   describe '#solutions_by_other_users' do
     it "returns solutions besides the current user's" do
       my_solution = stub_solution('my_solution')

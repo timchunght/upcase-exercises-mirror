@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe SolutionsController do
   describe '#show' do
-    context 'as a user with a solution' do
+    context 'as a subscriber with a solution' do
       it 'renders the solution' do
         with_viewable_solution do |exercise, user|
-          participation = sign_in_as_user_with_participation_to(exercise)
-          participation.stub(:has_solution?).and_return(true)
+          sign_in_as_user_with_solution_to(exercise, :subscriber)
 
           show(exercise, user)
 
@@ -15,15 +14,26 @@ describe SolutionsController do
       end
     end
 
-    context 'as a user without a solution' do
+    context 'as a subscriber without a solution' do
       it 'redirects to the exercise' do
         with_viewable_solution do |exercise, user|
-          participation = sign_in_as_user_with_participation_to(exercise)
-          participation.stub(:has_solution?).and_return(false)
+          sign_in_as_user_without_solution_to(exercise, :subscriber)
 
           show(exercise, user)
 
           should redirect_to(exercise_url(exercise))
+        end
+      end
+    end
+
+    context 'as an admin without a solution' do
+      it 'renders the solution' do
+        with_viewable_solution do |exercise, user|
+          sign_in_as_user_without_solution_to(exercise, :admin)
+
+          show(exercise, user)
+
+          should respond_with(:success)
         end
       end
     end
@@ -41,14 +51,26 @@ describe SolutionsController do
     yield exercise, user
   end
 
-  def sign_in_as_user_with_participation_to(exercise)
-    solution = double('solution')
-    user = build_stubbed(:user)
+  def sign_in_as_user_with_solution_to(exercise, user_type)
+    sign_in_as_user_with_participation_to(exercise, user_type)
+      .tap do |participation|
+        participation.stub(:find_solution).and_return(double('solution'))
+        participation.stub(:has_solution?).and_return(true)
+      end
+  end
+
+  def sign_in_as_user_without_solution_to(exercise, user_type)
+    sign_in_as_user_with_participation_to(exercise, user_type)
+      .tap do |participation|
+        participation.stub(:find_solution).and_raise
+        participation.stub(:has_solution?).and_return(false)
+      end
+  end
+
+  def sign_in_as_user_with_participation_to(exercise, user_type)
+    user = build_stubbed(user_type)
     sign_in_as user
     stub_factory_instance(:participation, exercise: exercise, user: user)
-      .tap do |participation|
-        participation.stub(:find_solution).and_return(solution)
-      end
   end
 
   def show(exercise, user)
