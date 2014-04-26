@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
+  include Dependencies::Controller
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -11,9 +12,5 @@ class ApplicationController < ActionController::Base
 
   def url_after_denied_access_when_signed_out
     '/auth/learn'
-  end
-
-  def dependencies
-    request.env[:dependencies]
   end
 end
