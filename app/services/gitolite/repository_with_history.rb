@@ -8,7 +8,7 @@ module Gitolite
 
     def head
       repository.in_local_clone do
-        shell.execute('git rev-parse HEAD')
+        shell.execute('git rev-parse HEAD').strip
       end
     end
 

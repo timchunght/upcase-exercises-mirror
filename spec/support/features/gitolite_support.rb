@@ -5,7 +5,7 @@ module Features
         FileUtils.mkdir_p('conf')
       end
 
-      stubs.add(%r{git [^ ]+ rev-parse HEAD}) do
+      stubs.add(%r{git rev-parse HEAD}) do
         '8586a6fc08b7ca29b41f'
       end
 

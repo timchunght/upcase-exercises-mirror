@@ -36,15 +36,15 @@ module Gitolite
         @stubs = {}
       end
 
-      def add(pattern, &result)
-        @stubs[pattern] = result
+      def add(pattern, &handler)
+        @stubs[pattern] = handler
       end
 
       def run(command)
-        pattern, result = find(command)
+        pattern, handler = find(command)
         if pattern
           match = pattern.match(command)
-          result.call(*match.captures)
+          normalize_output handler.call(*match.captures)
         end
       end
 
@@ -53,6 +53,15 @@ module Gitolite
       def find(command)
         @stubs.find do |pattern, _|
           pattern =~ command
+        end
+      end
+
+      def normalize_output(result)
+        output = result.to_s
+        if output.present?
+          "#{output.rstrip}\n"
+        else
+          ''
         end
       end
     end
