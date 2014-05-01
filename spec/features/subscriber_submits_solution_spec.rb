@@ -2,44 +2,53 @@ require 'spec_helper'
 
 feature 'subscriber submits solution' do
   scenario 'gets prompt to review another solution' do
-    user = create(:user, username: 'myuser')
-    exercise = create(:exercise, title: 'nullobject')
-    create(:clone, user: user, exercise: exercise)
+    exercise = create(:exercise)
+    create_solution_for_user(exercise, 'otheruser', 'test.rb')
 
-    other_user_solution = create_solution_for_user(exercise, 'otheruser')
-    create(:snapshot, solution: other_user_solution)
+    submit_solution_to exercise
 
-    visit exercise_clone_path(exercise, as: user)
-    click_on I18n.t('clones.show.submit_solution')
-
+    expect(page).to have_content('test.rb')
     expect(page).to have_css('.active', text: "otheruser's solution")
     expect(page).to have_content(I18n.t('solutions.solution.assigned'))
+    expect(page).not_to have_no_solutions_heading
   end
 
   scenario 'a user can view their own solution' do
+    user = create(:user, username: 'myuser')
+    exercise = create(:exercise)
+    create_solution_for_user(exercise)
+
     stub_diff_command(diff('deploy.rb')) do
-      user = create(:user, username: 'myuser')
-      exercise = create(:exercise, title: 'null-object')
-      create(:clone, user: user, exercise: exercise)
-
-      other_user_solution = create_solution_for_user(exercise)
-      create(:snapshot, diff: diff('test.rb'), solution: other_user_solution)
-
-      visit exercise_clone_path(exercise, as: user)
-      click_on I18n.t('clones.show.submit_solution')
-
-      expect(page).to have_content('test.rb')
-
-      click_on "#{user.username}'s solution"
-
-      expect(page).to have_content('deploy.rb')
+      submit_solution_to exercise, as: user
+      click_on "myuser's solution"
     end
+
+    expect(page).to have_content('deploy.rb')
   end
 
-  def create_solution_for_user(exercise, username = 'a_user')
+  scenario 'sees their own solution until another user submits one' do
+    user = create(:user, username: 'myuser')
+    exercise = create(:exercise)
+
+    submit_solution_to exercise, as: user
+
+    expect(page).to have_css('.active', text: "myuser's solution")
+    expect(page).to have_no_solutions_heading
+  end
+
+  def submit_solution_to(exercise, options = {})
+    user = options[:as] || create(:user)
+    create(:clone, user: user, exercise: exercise)
+    visit exercise_clone_path(exercise, as: user)
+    click_on I18n.t('clones.show.submit_solution')
+  end
+
+  def create_solution_for_user(exercise, username = 'user', change = 'example')
     other_user = create(:user, username: username)
     other_clone = create(:clone, user: other_user, exercise: exercise)
-    create(:solution, clone: other_clone)
+    create(:solution, clone: other_clone).tap do |solution|
+      create(:snapshot, diff: diff(change), solution: solution)
+    end
   end
 
   def diff(filename)
@@ -52,5 +61,9 @@ feature 'subscriber submits solution' do
       +New file
     DIFF
     diff.strip_heredoc
+  end
+
+  def have_no_solutions_heading
+    have_content(I18n.t('solutions.show.no_solutions_heading'))
   end
 end

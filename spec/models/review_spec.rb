@@ -16,6 +16,21 @@ describe Review do
     end
   end
 
+  describe '#has_solutions_by_other_users?' do
+    it "returns true with solutions besides the current user's" do
+      other_solution = stub_solution('other_solution')
+      review = build_review_with_other_solutions([other_solution])
+
+      expect(review).to have_solutions_by_other_users
+    end
+
+    it 'returns false with only the submitted solution' do
+      review = build_review_with_other_solutions([])
+
+      expect(review).not_to have_solutions_by_other_users
+    end
+  end
+
   describe '#viewed_solution' do
     it 'returns its viewed solution' do
       viewed_solution = double('viewed_solution')
@@ -97,6 +112,19 @@ describe Review do
 
       expect(review.assigned_solution).to eq other_solutions.first
     end
+
+    it 'assigns the submitted solution without another solution' do
+      my_solution = stub_solution('my_solution')
+      other_solutions = []
+      exercise = stub_exercise_with_solutions(my_solution, other_solutions)
+      review = Review.new(
+        exercise: exercise,
+        viewed_solution: stub_solution('active_solution'),
+        submitted_solution: my_solution
+      )
+
+      expect(review.assigned_solution).to eq my_solution
+    end
   end
 
   describe '#assigned_solver' do
@@ -170,6 +198,17 @@ describe Review do
 
       expect(result).to eq(comments)
     end
+  end
+
+  def build_review_with_other_solutions(other_solutions)
+    my_solution = stub_solution('my_solution')
+    active_solution = stub_solution('active_solution')
+    exercise = stub_exercise_with_solutions(my_solution, other_solutions)
+    Review.new(
+      exercise: exercise,
+      viewed_solution: active_solution,
+      submitted_solution: my_solution
+    )
   end
 
   def stub_exercise_with_solutions(my_solution, other_solutions)

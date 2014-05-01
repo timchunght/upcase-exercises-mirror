@@ -41,14 +41,18 @@ module Gitolite
       end
 
       def run(command)
-        pattern, handler = find(command)
-        if pattern
-          match = pattern.match(command)
-          normalize_output handler.call(*match.captures)
-        end
+        normalize_output output_from(command)
       end
 
       private
+
+      def output_from(command)
+        pattern, handler = find(command)
+        if pattern
+          match = pattern.match(command)
+          handler.call(*match.captures)
+        end
+      end
 
       def find(command)
         @stubs.find do |pattern, _|

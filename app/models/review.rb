@@ -4,11 +4,15 @@ class Review
   attr_reader :exercise, :viewed_solution
 
   def assigned_solution
-    solutions_by_other_users.detect(&:assigned?)
+    solutions_by_other_users.detect(&:assigned?) || submitted_solution
   end
 
   def assigned_solver
     assigned_solution.user
+  end
+
+  def has_solutions_by_other_users?
+    solutions_by_other_users.present?
   end
 
   def solutions_by_other_users

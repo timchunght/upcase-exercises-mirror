@@ -24,11 +24,13 @@
 %div.main-inner
   %nav.participants
     %h1 Peer Solutions
-    %ul.solutions
-      = render @solution.solutions_by_other_users
-    .no-solutions
-      %b You are the first to complete this exercise!
-      Return back shortly to review a peer.
+    - if @solution.has_solutions_by_other_users?
+      %ul.solutions
+        = render @solution.solutions_by_other_users
+    - else
+      .no-solutions
+        %b= t('.no_solutions_heading')
+        = t('.no_solution_explanation')
 
   %div.main-body
     %section.revision-history
