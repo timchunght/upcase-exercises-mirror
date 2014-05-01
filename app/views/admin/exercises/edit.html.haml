@@ -9,6 +9,8 @@
       exercise_solution_path(@exercise, @exercise.solvers.first) |
     )                                                            |
 
-  = render @exercise.source
+  %p To edit the code for this exercise:
+  %pre
+    %code= render @exercise.source
 
   = render 'admin/exercises/form', exercise: @exercise
