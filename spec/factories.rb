@@ -42,13 +42,13 @@ FactoryGirl.define do
   factory :solution do
     clone
 
-    trait :with_snapshot do
-      snapshot
+    trait :with_revision do
+      revision
     end
   end
 
   factory :viewable_solution do
-    solution factory: [:solution, :with_snapshot]
+    solution factory: [:solution, :with_revision]
     active false
     assigned false
 
@@ -75,7 +75,7 @@ FactoryGirl.define do
       admin false
     end
   end
-  factory :snapshot do
+  factory :revision do
     solution
     diff 'diff deploy.rb'
   end

@@ -2,16 +2,16 @@ require 'spec_helper'
 
 describe Solution do
   it { should belong_to(:clone) }
-  it { should have_one(:snapshot).dependent(:destroy) }
+  it { should have_one(:revision).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
 
   it { should validate_presence_of(:clone) }
 
   describe '#diff' do
-    it 'delegates to its snapshot' do
+    it 'delegates to its revision' do
       diff = 'diff example.txt'
-      snapshot = build_stubbed(:snapshot, diff: diff)
-      solution = build_stubbed(:solution, snapshot: snapshot)
+      revision = build_stubbed(:revision, diff: diff)
+      solution = build_stubbed(:solution, revision: revision)
 
       expect(solution.diff).to eq(diff)
     end

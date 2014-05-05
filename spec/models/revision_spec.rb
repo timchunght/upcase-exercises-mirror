@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Snapshot do
+describe Revision do
   it { should belong_to :solution }
 end

@@ -47,7 +47,7 @@ feature 'subscriber submits solution' do
     other_user = create(:user, username: username)
     other_clone = create(:clone, user: other_user, exercise: exercise)
     create(:solution, clone: other_clone).tap do |solution|
-      create(:snapshot, diff: diff(change), solution: solution)
+      create(:revision, diff: diff(change), solution: solution)
     end
   end
 

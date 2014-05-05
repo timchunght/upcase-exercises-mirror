@@ -87,7 +87,7 @@ describe Participation do
       it 'creates a new solution' do
         diff = double('diff')
         solution = build_stubbed(:solution)
-        solution.stub(:create_snapshot!)
+        solution.stub(:create_revision!)
         clone = build_stubbed(:clone)
         clone.stub(:solution).and_return(nil)
         clone.stub(:create_solution!).and_return(solution)
@@ -103,7 +103,7 @@ describe Participation do
         result = participation.find_or_create_solution
 
         expect(result).to eq(solution)
-        expect(solution).to have_received(:create_snapshot!).with(diff: diff)
+        expect(solution).to have_received(:create_revision!).with(diff: diff)
       end
     end
 

@@ -20,7 +20,7 @@ feature 'subscriber comments on solution' do
   def create_completed_solution(user, exercise)
     clone = create(:clone, user: user, exercise: exercise)
     create(:solution, clone: clone).tap do |solution|
-      create(:snapshot, solution: solution)
+      create(:revision, solution: solution)
     end
   end
 end

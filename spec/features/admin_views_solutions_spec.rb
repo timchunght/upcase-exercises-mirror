@@ -6,7 +6,7 @@ feature 'admin views solutions to exercise' do
     other_user = create(:user, username: 'otheruser')
     clone = create(:clone, exercise: exercise, user: other_user)
     solution = create(:solution, clone: clone)
-    create(:snapshot, solution: solution)
+    create(:revision, solution: solution)
 
     visit_exercise exercise
     click_on 'View Solutions'
