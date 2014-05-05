@@ -93,7 +93,7 @@ describe Participation do
         clone.stub(:create_solution!).and_return(solution)
         user = build_stubbed(:user)
         git_server = double('git_server')
-        git_server.stub(:create_diff).with(solution, clone).and_return(diff)
+        git_server.stub(:fetch_diff).with(clone).and_return(diff)
         participation = build_participation(
           existing_clone: clone,
           user: user,

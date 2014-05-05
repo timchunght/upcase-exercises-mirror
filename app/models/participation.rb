@@ -37,7 +37,7 @@ class Participation
   def create_solution
     clone = find_clone
     clone.create_solution!.tap do |solution|
-      diff = git_server.create_diff(solution, clone)
+      diff = git_server.fetch_diff(clone)
       solution.create_snapshot!(diff: diff)
     end
   end

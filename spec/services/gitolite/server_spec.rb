@@ -56,10 +56,9 @@ describe Gitolite::Server do
     end
   end
 
-  describe '#create_diff' do
+  describe '#fetch_diff' do
     it 'updates the solution with a new diff' do
       clone = build_stubbed(:clone, parent_sha: 'a_sha')
-      solution = build_stubbed(:solution)
       diff = '--- +++'
       repository = double('repository')
       repository.stub(:diff).with('a_sha').and_return(diff)
@@ -70,7 +69,7 @@ describe Gitolite::Server do
         .and_return(repository)
       server = build(:git_server, repository_finder: repository_finder)
 
-      result = server.create_diff(solution, clone)
+      result = server.fetch_diff(clone)
 
       expect(result).to eq(diff)
     end

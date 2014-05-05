@@ -15,7 +15,7 @@ module Gitolite
       clone.head
     end
 
-    def create_diff(solution, clone)
+    def fetch_diff(clone)
       find_clone(clone.exercise, clone.user).diff(clone.parent_sha)
     end
 
