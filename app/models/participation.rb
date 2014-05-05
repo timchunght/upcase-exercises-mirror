@@ -1,7 +1,7 @@
 # Determine's a User's current state of participation in an exercise and
 # provides methods for moving them through the workflow.
 class Participation
-  pattr_initialize :exercise, :user, :observer
+  pattr_initialize [:exercise, :user, :git_server]
 
   def find_or_create_clone
     existing_clone || create_clone
@@ -30,14 +30,15 @@ class Participation
   end
 
   def create_clone
-    clones.create!(user: user).tap do |clone|
-      observer.clone_created(clone)
-    end
+    sha = git_server.create_clone(exercise, user)
+    clones.create!(user: user, parent_sha: sha)
   end
 
   def create_solution
-    find_clone.create_solution!.tap do |solution|
-      observer.solution_created(solution)
+    clone = find_clone
+    clone.create_solution!.tap do |solution|
+      diff = git_server.create_diff(solution, clone)
+      solution.create_snapshot!(diff: diff)
     end
   end
 

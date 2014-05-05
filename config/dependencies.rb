@@ -60,15 +60,11 @@ decorate :shell do |shell, container|
   Gitolite::IdentifiedShell.new(shell, ENV['IDENTITY'])
 end
 
-service :git_observer do |container|
-  Git::Observer.new(container[:git_server])
-end
-
 factory :participation do |container|
   Participation.new(
-    container[:exercise],
-    container[:user],
-    container[:git_observer]
+    exercise: container[:exercise],
+    git_server: container[:git_server],
+    user: container[:user]
   )
 end
 
