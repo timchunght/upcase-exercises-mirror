@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Exercise do
-  it { should validate_presence_of(:body) }
+  it { should validate_presence_of(:instructions) }
+  it { should validate_presence_of(:intro) }
   it { should validate_presence_of(:title) }
 
   it { should have_many(:clones).dependent(:destroy) }

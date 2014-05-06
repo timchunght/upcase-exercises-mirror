@@ -54,9 +54,10 @@ ActiveRecord::Schema.define(version: 20140507183350) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "exercises", force: true do |t|
-    t.string "title", null: false
-    t.text   "body",  null: false
-    t.string "slug",  null: false
+    t.string "title",        null: false
+    t.text   "instructions", null: false
+    t.string "slug",         null: false
+    t.text   "intro",        null: false
   end
 
   add_index "exercises", ["slug"], name: "index_exercises_on_slug", unique: true, using: :btree

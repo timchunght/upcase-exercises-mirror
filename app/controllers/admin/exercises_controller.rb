@@ -37,7 +37,7 @@ class Admin::ExercisesController < Admin::BaseController
   private
 
   def exercise_params
-    params.require(:exercise).permit(:title, :body)
+    params.require(:exercise).permit(:title, :intro, :instructions)
   end
 
   def find_exercise

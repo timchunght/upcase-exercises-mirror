@@ -9,11 +9,8 @@
     %h1= @exercise.title
     %h2.difficulty Intermediate Exercise
 
-  %section.explanation
-    %h3 Your task
-    :markdown
-      #{@exercise.body}
-  
+  = render 'intro', exercise: @exercise
+
   %section.exercise-demo
     %h3 Example Solution
     %ol

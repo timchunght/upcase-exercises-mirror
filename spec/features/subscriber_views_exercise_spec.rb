@@ -8,7 +8,7 @@ feature 'User views exercise' do
     visit exercise_path(exercise, as: user)
 
     expect(page).to have_content(exercise.title)
-    expect(page).to have_content(exercise.body)
+    expect(page).to have_content(exercise.intro)
     expect(page).to have_title(exercise.title)
   end
 end

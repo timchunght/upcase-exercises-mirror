@@ -6,7 +6,8 @@ class Exercise < ActiveRecord::Base
   has_many :solutions, through: :clones
   has_many :solvers, source: :user, through: :clones
 
-  validates :body, presence: true
+  validates :instructions, presence: true
+  validates :intro, presence: true
   validates :title, presence: true, uniqueness: true
 
   friendly_id :title, use: [:slugged, :finders]

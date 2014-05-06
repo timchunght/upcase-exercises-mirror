@@ -1,0 +1,24 @@
+section.main article.main-inner {
+  .setup {
+    padding-bottom: 50px;
+
+    .inner {
+      background: rgba(178, 220, 253, 0.13);
+      border: 1px solid rgba(82, 179, 255, 0.13);
+      padding: 40px;
+      position: relative;
+      text-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.5);
+    }
+
+    code {
+      background: #D9EAF7;
+      font-size: 1.2em;
+      line-height: 1.8;
+
+    }
+
+    pre code {
+      font-size: 1.15em;
+    }
+  }
+}

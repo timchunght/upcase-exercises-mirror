@@ -7,9 +7,6 @@ en:
         update_exercise: 'Update Exercise'
       update:
         notice: 'Exercise updated.'
-    dashboards:
-      show:
-        exercises: 'Exercises'
 
   comments:
     form:

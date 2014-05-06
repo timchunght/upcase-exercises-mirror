@@ -27,7 +27,8 @@ FactoryGirl.define do
 
   factory :exercise do
     title
-    body 'Body'
+    instructions 'Instructions'
+    intro 'Introduction'
   end
 
   factory :git_server, class: 'Gitolite::Server' do
