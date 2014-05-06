@@ -15,6 +15,7 @@ feature 'subscriber comments on solution' do
     end
 
     expect(page).to have_content('Looks great!')
+    expect_comment_input_to_be_empty
   end
 
   def create_completed_solution(user, exercise)
@@ -22,5 +23,9 @@ feature 'subscriber comments on solution' do
     create(:solution, clone: clone).tap do |solution|
       create(:revision, solution: solution)
     end
+  end
+
+  def expect_comment_input_to_be_empty
+    expect(page).to have_field('comment_text', with: '')
   end
 end
