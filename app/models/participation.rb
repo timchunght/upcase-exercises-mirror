@@ -23,6 +23,13 @@ class Participation
     find_clone.solution || raise(ActiveRecord::RecordNotFound)
   end
 
+  def update_solution
+    if has_solution?
+      diff = git_server.fetch_diff(find_clone)
+      find_solution.create_revision!(diff: diff)
+    end
+  end
+
   private
 
   def existing_clone

@@ -16,4 +16,9 @@ Whetstone::Application.routes.draw do
     root to: 'dashboards#show'
     resources :exercises, only: [:index, :new, :create, :edit, :update]
   end
+
+  namespace :api do
+    # Must match the URL from hooks/post-receive
+    post 'pushes/:exercise_id/:user_id', to: 'pushes#create', as: :pushes
+  end
 end

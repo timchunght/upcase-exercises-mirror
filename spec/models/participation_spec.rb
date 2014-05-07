@@ -194,17 +194,78 @@ describe Participation do
     end
   end
 
+  describe '#update_solution' do
+    context 'with an existing clone and solution' do
+      it 'updates existing solution' do
+        diff = double('diff')
+        clone = build_stubbed(:clone)
+        solution = build_stubbed(:solution)
+        solution.stub(:create_revision!)
+        clone.stub(:solution).and_return(solution)
+        user = build_stubbed(:user)
+        git_server = stub_git_server(clone: clone, diff: diff)
+        participation = build_participation(
+          existing_clone: clone,
+          user: user,
+          git_server: git_server
+        )
+
+        participation.update_solution
+
+        expect(solution).to have_received(:create_revision!).with(diff: diff)
+      end
+    end
+
+    context 'with an existing clone but no solution' do
+      it 'does nothing' do
+        clone = build_stubbed(:clone)
+        clone.stub(:solution).and_return(nil)
+        git_server = stub_git_server
+        participation = build_participation(
+          existing_clone: clone,
+          git_server: git_server
+        )
+
+        participation.update_solution
+
+        expect(git_server).not_to have_received(:fetch_diff)
+      end
+    end
+
+    context 'with no existing clone' do
+      it 'does nothing' do
+        user = build_stubbed(:user)
+        git_server = stub_git_server
+        participation = build_participation(user: user, git_server: git_server)
+
+        participation.update_solution
+
+        expect(git_server).not_to have_received(:fetch_diff)
+      end
+    end
+  end
+
+  def stub_git_server(options = {})
+    double('git_server').tap do |git_server|
+      git_server.
+        stub(:fetch_diff).
+        with(options[:clone]).
+        and_return(options[:diff] || 'diff')
+    end
+  end
+
   def build_participation(arguments)
     exercise = arguments[:exercise] || build_stubbed(:exercise)
+    user = arguments[:user] || build_stubbed(:user)
     exercise.
       clones.
       stub(:find_by_user_id).
-      with(arguments[:user].id).
+      with(user.id).
       and_return(arguments[:existing_clone])
     Participation.new(
       exercise: exercise,
       git_server: arguments[:git_server] || double('git_server'),
-      user: arguments[:user]
+      user: user
     )
   end
 end

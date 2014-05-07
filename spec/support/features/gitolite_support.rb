@@ -12,16 +12,6 @@ module Features
       yield
     end
   end
-
-  def stub_diff_command(diff)
-    Gitolite::FakeShell.with_stubs do |stubs|
-      stubs.add(%r{git diff}) do
-        diff
-      end
-
-      yield
-    end
-  end
 end
 
 RSpec.configure do |config|

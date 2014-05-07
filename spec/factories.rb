@@ -43,7 +43,7 @@ FactoryGirl.define do
     clone
 
     trait :with_revision do
-      revision
+      revisions { [build(:revision)] }
     end
   end
 
