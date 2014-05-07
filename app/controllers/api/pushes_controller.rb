@@ -1,5 +1,5 @@
 class Api::PushesController < ApplicationController
-  skip_before_filter :authorize
+  skip_before_filter :authorize, :verify_authenticity_token
 
   def create
     exercise = Exercise.find(params[:exercise_id])
