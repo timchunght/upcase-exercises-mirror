@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505191405) do
+ActiveRecord::Schema.define(version: 20140507183350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,13 +71,14 @@ ActiveRecord::Schema.define(version: 20140505191405) do
   add_index "public_keys", ["user_id"], name: "index_public_keys_on_user_id", using: :btree
 
   create_table "revisions", force: true do |t|
-    t.text     "diff"
-    t.integer  "solution_id"
+    t.text     "diff",        null: false
+    t.integer  "solution_id", null: false
     t.datetime "created_at",  null: false
-    t.datetime "updated_at"
+    t.datetime "updated_at",  null: false
   end
 
   add_index "revisions", ["created_at"], name: "index_revisions_on_created_at", using: :btree
+  add_index "revisions", ["solution_id"], name: "index_revisions_on_solution_id", using: :btree
 
   create_table "solutions", force: true do |t|
     t.integer  "clone_id",   null: false
