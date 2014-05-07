@@ -19,6 +19,6 @@ Whetstone::Application.routes.draw do
 
   namespace :api do
     # Must match the URL from hooks/post-receive
-    post 'pushes/:exercise_id/:user_id', to: 'pushes#create', as: :pushes
+    post 'pushes/:user_id/:exercise_id', to: 'pushes#create', as: :pushes
   end
 end

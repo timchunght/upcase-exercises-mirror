@@ -23,7 +23,7 @@ module Features
     def update_solution(filename)
       stub_diff_command(filename) do
         with_api_client do |client|
-          client.post api_pushes_url(exercise, user)
+          client.post api_pushes_url(user, exercise)
         end
       end
     end
