@@ -4,8 +4,8 @@ describe Git::DiffFile do
   describe '#blank?' do
     context 'before adding a line' do
       it 'returns true' do
-        file = Git::DiffFile.new
-        file.puts 'line'
+        file = build_file
+        file.append_changed 'line'
 
         expect(file).not_to be_blank
       end
@@ -13,7 +13,7 @@ describe Git::DiffFile do
 
     context 'after adding a line' do
       it 'returns false' do
-        file = Git::DiffFile.new
+        file = build_file
 
         expect(file).to be_blank
       end
@@ -22,7 +22,7 @@ describe Git::DiffFile do
 
   describe '#name' do
     it 'returns its assigned name' do
-      file = Git::DiffFile.new
+      file = build_file
 
       file.name = 'expected name'
 
@@ -30,15 +30,31 @@ describe Git::DiffFile do
     end
   end
 
-  describe '#puts' do
-    it 'appends a line to its buffer' do
-      file = Git::DiffFile.new
+  describe '#append_changed' do
+    it 'appends an changed line to its buffer' do
+      file = build_file
 
-      file.puts 'one'
-      file.puts 'two'
-      file.puts 'three'
+      file.append_changed 'one'
+      file.append_changed 'two'
+      file.append_changed 'three'
 
-      expect(file.each_line.to_a.join).to eq("one\ntwo\nthree\n")
+      expect(file.each_line.map(&:to_s)).to eq(%w(+one +two +three))
     end
+  end
+
+  describe '#append_unchanged' do
+    it 'appends an unchanged line to its buffer' do
+      file = build_file
+
+      file.append_unchanged 'one'
+      file.append_unchanged 'two'
+      file.append_unchanged 'three'
+
+      expect(file.each_line.map(&:to_s)).to eq([' one', ' two', ' three'])
+    end
+  end
+
+  def build_file
+    Dependencies::RailsLoader.load[:diff_file].new
   end
 end

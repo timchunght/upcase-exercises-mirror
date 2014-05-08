@@ -28,16 +28,16 @@ describe Git::DiffParser do
 
         expect(result).to eq(
           'path/to/one.txt' => [
-            'Line one',
-            'In between one and two',
-            'Line two',
-            'Line three',
-            'After three'
+            ' Line one',
+            '+In between one and two',
+            ' Line two',
+            ' Line three',
+            '+After three'
           ],
           'path/to/two.txt' => [
-            'ABC',
-            'DEF is the second line',
-            'GHI'
+            ' ABC',
+            '+DEF is the second line',
+            ' GHI'
           ]
         )
       end
@@ -56,7 +56,7 @@ describe Git::DiffParser do
 
         expect(result).to eq(
           'path/to/new.txt' => [
-            'New file'
+            '+New file'
           ]
         )
       end
@@ -84,9 +84,9 @@ describe Git::DiffParser do
 
         expect(result).to eq(
           'path/to/changed.txt' => [
-            'Line one',
-            'In between one and two',
-            'Line two'
+            ' Line one',
+            '+In between one and two',
+            ' Line two'
           ]
         )
       end
@@ -112,9 +112,9 @@ describe Git::DiffParser do
 
         expect(result).to eq(
           'path/to/changed.txt' => [
-            'Line one',
-            'In between one and two',
-            'Line two'
+            ' Line one',
+            '+In between one and two',
+            ' Line two'
           ]
         )
       end
@@ -139,10 +139,14 @@ describe Git::DiffParser do
     end
 
     def parse_diff(diff)
-      parser = Git::DiffParser.new(diff.strip_heredoc, Git::DiffFile)
+      parser = build_parser(diff.strip_heredoc)
       parser.parse.inject({}) do |result, file|
-        result.merge file.name => file.each_line.map(&:rstrip)
+        result.merge file.name => file.each_line.map(&:to_s)
       end
+    end
+
+    def build_parser(diff)
+      Dependencies::RailsLoader.load[:diff_parser].new(diff: diff)
     end
   end
 end

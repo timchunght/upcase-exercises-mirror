@@ -17,18 +17,78 @@ describe 'solutions/_file.html.haml' do
     expect(rendered_text).to eq(input)
   end
 
+  it 'highlights changed lines' do
+    render_lines([
+     unchanged( 'class Example' ),
+     changed(   '  def one'     ),
+     changed(   '  end'         ),
+     unchanged( ''              ),
+     unchanged( '  def two'     ),
+     unchanged( '  end'         ),
+     unchanged( 'end'           )
+    ])
+
+    expect(added_text.strip_heredoc).to eq(<<-TEXT.strip_heredoc)
+      def one
+      end
+    TEXT
+  end
+
+  it 'marks blank lines' do
+    input = <<-EOS.strip_heredoc
+      one
+
+      two
+
+      three
+    EOS
+
+    render_file input
+
+    expect(blank_lines.length).to eq(2)
+  end
+
   def render_file(contents)
-    file = StringIO.new(contents)
-    file.stub(:name).and_return('example.txt')
+    lines = contents.each_line.map { |text| unchanged(text.rstrip) }
+    render_lines lines
+  end
+
+  def render_lines(lines)
+    file = double('file', name: 'example.txt')
+    yield_each(file.stub(:each_line), lines)
 
     render 'solutions/file', file: file
   end
 
-  def rendered_text
-    lines.map(&:text).join
+  def yield_each(starting_stub, enumerable)
+    enumerable.inject(starting_stub) { |stub, item| stub.and_yield(item) }
   end
 
-  def lines
-    Capybara.string(rendered).all('code')
+  def changed(text)
+    line(text, true)
+  end
+
+  def unchanged(text)
+    line(text, false)
+  end
+
+  def line(text, changed)
+    double("line: #{text}", text: text, changed?: changed, blank?: text.blank?)
+  end
+
+  def rendered_text
+    lines('code')
+  end
+
+  def added_text
+    lines('.comments code')
+  end
+
+  def blank_lines
+    lines('.blank code')
+  end
+
+  def lines(selector)
+    Capybara.string(rendered).all(selector).map { |node| "#{node.text}\n" }.join
   end
 end

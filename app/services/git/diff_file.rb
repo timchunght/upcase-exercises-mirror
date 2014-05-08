@@ -6,21 +6,25 @@ module Git
   class DiffFile
     attr_accessor :name
 
-    def initialize
-      @buffer = StringIO.new
+    def initialize(line_factory)
+      @line_factory = line_factory
+      @lines = []
     end
 
     def blank?
-      @buffer.length == 0
+      @lines.blank?
     end
 
-    def puts(line)
-      @buffer.puts(line)
+    def append_unchanged(line)
+      @lines << @line_factory.new(text: line, changed: false)
+    end
+
+    def append_changed(line)
+      @lines << @line_factory.new(text: line, changed: true)
     end
 
     def each_line(&block)
-      @buffer.rewind
-      @buffer.each_line(&block)
+      @lines.each(&block)
     end
   end
 end

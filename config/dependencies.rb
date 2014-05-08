@@ -114,5 +114,9 @@ factory :diff_parser do |container|
 end
 
 factory :diff_file do |container|
-  Git::DiffFile.new
+  Git::DiffFile.new(container[:diff_line])
+end
+
+factory :diff_line do |container|
+  Git::DiffLine.new(container[:text], container[:changed])
 end

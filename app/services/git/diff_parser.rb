@@ -23,8 +23,10 @@ module Git
         start_file
       when /^\+\+\+ b\/(.*)/
         set_filename $1
-      when /^(?: |\+)(.*)/
-        add_line $1
+      when /^\+(.*)/
+        append_changed $1
+      when /^ (.*)/
+        append_unchanged $1
       when /^deleted file mode/
         delete_file
       when /^(index|-|@@|new file mode|old mode|new mode)/
@@ -47,8 +49,12 @@ module Git
       current_file.name = name
     end
 
-    def add_line(line)
-      current_file.puts line
+    def append_unchanged(line)
+      current_file.append_unchanged line
+    end
+
+    def append_changed(line)
+      current_file.append_changed line
     end
 
     def current_file
