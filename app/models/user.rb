@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :clones, dependent: :destroy
   has_many :public_keys, dependent: :destroy, class_name: 'Gitolite::PublicKey'
 
+  validates :username, format: /\A[a-zA-Z0-9_-]+\z/
+
   friendly_id :username, use: [:finders]
 
   def self.admin_usernames
