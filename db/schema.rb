@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140507183350) do
+ActiveRecord::Schema.define(version: 20140508165443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,12 +82,14 @@ ActiveRecord::Schema.define(version: 20140507183350) do
   add_index "revisions", ["solution_id"], name: "index_revisions_on_solution_id", using: :btree
 
   create_table "solutions", force: true do |t|
-    t.integer  "clone_id",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "clone_id",                   null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "comments_count", default: 0, null: false
   end
 
   add_index "solutions", ["clone_id"], name: "index_solutions_on_clone_id", unique: true, using: :btree
+  add_index "solutions", ["comments_count"], name: "index_solutions_on_comments_count", using: :btree
 
   create_table "users", force: true do |t|
     t.datetime "created_at",                                     null: false

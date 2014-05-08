@@ -104,6 +104,7 @@ factory :review do |container|
 
   Review.new(
     exercise: container[:exercise],
+    solutions: ReviewableSolutionQuery.new(container[:exercise].solutions),
     submitted_solution: container[:submitted_solution],
     viewed_solution: viewed_solution
   )

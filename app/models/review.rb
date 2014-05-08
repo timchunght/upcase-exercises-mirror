@@ -1,6 +1,11 @@
 # Solutions and files to be displayed to a user performing a review.
 class Review
-  pattr_initialize [:exercise, :submitted_solution, :viewed_solution]
+  pattr_initialize([
+    :exercise,
+    :solutions,
+    :submitted_solution,
+    :viewed_solution
+  ])
   attr_reader :exercise, :viewed_solution
 
   def assigned_solution
@@ -16,7 +21,7 @@ class Review
   end
 
   def solutions_by_other_users
-    decorate_solutions(exercise.solutions - [submitted_solution])
+    decorate_solutions(solutions.to_a - [submitted_solution])
   end
 
   def my_solution

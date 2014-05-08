@@ -4,11 +4,7 @@ describe Review do
   describe '#exercise' do
     it 'returns its exercise' do
       exercise = double('exercise')
-      review = Review.new(
-        exercise: exercise,
-        viewed_solution: double('viewed_solution'),
-        submitted_solution: double('submitted_solution')
-      )
+      review = build_review(exercise: exercise)
 
       result = review.exercise
 
@@ -19,13 +15,13 @@ describe Review do
   describe '#has_solutions_by_other_users?' do
     it "returns true with solutions besides the current user's" do
       other_solution = stub_solution('other_solution')
-      review = build_review_with_other_solutions([other_solution])
+      review = build_review(other_solutions: [other_solution])
 
       expect(review).to have_solutions_by_other_users
     end
 
     it 'returns false with only the submitted solution' do
-      review = build_review_with_other_solutions([])
+      review = build_review(other_solutions: [])
 
       expect(review).not_to have_solutions_by_other_users
     end
@@ -34,11 +30,7 @@ describe Review do
   describe '#viewed_solution' do
     it 'returns its viewed solution' do
       viewed_solution = double('viewed_solution')
-      review = Review.new(
-        exercise: double('exercise'),
-        viewed_solution: viewed_solution,
-        submitted_solution: double('submitted_solution')
-      )
+      review = build_review(viewed_solution: viewed_solution)
 
       expect(review.viewed_solution).to eq(viewed_solution)
     end
@@ -47,11 +39,7 @@ describe Review do
   describe '#submitted?' do
     context 'with a submitted solution' do
       it 'returns true' do
-        review = Review.new(
-          exercise: double('exercise'),
-          viewed_solution: double('viewed_solution'),
-          submitted_solution: double('submitted_solution')
-        )
+        review = build_review(submitted_solution: double('submitted_solution'))
 
         expect(review).to be_submitted
       end
@@ -59,11 +47,7 @@ describe Review do
 
     context 'without a submitted solution' do
       it 'returns false' do
-        review = Review.new(
-          exercise: double('exercise'),
-          viewed_solution: double('viewed_solution'),
-          submitted_solution: nil
-        )
+        review = build_review(submitted_solution: nil)
 
         expect(review).not_to be_submitted
       end
@@ -72,22 +56,18 @@ describe Review do
 
   describe '#solutions_by_other_users' do
     it "returns solutions besides the current user's" do
-      my_solution = stub_solution('my_solution')
-      active_solution = stub_solution('active_solution')
+      submitted_solution = stub_solution('submitted_solution')
+      viewed_solution = stub_solution('viewed_solution')
       other_solution = stub_solution('other_solution')
-      exercise = stub_exercise_with_solutions(
-        my_solution,
-        [other_solution, active_solution]
-      )
-      review = Review.new(
-        exercise: exercise,
-        viewed_solution: active_solution,
-        submitted_solution: my_solution
+      review = build_review(
+        other_solutions: [other_solution, viewed_solution],
+        submitted_solution: submitted_solution,
+        viewed_solution: viewed_solution
       )
 
       result = review.solutions_by_other_users
 
-      expect(result.map(&:name)).to eq(%w(other_solution active_solution))
+      expect(result.map(&:name)).to eq(%w(other_solution viewed_solution))
       expect(result[0]).to be_assigned
       expect(result[0]).not_to be_active
       expect(result[1]).to be_active
@@ -97,72 +77,52 @@ describe Review do
 
   describe '#assigned_solution' do
     it 'returns the first solution from another user' do
-      my_solution = stub_solution('my_solution')
       other_solutions =
         [stub_solution('first_other'), stub_solution('second_other')]
-      exercise = stub_exercise_with_solutions(
-        my_solution,
-        other_solutions
-      )
-      review = Review.new(
-        exercise: exercise,
-        viewed_solution: stub_solution('active_solution'),
-        submitted_solution: my_solution
-      )
+      review = build_review(other_solutions: other_solutions)
 
       expect(review.assigned_solution).to eq other_solutions.first
     end
 
     it 'assigns the submitted solution without another solution' do
-      my_solution = stub_solution('my_solution')
-      other_solutions = []
-      exercise = stub_exercise_with_solutions(my_solution, other_solutions)
-      review = Review.new(
-        exercise: exercise,
-        viewed_solution: stub_solution('active_solution'),
-        submitted_solution: my_solution
+      submitted_solution = stub_solution('submitted_solution')
+      review = build_review(
+        other_solutions: [],
+        submitted_solution: submitted_solution
       )
 
-      expect(review.assigned_solution).to eq my_solution
+      expect(review.assigned_solution).to eq submitted_solution
     end
   end
 
   describe '#assigned_solver' do
     it 'returns the first solver besides the reviewer' do
-      my_solution = stub_solution('my_solution')
-      other_solutions =
-        [stub_solution('first_other', user: 'first user'),
-         stub_solution('second_other', user: 'second user')]
-      exercise = stub_exercise_with_solutions(
-        my_solution,
-        other_solutions
-      )
-      review = Review.new(
-        exercise: exercise,
-        viewed_solution: stub_solution('active_solution'),
-        submitted_solution: my_solution
+      submitted_solution = stub_solution('submitted_solution')
+      other_solutions = [
+        stub_solution('first_other', user: 'first user'),
+        stub_solution('second_other', user: 'second user')
+      ]
+      review = build_review(
+        other_solutions: other_solutions,
+        submitted_solution: submitted_solution,
+        viewed_solution: stub_solution('viewed_solution'),
       )
 
       expect(review.assigned_solver).to eq 'first user'
     end
   end
 
-  describe '#my_solution' do
+  describe '#submitted_solution' do
     it 'returns the solution for the reviewing user' do
-      my_solution = stub_solution('my_solution')
-      exercise = stub_exercise_with_solutions(
-        my_solution,
-        []
-      )
-      review = Review.new(
-        exercise: exercise,
-        viewed_solution: stub_solution('active_solution'),
-        submitted_solution: my_solution
+      submitted_solution = stub_solution('submitted_solution')
+      review = build_review(
+        submitted_solution: submitted_solution,
+        viewed_solution: stub_solution('viewed_solution')
       )
 
       result = review.my_solution
 
-      expect(result).to eq my_solution
+      expect(result).to eq submitted_solution
       expect(result).not_to be_active
       expect(result).not_to be_assigned
     end
@@ -172,11 +132,7 @@ describe Review do
     it 'delegates to its viewed solution' do
       files = double('files')
       viewed_solution = double('solution', files: files)
-      review = Review.new(
-        exercise: double('exercise'),
-        viewed_solution: viewed_solution,
-        submitted_solution: double('user')
-      )
+      review = build_review(viewed_solution: viewed_solution)
 
       result = review.files
 
@@ -188,11 +144,7 @@ describe Review do
     it 'delegates to its viewed solution' do
       comments = double('comments')
       viewed_solution = double('solution', comments: comments)
-      review = Review.new(
-        exercise: double('exercise'),
-        viewed_solution: viewed_solution,
-        submitted_solution: double('user')
-      )
+      review = build_review(viewed_solution: viewed_solution)
 
       result = review.comments
 
@@ -200,21 +152,19 @@ describe Review do
     end
   end
 
-  def build_review_with_other_solutions(other_solutions)
-    my_solution = stub_solution('my_solution')
-    active_solution = stub_solution('active_solution')
-    exercise = stub_exercise_with_solutions(my_solution, other_solutions)
+  def build_review(
+    submitted_solution: stub_solution('submitted_solution'),
+    other_solutions: [stub_solution('other_solution')],
+    viewed_solution: submitted_solution || other_solutions.first,
+    exercise: double('exercise')
+  )
+    solutions = [submitted_solution, *other_solutions].compact
     Review.new(
       exercise: exercise,
-      viewed_solution: active_solution,
-      submitted_solution: my_solution
+      solutions: solutions,
+      submitted_solution: submitted_solution,
+      viewed_solution: viewed_solution
     )
-  end
-
-  def stub_exercise_with_solutions(my_solution, other_solutions)
-    double('exercise').tap do |exercise|
-      exercise.stub(:solutions).and_return([my_solution, *other_solutions])
-    end
   end
 
   def stub_solution(name, attributes = {})

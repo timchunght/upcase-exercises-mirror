@@ -25,6 +25,12 @@ FactoryGirl.define do
     parent_sha '123456789'
   end
 
+  factory :comment do
+    user
+    solution
+    text 'body'
+  end
+
   factory :exercise do
     title
     instructions 'Instructions'
