@@ -4,7 +4,6 @@ class Exercise < ActiveRecord::Base
 
   has_many :clones, dependent: :destroy
   has_many :solutions, through: :clones
-  has_many :solvers, source: :user, through: :clones
 
   validates :instructions, presence: true
   validates :intro, presence: true
@@ -18,5 +17,9 @@ class Exercise < ActiveRecord::Base
 
   def has_solutions?
     solutions.any?
+  end
+
+  def solvers
+    clones.includes(:user).joins(:solution).map(&:user)
   end
 end

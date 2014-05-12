@@ -7,7 +7,6 @@ describe Exercise do
 
   it { should have_many(:clones).dependent(:destroy) }
   it { should have_many(:solutions).through(:clones) }
-  it { should have_many(:solvers).through(:clones) }
 
   it 'validates uniqueness of title' do
     create(:exercise)
@@ -65,6 +64,36 @@ describe Exercise do
       exercise = create(:exercise)
 
       expect(Exercise.find(exercise.to_param)).to eq(exercise)
+    end
+  end
+
+  describe '#solvers' do
+    it 'returns users which have submitted a solution to this exercise' do
+      exercise = create(:exercise)
+      other_exercise = create(:exercise)
+      start exercise, username: 'started'
+      solve exercise, username: 'solved_one'
+      solve exercise, username: 'solved_two'
+      solve other_exercise, username: 'solved_other'
+
+      result = exercise.solvers.to_a
+
+      expect(result.map(&:username)).to match_array(%w(solved_one solved_two))
+    end
+
+    it 'eager loads' do
+      exercise = create(:exercise)
+      expect { exercise.reload.solvers.to_a }.to eager_load { solve(exercise) }
+    end
+
+    def solve(exercise, user_attributes = {})
+      clone = start(exercise, user_attributes)
+      create(:solution, clone: clone)
+    end
+
+    def start(exercise, user_attributes = {})
+      solver = create(:user, user_attributes)
+      create(:clone, exercise: exercise, user: solver)
     end
   end
 end
