@@ -1,5 +1,5 @@
 %li.solution-comment
-  = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+  = render 'avatar', user: comment.user
   %span
     = comment.text
     %span.timestamp= time_ago_in_words(comment.created_at)

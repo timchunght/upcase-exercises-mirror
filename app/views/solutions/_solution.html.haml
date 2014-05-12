@@ -3,6 +3,6 @@
     class_names: { assigned: solution.assigned?, active: solution.active? } |
   ) do                                                                      |
   = link_to exercise_solution_url(solution.exercise, solution.user) do
-    = render solution.user
+    = render 'solutions/user', user: solution.user
     - if solution.assigned?
       %span.review-status= t('.assigned')
