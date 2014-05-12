@@ -2,4 +2,6 @@
   = render 'avatar', user: comment.user
   %span
     = comment.text
-    %span.timestamp= time_ago_in_words(comment.created_at)
+    %span.timestamp
+      = time_ago_in_words(comment.created_at)
+      ago
