@@ -21,6 +21,7 @@ describe 'application/_segment_io.html.erb' do
         expect(rendered).to include(user.id.to_s)
         expect(rendered).to include(user.email)
         expect(rendered).to include(user.first_name)
+        expect(rendered).to include('user_hash')
       end
     end
   end
@@ -34,7 +35,10 @@ describe 'application/_segment_io.html.erb' do
   end
 
   def with_analytics_enabled(segment_io_key = 'fake-key', &block)
-    options = { SEGMENT_IO_KEY: segment_io_key }
+    options = {
+      SEGMENT_IO_KEY: segment_io_key,
+      INTERCOM_APP_SECRET: 'fake-intercom-key',
+    }
     ClimateControl.modify(options, &block)
   end
 end
