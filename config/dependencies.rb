@@ -68,6 +68,14 @@ factory :participation do |container|
   )
 end
 
+decorate :participation do |participation, container|
+  ImportableParticipation.new(
+    participation,
+    git_server: container[:git_server],
+    shell: container[:shell]
+  )
+end
+
 factory :repository do |container|
   Git::Repository.new(host: ENV['GIT_SERVER_HOST'], path: container[:path])
 end
@@ -120,4 +128,34 @@ end
 
 factory :diff_line do |container|
   Git::DiffLine.new(container[:text], container[:changed])
+end
+
+factory :github_exercise do |container|
+  Github::Exercise.new(
+    github_client: container[:github_client],
+    github_repository: container[:github_repository],
+    local_exercise: container[:local_exercise],
+    solution_factory: container[:github_solution],
+  )
+end
+
+service :github_client do |container|
+  Octokit::Client.new(
+    login: ENV['GITHUB_USER'],
+    password: ENV['GITHUB_PASSWORD'],
+  )
+end
+
+factory :github_solution do |container|
+  Github::Solution.new(
+    github_client: container[:github_client],
+    local_exercise: container[:local_exercise],
+    logger: container[:logger],
+    participation_factory: container[:participation],
+    pull_request: container[:pull_request],
+  )
+end
+
+service :logger do |container|
+  Rails.logger
 end
