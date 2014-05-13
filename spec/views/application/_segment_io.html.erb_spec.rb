@@ -21,7 +21,21 @@ describe 'application/_segment_io.html.erb' do
         expect(rendered).to include(user.learn_uid.to_s)
         expect(rendered).to include(user.email)
         expect(rendered).to include(user.first_name)
+      end
+
+      it 'sends a user_hash to enable secure mode in Intercom' do
+        user = build_stubbed(:user, learn_uid: 12345)
+        precalculated_hexdigest =
+          '20b24359daf614c0c238dcbccbb0ed9e4f679cbe9868ddbc57d32c603cb8cf70'
+
+        with_analytics_enabled do
+          ClimateControl.modify(INTERCOM_APP_SECRET: 'abc123') do
+            render 'segment_io', user: user
+          end
+        end
+
         expect(rendered).to include('user_hash')
+        expect(rendered).to include(precalculated_hexdigest)
       end
     end
   end
