@@ -7,7 +7,7 @@
 
   <% if user %>
     <%= javascript_tag do %>
-      analytics.identify('<%= user.id %>',
+      analytics.identify('<%= user.learn_uid %>',
         {
           email: '<%= user.email %>',
           first_name: '<%= user.first_name %>',

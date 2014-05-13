@@ -12,13 +12,13 @@ describe 'application/_segment_io.html.erb' do
 
     context 'when a user is signed in' do
       it 'identifies the signed-in user' do
-        user = build_stubbed(:user)
+        user = build_stubbed(:user, learn_uid: 12345)
 
         with_analytics_enabled do
           render 'segment_io', user: user
         end
 
-        expect(rendered).to include(user.id.to_s)
+        expect(rendered).to include(user.learn_uid.to_s)
         expect(rendered).to include(user.email)
         expect(rendered).to include(user.first_name)
         expect(rendered).to include('user_hash')
