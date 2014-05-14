@@ -21,8 +21,8 @@ module Gitolite
       find_clone(clone.exercise, clone.user).diff(clone.parent_sha)
     end
 
-    def create_exercise(repository)
-      config_committer.write("Add exercise: #{repository.name}")
+    def create_exercise(name)
+      config_committer.write("Add exercise: #{name}")
     end
 
     def add_key(username)

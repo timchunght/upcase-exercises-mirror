@@ -79,9 +79,8 @@ describe Gitolite::Server do
     it 'rewrites the Gitolite config' do
       config_committer = stub_config_committer
       server = build(:git_server, config_committer: config_committer)
-      repository = double('repository', name: 'new-exercise-name')
 
-      server.create_exercise(repository)
+      server.create_exercise('new-exercise-name')
 
       expect(config_committer).to have_received(:write)
         .with('Add exercise: new-exercise-name')

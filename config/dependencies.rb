@@ -20,10 +20,30 @@ factory :public_key_syncronizer do |container|
 end
 
 service :git_server do |container|
+  Git::BackgroundServer.new(
+    container[:immediate_git_server],
+    container[:git_server_job]
+  )
+end
+
+service :immediate_git_server do |container|
   Gitolite::Server.new(
     config_committer: container[:config_committer],
     repository_finder: container[:repository_finder]
   )
+end
+
+factory :git_server_job do |container|
+  container[:queue].enqueue(
+    Git::ServerJob.new(
+      method_name: container[:method_name],
+      data: container[:data],
+    )
+  )
+end
+
+service :queue do |container|
+  Delayed::Job
 end
 
 service :config_committer do |container|

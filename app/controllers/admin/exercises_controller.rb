@@ -12,9 +12,7 @@ class Admin::ExercisesController < Admin::BaseController
   def create
     @exercise = Exercise.new(exercise_params)
     if @exercise.save
-      dependencies[:git_server].create_exercise(
-        dependencies[:git_server].find_source(@exercise)
-      )
+      dependencies[:git_server].create_exercise(@exercise.slug)
       redirect_to admin_exercises_path
     else
       render :new
