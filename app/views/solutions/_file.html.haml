@@ -1,0 +1,16 @@
+%section.file
+  %span.filename= file.name
+  .code
+    - file.each_line do |line|
+      = content_tag_with_conditional_classes( |
+        :div,                                 |
+        class_names: {                        |
+          blank: line.blank?,                 |
+          comments: line.changed?,            |
+          line: true                          |
+        }                                     |
+      ) do                                    |
+        %pre.prettyprint.lang-ruby
+          %code
+            :preserve
+              #{line.text}

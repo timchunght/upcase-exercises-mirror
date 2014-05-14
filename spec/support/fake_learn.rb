@@ -8,12 +8,14 @@ class FakeLearn < Sinatra::Base
   def self.sign_in(attributes = {})
     @@learn_user = {
       'admin' => false,
+      'avatar_url' => 'https://gravat.ar/',
       'email' => 'user@example.com',
       'first_name' => 'Test',
       'has_active_subscription' => true,
       'id' => 1,
       'last_name' => 'User',
-      'public_keys' => ['ssh-rsa abcdefg']
+      'public_keys' => ['ssh-rsa abcdefg'],
+      'username' => 'testuser'
     }.merge(attributes)
   end
 
@@ -79,5 +81,6 @@ end
 
 Capybara.app = HostMap.new(
   'www.example.com' => Capybara.app,
+  '127.0.0.1' => Capybara.app,
   URI.parse(LEARN_URL).host => FakeLearn
 )

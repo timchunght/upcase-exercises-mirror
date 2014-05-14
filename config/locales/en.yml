@@ -7,9 +7,26 @@ en:
         update_exercise: 'Update Exercise'
       update:
         notice: 'Exercise updated.'
-    dashboards:
-      show:
-        exercises: 'Exercises'
+
+  comments:
+    form:
+      submit: 'Comment'
+
+  clones:
+    show:
+      submit_solution: 'Submit solution for peer review'
+
+  exercises:
+    show:
+        start_exercise: 'Start Exercise'
+
+  solutions:
+    show:
+      no_solution: 'You have not submitted a solution.'
+      no_solutions_heading: 'You are the first to complete this exercise!'
+      no_solution_explanation: 'Return back shortly to review a peer.'
+    solution:
+      assigned: 'Please review this solution.'
 
   date:
     formats:

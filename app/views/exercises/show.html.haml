@@ -1,26 +1,13 @@
 - content_for :page_title, @exercise.title
 
-%article
+%article.main-inner
   %header
     %h1= @exercise.title
 
-  %section.explanation
-    :markdown
-      #{@exercise.body}
+  = render 'intro', exercise: @exercise
 
-  %section.instructions
-    :markdown
-      ### Working/Submitting
-
-      Your solution must be tested, preferably via TDD.
-
-      1. To work on this exercise, fork the repo and begin implementing your
-         solution.
-      2. Create a pull request so your code can be reviewed.
-      3. Perform a code review on at least one other person's solution. Your
-         comments should follow our [code review guidelines]. Most important: be
-         friendly. Make suggestions, not demands.
-      4. Improve your solution based on the comments you've received and
-         approaches you've learned from reviewing others' attempts.
-
-      [code review guidelines]: https://github.com/thoughtbot/guides/tree/master/code-review
+  = button_to(                      |
+    t('.start_exercise'),           |
+    exercise_clone_path(@exercise), |
+    method: :post                   |
+  )                                 |

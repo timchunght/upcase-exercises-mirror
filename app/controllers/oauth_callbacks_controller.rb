@@ -14,10 +14,7 @@ class OauthCallbacksController < ApplicationController
   private
 
   def authenticate
-    PublicKeySyncronizer.new(
-      Authenticator.new(auth_hash),
-      auth_hash
-    ).authenticate
+    dependencies[:authenticator].new(auth_hash: auth_hash).authenticate
   end
 
   def default_after_auth_url

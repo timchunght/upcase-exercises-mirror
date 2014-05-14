@@ -1,0 +1,14 @@
+%anim-show-check {
+  @include animation(show-check 0.6s $ease-out-back forwards);
+}
+
+@include keyframes(show-check) {
+  0% {
+    @include transform(scale(0));
+    opacity: 1;
+  }
+  100% {
+    @include transform(scale(1));
+    opacity: 1;
+  }
+}

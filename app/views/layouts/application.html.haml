@@ -10,7 +10,8 @@
   %body{ 'class' => "#{body_class}" }
     = render 'flashes'
     %nav.main
-      = link_to '&larr; back to Learn'.html_safe, 'http://learn.thoughtbot.com', class: 'back'
+      .nav-inner
+        = link_to '&larr; back to Learn'.html_safe, 'http://learn.thoughtbot.com', class: 'back'
     %section.main
       = yield
     = render 'javascript'

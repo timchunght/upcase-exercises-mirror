@@ -3,10 +3,22 @@ Whetstone::Application.routes.draw do
   get '/auth/:provider/callback', to: 'oauth_callbacks#show'
   get '/auth/failure', to: 'dashboards#show'
 
-  resources :exercises, only: :show
+  resources :exercises, only: :show do
+    resource :clone, only: [:create, :show]
+    resources :solutions, only: [:create, :show]
+  end
+
+  resources :solutions, only: [] do
+    resources :comments, only: [:create]
+  end
 
   namespace :admin do
     root to: 'dashboards#show'
     resources :exercises, only: [:index, :new, :create, :edit, :update]
+  end
+
+  namespace :api do
+    # Must match the URL from hooks/post-receive
+    post 'pushes/:user_id/:exercise_id', to: 'pushes#create', as: :pushes
   end
 end

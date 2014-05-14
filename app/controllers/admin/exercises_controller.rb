@@ -12,6 +12,9 @@ class Admin::ExercisesController < Admin::BaseController
   def create
     @exercise = Exercise.new(exercise_params)
     if @exercise.save
+      dependencies[:git_server].create_exercise(
+        dependencies[:git_server].find_source(@exercise)
+      )
       redirect_to admin_exercises_path
     else
       render :new
@@ -34,10 +37,10 @@ class Admin::ExercisesController < Admin::BaseController
   private
 
   def exercise_params
-    params.require(:exercise).permit(:title, :body)
+    params.require(:exercise).permit(:title, :intro, :instructions)
   end
 
   def find_exercise
-    Exercise.find(params[:id])
+    Git::Exercise.new(Exercise.find(params[:id]), dependencies[:git_server])
   end
 end

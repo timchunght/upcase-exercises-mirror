@@ -2,7 +2,7 @@
 
 <%= yield :javascript %>
 
-<script src='//fast.wistia.com/static/iframe-api-v1.js'></script>
+<%= render 'segment_io', user: current_user %>
 
 <% if Rails.env.test? %>
   <%= javascript_tag do %>

@@ -1,5 +1,9 @@
 $ ->
-  if $('.editor').length
-    $('.editor textarea').crevasse {
-      previewer: $('.preview')
+  if $('.editor#intro').length
+    $('.editor#intro textarea').crevasse {
+      previewer: $('.preview#intro')
+    }
+  if $('.editor#instructions').length
+    $('.editor#instructions textarea').crevasse {
+      previewer: $('.preview#instructions')
     }

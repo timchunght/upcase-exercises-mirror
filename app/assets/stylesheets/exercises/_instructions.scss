@@ -1,0 +1,80 @@
+section.main article.main-inner, .preview {
+  header {
+    margin-bottom: 1.5rem;
+
+    h1 {
+      font-weight: 600;
+    }
+
+    h2 {
+      color: $medium-gray;
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-top: 0.2em;
+    }
+  }
+
+  h3, label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1em;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin-bottom: 1.2em;
+    line-height: 1.8em;
+  }
+
+  .intro, .setup {
+    border-bottom: 1px solid #EEE;
+    padding: $base-margin/2 0 $base-margin*1.25;
+  }
+
+  .video, .intro, .setup {
+    margin-bottom: 3.5rem;
+  }
+
+  .video iframe {
+    height: 405px;
+    width: 100%;
+  }
+
+  pre {
+    margin-bottom: $base-margin*1.5;
+
+    code {
+      background: #f6f6f6;
+      border-radius: 3px;
+      display: block;
+      overflow: scroll;
+      padding: $base-padding;
+      width: 100%;
+    }
+  }
+
+  form {
+    margin-top: $base-margin*2;
+
+    input[type=submit] {
+      background: $button-green;
+      border-radius: 3px;
+      color: #fff;
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 400;
+      padding: 1rem;
+      text-align: center;
+      width: 100%;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.prettyprint {
+  font-size: 1rem;
+}
+

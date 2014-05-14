@@ -31,6 +31,26 @@ ul.solutions {
   margin: 0 0 2rem 0;
   padding: 0;
 
+  &.my-solution {
+    li {
+      .username {
+        color: darken($blue, 15%);
+      }
+
+      .review-status {
+        color: $blue-alt;
+
+        &:before {
+          background: $blue-alt;
+        }
+      }
+
+      &.active {
+        box-shadow: 0 1px 0 $blue-alt
+      }
+    }
+  }
+
   li {
     border-bottom: 1px solid $light-gray;
     position: relative;
@@ -39,18 +59,8 @@ ul.solutions {
       border: 0;
     }
 
-    &.you {
-      .username {
-        color: darken(desaturate($highlight-blue, 30%), 15%);
-      }
-
-      .review-status {
-        color: $highlight-blue;
-
-        &:before {
-          background: $highlight-blue;
-        }
-      }
+    .review-status {
+      font-weight: 500;
     }
 
     &.assigned .review-status {
@@ -105,5 +115,19 @@ ul.solutions {
         left: 23px;
       }
     }
+  }
+}
+
+.no-solutions {
+  background: $next-steps-bg;
+  border: 1px solid $next-steps-border;
+  color: $next-steps-color;
+  font-size: 0.9rem;
+  padding: 20px;
+  text-align: center;
+
+  b {
+    display: inline-block;
+    margin-bottom: 1em;
   }
 }

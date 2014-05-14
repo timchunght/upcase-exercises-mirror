@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'airbrake'
+gem 'attr_extras'
 gem 'bourbon', '>= 3.2.0.beta.2'
 gem 'clearance'
 gem 'cocaine'
@@ -16,6 +17,7 @@ gem 'haml'
 gem 'high_voltage'
 gem 'jquery-rails'
 gem 'neat'
+gem 'octokit'
 gem 'omniauth-oauth2'
 gem 'pg'
 gem 'rack-timeout'
@@ -32,6 +34,7 @@ group :development do
   gem 'foreman'
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'yard', require: false
 end
 
 group :development, :test do

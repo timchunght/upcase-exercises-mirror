@@ -7,9 +7,13 @@
 
 @import 'variables';
 @import 'mixins';
-
+@import 'animations';
 @import 'layout';
-@import 'instructions';
+
+@import 'exercises/instructions';
+@import 'exercises/instructions-demo';
+@import 'exercises/clone';
+
 @import 'solutions/**';
 
-@import 'admin';
+@import 'admin/admin';
