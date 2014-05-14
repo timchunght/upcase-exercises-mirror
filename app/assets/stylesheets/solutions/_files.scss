@@ -1,18 +1,25 @@
 .files {
   float: left;
   width: $files-width;
+  min-width: 656px; //preserve 80 char width
+
+  @include media($break-80-char) {
+    width: 95%;
+  }
 
   .file {
     margin-bottom: $base-margin*1.5;
     position: relative;
 
     .filename {
-      background: #f6f6f6;
       border: 1px solid $base-border-color;
+      @include border-top-radius(2px);
+      box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.5);
       color: #444;
       display: block;
       font-size: .74rem;
       font-weight: 600;
+      @include linear-gradient(#F8F8F8, #EFEFEF);
       line-height: 2.3em;
       padding: .35rem .75rem;
     }
@@ -22,7 +29,12 @@
     border: 1px solid $base-border-color;
     border-top-width: 0;
     overflow-x: scroll;
-    padding: .5rem 0;
+    padding: 0;
+    @include border-bottom-radius(2px);
+
+    div:first-of-type {
+      padding-top: 0.5rem;
+    }
   }
 
   .line {

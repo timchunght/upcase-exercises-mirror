@@ -1,8 +1,14 @@
 aside.comments {
   float: right;
   font-size: em(13px);
-  padding-left: $base-margin*1.5;
+  padding-left: 2%;
   width: $timeline-width;
+
+  @include media($break-80-char) {
+    float: left;
+    padding-left: 0;
+    width: 75%;
+  }
 
   ol {
     list-style-type: none;
@@ -11,7 +17,7 @@ aside.comments {
   }
 
   li {
-    padding: 1.5rem 1rem 1.5rem .5rem;
+    padding: 1.5rem 0 1.5rem 0;
     position: relative;
     color: $medium-gray;
 

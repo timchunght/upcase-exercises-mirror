@@ -111,4 +111,9 @@ nav.exercise {
   max-width: 1400px;
   min-width: 800px;
   padding: 0 2rem 2rem 3rem;
+
+  @include media(max-width $preserve-80-char) {
+    margin-left: $sidebar-width-sm;
+    padding-left: 2rem;
+  }
 }

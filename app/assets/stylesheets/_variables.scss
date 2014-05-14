@@ -6,6 +6,7 @@ $blue-alt: #1785E7;
 $avatar-size: 1.5rem;
 
 $sidebar-width: 18.5rem;
+$sidebar-width-sm: 17.5rem;
 $sidebar-bg: #f6f6f6;
 $sidebar-border: #efefef;
 
@@ -23,3 +24,6 @@ $files-width: 65%;
 $timeline-width: 100% - $files-width;
 
 $main-padding: 3rem;
+
+$preserve-80-char: 1385px;
+$break-80-char: max-width (1385px - (16px*2));
