@@ -1,6 +1,8 @@
 module Gitolite
   # Facade to present a cohesive interface to Gitolite-related classes.
   class Server
+    include ::NewRelic::Agent::MethodTracer
+
     pattr_initialize [
       :config_committer,
       :repository_finder
@@ -26,5 +28,10 @@ module Gitolite
     def add_key(username)
       config_committer.write("Add public key for user: #{username}")
     end
+
+    add_method_tracer :add_key
+    add_method_tracer :create_clone
+    add_method_tracer :create_exercise
+    add_method_tracer :fetch_diff
   end
 end

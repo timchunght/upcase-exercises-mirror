@@ -19,6 +19,7 @@ gem 'jquery-rails'
 gem 'neat'
 gem 'octokit'
 gem 'omniauth-oauth2'
+gem 'newrelic_rpm', '>= 3.6.7'
 gem 'pg'
 gem 'rack-timeout'
 gem 'rails', '>= 4.0.0'
@@ -55,6 +56,5 @@ group :test do
 end
 
 group :staging, :production do
-  gem 'newrelic_rpm', '>= 3.6.7'
   gem 'rails_12factor'
 end

@@ -1,5 +1,7 @@
 # Uses an omniauth hash to find or create a user from Learn.
 class Authenticator
+  include ::NewRelic::Agent::MethodTracer
+
   pattr_initialize :auth_hash
 
   def authenticate
@@ -34,4 +36,6 @@ class Authenticator
   def info
     auth_hash['info']
   end
+
+  add_method_tracer :authenticate
 end

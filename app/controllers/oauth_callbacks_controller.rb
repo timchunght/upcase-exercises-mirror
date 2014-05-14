@@ -1,4 +1,6 @@
 class OauthCallbacksController < ApplicationController
+  include ::NewRelic::Agent::MethodTracer
+
   skip_before_filter :authorize
 
   def show
@@ -28,4 +30,7 @@ class OauthCallbacksController < ApplicationController
   def auth_hash
     request.env['omniauth.auth']
   end
+
+  add_method_tracer :authenticate
+  add_method_tracer :show
 end
