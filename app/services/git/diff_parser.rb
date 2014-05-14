@@ -29,7 +29,7 @@ module Git
         append_unchanged $1
       when /^deleted file mode/
         delete_file
-      when /^(index|-|@@|new file mode|old mode|new mode)/
+      when /^(index|-|@@|new file mode|old mode|new mode|\\)/
         # Ignore
       else
         parse_error(line)

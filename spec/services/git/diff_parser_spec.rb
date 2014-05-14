@@ -43,6 +43,26 @@ describe Git::DiffParser do
       end
     end
 
+    context 'without a newline at the end of the file' do
+      it 'ignores the missing newline' do
+        result = parse_diff(<<-DIFF)
+          diff --git path/to/new.txt b/path/to/new.txt
+          new file mode 100644
+          index 0000000..8e1fbbd
+          --- /dev/null
+          +++ b/path/to/new.txt
+          +New file
+          \\ No newline at end of file
+        DIFF
+
+        expect(result).to eq(
+          'path/to/new.txt' => [
+            '+New file'
+          ]
+        )
+      end
+    end
+
     context 'with added files' do
       it 'returns the files with new contents' do
         result = parse_diff(<<-DIFF)
