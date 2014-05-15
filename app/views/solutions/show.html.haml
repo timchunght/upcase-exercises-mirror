@@ -4,9 +4,10 @@
       - if @solution.submitted?
         = render @solution.my_solution
       - else
-        = link_to exercise_path(@solution.exercise) do
-          = render 'solutions/user', user: current_user
-          %span.review-status= t('.no_solution')
+        %li
+          = link_to exercise_path(@solution.exercise) do
+            = render 'solutions/user', user: current_user
+            %span.review-status= t('.no_solution')
 
 %div.main-inner
   %nav.participants
