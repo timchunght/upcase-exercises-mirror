@@ -179,3 +179,7 @@ end
 service :logger do |container|
   Rails.logger
 end
+
+service :error_notifier do |container|
+  Airbrake
+end

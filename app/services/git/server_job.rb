@@ -6,6 +6,10 @@ module Git
       dependencies[:immediate_git_server].send(method_name, *data)
     end
 
+    def error(job, exception)
+      dependencies[:error_notifier].notify(exception)
+    end
+
     private
 
     def dependencies

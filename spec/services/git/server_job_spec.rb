@@ -15,4 +15,19 @@ describe Git::ServerJob do
       expect(git_server).to have_received(:expected_method).with(*args)
     end
   end
+
+  describe '#error' do
+    it 'sends notifications' do
+      error = StandardError.new('oops')
+      error_notifier = double('error_notifier')
+      error_notifier.stub(:notify)
+      dependencies = { error_notifier: error_notifier }
+      Dependencies::RailsLoader.stub(:load).and_return(dependencies)
+      job = Git::ServerJob.new(method_name: 'expected_method', data: [])
+
+      job.error(job, error)
+
+      expect(error_notifier).to have_received(:notify).with(error)
+    end
+  end
 end
