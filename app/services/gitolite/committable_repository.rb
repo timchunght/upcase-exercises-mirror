@@ -31,7 +31,9 @@ module Gitolite
     end
 
     def create_commit(message)
-      shell.execute(%{git commit -m "#{message}"})
+      shell.execute(
+        %{git diff-index --quiet HEAD || git commit -m "#{message}"}
+      )
     end
 
     def push

@@ -35,7 +35,9 @@ describe Gitolite::CommittableRepository do
         state.add
       end
 
-      stubs.add(%r{git commit -m "(.*)"}) do |message|
+      safe_commit_pattern =
+        %r{git diff-index --quiet HEAD \|\| git commit -m "(.*)"}
+      stubs.add(safe_commit_pattern) do |message|
         state.commit message
       end
 
