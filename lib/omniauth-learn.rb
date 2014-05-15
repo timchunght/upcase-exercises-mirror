@@ -1,9 +1,11 @@
 require 'omniauth-oauth2'
 require 'new_relic/agent/method_tracer'
+require 'new_relic/agent/instrumentation/controller_instrumentation'
 
 module OmniAuth
   module Strategies
     class Learn < OmniAuth::Strategies::OAuth2
+      include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
       include ::NewRelic::Agent::MethodTracer
 
       option :name, 'learn'
@@ -25,6 +27,8 @@ module OmniAuth
       end
 
       add_method_tracer :fetch_raw_info
+      add_transaction_tracer :callback_call, category: :rack, name: 'callback'
+      add_transaction_tracer :request_call, category: :rack, name: 'request'
     end
   end
 end
