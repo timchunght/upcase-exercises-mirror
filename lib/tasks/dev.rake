@@ -16,7 +16,7 @@ namespace :dev do
     exercise = FactoryGirl.create(
       :exercise,
       title: 'Shakespeare Analyzer',
-      body: 'As a Shakespeare buff, do this exercise'
+      instructions: 'As a Shakespeare buff, do this exercise'
     )
 
     puts_exercise exercise
@@ -24,14 +24,14 @@ namespace :dev do
     exercise = FactoryGirl.create(
       :exercise,
       title: "Ask don't tell",
-      body: "Tell me how you ask."
+      instructions: "Tell me how you ask."
     )
     puts_exercise exercise
 
     exercise = FactoryGirl.create(
       :exercise,
       title: 'Leap Year',
-      body: "Write a program that tells you whether or not a given year is a " +
+      instructions: "Write a program that tells you whether or not a given year is a " +
         "leap year. Remember the following leap year constraints. Leap year is" +
         "every four years, but skips every one hundred, but is a leap year " +
         "every four hundred"
