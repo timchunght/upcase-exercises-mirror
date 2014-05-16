@@ -10,7 +10,7 @@ set -e
 bundle install
 
 # Set up the database
-bundle exec rake db:setup
+bundle exec rake db:setup dev:prime
 
 # Set up configurable environment variables
 if [ ! -f .env ]; then
