@@ -1,8 +1,8 @@
 namespace :dev do
   desc 'Create sample data for local development'
   task prime: ['db:setup'] do
-    unless Rails.env.development?
-      raise 'This task can only be run in the development environment'
+    if Rails.env.production?
+      raise 'This task cannot be run in the production environment'
     end
 
     require 'factory_girl_rails'

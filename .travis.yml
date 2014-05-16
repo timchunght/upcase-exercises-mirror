@@ -3,6 +3,7 @@ cache: bundler
 rvm: ruby-2.0.0-p353
 before_script:
 - cp .sample.env .env
+- bundle exec rake dev:prime
 notifications:
   campfire:
     rooms:
