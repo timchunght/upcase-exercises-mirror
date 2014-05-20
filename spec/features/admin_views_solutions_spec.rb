@@ -11,7 +11,9 @@ feature 'admin views solutions to exercise' do
     visit_exercise exercise
     click_on 'View Solutions'
 
-    expect(page).to have_content("otheruser's solution")
+    expect(page).to have_content(
+      I18n.t('solutions.show.solution_for_user', username: 'otheruser')
+    )
     expect(page).to have_content(I18n.t('solutions.show.no_solution'))
   end
 

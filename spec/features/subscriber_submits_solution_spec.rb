@@ -4,26 +4,30 @@ feature 'subscriber submits solution' do
   scenario 'sees prompt to review another solution' do
     workflow = start_exercise_workflow
     workflow.create_solution_by_other_user(
-      username: 'otheruser',
-      filename: 'test.rb'
+      username: 'otheruser'
     )
 
-    workflow.submit_solution
+    workflow.submit_solution('mysolution.txt')
 
-    expect(page).to have_content('test.rb')
-    expect(page).to have_css('.active', text: "otheruser's solution")
-    expect(page).to have_content(I18n.t('solutions.solution.assigned'))
+    expect(page).to have_content('mysolution.txt')
+    expect(page).to have_css(
+      '.active',
+      text: I18n.t('solutions.show.my_solution'),
+    )
     expect(page).not_to have_no_solutions_heading
   end
 
-  scenario 'a user can view their own solution' do
+  scenario 'a user can view another solution' do
     workflow = start_exercise_workflow
-    workflow.create_solution_by_other_user
-    workflow.submit_solution('example.rb')
+    workflow.create_solution_by_other_user(
+      username: 'otheruser',
+      filename: 'other_user.txt',
+    )
+    workflow.submit_solution
 
-    workflow.view_my_solution
+    workflow.view_solution_by('otheruser')
 
-    expect(page).to have_content('example.rb')
+    expect(page).to have_content('other_user.txt')
   end
 
   scenario 'sees their own solution until another user submits one' do
@@ -31,7 +35,10 @@ feature 'subscriber submits solution' do
 
     workflow.submit_solution('mysolution.txt')
 
-    expect(page).to have_css('.active', text: "myuser's solution")
+    expect(page).to have_css(
+      '.active',
+      text: I18n.t('solutions.show.my_solution'),
+    )
     expect(page).to have_no_solutions_heading
   end
 

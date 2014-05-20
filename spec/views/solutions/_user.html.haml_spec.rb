@@ -5,7 +5,7 @@ describe 'solutions/_user.html' do
     user = build_stubbed(:user, username: 'example_user')
     stub_template '_avatar.html.haml' => 'rendered avatar'
 
-    render 'solutions/user', user: user
+    render 'solutions/user', user: user, current_user: user
 
     expect(rendered).to include('rendered avatar')
   end

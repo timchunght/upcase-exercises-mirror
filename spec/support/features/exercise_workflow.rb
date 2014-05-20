@@ -29,7 +29,14 @@ module Features
     end
 
     def view_my_solution
-      page.click_on "#{user.username}'s solution"
+      page.click_on I18n.t('solutions.show.my_solution')
+    end
+
+    def view_solution_by(username)
+      page.click_on I18n.t(
+        'solutions.show.solution_for_user',
+        username: username
+      )
     end
 
     def create_solution_by_other_user(options = {})

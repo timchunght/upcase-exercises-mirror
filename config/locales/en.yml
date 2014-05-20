@@ -26,9 +26,11 @@ en:
 
   solutions:
     show:
+      my_solution: 'My solution'
       no_solution: 'You have not submitted a solution.'
       no_solutions_heading: 'You are the first to complete this exercise!'
       no_solution_explanation: 'Return back shortly to review a peer.'
+      solution_for_user: "%{username}'s solution"
     solution:
       assigned: 'Please review this solution.'
 

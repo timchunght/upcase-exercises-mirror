@@ -5,7 +5,7 @@ describe 'solutions/_solution.html.haml' do
     it 'has the active css class' do
       solution = stub_viewable_solution(active?: true)
 
-      render solution
+      render_solution(solution)
 
       expect(rendered).to have_css('.active')
     end
@@ -15,7 +15,7 @@ describe 'solutions/_solution.html.haml' do
     it 'does not have the active css class' do
       solution = stub_viewable_solution(active?: false)
 
-      render solution
+      render_solution(solution)
 
       expect(rendered).not_to have_css('.active')
     end
@@ -25,10 +25,9 @@ describe 'solutions/_solution.html.haml' do
     it 'has the assigned css class and text' do
       solution = stub_viewable_solution(assigned?: true)
 
-      render solution
+      render_solution(solution)
 
       expect(rendered).to have_css('.assigned')
-      expect(rendered).to have_text(t('solutions.solution.assigned'))
     end
   end
 
@@ -36,7 +35,7 @@ describe 'solutions/_solution.html.haml' do
     it 'does not have the assigned css class and text' do
       solution = stub_viewable_solution(assigned?: false)
 
-      render solution
+      render_solution(solution)
 
       expect(rendered).not_to have_css('.assigned')
       expect(rendered).not_to have_text(t('solutions.solution.assigned'))
@@ -47,7 +46,7 @@ describe 'solutions/_solution.html.haml' do
     solution = stub_viewable_solution
     url = exercise_solution_url(solution.exercise, solution.user)
 
-    render solution
+    render_solution(solution)
 
     expect(rendered).to have_css("a[href='#{url}']")
   end
@@ -57,5 +56,10 @@ describe 'solutions/_solution.html.haml' do
     build_stubbed(:solution).tap do |solution|
       solution.stub(defaults.merge(stubs))
     end
+  end
+
+  def render_solution(solution)
+    stub_template 'solutions/_user.html.haml' => 'user details'
+    render solution
   end
 end

@@ -1,10 +1,7 @@
 class SolutionsController < ApplicationController
   def create
     participation_by_current_user.find_or_create_solution
-    redirect_to exercise_solution_path(
-      exercise,
-      review_solution_by(current_user).assigned_solver
-    )
+    redirect_to exercise_solution_path(exercise, current_user)
   end
 
   def show
