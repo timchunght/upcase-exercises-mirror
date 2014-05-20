@@ -183,3 +183,21 @@ end
 service :error_notifier do |container|
   Airbrake
 end
+
+service :mailer do |container|
+  Mailer
+end
+
+decorate :mailer do |mailer, container|
+  DelayedMailer.new(mailer)
+end
+
+factory :comment_notification do |container|
+  container[:mailer].comment(
+    author: container[:comment].user,
+    comment: container[:comment],
+    recipient: container[:comment].solution_submitter,
+    exercise: container[:comment].exercise,
+    submitter: container[:comment].solution_submitter,
+  )
+end

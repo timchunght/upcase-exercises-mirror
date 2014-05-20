@@ -16,6 +16,7 @@ feature 'subscriber comments on solution' do
 
     expect(page).to have_content('Looks great!')
     expect_comment_input_to_be_empty
+    expect_notification_to other_user.email, exercise.title
   end
 
   def create_completed_solution(user, exercise)
@@ -27,5 +28,12 @@ feature 'subscriber comments on solution' do
 
   def expect_comment_input_to_be_empty
     expect(page).to have_field('comment_text', with: '')
+  end
+
+  def expect_notification_to(email, exercise_title)
+    message = open_last_email_for(email)
+    expect(message).to have_subject(
+      I18n.t('mailer.comment.subject', exercise: exercise_title)
+    )
   end
 end

@@ -20,6 +20,10 @@ en:
     show:
         start_exercise: 'Start Exercise'
 
+  mailer:
+    comment:
+      subject: 'You received a comment on your solution to %{exercise}'
+
   solutions:
     show:
       no_solution: 'You have not submitted a solution.'

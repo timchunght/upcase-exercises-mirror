@@ -1,0 +1,8 @@
+Hey <%= @recipient.first_name %>,
+
+Your solution to <%= @exercise.title %> just received a new comment by
+<%= @author.username %>:
+
+<%= @comment.text %>
+
+<%= exercise_solution_url(@exercise, @submitter) %>

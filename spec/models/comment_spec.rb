@@ -14,4 +14,28 @@ describe Comment do
       expect(solution.reload.comments_count).to eq(2)
     end
   end
+
+  describe '#solution_submitter' do
+    it 'returns the user who created the solution the comment is attached to' do
+      submitter = double('submitter')
+      comment = build_stubbed(:comment)
+      comment.solution.stub(:user).and_return(submitter)
+
+      result = comment.solution_submitter
+
+      expect(result).to eq(submitter)
+    end
+  end
+
+  describe '#exercise' do
+    it 'returns the exercise being commented on' do
+      exercise = double('exercise')
+      comment = build_stubbed(:comment)
+      comment.solution.stub(:exercise).and_return(exercise)
+
+      result = comment.exercise
+
+      expect(result).to eq(exercise)
+    end
+  end
 end

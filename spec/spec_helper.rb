@@ -21,6 +21,8 @@ RSpec.configure do |config|
   end
 
   config.include Features, type: :feature
+  config.include EmailSpec::Helpers
+  config.include EmailSpec::Matchers
   config.infer_base_class_for_anonymous_controllers = true
   config.order = 'random'
   config.use_transactional_fixtures = false

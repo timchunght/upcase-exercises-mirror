@@ -39,6 +39,7 @@ module Whetstone
     config.i18n.enforce_available_locales = true
 
     require 'dependencies/railtie'
+    require 'delayed_mailer'
 
     config.autoload_paths += ["#{config.root}/app/services"]
   end
