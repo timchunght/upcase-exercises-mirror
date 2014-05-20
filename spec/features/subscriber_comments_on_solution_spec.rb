@@ -1,56 +1,42 @@
 require 'spec_helper'
 
-feature 'subscriber comments on solution' do
-  scenario 'at the top level', js: true do
+feature 'subscriber comments on solution', js: true do
+  scenario 'inline' do
+    user = create(:user)
+    exercise = create(:exercise)
+    workflow = start_exercise_workflow(exercise: exercise, user: user)
+    workflow.create_completed_solution(user)
+    commenting_user = create(:user)
+    workflow.create_completed_solution(commenting_user)
+
+    visit exercise_solution_path(exercise, user, as: commenting_user)
+
+    workflow.comment_on_solution_inline('Looks great')
+
+    expect(page).to have_content('Looks great')
+    expect_inline_comment_input_to_be_empty
+    expect_notification_to user.email, exercise.title
+  end
+
+  scenario 'at the top level' do
     exercise = create(:exercise)
     user = create(:user)
-    create_completed_solution(user, exercise)
+    workflow = start_exercise_workflow(exercise: exercise, user: user)
+    solution = workflow.create_completed_solution(user)
     other_user = create(:user)
-    create_completed_solution(other_user, exercise)
+    workflow.create_completed_solution(other_user)
 
     visit exercise_solution_path(exercise, other_user, as: user)
-    within('.comment-form') do
-      fill_in 'comment_text', with: 'Looks great!'
-      click_on I18n.t('comments.form.submit')
-    end
+    workflow.view_solution_by(other_user.username)
+    workflow.comment_on_solution('Looks great!')
 
     expect(page).to have_content('Looks great!')
     expect_comment_input_to_be_empty
     expect_notification_to other_user.email, exercise.title
   end
 
-  scenario 'inline', js: true do
-    user = create(:user)
-    exercise = create(:exercise)
-    create_completed_solution(user, exercise)
-    commenting_user = create(:user)
-    create_completed_solution(commenting_user, exercise)
-    comment = 'This is a comment!'
-
-    visit exercise_solution_path(exercise, user, as: commenting_user)
-
-    element = first('div.comments')
-    element.hover
-    within element do
-      find('a').click
-    end
-
-    within '.line-comments' do
-      fill_in 'comment_text', with: comment
-      click_on I18n.t('comments.form.submit')
-
-      expect(page).to have_content(comment)
-      expect(find('.comment-textarea textarea').value).to eq ''
-    end
-
-    expect_notification_to user.email, exercise.title
-  end
-
-  def create_completed_solution(user, exercise)
-    clone = create(:clone, user: user, exercise: exercise)
-    create(:solution, clone: clone).tap do |solution|
-      create(:revision, solution: solution)
-    end
+  def expect_inline_comment_input_to_be_empty
+    expect(find('.comment-textarea textarea').value).to eq ''
   end
 
   def expect_comment_input_to_be_empty

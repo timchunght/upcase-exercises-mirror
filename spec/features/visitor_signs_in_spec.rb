@@ -5,7 +5,7 @@ feature 'Visitor signs in' do
     visit root_url
     click_on 'Authorize'
 
-    expect(page).to have_content('Learn Dashboard')
+    expect(page).to have_content(FakeLearn::LEARN_DASHBOARD)
   end
 
   scenario 'while trying to view an exercise' do

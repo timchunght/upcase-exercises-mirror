@@ -54,12 +54,40 @@ module Features
       )
     end
 
+    def comment_on_solution(comment = 'Looks good')
+      page.within('.comment-form') do
+        page.fill_in 'comment_text', with: comment
+        page.click_on I18n.t('comments.form.submit')
+      end
+    end
+
+    def comment_on_solution_inline(comment = 'Looks great')
+      expand_inline_comment_form
+
+      page.within '.line-comments' do
+        page.fill_in 'comment_text', with: comment
+        page.click_on I18n.t('comments.form.submit')
+      end
+    end
+
+    def click_continue
+      page.click_link I18n.t('solutions.show.continue')
+    end
+
     def create_solution_by_other_user(options = {})
       diff = generate_diff(options[:filename] || 'otherfile.txt')
-      user = create(:user, username: options[:username] || 'otheruser')
+      user = options[:user] ||
+               create(:user, username: options[:username] || 'otheruser')
       clone = create(:clone, user: user, exercise: exercise)
       create(:solution, clone: clone).tap do |solution|
         create(:revision, diff: diff, solution: solution)
+      end
+    end
+
+    def create_completed_solution(user)
+      clone = create(:clone, user: user, exercise: exercise)
+      create(:solution, clone: clone).tap do |solution|
+        create(:revision, solution: solution)
       end
     end
 
@@ -95,6 +123,14 @@ module Features
     def with_api_client
       Capybara.using_session 'api_client' do
         yield Capybara.current_session.driver
+      end
+    end
+
+    def expand_inline_comment_form
+      element = page.first('div.comments')
+      element.hover
+      page.within element do
+        page.find('a').click
       end
     end
   end

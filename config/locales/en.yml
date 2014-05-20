@@ -37,6 +37,7 @@ en:
 
   solutions:
     show:
+      continue: 'Continue'
       my_solution: 'My solution'
       no_solution: 'You have not submitted a solution.'
       no_solutions_heading: 'You are the first to complete this exercise!'
@@ -44,6 +45,13 @@ en:
       solution_for_user: "%{username}'s solution"
     solution:
       assigned: 'Please review this solution.'
+    statuses:
+      submitted: 'Great solution!'
+      reviewing: "You have been assigned %{username}'s solution to review."
+      awaiting_review: 'Your solution is awaiting review'
+      completed: 'Your solution has been reviewed!'
+      to_submit_revision: 'To submit a revision, push a new commit.'
+      we_will_email_you: 'We will email you when your solution has been reviewed'
 
   date:
     formats:

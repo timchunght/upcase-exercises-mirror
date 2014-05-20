@@ -151,9 +151,20 @@ factory :review do |container|
     solutions: container[:reviewable_solutions].new(
       solutions: container[:exercise].solutions
     ),
+    status_factory: container[:status],
     submitted_solution: container[:submitted_solution],
-    viewed_solution: viewed_solution
+    viewed_solution: viewed_solution,
+    reviewer: container[:current_user]
   )
+end
+
+factory :status do |container|
+  Status::Finder.new([
+    Status::AllStepsCompleted.new(container[:review]),
+    Status::AwaitingReview.new(container[:review]),
+    Status::ReviewingOtherSolution.new(container[:review]),
+    Status::SubmittedSolution.new,
+  ]).find
 end
 
 factory :diff_parser do |container|

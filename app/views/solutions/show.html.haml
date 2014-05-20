@@ -1,20 +1,23 @@
 %header.solutions-main
   %nav.participants
     %ul.solutions.my-solution
-      - if @solution.submitted?
-        = render @solution.my_solution
+      - if @review.submitted?
+        = render @review.my_solution
       - else
         %li
-          = link_to exercise_path(@solution.exercise) do
+          = link_to exercise_path(@review.exercise) do
             = render 'solutions/user', user: current_user
             %span.review-status= t('.no_solution')
+
+  %section.next-steps
+    = render @review.status
 
 %div.main-inner
   %nav.participants
     %h1 Peer Solutions
-    - if @solution.has_solutions_by_other_users?
+    - if @review.has_solutions_by_other_users?
       %ul.solutions
-        = render @solution.solutions_by_other_users
+        = render @review.solutions_by_other_users
     - else
       .no-solutions
         %b= t('.no_solutions_heading')
@@ -22,10 +25,10 @@
 
   %div.main-body
     %section.files.next-steps-active
-      - @solution.files.each do |file|
+      - @review.files.each do |file|
         = render 'file', file: file
 
     %aside.comments.next-steps-active
       %ol
-        = render @solution.top_level_comments
+        = render @review.top_level_comments
         = render 'comments/form'

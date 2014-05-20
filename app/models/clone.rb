@@ -9,4 +9,8 @@ class Clone < ActiveRecord::Base
   def title
     exercise.title
   end
+
+  def username
+    user.username
+  end
 end

@@ -28,4 +28,13 @@ describe Clone do
       expect(clone.title).to eq(exercise.title)
     end
   end
+
+  describe '#username' do
+    it 'delegates to its user' do
+      user = build_stubbed(:user, username: 'username')
+      clone = build_stubbed(:clone, user: user)
+
+      expect(clone.username).to eq('username')
+    end
+  end
 end

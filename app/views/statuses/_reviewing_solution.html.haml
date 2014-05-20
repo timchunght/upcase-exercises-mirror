@@ -1,0 +1,18 @@
+%div
+  .inner.has-icon
+    .icon.comment
+    .content
+      %h1= t(                                           |
+             'solutions.statuses.reviewing',            |
+             username: @review.assigned_solver_username |
+           )                                            |
+      %p When you're finished, click <i>#{t('solutions.show.continue')}</i>.
+
+%div
+  .inner
+    %h2.title Next step, view your solution for peer feedback.
+    = link_to(                                                  |
+        t('solutions.show.continue'),                           |
+        exercise_solution_path(@review.exercise, current_user), |
+        class: 'button'                                         |
+      )                                                         |

@@ -108,12 +108,12 @@ nav.exercise {
 .main-body {
   @include clearfix;
   margin-left: $sidebar-width;
-  max-width: 1400px;
-  min-width: 800px;
-  padding: 0 2rem 2rem 3rem;
+  max-width: $max-width-main;
+  min-width: $min-width-main;
+  padding: 0 $main-padding-sm 2rem $main-padding;
 
   @include media(max-width $preserve-80-char) {
     margin-left: $sidebar-width-sm;
-    padding-left: 2rem;
+    padding-left: $main-padding-sm;
   }
 }

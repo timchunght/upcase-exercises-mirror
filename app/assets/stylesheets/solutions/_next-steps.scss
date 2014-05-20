@@ -1,9 +1,16 @@
 .next-steps {
   color: $next-steps-color;
   @include display(flex);
-  margin-left: $sidebar-width + $main-padding;
-  margin-right: $main-padding;
+  margin-left: $sidebar-width;
+  max-width: $max-width-main;
+  padding-left: $main-padding;
+  padding-right: $main-padding-sm;
   z-index: 2;
+
+  @include media(max-width $preserve-80-char) {
+    margin-left: $sidebar-width-sm;
+    padding-left: $main-padding-sm;
+  }
 
   > div {
     @include align-items(center);
@@ -11,15 +18,20 @@
     border: 1px solid $next-steps-border;
     border-right-width: 0;
     @include display(inline-flex);
+    @include flex(1);
     padding: 1.2rem 2.2rem 1.2rem 3rem;
     position: relative;
     width: 430px;
 
+    @include media(max-width $preserve-80-char) {
+      padding-right: 1.6rem;
+    }
+
     &:first-of-type {
-      padding-left: 2.4rem;
-      border-left-width: 1px;
+      border-left: 1px solid #EDDAA5;
       border-radius: 3px 0 0 3px;
-      border-left-color: #EDDAA5;
+      @include flex(1.2);
+      padding-left: 2.4rem;
     }
 
     &:last-of-type, &:only-of-type {
@@ -31,10 +43,26 @@
       }
     }
 
-    .next-exercise {
-      border-bottom: 1px solid currentColor;
-      color: #8A5FC8;
+    a.button {
+      background: darken($button-green, 8%);
+      border-radius: 2px;
+      color: #fff;
+      font-size: 0.8rem;
       font-weight: bold;
+      padding: 7px 7px*5;
+
+      &:active {
+        background: darken($button-green, 12%);
+      }
+
+      &.next-exercise {
+        $bg: #8A5FC8;
+        background: $bg;
+
+        &:active {
+          background: darken($bg, 6%);
+        }
+      }
     }
 
     &:after {
@@ -43,7 +71,6 @@
       background-image: image_url('arrow-next-step.svg');
       background-position: 50%;
       background-repeat: no-repeat;
-      border: 1px solid $next-steps-border;
       border: 1px solid desaturate(darken($next-steps-border, 22%), 20%);
       border-radius: $size;
       content: "";
@@ -57,45 +84,66 @@
     }
   }
 
+  h1 {
+    font-size: 0.9rem;
+    margin-bottom: 0.3em;
+  }
+
+  h2 {
+    @extend %no-font-smoothing;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.8em;
+  }
+
   p, li, a {
-    font-size: em(13px);
+    font-size: 0.8rem;
     font-weight: 500;
     line-height: 1.6em;
     margin-bottom: 0;
   }
 
-  .status {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
 
-    li {
-      line-height: 1.4em;
-      margin: 0 0 0.6em;
-      padding-left: 33px;
-      position: relative;
+  .inner {
+    &.has-icon {
+      margin-left: -1rem;
+    }
 
-      &:before {
-        background-repeat: no-repeat;
-        background-size: contain;
-        content: '';
-        display: block;
-        height: 18px;
-        @include position(absolute, 0px 0 0 6px);
-        width: 20px;
+    .icon {
+      display: table-cell;
+      vertical-align: middle;
+
+      &.clock {
+        $s: 40px;
+        background: image_url('clock.svg') no-repeat;
+        background-size: $s;
+        @include size($s);
       }
 
-      &:last-child {
-        margin: 0;
+      &.comment {
+        $s: 42px 37px;
+        background: image_url('comment-icon.svg') no-repeat;
+        background-position: 0px 3px;
+        background-size: $s;
+        @include size($s);
+      }
+
+      &.avatar {
+        vertical-align: top;
+      }
+
+      img {
+        $s: 40px;
+        border-radius: $s;
+        max-width: $s;
+        max-height: $s;
       }
     }
 
-    .finished:before {
-      background-image: url('check.svg');
-    }
-
-    .unfinished:before {
-      background-image: url('x.svg');
+    .content {
+      display: table-cell;
+      padding-left: $base-padding;
+      vertical-align: top;
     }
   }
 }

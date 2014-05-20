@@ -6,7 +6,7 @@ class SolutionsController < ApplicationController
 
   def show
     if can_view_solution?
-      @solution = review_solution_by(user_from_params)
+      @review = review_solution_by(user_from_params)
     else
       redirect_to exercise
     end
@@ -45,7 +45,8 @@ class SolutionsController < ApplicationController
     dependencies[:review].new(
       exercise: exercise,
       viewed_solution: participation_by(user).find_solution,
-      submitted_solution: solution_by_current_user
+      submitted_solution: solution_by_current_user,
+      reviewer: current_user,
     )
   end
 

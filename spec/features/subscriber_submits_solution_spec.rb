@@ -17,7 +17,7 @@ feature 'subscriber submits solution' do
     expect(page).not_to have_no_solutions_heading
   end
 
-  scenario 'a user can view another solution' do
+  scenario 'views another solution' do
     workflow = start_exercise_workflow
     workflow.create_solution_by_other_user(
       username: 'otheruser',

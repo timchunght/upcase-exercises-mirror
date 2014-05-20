@@ -3,9 +3,11 @@ class Review
   pattr_initialize([
     :comment_locator,
     :exercise,
+    :reviewer,
     :solutions,
+    :status_factory,
     :submitted_solution,
-    :viewed_solution
+    :viewed_solution,
   ])
   attr_reader :exercise, :viewed_solution
 
@@ -15,6 +17,10 @@ class Review
 
   def assigned_solver
     assigned_solution.user
+  end
+
+  def assigned_solver_username
+    assigned_solution.username
   end
 
   def has_solutions_by_other_users?
@@ -45,7 +51,32 @@ class Review
     comment_locator.top_level_comments
   end
 
+  def status
+    status_factory.new(review: self)
+  end
+
+  def viewing_other_solution?
+    viewed_solution != submitted_solution
+  end
+
+  def user_is_awaiting_review?
+    !submitted_solution.has_comments?
+  end
+
+  def user_has_reviewed_other_solution?
+    exercise.has_comments_from?(reviewer)
+  end
+
+  def user_has_given_and_received_review?
+    user_has_reviewed_other_solution? &&
+      user_has_received_review?
+  end
+
   private
+
+  def user_has_received_review?
+    !user_is_awaiting_review?
+  end
 
   def decorate_solutions(solutions)
     solutions.each_with_index.map do |solution, index|

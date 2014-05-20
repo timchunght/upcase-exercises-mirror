@@ -4,6 +4,7 @@ class FakeLearn < Sinatra::Base
   set :show_exceptions, false
   set :raise_errors, true
 
+  LEARN_DASHBOARD = 'Learn Dashboard'
 
   def self.sign_in(attributes = {})
     @@learn_user = {
@@ -40,7 +41,7 @@ class FakeLearn < Sinatra::Base
   end
 
   get '/dashboard' do
-    'Learn Dashboard'
+    LEARN_DASHBOARD
   end
 end
 

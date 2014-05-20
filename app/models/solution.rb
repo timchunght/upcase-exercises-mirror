@@ -12,6 +12,14 @@ class Solution < ActiveRecord::Base
     latest_revision.diff
   end
 
+  def username
+    clone.username
+  end
+
+  def has_comments?
+    comments.present?
+  end
+
   def create_revision!(attributes)
     revisions.create!(attributes)
   end

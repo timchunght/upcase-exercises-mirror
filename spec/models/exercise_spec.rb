@@ -7,6 +7,7 @@ describe Exercise do
 
   it { should have_many(:clones).dependent(:destroy) }
   it { should have_many(:solutions).through(:clones) }
+  it { should have_many(:comments).through(:solutions) }
 
   it 'validates uniqueness of title' do
     create(:exercise)
@@ -22,6 +23,36 @@ describe Exercise do
       result = Exercise.alphabetical
 
       expect(result.pluck(:title)).to eq(%w(abc def ghi))
+    end
+  end
+
+  describe '#has_comments_from?' do
+    context 'when an exercise has comments from a given user' do
+      it 'returns true' do
+        exercise = create(:exercise)
+        user = double('user')
+        exercise.
+          comments.
+          stub(:where).
+          with(user: user).
+          and_return([double('comment')])
+
+        result = exercise.has_comments_from?(user)
+
+        expect(result).to be_true
+      end
+    end
+
+    context 'when an exercise has no comments from a given user' do
+      it 'returns false' do
+        exercise = create(:exercise)
+        user = double('user')
+        exercise.comments.stub(:where).with(user: user).and_return([])
+
+        result = exercise.has_comments_from?(user)
+
+        expect(result).to be_false
+      end
     end
   end
 
