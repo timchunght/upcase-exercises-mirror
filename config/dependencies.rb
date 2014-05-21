@@ -201,3 +201,11 @@ factory :comment_notification do |container|
     submitter: container[:comment].solution_submitter,
   )
 end
+
+decorate :comment_notification do |message, container|
+  FilteredMessage.new(
+    message,
+    filter: container[:comment].user,
+    recipient: container[:comment].solution_submitter,
+  )
+end
