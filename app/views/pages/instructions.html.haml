@@ -1,0 +1,27 @@
+%article
+  %header
+    %h1 Shakespeare Analyzer
+    %h2.difficulty Intermediate Exercise
+
+  %section.video
+    %iframe{ 'src' => 'http://fast.wistia.net/embed/iframe/e4a27b971d?controlsVisibleOnLoad=true&playerColor=688AAD&videoFoam=true&version=v1&videoHeight=360&videoWidth=640&wmode=transparent', 'allowtransparency' => 'true', 'frameborder' => '0', 'scrolling' => 'no', 'width' => '640', 'height' => '360' }
+
+  %section.explanation
+    %h3 Your Task
+    %p As a Shakespeare buff, statistics junkie, and unix lover, Ben finds himself wanting a command-line tool for analyzing Macbeth.
+    %p 
+      %strong Write a command-line program that prints the number of lines spoken by each character in the play.
+    %p Sample usage/output (using made-up numbers):
+    %pre
+      %code
+        :preserve
+          $ ruby macbeth_analyzer.rb
+            543 Macbeth
+            345 Banquo
+            220 Duncan
+            (etc.)
+    %p
+      You can find an XML-encoded version of Macbeth here:
+      %a{href: "http://www.ibiblio.org/xml/examples/shakespeare/macbeth.xml"} http://www.ibiblio.org/xml/examples/shakespeare/macbeth.xml
+
+  = button_to 'Start Exercise', '/pages/solutions-steps', method: :get

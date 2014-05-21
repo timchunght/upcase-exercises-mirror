@@ -1,13 +1,11 @@
 %header.solutions-main
   %nav.participants
-    %ul.solutions.my-solution
-      - if @solution.submitted?
-        = render @solution.my_solution
-      - else
-        %li
-          = link_to exercise_path(@solution.exercise) do
-            = render 'solutions/user', user: current_user
-            %span.review-status= t('.no_solution')
+    %ul.solutions
+      %li.you
+        = link_to '#' do
+          = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+          %span.username Your solution
+          %span.review-status Pending review
 
   %section.next-steps
     %div
@@ -24,29 +22,43 @@
 %div.main-inner
   %nav.participants
     %h1 Peer Solutions
-    - if @solution.has_solutions_by_other_users?
-      %ul.solutions
-        = render @solution.solutions_by_other_users
-    - else
-      .no-solutions
-        %b= t('.no_solutions_heading')
-        = t('.no_solution_explanation')
+    %ul.solutions
+      %li.assigned.active
+        = link_to '#' do
+          = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=24')
+          %span.username Plapier's solution
+          %span.review-status Please review this solution
+      %li
+        = link_to '#' do
+          = image_tag('http://images.thoughtbot.com/logo.svg')
+          %span.username thoughtbot's solution
+      %li
+        = link_to '#' do
+          = image_tag('http://www.gravatar.com/avatar/c537a86fdc5234b3e941a84c154ba034?size=24')
+          %span.username Derekprior's solution
+      %li
+        = link_to '#' do
+          = image_tag('http://www.gravatar.com/avatar/80cc3507c8cce076b88ec1e379808ba8?size=24')
+          %span.username Seangriffen's solution
+      %li
+        = link_to '#' do
+          = image_tag('http://www.gravatar.com/avatar/ad4631ddac812d2492978b531cadb387?size=24')
+          %span.username Borenstein's solution
+      %li
+        = link_to '#' do
+          = image_tag('http://www.gravatar.com/avatar/374cb8ccd196db80af224b28a4f604dd?size=24')
+          %span.username Cpytel's solution
 
   %div.main-body
     %section.revision-history
       %ol
-        %li
-          %div.tooltip
-            = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=50')
-            %span.title Revision 1
-            %span.timestamp 4 hours ago
-          %a
-        %li
-          %div.tooltip
-            = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=50')
-            %span.title Revision 2
-            %span.timestamp 3 hours ago
-          %a
+        - 3.times do
+          %li
+            %div.tooltip
+              = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=50')
+              %span.title Revision 1
+              %span.timestamp 4 hours ago
+            %a
         %li.current
           %div.tooltip
             = image_tag('http://www.gravatar.com/avatar/83803c42f0fc29634bf0e7bc2425e514?size=50')
@@ -55,9 +67,6 @@
           %a
 
     %section.files.next-steps-active
-      - @solution.files.each do |file|
-        = render 'file', file: file
-
       %section.file
         %span.filename days_controller.rb
         .code
@@ -192,7 +201,6 @@
                 :preserve
                   end
 
-
     %aside.comments.next-steps-active
       %ol
         %li
@@ -200,6 +208,24 @@
           %span
             Plapier submitted a solution
             %span.timestamp 5 hours ago
-        = render @solution.comments
+        %li.status-red
+          %span Plapier is waiting for review
+        %li.new-comments
+          = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+          %span
+            = link_to 'You commented on days_controller.rb', '#days_controller.rb-5'
+            %span.line-num Line #5
+        %li.solution-comment
+          = image_tag('http://www.gravatar.com/avatar/b17578230ea468ed78982938c6793447?size=24')
+          %span
+            Really great solution. I think the before_filter was a really smart addition.
+            %span.timestamp 4 hours ago
+        %li.status-green
+          %span
+            You reviewed Plapier's solution
+            %span.timestamp 4 hours ago
 
-        = render 'comments/form'
+        %li.form
+          %form
+            %textarea{ 'placeholder' => 'Write a comment about this solution' }
+            %input{ 'type' => 'submit', 'value' => 'Comment' }
