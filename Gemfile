@@ -50,7 +50,6 @@ group :test do
   gem 'email_spec'
   gem 'launchy'
   gem 'shoulda-matchers'
-  gem 'simplecov', require: false
   gem 'sinatra', require: false
   gem 'timecop'
   gem 'webmock'

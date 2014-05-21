@@ -1,6 +1,9 @@
 language: ruby
 cache: bundler
 rvm: ruby-2.0.0-p353
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 before_script:
 - cp .sample.env .env
 - bundle exec rake dev:prime
