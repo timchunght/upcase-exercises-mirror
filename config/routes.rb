@@ -21,4 +21,8 @@ Whetstone::Application.routes.draw do
     # Must match the URL from hooks/post-receive
     post 'pushes/:user_id/:exercise_id', to: 'pushes#create', as: :pushes
   end
+
+  namespace :gitolite do
+    resources :public_keys, only: [:new, :create]
+  end
 end

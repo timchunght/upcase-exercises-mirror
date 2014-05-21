@@ -1,27 +1,27 @@
 class ClonesController < ApplicationController
   def create
-    participation.find_or_create_clone
-    redirect_to exercise_clone_url(exercise)
+    clone = dependencies[:current_participation].find_or_create_clone
+    redirect_to exercise_clone_url(clone.exercise)
   end
 
   def show
-    clone = participation.find_clone
-    @clone = Git::Clone.new(
-      clone,
-      dependencies[:git_server]
-    )
+    ensure_current_user_has_public_keys do
+      clone = dependencies[:current_participation].find_clone
+      @clone = Git::Clone.new(
+        clone,
+        dependencies[:git_server]
+      )
+    end
   end
 
   private
 
-  def participation
-    dependencies[:participation].new(
-      exercise: exercise,
-      user: current_user
-    )
-  end
-
-  def exercise
-    @exercise ||= Exercise.find(params[:exercise_id])
+  def ensure_current_user_has_public_keys
+    if current_user.public_keys.any?
+      yield
+    else
+      store_location
+      redirect_to new_gitolite_public_key_url
+    end
   end
 end

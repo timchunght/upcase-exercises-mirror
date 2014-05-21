@@ -12,8 +12,23 @@ module Features
       @user = options[:user] || create(:user, username: username)
     end
 
+    def start_exercise(public_keys: ['ssh-rsa 123'])
+      public_keys.each { |data| create_public_key(data: data) }
+      page.visit exercise_path(exercise, as: user)
+      page.click_on I18n.t('exercises.show.start_exercise')
+    end
+
+    def upload_public_key(key_text)
+      page.fill_in(
+        I18n.t('simple_form.labels.gitolite_public_key.data'),
+        with: key_text
+      )
+      page.click_on I18n.t('helpers.submit.gitolite_public_key.create')
+    end
+
     def submit_solution(filename = 'example.txt')
       create(:clone, user: user, exercise: exercise)
+      create_public_key
       page.visit exercise_clone_path(exercise, as: user)
       stub_diff_command(filename) do
         page.click_on I18n.t('clones.show.submit_solution')
@@ -51,6 +66,10 @@ module Features
     private
 
     attr_reader :exercise, :page, :user
+
+    def create_public_key(data: 'ssh-rsa 123')
+      @user.public_keys.create!(data: data)
+    end
 
     def stub_diff_command(filename)
       Gitolite::FakeShell.with_stubs do |stubs|

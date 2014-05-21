@@ -43,6 +43,13 @@ en:
     submit:
       exercise:
         create: 'Create Exercise'
+      gitolite_public_key:
+        create: 'Upload'
+
+  simple_form:
+    labels:
+      gitolite_public_key:
+        data: 'Public key'
 
   time:
     formats:

@@ -209,3 +209,30 @@ decorate :comment_notification do |message, container|
     recipient: container[:comment].solution_submitter,
   )
 end
+
+service :current_public_keys do |container|
+  container[:current_user].public_keys
+end
+
+service :current_user do |container|
+  container[:clearance_session].current_user
+end
+
+service :request do |container|
+  ActionDispatch::Request.new(container[:rack_env])
+end
+
+service :requested_exercise do |container|
+  Exercise.find(container[:request].params[:exercise_id])
+end
+
+service :current_participation do |container|
+  container[:participation].new(
+    exercise: container[:requested_exercise],
+    user: container[:current_user]
+  )
+end
+
+service :clearance_session do |container|
+  container[:rack_env][:clearance]
+end
