@@ -1,0 +1,9 @@
+.line-comments
+  %ol
+    %li.form
+      = simple_form_for @comment, url: solution_inline_comments_path(@solution, @comment), remote: true do |f|
+        %div.comment-textarea
+          = f.text_area :text, placeholder: 'Write a comment about this line'
+          = f.hidden_field :line_number
+          = f.hidden_field :file_name
+          = f.submit 'Comment'

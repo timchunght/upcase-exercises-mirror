@@ -1,8 +1,8 @@
 module Git
   # Value object representing a line from a Git diff.
   class DiffLine
-    pattr_initialize :text, :changed
-    attr_reader :text
+    pattr_initialize :text, :changed, :number
+    attr_reader :text, :number
 
     def to_s
       if changed?

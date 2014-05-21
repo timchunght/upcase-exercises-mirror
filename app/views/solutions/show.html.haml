@@ -23,7 +23,7 @@
   %div.main-body
     %section.files.next-steps-active
       - @solution.files.each do |file|
-        = render 'file', file: file
+        = render 'file', file: file, solution: @solution.viewed_solution
 
     %aside.comments.next-steps-active
       %ol

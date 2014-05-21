@@ -31,6 +31,14 @@ FactoryGirl.define do
     text 'body'
   end
 
+  factory :inline_comment do
+    user
+    revision
+    text 'body'
+    line_number 1
+    file_name 'filename'
+  end
+
   factory :exercise do
     title
     instructions 'Instructions'
@@ -84,6 +92,19 @@ FactoryGirl.define do
   end
   factory :revision do
     solution
-    diff 'diff deploy.rb'
+    diff <<-DIFF.strip_heredoc
+      diff --git a/spec/factories.rb b/spec/factories.rb
+      index 7794c81..fe91a1b 100644
+      --- a/spec/factories.rb
+      +++ b/spec/factories.rb
+      @@ -84,6 +84,6 @@ FactoryGirl.define do
+       end
+       factory :revision do
+       solution
+      -    diff 'diff deploy.rb'
+      +    diff another diff
+       end
+       end
+    DIFF
   end
 end

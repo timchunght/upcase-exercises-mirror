@@ -25,4 +25,8 @@ class Solution < ActiveRecord::Base
   def latest_revision
     revisions.order(created_at: :desc).first
   end
+
+  def latest_comments_for(file_name, line_number)
+    latest_revision.comments_for(file_name, line_number)
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140508165443) do
+ActiveRecord::Schema.define(version: 20140522182042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,20 @@ ActiveRecord::Schema.define(version: 20140508165443) do
   end
 
   add_index "exercises", ["slug"], name: "index_exercises_on_slug", unique: true, using: :btree
+
+  create_table "inline_comments", force: true do |t|
+    t.integer  "user_id",     null: false
+    t.integer  "revision_id", null: false
+    t.string   "file_name",   null: false
+    t.integer  "line_number", null: false
+    t.text     "text",        null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "inline_comments", ["file_name", "line_number"], name: "index_inline_comments_on_file_name_and_line_number", using: :btree
+  add_index "inline_comments", ["revision_id"], name: "index_inline_comments_on_revision_id", using: :btree
+  add_index "inline_comments", ["user_id"], name: "index_inline_comments_on_user_id", using: :btree
 
   create_table "public_keys", force: true do |t|
     t.integer  "user_id",    null: false

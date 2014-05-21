@@ -10,7 +10,10 @@
           line: true                          |
         }                                     |
       ) do                                    |
+        .make-comment
+          = link_to '', new_solution_inline_comment_path(solution, file_name: file.name, line_number: line.number), remote: true
         %pre.prettyprint.lang-ruby
           %code
             :preserve
               #{line.text}
+      = render 'solutions/inline_comments', comments: solution.latest_comments_for(file.name, line.number)

@@ -20,12 +20,12 @@ $('.expand-textarea').on('click', ->
   $(@).next().show().end().hide()
   event.preventDefault()
 )
-$('.make-comment').on('click', ->
-  $comment = $(@).parent().next('.line-comments')
-  if $comment.is(':visible')
-    $comment.hide()
-  else
-    $comment.show()
-    $comment.find('.expand-textarea').hide().next().show()
-  event.preventDefault()
-)
+
+$('body').on 'ajax:success', '.line-comments form', (e, data) ->
+  $li = $(e.target).parent()
+  $li.before(data)
+
+  $(e.target).find('textarea').val('')
+
+$('.make-comment').on 'ajax:success', (e, data) ->
+  $(e.target).parents('.line').after(data)

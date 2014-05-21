@@ -19,6 +19,31 @@ feature 'subscriber comments on solution' do
     expect_notification_to other_user.email, exercise.title
   end
 
+  scenario 'inline', js: true do
+    user = create(:user)
+    exercise = create(:exercise)
+    create_completed_solution(user, exercise)
+    commenting_user = create(:user)
+    create_completed_solution(commenting_user, exercise)
+    comment = 'This is a comment!'
+
+    visit exercise_solution_path(exercise, user, as: commenting_user)
+
+    element = first('div.comments')
+    element.hover
+    within element do
+      find('a').click
+    end
+
+    within '.line-comments' do
+      fill_in 'inline_comment_text', with: comment
+      click_on I18n.t('comments.form.submit')
+
+      expect(page).to have_content(comment)
+      expect(find('.comment-textarea textarea').value).to eq ''
+    end
+  end
+
   def create_completed_solution(user, exercise)
     clone = create(:clone, user: user, exercise: exercise)
     create(:solution, clone: clone).tap do |solution|

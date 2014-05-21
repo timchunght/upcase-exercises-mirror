@@ -147,7 +147,7 @@ factory :diff_file do |container|
 end
 
 factory :diff_line do |container|
-  Git::DiffLine.new(container[:text], container[:changed])
+  Git::DiffLine.new(container[:text], container[:changed], container[:number])
 end
 
 factory :github_exercise do |container|

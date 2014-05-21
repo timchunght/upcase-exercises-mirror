@@ -1,0 +1,10 @@
+%li
+  %header
+    = render 'avatar', user: inline_comment.user
+    %span.username
+      = inline_comment.user.username
+      &ndash;
+    %span.timestamp
+      = time_ago_in_words(inline_comment.created_at)
+  %span.comment
+    = inline_comment.text

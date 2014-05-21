@@ -54,10 +54,12 @@ describe 'solutions/_file.html.haml' do
   end
 
   def render_lines(lines)
+    solution = Solution.new(id: 1)
+    solution.stub(:latest_revision).and_return(Revision.new)
     file = double('file', name: 'example.txt')
     yield_each(file.stub(:each_line), lines)
 
-    render 'solutions/file', file: file
+    render 'solutions/file', file: file, solution: solution
   end
 
   def yield_each(starting_stub, enumerable)
@@ -73,7 +75,13 @@ describe 'solutions/_file.html.haml' do
   end
 
   def line(text, changed)
-    double("line: #{text}", text: text, changed?: changed, blank?: text.blank?)
+    double(
+      "line: #{text}",
+      text: text,
+      changed?: changed,
+      blank?: text.blank?,
+      number: 1
+    )
   end
 
   def rendered_text
