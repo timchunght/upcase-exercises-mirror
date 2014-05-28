@@ -36,6 +36,17 @@ describe Review do
     end
   end
 
+  describe '#latest_revision' do
+    it 'delegates to the viewed solution' do
+      viewed_solution = double('viewed_solution', latest_revision: nil)
+      review = build_review(viewed_solution: viewed_solution)
+
+      review.latest_revision
+
+      expect(viewed_solution).to have_received(:latest_revision)
+    end
+  end
+
   describe '#submitted?' do
     context 'with a submitted solution' do
       it 'returns true' do

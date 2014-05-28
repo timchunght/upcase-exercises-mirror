@@ -50,12 +50,14 @@ describe SolutionsController do
     participation =
       stub_factory_instance(:participation, exercise: exercise, user: user)
     participation.stub(:find_solution).and_return(viewed_solution)
-    stub_factory_instance(
+    review = stub_factory_instance(
       :review,
       exercise: exercise,
       submitted_solution: submitted_solution,
       viewed_solution: viewed_solution
     )
+    review.stub(:latest_revision)
+    InlineCommentQuery.stub(:new).and_return(double('inline_comment_query'))
 
     show(exercise, user)
   end

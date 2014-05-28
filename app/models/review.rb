@@ -40,6 +40,10 @@ class Review
     viewed_solution.comments
   end
 
+  def latest_revision
+    viewed_solution.latest_revision
+  end
+
   private
 
   def decorate_solutions(solutions)

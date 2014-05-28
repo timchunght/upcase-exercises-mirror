@@ -50,23 +50,6 @@ describe Solution do
     end
   end
 
-  describe '#latest_comments_for' do
-    it 'delegates to the latest revision' do
-      solution = create(:solution)
-      revision = revise solution, created_at: 2.day.ago
-      latest_revision = double('latest_revision', comments_for: nil)
-
-      solution.revisions.stub(:order).and_return([latest_revision])
-      file_name = double
-      line_number  = double
-
-      solution.latest_comments_for(file_name, line_number)
-
-      expect(latest_revision).to have_received(:comments_for).
-        with(file_name, line_number)
-    end
-  end
-
   describe '#create_revision!' do
     it 'creates a new revision with the given attributes' do
       revision = double('revision')

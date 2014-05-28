@@ -16,4 +16,4 @@
           %code
             :preserve
               #{line.text}
-      = render 'solutions/inline_comments', comments: solution.latest_comments_for(file.name, line.number)
+      = render 'solutions/inline_comments', comments: inline_comment_query.comments_for(file.name, line.number)
