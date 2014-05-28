@@ -28,4 +28,11 @@ $('body').on 'ajax:success', '.line-comments form', (e, data) ->
   $(e.target).find('textarea').val('')
 
 $('.make-comment').on 'ajax:success', (e, data) ->
-  $(e.target).parents('.line').after(data)
+  $commentThread = $(e.target).parents('.line').next()
+
+  if $commentThread.hasClass('line-comments')
+    unless $commentThread.find('form').hasClass('new_inline_comment')
+      $form = $(data).find('li')
+      $commentThread.find('ol').append($form)
+  else
+    $(e.target).parents('.line').after(data)
