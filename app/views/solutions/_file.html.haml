@@ -2,6 +2,7 @@
   %span.filename= file.name
   .code
     - file.each_line do |line|
+      - inline_comment_form_url = new_solution_inline_comment_path(solution, file_name: file.name, line_number: line.number)
       = content_tag_with_conditional_classes( |
         :div,                                 |
         class_names: {                        |
@@ -11,9 +12,9 @@
         }                                     |
       ) do                                    |
         .make-comment
-          = link_to '', new_solution_inline_comment_path(solution, file_name: file.name, line_number: line.number), remote: true
+          = link_to '', inline_comment_form_url, remote: true
         %pre.prettyprint.lang-ruby
           %code
             :preserve
               #{line.text}
-      = render 'solutions/inline_comments', comments: inline_comment_query.comments_for(file.name, line.number)
+      = render 'solutions/inline_comments', comments: inline_comment_query.comments_for(file.name, line.number), inline_comment_form_url: inline_comment_form_url

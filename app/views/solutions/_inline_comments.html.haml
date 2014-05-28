@@ -2,3 +2,5 @@
   .line-comments
     %ol
       = render comments
+      %li.form.show-form
+        = button_to t('comments.form.new'), inline_comment_form_url, remote: true, method: :get

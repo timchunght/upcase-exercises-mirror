@@ -16,12 +16,8 @@ $('.show-comments').on('click', ->
     $comments.show()
   event.preventDefault()
 )
-$('.expand-textarea').on('click', ->
-  $(@).next().show().end().hide()
-  event.preventDefault()
-)
 
-$('body').on 'ajax:success', '.line-comments form', (e, data) ->
+$('body').on 'ajax:success', '.line-comments .new_inline_comment', (e, data) ->
   $li = $(e.target).parent()
   $li.before(data)
 
@@ -36,3 +32,10 @@ $('.make-comment').on 'ajax:success', (e, data) ->
       $commentThread.find('ol').append($form)
   else
     $(e.target).parents('.line').after(data)
+
+$('.show-form form').on 'ajax:success', (e, data) ->
+  $form = $(data).find('li')
+  $container = $(e.target).parents('li')
+
+  $container.before($form)
+  $container.hide()
