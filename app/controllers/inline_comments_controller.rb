@@ -7,6 +7,7 @@ class InlineCommentsController < ApplicationController
 
   def create
     @comment = create_comment
+    send_notification
     render layout: false
   end
 
@@ -14,6 +15,10 @@ class InlineCommentsController < ApplicationController
 
   def create_comment
     latest_revision.inline_comments.create!(comment_params)
+  end
+
+  def send_notification
+    dependencies[:comment_notification].new(comment: @comment).deliver
   end
 
   def solution

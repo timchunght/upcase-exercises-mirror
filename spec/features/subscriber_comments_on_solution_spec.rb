@@ -42,6 +42,8 @@ feature 'subscriber comments on solution' do
       expect(page).to have_content(comment)
       expect(find('.comment-textarea textarea').value).to eq ''
     end
+
+    expect_notification_to user.email, exercise.title
   end
 
   def create_completed_solution(user, exercise)

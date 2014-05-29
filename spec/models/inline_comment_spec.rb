@@ -14,4 +14,28 @@ describe InlineComment do
       expect(InlineComment.chronological).to eq [old_comment, new_comment]
     end
   end
+
+  describe '#user' do
+    it "returns its revision's user" do
+      submitter = double('submitter')
+      comment = build_stubbed(:inline_comment)
+      comment.revision.stub(:user).and_return(submitter)
+
+      result = comment.solution_submitter
+
+      expect(result).to eq(submitter)
+    end
+  end
+
+  describe '#exercise' do
+    it 'returns the exercise being commented on' do
+      exercise = double('exercise')
+      comment = build_stubbed(:inline_comment)
+      comment.revision.stub(:exercise).and_return(exercise)
+
+      result = comment.exercise
+
+      expect(result).to eq(exercise)
+    end
+  end
 end

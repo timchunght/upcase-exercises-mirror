@@ -4,6 +4,8 @@ describe Solution do
   it { should belong_to(:clone) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:revisions).dependent(:destroy) }
+  it { should have_one(:exercise).through(:clone) }
+  it { should have_one(:user).through(:clone) }
 
   it { should validate_presence_of(:clone) }
 
@@ -14,24 +16,6 @@ describe Solution do
       revise solution, diff: diff
 
       expect(solution.diff).to eq(diff)
-    end
-  end
-
-  describe '#user' do
-    it 'delegates to its clone' do
-      clone = build_stubbed(:clone)
-      solution = build_stubbed(:solution, clone: clone)
-
-      expect(solution.user).to eq(clone.user)
-    end
-  end
-
-  describe '#exercise' do
-    it 'delegates to its clone' do
-      clone = build_stubbed(:clone)
-      solution = build_stubbed(:solution, clone: clone)
-
-      expect(solution.exercise).to eq(clone.exercise)
     end
   end
 

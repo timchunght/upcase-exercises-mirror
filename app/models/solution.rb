@@ -3,19 +3,13 @@ class Solution < ActiveRecord::Base
   belongs_to :clone
   has_many :comments, dependent: :destroy
   has_many :revisions, dependent: :destroy
+  has_one :exercise, through: :clone
+  has_one :user, through: :clone
 
   validates :clone, presence: true
 
   def diff
     latest_revision.diff
-  end
-
-  def user
-    clone.user
-  end
-
-  def exercise
-    clone.exercise
   end
 
   def create_revision!(attributes)

@@ -60,6 +60,11 @@ FactoryGirl.define do
     trait :with_revision do
       revisions { [build(:revision)] }
     end
+
+    after :stub do |solution, attributes|
+      solution.stub(:exercise).and_return(attributes.clone.exercise)
+      solution.stub(:user).and_return(attributes.clone.user)
+    end
   end
 
   factory :viewable_solution do
