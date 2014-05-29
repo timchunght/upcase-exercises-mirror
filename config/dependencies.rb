@@ -147,7 +147,26 @@ factory :diff_file do |container|
 end
 
 factory :diff_line do |container|
-  Git::DiffLine.new(container[:text], container[:changed], container[:number])
+  Git::DiffLine.new(
+    text: container[:text],
+    changed: container[:changed],
+    file_name: container[:file_name],
+    number: container[:number]
+  )
+end
+
+factory :comment_finder do |container|
+  InlineCommentQuery.new(container[:revision])
+end
+
+decorate :diff_line do |diff_line, container|
+  CommentableLine.new(
+    diff_line,
+    container[:comment_finder].new(
+      revision: container[:viewed_solution].latest_revision
+    ),
+    container[:viewed_solution]
+  )
 end
 
 factory :github_exercise do |container|

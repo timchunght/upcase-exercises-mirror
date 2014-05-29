@@ -7,7 +7,6 @@ class SolutionsController < ApplicationController
   def show
     if can_view_solution?
       @solution = review_solution_by(user_from_params)
-      @inline_comment_query = InlineCommentQuery.new(@solution.latest_revision)
     else
       redirect_to exercise
     end

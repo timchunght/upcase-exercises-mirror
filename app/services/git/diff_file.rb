@@ -19,6 +19,7 @@ module Git
       @lines << @line_factory.new(
         text: line,
         changed: false,
+        file_name: name,
         number: next_line_number
       )
     end
@@ -27,6 +28,7 @@ module Git
       @lines << @line_factory.new(
         text: line,
         changed: true,
+        file_name: name,
         number: next_line_number
       )
     end

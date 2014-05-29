@@ -75,6 +75,6 @@ describe Git::DiffFile do
   end
 
   def build_file
-    Dependencies::RailsLoader.load[:diff_file].new
+    Git::DiffFile.new(Git::DiffLine)
   end
 end

@@ -166,7 +166,12 @@ describe Git::DiffParser do
     end
 
     def build_parser(diff)
-      Dependencies::RailsLoader.load[:diff_parser].new(diff: diff)
+      factory = double('factory')
+      factory.stub(:new) do
+        Git::DiffFile.new(Git::DiffLine)
+      end
+
+      Git::DiffParser.new(diff, factory)
     end
   end
 end

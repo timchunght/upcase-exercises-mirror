@@ -85,7 +85,9 @@ describe 'solutions/_file.html.haml' do
       text: text,
       changed?: changed,
       blank?: text.blank?,
-      number: 1
+      number: 1,
+      new_comment_path: '',
+      comments: [],
     )
   end
 
