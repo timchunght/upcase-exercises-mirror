@@ -21,6 +21,14 @@ describe 'comments/_comment.html' do
     end
   end
 
+  it_behaves_like :markdown_enabled_view do
+    def render_markdown(markdown)
+      comment = build_stubbed(:comment, text: markdown)
+
+      render comment
+    end
+  end
+
   def rendered_words
     Capybara.string(rendered).text.split(/\s+/).join(' ')
   end
