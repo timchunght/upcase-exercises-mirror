@@ -6,5 +6,7 @@
       &ndash;
     %span.timestamp
       = time_ago_in_words(inline_comment.created_at)
+      ago
   %span.comment
-    = inline_comment.text
+    :markdown
+      #{inline_comment.text}
