@@ -6,6 +6,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
+require 'payload/railtie'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -38,7 +39,6 @@ module Whetstone
     # config.i18n.default_locale = :de
     config.i18n.enforce_available_locales = true
 
-    require 'dependencies/railtie'
     require 'delayed_mailer'
 
     config.autoload_paths += ["#{config.root}/app/services"]

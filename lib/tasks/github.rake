@@ -2,7 +2,7 @@ namespace :github do
   desc 'Import solutions to an exercise from GitHub'
   task import: :environment do
     exercise = Exercise.find(ENV['EXERCISE'])
-    dependencies = Dependencies::RailsLoader.
+    dependencies = Payload::RailsLoader.
       load.
       service(:logger) { Logger.new(STDERR) }
     dependencies[:github_exercise].new(

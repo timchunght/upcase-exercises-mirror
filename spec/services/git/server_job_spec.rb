@@ -7,7 +7,7 @@ describe Git::ServerJob do
       git_server.stub(:expected_method)
       dependencies = { immediate_git_server: git_server }
       args = %w(one two)
-      Dependencies::RailsLoader.stub(:load).and_return(dependencies)
+      Payload::RailsLoader.stub(:load).and_return(dependencies)
       job = Git::ServerJob.new(method_name: 'expected_method', data: args)
 
       job.perform
@@ -22,7 +22,7 @@ describe Git::ServerJob do
       error_notifier = double('error_notifier')
       error_notifier.stub(:notify)
       dependencies = { error_notifier: error_notifier }
-      Dependencies::RailsLoader.stub(:load).and_return(dependencies)
+      Payload::RailsLoader.stub(:load).and_return(dependencies)
       job = Git::ServerJob.new(method_name: 'expected_method', data: [])
 
       job.error(job, error)

@@ -13,7 +13,7 @@ module Git
     private
 
     def dependencies
-      Dependencies::RailsLoader.load
+      Payload::RailsLoader.load
     end
   end
 end
