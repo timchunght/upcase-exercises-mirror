@@ -1,13 +1,16 @@
-- content_for :page_title, @exercise.title
+- content_for :page_title, @overview.title
 
 %article.main-inner
   %header
-    %h1= @exercise.title
+    %h1= @overview.title
 
-  = render 'intro', exercise: @exercise
+  = render 'exercises/intro', exercise: @overview.exercise
 
-  = button_to(                      |
-    t('.start_exercise'),           |
-    exercise_clone_path(@exercise), |
-    method: :post                   |
-  )                                 |
+  - if @overview.has_clone?
+    = render 'exercises/clone', overview: @overview
+  - else
+    = button_to(                               |
+      t('.start_exercise'),                    |
+      exercise_clone_path(@overview.exercise), |
+      method: :post                            |
+    )                                          |

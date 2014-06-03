@@ -1,10 +1,14 @@
 # Determine's a User's current state of participation in an exercise and
 # provides methods for moving them through the workflow.
 class Participation
-  pattr_initialize [:exercise, :user, :git_server]
+  pattr_initialize [:exercise, :user, :git_server, :clones]
 
   def find_or_create_clone
     existing_clone || create_clone
+  end
+
+  def has_clone?
+    existing_clone.present?
   end
 
   def find_clone
@@ -33,7 +37,7 @@ class Participation
   private
 
   def existing_clone
-    clones.find_by_user_id(user.id)
+    clones.for_user(user)
   end
 
   def create_clone
@@ -47,9 +51,5 @@ class Participation
       diff = git_server.fetch_diff(clone)
       solution.create_revision!(diff: diff)
     end
-  end
-
-  def clones
-    exercise.clones
   end
 end

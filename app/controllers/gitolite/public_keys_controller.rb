@@ -1,12 +1,8 @@
 class Gitolite::PublicKeysController < ApplicationController
-  def new
-    @public_key = dependencies[:current_public_keys].new
-  end
-
   def create
     @public_key = create_public_key
     add_public_key_to_gitolite
-    redirect_back_or(root_url)
+    redirect_to :back
   end
 
   private

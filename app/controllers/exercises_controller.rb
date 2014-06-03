@@ -1,5 +1,5 @@
 class ExercisesController < ApplicationController
   def show
-    @exercise = Exercise.find(params[:id])
+    @overview = dependencies[:current_overview]
   end
 end

@@ -13,13 +13,10 @@ en:
       submit: 'Comment'
       new: 'Add comment'
 
-  clones:
-    show:
-      submit_solution: 'Submit solution for peer review'
-
   exercises:
     show:
-        start_exercise: 'Start Exercise'
+      start_exercise: 'Start Exercise'
+      submit_solution: 'Submit solution for peer review'
 
   mailer:
     comment:

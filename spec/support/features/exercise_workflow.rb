@@ -29,9 +29,9 @@ module Features
     def submit_solution(filename = 'example.txt')
       create(:clone, user: user, exercise: exercise)
       create_public_key
-      page.visit exercise_clone_path(exercise, as: user)
+      page.visit exercise_path(exercise, as: user)
       stub_diff_command(filename) do
-        page.click_on I18n.t('clones.show.submit_solution')
+        page.click_on I18n.t('exercises.show.submit_solution')
       end
     end
 

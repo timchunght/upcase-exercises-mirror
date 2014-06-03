@@ -1,6 +1,25 @@
 require 'spec_helper'
 
 describe Participation do
+  describe '#has_clone?' do
+    context 'with no existing clone' do
+      it 'returns false' do
+        participation = build_participation(existing_clone: nil)
+
+        expect(participation).not_to have_clone
+      end
+    end
+
+    context 'with an existing clone' do
+      it 'returns true' do
+        existing_clone = build_stubbed(:clone)
+        participation = build_participation(existing_clone: existing_clone)
+
+        expect(participation).to have_clone
+      end
+    end
+  end
+
   describe '#find_clone_for' do
     context 'with no existing clone' do
       it 'raises an exception' do
@@ -35,12 +54,13 @@ describe Participation do
         clone = build_stubbed(:clone)
         git_server = double('git_server')
         git_server.stub(:create_clone).with(exercise, user).and_return(sha)
-        exercise.
-          clones.
+        clones = double('clones')
+        clones.
           stub(:create!).
           with(user: user, parent_sha: sha).
           and_return(clone)
         participation = build_participation(
+          clones: clones,
           exercise: exercise,
           user: user,
           git_server: git_server
@@ -254,18 +274,19 @@ describe Participation do
     end
   end
 
-  def build_participation(arguments)
-    exercise = arguments[:exercise] || build_stubbed(:exercise)
-    user = arguments[:user] || build_stubbed(:user)
-    exercise.
-      clones.
-      stub(:find_by_user_id).
-      with(user.id).
-      and_return(arguments[:existing_clone])
+  def build_participation(
+    clones: double('clones'),
+    exercise: build_stubbed(:exercise),
+    existing_clone: nil,
+    git_server: double('git_server'),
+    user: build_stubbed(:user)
+  )
+    clones.stub(:for_user).with(user).and_return(existing_clone)
     Participation.new(
       exercise: exercise,
-      git_server: arguments[:git_server] || double('git_server'),
-      user: user
+      git_server: git_server,
+      user: user,
+      clones: clones,
     )
   end
 end

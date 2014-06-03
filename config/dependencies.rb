@@ -82,10 +82,21 @@ end
 
 factory :participation do |container|
   Participation.new(
+    clones: CloneQuery.new(
+      DecoratingRelation.new(
+        container[:exercise].clones,
+        :clone,
+        container[:git_clone]
+      )
+    ),
     exercise: container[:exercise],
     git_server: container[:git_server],
     user: container[:user]
   )
+end
+
+factory :git_clone do |container|
+  Git::Clone.new(container[:clone], container[:git_server])
 end
 
 decorate :participation do |participation, container|
@@ -249,13 +260,31 @@ service :request do |container|
 end
 
 service :requested_exercise do |container|
-  Exercise.find(container[:request].params[:exercise_id])
+  params = container[:request]
+  exercise_id = params[:exercise_id] || params[:id]
+  Exercise.find(exercise_id)
 end
 
 service :current_participation do |container|
   container[:participation].new(
     exercise: container[:requested_exercise],
     user: container[:current_user]
+  )
+end
+
+service :current_overview do |container|
+  container[:overview].new(
+    exercise: container[:requested_exercise],
+    participation: container[:current_participation],
+    user: container[:current_user],
+  )
+end
+
+factory :overview do |container|
+  Overview.new(
+    exercise: container[:exercise],
+    participation: container[:participation],
+    user: container[:user],
   )
 end
 

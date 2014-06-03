@@ -47,6 +47,13 @@ FactoryGirl.define do
     to_create {}
   end
 
+  factory :repository, class: 'Git::Repository' do
+    host 'example.com'
+    path 'repo.git'
+    initialize_with { new(attributes) }
+    to_create {}
+  end
+
   factory :solution do
     clone
 

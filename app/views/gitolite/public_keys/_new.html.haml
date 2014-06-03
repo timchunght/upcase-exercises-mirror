@@ -1,7 +1,6 @@
-%article.main-inner
-  %header
-    %h1
-      Upload SSH Public Key
+%section.setup
+  .inner
+    %h3 Upload SSH Public Key
 
     %p
       Before you start an exercise, we need your SSH public key so that we can
@@ -14,6 +13,6 @@
 
       [let us know]: mailto:learn@thoughtbot.com
 
-  = simple_form_for @public_key do |form|
+  = simple_form_for Gitolite::PublicKey.new do |form|
     = form.input :data
     = form.submit
