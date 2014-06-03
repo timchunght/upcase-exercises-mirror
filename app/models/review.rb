@@ -1,6 +1,7 @@
 # Solutions and files to be displayed to a user performing a review.
 class Review
   pattr_initialize([
+    :comment_locator,
     :exercise,
     :solutions,
     :submitted_solution,
@@ -36,12 +37,12 @@ class Review
     viewed_solution.files
   end
 
-  def comments
-    viewed_solution.comments
-  end
-
   def latest_revision
     viewed_solution.latest_revision
+  end
+
+  def top_level_comments
+    comment_locator.top_level_comments
   end
 
   private

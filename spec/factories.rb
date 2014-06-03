@@ -29,14 +29,7 @@ FactoryGirl.define do
     user
     solution
     text 'body'
-  end
-
-  factory :inline_comment do
-    user
-    revision
-    text 'body'
-    line_number 1
-    file_name 'filename'
+    location { Comment::TOP_LEVEL }
   end
 
   factory :exercise do

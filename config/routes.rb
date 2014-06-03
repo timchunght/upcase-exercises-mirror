@@ -9,8 +9,7 @@ Whetstone::Application.routes.draw do
   end
 
   resources :solutions, only: [] do
-    resources :comments, only: [:create]
-    resources :inline_comments, only: [:new, :create]
+    resources :comments, only: [:new, :create]
   end
 
   namespace :admin do

@@ -38,4 +38,30 @@ describe Comment do
       expect(result).to eq(exercise)
     end
   end
+
+  describe '.new_top_level' do
+    it 'returns a top level comment' do
+      comment = Comment.new_top_level
+
+      expect(comment.location).to eq(Comment::TOP_LEVEL)
+    end
+  end
+
+  describe '#top_level?' do
+    context 'with a top level comment' do
+      it 'returns true' do
+        comment = Comment.new_top_level
+
+        expect(comment).to be_top_level
+      end
+    end
+
+    context 'with an inline comment' do
+      it 'returns false' do
+        comment = Comment.new
+
+        expect(comment).not_to be_top_level
+      end
+    end
+  end
 end

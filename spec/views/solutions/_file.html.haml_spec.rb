@@ -54,16 +54,16 @@ describe 'solutions/_file.html.haml' do
   end
 
   def render_lines(lines)
-    solution = Solution.new(id: 1)
+    solution = double('solution')
     file = double('file', name: 'example.txt')
-    inline_comment_query = double('inline_comment_query', comments_for: [])
+    comment_locator = double('comment_locator', inline_comments_for: [])
     yield_each(file.stub(:each_line), lines)
 
     render(
       'solutions/file',
       file: file,
       solution: solution,
-      inline_comment_query: inline_comment_query
+      comment_locator: comment_locator
     )
   end
 

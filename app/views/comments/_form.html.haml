@@ -1,5 +1,6 @@
 %li.comment-form-wrapper
-  = simple_form_for [@solution.viewed_solution, Comment.new], remote: true, |
+  = simple_form_for [@solution.viewed_solution, Comment.new_top_level], remote: true, |
     html: { class: 'comment-form' } do |f|
+    = f.hidden_field :location
     = f.input :text, label: false, placeholder: 'Write a general comment about this solution'
     = f.submit t('.submit')

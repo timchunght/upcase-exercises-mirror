@@ -57,7 +57,8 @@ describe SolutionsController do
       viewed_solution: viewed_solution
     )
     review.stub(:latest_revision)
-    InlineCommentQuery.stub(:new).and_return(double('inline_comment_query'))
+    review.stub(:comments).and_return([])
+    CommentLocator.stub(:new).and_return(double('comment_locator'))
 
     show(exercise, user)
   end

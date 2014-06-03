@@ -36,7 +36,7 @@ feature 'subscriber comments on solution' do
     end
 
     within '.line-comments' do
-      fill_in 'inline_comment_text', with: comment
+      fill_in 'comment_text', with: comment
       click_on I18n.t('comments.form.submit')
 
       expect(page).to have_content(comment)

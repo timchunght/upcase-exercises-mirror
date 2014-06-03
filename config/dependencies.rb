@@ -131,6 +131,10 @@ factory :review do |container|
   )
 
   Review.new(
+    comment_locator: container[:comment_locator].new(
+      comments: container[:viewed_solution].comments,
+      revision: container[:viewed_solution].latest_revision,
+    ),
     exercise: container[:exercise],
     solutions: ReviewableSolutionQuery.new(container[:exercise].solutions),
     submitted_solution: container[:submitted_solution],
@@ -155,14 +159,17 @@ factory :diff_line do |container|
   )
 end
 
-factory :comment_finder do |container|
-  InlineCommentQuery.new(container[:revision])
+factory :comment_locator do |container|
+  CommentLocator.new(
+    revision: container[:revision],
+    comments: ChronologicalQuery.new(container[:viewed_solution].comments)
+  )
 end
 
 decorate :diff_line do |diff_line, container|
   CommentableLine.new(
     diff_line,
-    container[:comment_finder].new(
+    container[:comment_locator].new(
       revision: container[:viewed_solution].latest_revision
     ),
     container[:viewed_solution]

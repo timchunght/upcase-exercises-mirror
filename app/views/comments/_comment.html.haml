@@ -1,8 +1,4 @@
-%li.solution-comment
-  = render 'avatar', user: comment.user
-  %span
-    :markdown
-      #{comment.text}
-    %span.timestamp
-      = time_ago_in_words(comment.created_at)
-      ago
+- if comment.top_level?
+  = render 'comments/top_level_comment', comment: comment
+- else
+  = render 'comments/inline_comment', comment: comment

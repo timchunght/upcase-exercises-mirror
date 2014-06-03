@@ -151,19 +151,21 @@ describe Review do
     end
   end
 
-  describe '#comments' do
-    it 'delegates to its viewed solution' do
-      comments = double('comments')
-      viewed_solution = double('solution', comments: comments)
-      review = build_review(viewed_solution: viewed_solution)
+  describe '#top_level_comments' do
+    it 'delegates to its comment finder' do
+      top_level_comments = double('comment_locator.top_level_comments')
+      comment_locator = double('comment_locator')
+      comment_locator.stub(:top_level_comments).and_return(top_level_comments)
+      review = build_review(comment_locator: comment_locator)
 
-      result = review.comments
+      result = review.top_level_comments
 
-      expect(result).to eq(comments)
+      expect(result).to eq(top_level_comments)
     end
   end
 
   def build_review(
+    comment_locator: double('comment_locator'),
     submitted_solution: stub_solution('submitted_solution'),
     other_solutions: [stub_solution('other_solution')],
     viewed_solution: submitted_solution || other_solutions.first,
@@ -171,6 +173,7 @@ describe Review do
   )
     solutions = [submitted_solution, *other_solutions].compact
     Review.new(
+      comment_locator: comment_locator,
       exercise: exercise,
       solutions: solutions,
       submitted_solution: submitted_solution,

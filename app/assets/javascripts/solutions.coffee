@@ -17,7 +17,11 @@ $('.show-comments').on('click', ->
   event.preventDefault()
 )
 
-$('body').on 'ajax:success', '.line-comments .new_inline_comment', (e, data) ->
+$('body').on 'ajax:success', '.comment-form-wrapper form', (e, data) ->
+  $(data).insertBefore($('.comment-form-wrapper'))
+  $('#comment_text').val('')
+
+$('body').on 'ajax:success', '.line-comments .new_comment', (e, data) ->
   $li = $(e.target).parent()
   $li.before(data)
 
@@ -27,7 +31,7 @@ $('.make-comment').on 'ajax:success', (e, data) ->
   $commentThread = $(e.target).parents('.line').next()
 
   if $commentThread.hasClass('line-comments')
-    unless $commentThread.find('form').hasClass('new_inline_comment')
+    unless $commentThread.find('form').hasClass('new_comment')
       $form = $(data).find('li')
       $commentThread.find('ol').append($form)
   else

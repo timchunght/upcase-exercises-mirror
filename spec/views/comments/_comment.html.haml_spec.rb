@@ -21,11 +21,25 @@ describe 'comments/_comment.html' do
     end
   end
 
-  it_behaves_like :markdown_enabled_view do
-    def render_markdown(markdown)
-      comment = build_stubbed(:comment, text: markdown)
+  context 'when top level' do
+    it_behaves_like :markdown_enabled_view do
+      def render_markdown(markdown)
+        comment = build_stubbed(:comment, text: markdown)
+        comment.stub(:top_level?).and_return(true)
 
-      render comment
+        render comment
+      end
+    end
+  end
+
+  context 'when inline' do
+    it_behaves_like :markdown_enabled_view do
+      def render_markdown(markdown)
+        comment = build_stubbed(:comment, text: markdown)
+        comment.stub(:top_level?).and_return(false)
+
+        render comment
+      end
     end
   end
 

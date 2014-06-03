@@ -1,0 +1,12 @@
+%li
+  %header
+    = render 'avatar', user: comment.user
+    %span.username
+      = comment.user.username
+      &ndash;
+    %span.timestamp
+      = time_ago_in_words(comment.created_at)
+      ago
+  %span.comment
+    :markdown
+      #{comment.text}
