@@ -1,12 +1,21 @@
 en:
 
   admin:
+    dashboards:
+      show:
+        exercises: 'Exercises'
+        solutions: 'Solutions'
     exercises:
       index:
         create_exercise: 'Create Exercise'
         update_exercise: 'Update Exercise'
       update:
         notice: 'Exercise updated.'
+    solutions:
+      index:
+        comments:
+          one: '1 comment'
+          other: '%{count} comments'
 
   comments:
     form:

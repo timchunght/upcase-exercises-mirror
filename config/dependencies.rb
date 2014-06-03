@@ -147,7 +147,9 @@ factory :review do |container|
       revision: container[:viewed_solution].latest_revision,
     ),
     exercise: container[:exercise],
-    solutions: ReviewableSolutionQuery.new(container[:exercise].solutions),
+    solutions: container[:reviewable_solutions].new(
+      solutions: container[:exercise].solutions
+    ),
     submitted_solution: container[:submitted_solution],
     viewed_solution: viewed_solution
   )
@@ -175,6 +177,14 @@ factory :comment_locator do |container|
     revision: container[:revision],
     comments: ChronologicalQuery.new(container[:viewed_solution].comments)
   )
+end
+
+factory :reviewable_solutions do |container|
+  ReviewableSolutionQuery.new(container[:solutions])
+end
+
+service :solutions do |container|
+  Solution.all.includes(:user, :exercise).limit(50)
 end
 
 decorate :diff_line do |diff_line, container|

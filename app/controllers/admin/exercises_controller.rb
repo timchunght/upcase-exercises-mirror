@@ -1,6 +1,4 @@
 class Admin::ExercisesController < Admin::BaseController
-  layout 'admin'
-
   def index
     @exercises = Exercise.all
   end

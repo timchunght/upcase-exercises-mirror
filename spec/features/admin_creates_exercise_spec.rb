@@ -25,6 +25,7 @@ feature 'Admin creates exercise' do
 
   def visit_new_exercise_form
     sign_in_as_admin
+    click_link I18n.t('admin.dashboards.show.exercises')
     click_link I18n.t('admin.exercises.index.create_exercise'), match: :first
   end
 

@@ -27,6 +27,7 @@ feature 'admin edits exercise' do
 
   def visit_exercise(exercise)
     sign_in_as_admin
+    click_on I18n.t('admin.dashboards.show.exercises')
     click_on exercise.title
   end
 
