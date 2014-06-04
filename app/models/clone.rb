@@ -4,6 +4,8 @@ class Clone < ActiveRecord::Base
   belongs_to :exercise
   has_one :solution, dependent: :destroy
 
+  validates! :parent_sha, format: /\A[a-z0-9]{40}\z/
+
   def title
     exercise.title
   end

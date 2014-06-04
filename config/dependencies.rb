@@ -29,6 +29,7 @@ end
 service :immediate_git_server do |container|
   Gitolite::Server.new(
     config_committer: container[:config_committer],
+    observer: container[:git_observer],
     repository_finder: container[:repository_finder]
   )
 end
@@ -40,6 +41,14 @@ factory :git_server_job do |container|
       data: container[:data],
     )
   )
+end
+
+service :git_observer do |container|
+  Git::Observer.new(container[:clones])
+end
+
+service :clones do |container|
+  Clone.all
 end
 
 service :queue do |container|

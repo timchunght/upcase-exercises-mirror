@@ -3,8 +3,8 @@
 class Participation
   pattr_initialize [:exercise, :user, :git_server, :clones]
 
-  def find_or_create_clone
-    existing_clone || create_clone
+  def create_clone
+    git_server.create_clone(exercise, user)
   end
 
   def has_clone?
@@ -38,11 +38,6 @@ class Participation
 
   def existing_clone
     clones.for_user(user)
-  end
-
-  def create_clone
-    sha = git_server.create_clone(exercise, user)
-    clones.create!(user: user, parent_sha: sha)
   end
 
   def create_solution

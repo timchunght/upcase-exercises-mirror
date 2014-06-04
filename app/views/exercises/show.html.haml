@@ -6,11 +6,13 @@
 
   = render 'exercises/intro', exercise: @overview.exercise
 
-  - if @overview.has_clone?
-    = render 'exercises/clone', overview: @overview
-  - else
-    = button_to(                               |
-      t('.start_exercise'),                    |
-      exercise_clone_path(@overview.exercise), |
-      method: :post                            |
-    )                                          |
+  #overview{ 'data-clone-url' => exercise_clone_path(@overview.exercise) }
+    - if @overview.has_clone?
+      = render 'exercises/clone', overview: @overview
+    - else
+      = button_to(                               |
+        t('.start_exercise'),                    |
+        exercise_clone_path(@overview.exercise), |
+        method: :post,                           |
+        remote: true,                            |
+      )                                          |

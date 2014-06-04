@@ -21,6 +21,7 @@
 //= require crevasse
 //= require admin
 //
+//= require clones
 //= require solutions
 //
 //= require_tree .

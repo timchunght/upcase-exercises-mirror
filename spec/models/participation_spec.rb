@@ -45,45 +45,21 @@ describe Participation do
     end
   end
 
-  describe '#find_or_create_clone_for' do
-    context 'with no existing clone' do
-      it 'tells the Git server to clone for the given user' do
-        sha = 'abc123'
-        exercise = build_stubbed(:exercise)
-        user = build_stubbed(:user)
-        clone = build_stubbed(:clone)
-        git_server = double('git_server')
-        git_server.stub(:create_clone).with(exercise, user).and_return(sha)
-        clones = double('clones')
-        clones.
-          stub(:create!).
-          with(user: user, parent_sha: sha).
-          and_return(clone)
-        participation = build_participation(
-          clones: clones,
-          exercise: exercise,
-          user: user,
-          git_server: git_server
-        )
+  describe '#create_clone' do
+    it 'tells the Git server to clone an exercise for the given user' do
+      exercise = build_stubbed(:exercise)
+      user = build_stubbed(:user)
+      git_server = double('git_server')
+      git_server.stub(:create_clone)
+      participation = build_participation(
+        exercise: exercise,
+        user: user,
+        git_server: git_server
+      )
 
-        result = participation.find_or_create_clone
+      participation.create_clone
 
-        expect(result).to eq(clone)
-      end
-    end
-
-    context 'with an existing clone' do
-      it 'returns the existing clone' do
-        existing_clone = build_stubbed(:clone)
-        user = build_stubbed(:user)
-        participation = build_participation(
-          existing_clone: existing_clone,
-          user: user
-        )
-        result = participation.find_or_create_clone
-
-        expect(result).to eq(existing_clone)
-      end
+      expect(git_server).to have_received(:create_clone).with(exercise, user)
     end
   end
 

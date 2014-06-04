@@ -39,8 +39,8 @@ Whetstone::Application.configure do
         FileUtils.mkdir_p('conf')
       end
 
-      stubs.add(%r{git [^ ]+ rev-parse HEAD}) do
-        '8586a6fc08b7ca29b41f'
+      stubs.add(%r{git rev-parse HEAD}) do
+        'abcdef1234567890abcdef1234567890abcdef10'
       end
 
       stubs.add(%r{git diff}) do

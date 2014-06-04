@@ -17,6 +17,10 @@ en:
           one: '1 comment'
           other: '%{count} comments'
 
+  clones:
+    create:
+      pending: "We're creating your repository. Just a sec..."
+
   comments:
     form:
       submit: 'Comment'

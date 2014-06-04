@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Gitolite::Server do
   describe '#create_clone' do
-    it 'creates a Gitolite fork and returns the current HEAD' do
+    it 'creates a Gitolite fork and notifies the observer' do
       exercise = double('exercise', slug: 'exercise')
       user = double('user', username: 'username')
       source = double('source')
@@ -12,12 +12,19 @@ describe Gitolite::Server do
       repository_finder = double('repository_finder')
       repository_finder.stub(:find_source).with(exercise).and_return(source)
       repository_finder.stub(:find_clone).with(exercise, user).and_return(clone)
-      server = build(:git_server, repository_finder: repository_finder)
+      observer = double('observer')
+      observer.stub(:clone_created)
+      server = build(
+        :git_server,
+        observer: observer,
+        repository_finder: repository_finder,
+      )
 
-      result = server.create_clone(exercise, user)
+      server.create_clone(exercise, user)
 
       expect(source).to have_received(:create_fork).with('username/exercise')
-      expect(result).to eq('sha123')
+      expect(observer).to have_received(:clone_created).
+        with(exercise, user, 'sha123')
     end
   end
 

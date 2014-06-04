@@ -4,7 +4,7 @@ Whetstone::Application.routes.draw do
   get '/auth/failure', to: 'dashboards#show'
 
   resources :exercises, only: :show do
-    resource :clone, only: [:create]
+    resource :clone, only: [:create, :show]
     resources :solutions, only: [:create, :show]
   end
 

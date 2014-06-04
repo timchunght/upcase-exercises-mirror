@@ -22,7 +22,7 @@ FactoryGirl.define do
   factory :clone do
     exercise
     user
-    parent_sha '123456789'
+    parent_sha '1234567890123456789012345678901234567890'
   end
 
   factory :comment do

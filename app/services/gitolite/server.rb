@@ -5,6 +5,7 @@ module Gitolite
 
     pattr_initialize [
       :config_committer,
+      :observer,
       :repository_finder
     ]
 
@@ -14,7 +15,8 @@ module Gitolite
       source = find_source(exercise)
       clone = find_clone(exercise, user)
       source.create_fork(clone.path)
-      clone.head
+      sha = clone.head
+      observer.clone_created(exercise, user, sha)
     end
 
     def fetch_diff(clone)
