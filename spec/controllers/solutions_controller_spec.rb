@@ -1,6 +1,25 @@
 require 'spec_helper'
 
 describe SolutionsController do
+  describe '#create' do
+    it 'tracks solution submission event' do
+      exercise = create(:exercise)
+      user = create(:user)
+      participation =
+        stub_factory_instance(:participation, exercise: exercise, user: user)
+      participation.stub(:find_or_create_solution)
+      event_tracker = stub_service(:event_tracker)
+      event_tracker.stub(:track_solution_submission)
+      sign_in_as user
+
+      post :create, id: user.to_param, exercise_id: exercise.to_param
+
+      expect(event_tracker).
+        to have_received(:track_solution_submission).
+        with(user, exercise)
+    end
+  end
+
   describe '#show' do
     context 'as a subscriber with a solution' do
       it 'renders the solution' do

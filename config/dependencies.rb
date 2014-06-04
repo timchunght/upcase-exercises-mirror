@@ -276,3 +276,15 @@ end
 service :clearance_session do |container|
   container[:rack_env][:clearance]
 end
+
+service :event_tracker do |container|
+  EventTracker.new(container[:analytics_backend])
+end
+
+service :analytics_backend do |container|
+  if ENV['SEGMENT_IO_KEY'].present?
+    Segment::Analytics.new(write_key: ENV['SEGMENT_IO_KEY'])
+  else
+    FakeAnalyticsBackend.new
+  end
+end

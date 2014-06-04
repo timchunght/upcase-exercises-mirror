@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'airbrake'
+gem 'analytics-ruby', require: 'segment/analytics'
 gem 'attr_extras'
 gem 'bourbon', '>= 3.2.0.beta.2'
 gem 'clearance'
