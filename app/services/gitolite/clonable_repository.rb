@@ -1,5 +1,7 @@
 module Gitolite
   class ClonableRepository < SimpleDelegator
+    include ::NewRelic::Agent::MethodTracer
+
     def initialize(repository, shell)
       super(repository)
       @repository = repository
@@ -8,7 +10,7 @@ module Gitolite
 
     def in_local_clone
       in_temp_dir do
-        shell.execute("git clone #{repository.url} .")
+        download
         yield
       end
     end
@@ -24,5 +26,11 @@ module Gitolite
         end
       end
     end
+
+    def download
+      shell.execute("git clone #{repository.url} .")
+    end
+
+    add_method_tracer :download
   end
 end

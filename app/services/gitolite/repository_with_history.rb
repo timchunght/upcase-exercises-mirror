@@ -1,5 +1,7 @@
 module Gitolite
   class RepositoryWithHistory < SimpleDelegator
+    include ::NewRelic::Agent::MethodTracer
+
     def initialize(repository, shell)
       super(repository)
       @repository = repository
@@ -15,5 +17,6 @@ module Gitolite
     private
 
     attr_reader :repository, :shell
+    add_method_tracer :head
   end
 end

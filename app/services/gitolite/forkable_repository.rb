@@ -1,5 +1,7 @@
 module Gitolite
   class ForkableRepository < SimpleDelegator
+    include ::NewRelic::Agent::MethodTracer
+
     def initialize(repository, shell)
       super(repository)
       @repository = repository
@@ -13,5 +15,6 @@ module Gitolite
     private
 
     attr_reader :repository, :shell
+    add_method_tracer :create_fork
   end
 end
