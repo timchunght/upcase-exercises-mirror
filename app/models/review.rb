@@ -60,7 +60,9 @@ class Review
   end
 
   def user_is_awaiting_review?
-    !submitted_solution.has_comments?
+    if submitted?
+      submitted_solution_has_no_comments?
+    end
   end
 
   def user_has_reviewed_other_solution?
@@ -73,6 +75,10 @@ class Review
   end
 
   private
+
+  def submitted_solution_has_no_comments?
+    !submitted_solution.has_comments?
+  end
 
   def user_has_received_review?
     !user_is_awaiting_review?

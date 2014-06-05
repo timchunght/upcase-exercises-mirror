@@ -226,23 +226,33 @@ describe Review do
   end
 
   describe '#user_is_awaiting_review?' do
-    context "when the user's solution has no comments" do
-      it "returns true" do
-        solution_with_no_comments =
-          stub_solution('no_comments_solution', has_comments?: false)
+    context 'when the user has submitted a solution' do
+      context "and the user's solution has no comments" do
+        it "returns true" do
+          solution_with_no_comments =
+            stub_solution('no_comments_solution', has_comments?: false)
 
-        review = build_review(submitted_solution: solution_with_no_comments)
+          review = build_review(submitted_solution: solution_with_no_comments)
 
-        expect(review.user_is_awaiting_review?).to be_true
+          expect(review.user_is_awaiting_review?).to be_true
+        end
+      end
+
+      context "and the user's solution has comments" do
+        it "returns false" do
+          solution_with_comments =
+            stub_solution('solution_with_comments', has_comments?: true)
+
+          review = build_review(submitted_solution: solution_with_comments)
+
+          expect(review.user_is_awaiting_review?).to be_false
+        end
       end
     end
 
-    context "when the user's solution has comments" do
-      it "returns false" do
-        solution_with_comments =
-          stub_solution('solution_with_comments', has_comments?: true)
-
-        review = build_review(submitted_solution: solution_with_comments)
+    context 'when the user has not submitted a solution' do
+      it 'returns false' do
+        review = build_review(submitted_solution: nil)
 
         expect(review.user_is_awaiting_review?).to be_false
       end
