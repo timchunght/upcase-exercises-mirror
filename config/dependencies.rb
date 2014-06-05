@@ -277,9 +277,9 @@ service :clearance_session do |container|
   container[:rack_env][:clearance]
 end
 
-service :event_tracker do |container|
+factory :event_tracker do |container|
   EventTracker.new(
-    container[:current_user],
+    container[:user],
     container[:requested_exercise],
     container[:analytics_backend]
   )
@@ -294,5 +294,8 @@ service :analytics_backend do |container|
 end
 
 decorate :participation do |participation, container|
-  TrackingParticipation.new(participation, container[:event_tracker])
+  TrackingParticipation.new(
+    participation,
+    container[:event_tracker].new(user: container[:user])
+  )
 end

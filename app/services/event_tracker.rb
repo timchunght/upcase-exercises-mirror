@@ -9,6 +9,10 @@ class EventTracker
     track('Started Exercise')
   end
 
+  def track_revision_submission
+    track('Submitted Revision')
+  end
+
   private
 
   def track(event_name)

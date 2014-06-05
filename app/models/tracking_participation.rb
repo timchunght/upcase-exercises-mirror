@@ -14,6 +14,11 @@ class TrackingParticipation < SimpleDelegator
     super
   end
 
+  def update_solution
+    event_tracker.track_revision_submission
+    super
+  end
+
   private
 
   attr_reader :event_tracker

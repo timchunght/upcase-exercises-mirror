@@ -29,6 +29,20 @@ describe EventTracker do
     end
   end
 
+  describe '#track_revision_submission' do
+    it 'tracks revision submission' do
+      user = double('user', id: 1)
+      exercise = double('exercise', title: 'An Exercise', slug: 'an-exercise')
+      tracker = EventTracker.new(user, exercise, analytics_backend)
+
+      tracker.track_revision_submission
+
+      expect(analytics_backend).
+        to have_received(:track).
+        with(expected_options('Submitted Revision', user, exercise))
+    end
+  end
+
   def analytics_backend
     @analytics_backend ||= begin
       analytics_backend = double('analytics_backend')
