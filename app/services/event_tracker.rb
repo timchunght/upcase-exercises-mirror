@@ -17,7 +17,7 @@ class EventTracker
 
   def track(event_name)
     analytics_backend.track(
-      user_id: user.id,
+      user_id: user.learn_uid,
       event: event_name,
       properties: { exercise_slug: exercise.slug },
       integrations: { all: false, KISSmetrics: true }
