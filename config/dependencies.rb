@@ -278,7 +278,11 @@ service :clearance_session do |container|
 end
 
 service :event_tracker do |container|
-  EventTracker.new(container[:analytics_backend])
+  EventTracker.new(
+    container[:current_user],
+    container[:requested_exercise],
+    container[:analytics_backend]
+  )
 end
 
 service :analytics_backend do |container|
@@ -287,4 +291,8 @@ service :analytics_backend do |container|
   else
     FakeAnalyticsBackend.new
   end
+end
+
+decorate :participation do |participation, container|
+  TrackingParticipation.new(participation, container[:event_tracker])
 end

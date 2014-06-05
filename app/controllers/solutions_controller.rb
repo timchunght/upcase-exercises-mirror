@@ -1,7 +1,6 @@
 class SolutionsController < ApplicationController
   def create
     participation_by_current_user.find_or_create_solution
-    track_solution_submission
     redirect_to exercise_solution_path(exercise, current_user)
   end
 
@@ -58,13 +57,5 @@ class SolutionsController < ApplicationController
 
   def user_from_params
     User.find(params[:id])
-  end
-
-  def event_tracker
-    dependencies[:event_tracker]
-  end
-
-  def track_solution_submission
-    event_tracker.track_solution_submission(current_user, exercise)
   end
 end
