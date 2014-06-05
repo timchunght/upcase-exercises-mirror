@@ -228,7 +228,7 @@ describe Review do
   describe '#user_is_awaiting_review?' do
     context 'when the user has submitted a solution' do
       context "and the user's solution has no comments" do
-        it "returns true" do
+        it 'returns true' do
           solution_with_no_comments =
             stub_solution('no_comments_solution', has_comments?: false)
 
@@ -239,7 +239,7 @@ describe Review do
       end
 
       context "and the user's solution has comments" do
-        it "returns false" do
+        it 'returns false' do
           solution_with_comments =
             stub_solution('solution_with_comments', has_comments?: true)
 
