@@ -2,6 +2,8 @@ module Gitolite
   # Writes a full Gitolite configuration into the current directory based on
   # application state.
   class ConfigWriter
+    include ::NewRelic::Agent::MethodTracer
+
     CONFIG_FILE_PATH = 'conf/gitolite.conf'.freeze
     KEYDIR_PATH = 'keydir'.freeze
     SERVER_USERNAME = 'server'.freeze
@@ -81,5 +83,8 @@ module Gitolite
       FileUtils.mkdir_p(File.dirname(path))
       File.open(path, 'w') { |file| file.puts(data) }
     end
+
+    add_method_tracer :write_config_file
+    add_method_tracer :rewrite_key_directory
   end
 end

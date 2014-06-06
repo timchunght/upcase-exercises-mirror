@@ -7,6 +7,8 @@ module Gitolite
   # modifications, commit those changes, and then push them to the remote
   # repository.
   class CommittableRepository < SimpleDelegator
+    include ::NewRelic::Agent::MethodTracer
+
     def initialize(repository, shell)
       super(repository)
       @shell = shell
@@ -39,5 +41,9 @@ module Gitolite
     def push
       shell.execute('git push')
     end
+
+    add_method_tracer :add_to_index
+    add_method_tracer :create_commit
+    add_method_tracer :push
   end
 end
