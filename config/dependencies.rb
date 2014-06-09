@@ -291,7 +291,7 @@ end
 factory :event_tracker do |container|
   EventTracker.new(
     container[:user],
-    container[:requested_exercise],
+    container[:exercise],
     container[:analytics_backend]
   )
 end
@@ -309,4 +309,8 @@ decorate :participation do |participation, container|
     participation,
     container[:event_tracker].new(user: container[:user])
   )
+end
+
+service :exercise do |container|
+  container[:requested_exercise]
 end

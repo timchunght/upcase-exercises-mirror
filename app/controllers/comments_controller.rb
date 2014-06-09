@@ -8,6 +8,7 @@ class CommentsController < ApplicationController
   def create
     @comment = create_comment
     send_notification
+    track_comment_creation
   end
 
   private
@@ -30,5 +31,16 @@ class CommentsController < ApplicationController
 
   def new_params
     params.permit(:solution_id, :location)
+  end
+
+  def track_comment_creation
+    event_tracker.track_comment_creation(solution)
+  end
+
+  def event_tracker
+    dependencies[:event_tracker].new(
+      user: current_user,
+      exercise: solution.exercise
+    )
   end
 end

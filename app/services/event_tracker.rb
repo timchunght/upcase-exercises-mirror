@@ -17,9 +17,14 @@ class EventTracker
     track('Visited Exercise')
   end
 
+  def track_comment_creation(solution)
+    track('Left Comment')
+    track('Received Feedback', solution.user)
+  end
+
   private
 
-  def track(event_name)
+  def track(event_name, user = user)
     analytics_backend.track(
       user_id: user.learn_uid,
       event: event_name,
