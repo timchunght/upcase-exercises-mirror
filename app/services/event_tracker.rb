@@ -20,7 +20,7 @@ class EventTracker
       user_id: user.learn_uid,
       event: event_name,
       properties: { exercise_slug: exercise.slug },
-      integrations: { all: false, KISSmetrics: true }
+      integrations: { all: true }
     )
   end
 end
