@@ -13,6 +13,10 @@ class EventTracker
     track('Submitted Revision')
   end
 
+  def track_exercise_visit
+    track('Visited Exercise')
+  end
+
   private
 
   def track(event_name)

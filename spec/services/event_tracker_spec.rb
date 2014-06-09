@@ -43,6 +43,20 @@ describe EventTracker do
     end
   end
 
+  describe '#track_exercise_visit' do
+    it 'tracks when a user visits an exercise' do
+      user = double('user', learn_uid: 1)
+      exercise = double('exercise', title: 'An Exercise', slug: 'an-exercise')
+      tracker = EventTracker.new(user, exercise, analytics_backend)
+
+      tracker.track_exercise_visit
+
+      expect(analytics_backend).
+        to have_received(:track).
+        with(expected_options('Visited Exercise', user, exercise))
+    end
+  end
+
   def analytics_backend
     @analytics_backend ||= begin
       analytics_backend = double('analytics_backend')
