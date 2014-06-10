@@ -15,5 +15,5 @@
         %pre.prettyprint.lang-ruby
           %code
             :preserve
-              #{line.text}
+              #{h line.text}
       = render 'solutions/inline_comments', comments: line.comments, inline_comment_form_url: line.new_comment_path

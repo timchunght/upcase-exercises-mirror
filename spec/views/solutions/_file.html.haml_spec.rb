@@ -48,6 +48,14 @@ describe 'solutions/_file.html.haml' do
     expect(blank_lines.length).to eq(2)
   end
 
+  it 'escapes markup 'do
+    input = '<p>Hello</p>'
+
+    render_file input
+
+    expect(rendered_text.strip).to eq(input)
+  end
+
   def render_file(contents)
     lines = contents.each_line.map { |text| unchanged(text.rstrip) }
     render_lines lines
