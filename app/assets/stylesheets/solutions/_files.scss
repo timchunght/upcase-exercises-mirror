@@ -32,13 +32,14 @@
     padding: 0;
     @include border-bottom-radius(2px);
 
-    div:first-of-type {
+    > div:first-of-type {
       padding-top: 0.5rem;
     }
   }
 
   .line {
     display: block;
+    line-height: 1.6em;
     min-width: 100%;
     padding: 0 .75rem;
 
@@ -64,7 +65,9 @@
     }
 
     &.blank {
-      height: 1.1rem;
+      code:after {
+        content: " "; // preserve equal heights for blank & non-blank lines
+      }
 
       &:hover, &:hover:before {
         background: none;
@@ -103,6 +106,7 @@
   }
 
   pre {
+    display: inline-block;
     font-size: 1.1rem;
     line-height: 1rem;
     margin: 0;
@@ -135,7 +139,6 @@
         margin-left: 1.5rem;
         padding-left: .75rem;
       }
-
     }
 
     header {
@@ -167,4 +170,3 @@
     }
   }
 }
-
