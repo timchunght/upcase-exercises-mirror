@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Git::Observer do
+describe Git::CloneObserver do
   describe '#clone_created' do
     it 'creates a local record of the clone' do
       sha = 'abc123'
@@ -12,7 +12,7 @@ describe Git::Observer do
         stub(:create!).
         with(exercise: exercise, user: user, parent_sha: sha).
         and_return(clone)
-      observer = Git::Observer.new(clones: clones)
+      observer = Git::CloneObserver.new(clones: clones)
 
       result = observer.clone_created(exercise, user, sha)
 
@@ -25,7 +25,7 @@ describe Git::Observer do
       diff = '--- +++'
       clone = double('clone')
       clone.stub(:create_revision!)
-      observer = Git::Observer.new(clones: double('clones'))
+      observer = Git::CloneObserver.new(clones: double('clones'))
 
       observer.diff_fetched(clone, diff)
 

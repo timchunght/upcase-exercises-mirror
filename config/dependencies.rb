@@ -44,7 +44,10 @@ factory :git_server_job do |container|
 end
 
 service :git_observer do |container|
-  Git::Observer.new(clones: container[:clones])
+  CompositeObserver.new([
+    Git::CloneObserver.new(clones: container[:clones]),
+    Git::LoggingObserver.new(container[:prefixed_logger].new(prefix: 'GIT: '))
+  ])
 end
 
 service :clones do |container|
@@ -207,6 +210,10 @@ decorate :diff_line do |diff_line, container|
     ),
     container[:viewed_solution]
   )
+end
+
+factory :prefixed_logger do |container|
+  PrefixedLogger.new(container[:logger], container[:prefix])
 end
 
 service :logger do |container|

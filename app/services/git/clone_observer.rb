@@ -1,5 +1,5 @@
 module Git
-  class Observer
+  class CloneObserver
     pattr_initialize [:clones!]
 
     def clone_created(exercise, user, sha)
