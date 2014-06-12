@@ -2,13 +2,19 @@ require 'spec_helper.rb'
 
 describe Gitolite::Shell do
   describe '#execute' do
-    it 'delegates executing the command to Cocaine' do
-      line = double('command_line')
+    it 'runs commands and captures output' do
+      shell = Gitolite::Shell.new
 
-      expect(Cocaine::CommandLine).to receive(:new).and_return(line)
-      expect(line).to receive(:run)
+      result = shell.execute('echo hello')
 
-      Gitolite::Shell.new.execute('true')
+      expect(result.strip).to eq('hello')
+    end
+
+    it 'captures STDERR on failure' do
+      shell = Gitolite::Shell.new
+
+      expect { shell.execute('echo expected_message >&2 && exit 1') }.
+        to raise_error(/expected_message/)
     end
   end
 end
