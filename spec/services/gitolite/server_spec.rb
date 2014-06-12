@@ -74,11 +74,18 @@ describe Gitolite::Server do
         .stub(:find_clone)
         .with(clone.exercise, clone.user)
         .and_return(repository)
-      server = build(:git_server, repository_finder: repository_finder)
+      observer = double('observer')
+      observer.stub(:diff_fetched)
+      server = build(
+        :git_server,
+        observer: observer,
+        repository_finder: repository_finder,
+      )
 
       result = server.fetch_diff(clone)
 
       expect(result).to eq(diff)
+      expect(observer).to have_received(:diff_fetched).with(clone, diff)
     end
   end
 

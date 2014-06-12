@@ -37,4 +37,17 @@ describe Clone do
       expect(clone.username).to eq('username')
     end
   end
+
+  describe '#create_revision!' do
+    it 'delegates to its solution' do
+      solution = build_stubbed(:solution)
+      clone = build_stubbed(:clone, solution: solution)
+      solution.stub(:create_revision!)
+      args = double('args')
+
+      clone.create_revision!(args)
+
+      expect(solution).to have_received(:create_revision!).with(args)
+    end
+  end
 end

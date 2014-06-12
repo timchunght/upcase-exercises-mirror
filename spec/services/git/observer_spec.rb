@@ -12,11 +12,24 @@ describe Git::Observer do
         stub(:create!).
         with(exercise: exercise, user: user, parent_sha: sha).
         and_return(clone)
-      observer = Git::Observer.new(clones)
+      observer = Git::Observer.new(clones: clones)
 
       result = observer.clone_created(exercise, user, sha)
 
       expect(result).to eq(clone)
+    end
+  end
+
+  describe '#diff_fetched' do
+    it 'creates a new revision' do
+      diff = '--- +++'
+      clone = double('clone')
+      clone.stub(:create_revision!)
+      observer = Git::Observer.new(clones: double('clones'))
+
+      observer.diff_fetched(clone, diff)
+
+      expect(clone).to have_received(:create_revision!).with(diff: diff)
     end
   end
 end

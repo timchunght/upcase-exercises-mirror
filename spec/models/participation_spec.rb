@@ -193,22 +193,19 @@ describe Participation do
   describe '#update_solution' do
     context 'with an existing clone and solution' do
       it 'updates existing solution' do
-        diff = double('diff')
         clone = build_stubbed(:clone)
         solution = build_stubbed(:solution)
         solution.stub(:create_revision!)
         clone.stub(:solution).and_return(solution)
-        user = build_stubbed(:user)
-        git_server = stub_git_server(clone: clone, diff: diff)
+        git_server = stub_git_server(clone: clone)
         participation = build_participation(
           existing_clone: clone,
-          user: user,
           git_server: git_server
         )
 
         participation.update_solution
 
-        expect(solution).to have_received(:create_revision!).with(diff: diff)
+        expect(git_server).to have_received(:fetch_diff).with(clone)
       end
     end
 

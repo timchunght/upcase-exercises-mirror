@@ -13,4 +13,8 @@ class Clone < ActiveRecord::Base
   def username
     user.username
   end
+
+  def create_revision!(attributes)
+    solution.create_revision!(attributes)
+  end
 end

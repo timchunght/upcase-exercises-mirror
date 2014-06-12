@@ -44,7 +44,7 @@ factory :git_server_job do |container|
 end
 
 service :git_observer do |container|
-  Git::Observer.new(container[:clones])
+  Git::Observer.new(clones: container[:clones])
 end
 
 service :clones do |container|

@@ -29,8 +29,7 @@ class Participation
 
   def update_solution
     if has_solution?
-      diff = git_server.fetch_diff(find_clone)
-      find_solution.create_revision!(diff: diff)
+      git_server.fetch_diff(find_clone)
     end
   end
 
