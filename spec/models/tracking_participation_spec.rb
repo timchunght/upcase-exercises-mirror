@@ -36,14 +36,14 @@ describe TrackingParticipation do
     end
   end
 
-  describe '#update_solution' do
+  describe '#push_to_clone' do
     it 'tracks revision submission when a revision is created' do
-      participation = double('participation', update_solution: nil)
+      participation = double('participation', push_to_clone: nil)
       event_tracker = double('event_tracker', track_revision_submission: nil)
       tracking_participation =
         TrackingParticipation.new(participation, event_tracker)
 
-      tracking_participation.update_solution
+      tracking_participation.push_to_clone
 
       expect(event_tracker).to have_received(:track_revision_submission)
     end

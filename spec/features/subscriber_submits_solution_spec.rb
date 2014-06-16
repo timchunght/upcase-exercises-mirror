@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'subscriber submits solution' do
+feature 'subscriber submits solution', js: true do
   scenario 'sees prompt to review another solution' do
     workflow = start_exercise_workflow
     workflow.create_solution_by_other_user(

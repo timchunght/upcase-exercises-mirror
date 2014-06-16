@@ -95,8 +95,10 @@ FactoryGirl.define do
       admin false
     end
   end
+
   factory :revision do
     solution
+    clone { solution.clone }
     diff <<-DIFF.strip_heredoc
       diff --git a/spec/factories.rb b/spec/factories.rb
       index 7794c81..fe91a1b 100644

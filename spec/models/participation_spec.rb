@@ -63,7 +63,7 @@ describe Participation do
     end
   end
 
-  describe '#find_or_create_solution_for' do
+  describe '#find_or_create_solution' do
     context 'with an existing clone and solution' do
       it 'returns the existing solution' do
         existing_clone = build_stubbed(:clone)
@@ -81,25 +81,15 @@ describe Participation do
 
     context 'with an existing clone but no solution' do
       it 'creates a new solution' do
-        diff = double('diff')
         solution = build_stubbed(:solution)
-        solution.stub(:create_revision!)
         clone = build_stubbed(:clone)
         clone.stub(:solution).and_return(nil)
         clone.stub(:create_solution!).and_return(solution)
-        user = build_stubbed(:user)
-        git_server = double('git_server')
-        git_server.stub(:fetch_diff).with(clone).and_return(diff)
-        participation = build_participation(
-          existing_clone: clone,
-          user: user,
-          git_server: git_server
-        )
+        participation = build_participation(existing_clone: clone)
 
         result = participation.find_or_create_solution
 
         expect(result).to eq(solution)
-        expect(solution).to have_received(:create_revision!).with(diff: diff)
       end
     end
 
@@ -190,50 +180,60 @@ describe Participation do
     end
   end
 
-  describe '#update_solution' do
-    context 'with an existing clone and solution' do
+  describe '#push_to_clone' do
+    context 'with an existing clone' do
       it 'updates existing solution' do
         clone = build_stubbed(:clone)
-        solution = build_stubbed(:solution)
-        solution.stub(:create_revision!)
-        clone.stub(:solution).and_return(solution)
         git_server = stub_git_server(clone: clone)
         participation = build_participation(
           existing_clone: clone,
           git_server: git_server
         )
 
-        participation.update_solution
+        participation.push_to_clone
 
         expect(git_server).to have_received(:fetch_diff).with(clone)
       end
     end
 
-    context 'with an existing clone but no solution' do
+    context 'with no existing clone' do
       it 'does nothing' do
-        clone = build_stubbed(:clone)
-        clone.stub(:solution).and_return(nil)
         git_server = stub_git_server
-        participation = build_participation(
-          existing_clone: clone,
-          git_server: git_server
-        )
+        participation = build_participation(git_server: git_server)
 
-        participation.update_solution
+        participation.push_to_clone
 
         expect(git_server).not_to have_received(:fetch_diff)
       end
     end
+  end
 
-    context 'with no existing clone' do
-      it 'does nothing' do
-        user = build_stubbed(:user)
-        git_server = stub_git_server
-        participation = build_participation(user: user, git_server: git_server)
+  describe '#unpushed?' do
+    context 'with no clone' do
+      it 'returns true' do
+        participation = build_participation(existing_clone: nil)
 
-        participation.update_solution
+        expect(participation).to be_unpushed
+      end
+    end
 
-        expect(git_server).not_to have_received(:fetch_diff)
+    context 'with a clone but no revisions' do
+      it 'returns true' do
+        clone = build_stubbed(:clone)
+        clone.revisions.stub(:any?).and_return(false)
+        participation = build_participation(existing_clone: clone)
+
+        expect(participation).to be_unpushed
+      end
+    end
+
+    context 'with a clone and revisions' do
+      it 'returns false' do
+        clone = build_stubbed(:clone)
+        clone.revisions.stub(:any?).and_return(true)
+        participation = build_participation(existing_clone: clone)
+
+        expect(participation).not_to be_unpushed
       end
     end
   end

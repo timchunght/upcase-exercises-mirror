@@ -3,7 +3,7 @@ class Overview
   pattr_initialize [:exercise!, :participation!, :user!]
   attr_reader :exercise
   delegate :title, to: :exercise
-  delegate :has_clone?, to: :participation
+  delegate :has_clone?, :unpushed?, to: :participation
 
   def clone
     participation.find_clone

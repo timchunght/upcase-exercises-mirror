@@ -14,7 +14,7 @@ class TrackingParticipation < SimpleDelegator
     super
   end
 
-  def update_solution
+  def push_to_clone
     event_tracker.track_revision_submission
     super
   end

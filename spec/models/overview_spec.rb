@@ -65,6 +65,18 @@ describe Overview do
     end
   end
 
+  describe '#unpushed?' do
+    it 'delegates to its participation' do
+      participation_result = double('participation.unpushed?')
+      participation = double('participation', unpushed?: participation_result)
+      overview = build_overview(participation: participation)
+
+      result = overview.unpushed?
+
+      expect(result).to eq(participation_result)
+    end
+  end
+
   def build_overview(
     exercise: double('exercise'),
     participation: double('participation'),

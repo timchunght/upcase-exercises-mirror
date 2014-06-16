@@ -3,7 +3,7 @@ class Api::PushesController < ApplicationController
 
   def create
     trap_not_found do
-      participation.update_solution
+      participation.push_to_clone
       render_success
     end
   end

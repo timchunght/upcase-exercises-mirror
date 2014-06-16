@@ -6,7 +6,7 @@ describe Api::PushesController do
       it 'returns an empty 404' do
         participation = double('participation')
         participation.
-          stub(:update_solution).
+          stub(:push_to_clone).
           and_raise(ActiveRecord::RecordNotFound)
 
         push_solution_for participation
@@ -19,12 +19,12 @@ describe Api::PushesController do
     context 'with an existing solution' do
       it 'triggers an update without authentication' do
         participation = double('participation')
-        participation.stub(:update_solution)
+        participation.stub(:push_to_clone)
 
         push_solution_for participation
 
         expect(controller).to respond_with(201)
-        expect(participation).to have_received(:update_solution)
+        expect(participation).to have_received(:push_to_clone)
       end
     end
   end

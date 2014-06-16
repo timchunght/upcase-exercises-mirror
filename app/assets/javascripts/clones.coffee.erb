@@ -1,0 +1,23 @@
+pollDelay = <%= ENV['POLL_DELAY'] %>
+
+waitForClone = () ->
+  $.ajax
+    method: 'GET'
+    url: $('#overview').data('clone-url')
+    success: (html) ->
+      $('#overview').html(html)
+      waitForSubmittableSolution()
+    error: ->
+      setTimeout(waitForClone, pollDelay)
+
+waitForSubmittableSolution = ->
+  if $('#submit-solution :submit:disabled').length
+    $('#submit-solution').load($('#submit-solution').data('url'))
+    setTimeout(waitForSubmittableSolution, pollDelay)
+
+$('body').on 'ajax:success', '#overview form', (e, html) ->
+  $('#overview').html(html)
+  waitForClone()
+
+$ ->
+  waitForSubmittableSolution()

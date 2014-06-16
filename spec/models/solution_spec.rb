@@ -31,30 +31,11 @@ describe Solution do
 
   describe '#latest_revision' do
     it 'returns the most recently created revision for this solution' do
-      solution = create(:solution)
-      other_solution = create(:solution)
-      revise solution, created_at: 2.day.ago, diff: 'middle'
-      revise solution, created_at: 1.day.ago, diff: 'latest'
-      revise solution, created_at: 3.day.ago, diff: 'oldest'
-      revise other_solution, created_at: Time.now, diff: 'other'
+      revision = double('revisions.latest')
+      solution = build_stubbed(:solution)
+      solution.revisions.stub(:latest).and_return(revision)
 
       result = solution.latest_revision
-
-      expect(result.diff).to eq('latest')
-    end
-  end
-
-  describe '#create_revision!' do
-    it 'creates a new revision with the given attributes' do
-      revision = double('revision')
-      solution = build_stubbed(:solution)
-      solution.
-        revisions.
-        stub(:create!).
-        with(diff: 'example').
-        and_return(revision)
-
-      result = solution.create_revision!(diff: 'example')
 
       expect(result).to eq(revision)
     end

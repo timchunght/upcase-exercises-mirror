@@ -15,6 +15,10 @@ class Participation
     existing_clone || raise(ActiveRecord::RecordNotFound)
   end
 
+  def unpushed?
+    !pushed?
+  end
+
   def find_or_create_solution
     find_clone.solution || create_solution
   end
@@ -27,8 +31,8 @@ class Participation
     find_clone.solution || raise(ActiveRecord::RecordNotFound)
   end
 
-  def update_solution
-    if has_solution?
+  def push_to_clone
+    if has_clone?
       git_server.fetch_diff(find_clone)
     end
   end
@@ -40,10 +44,10 @@ class Participation
   end
 
   def create_solution
-    clone = find_clone
-    clone.create_solution!.tap do |solution|
-      diff = git_server.fetch_diff(clone)
-      solution.create_revision!(diff: diff)
-    end
+    find_clone.create_solution!
+  end
+
+  def pushed?
+    has_clone? && find_clone.revisions.any?
   end
 end

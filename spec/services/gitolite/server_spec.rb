@@ -82,9 +82,8 @@ describe Gitolite::Server do
         repository_finder: repository_finder,
       )
 
-      result = server.fetch_diff(clone)
+      server.fetch_diff(clone)
 
-      expect(result).to eq(diff)
       expect(observer).to have_received(:diff_fetched).with(clone, diff)
     end
   end

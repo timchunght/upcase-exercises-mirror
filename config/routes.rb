@@ -5,7 +5,7 @@ Whetstone::Application.routes.draw do
 
   resources :exercises, only: :show do
     resource :clone, only: [:create, :show]
-    resources :solutions, only: [:create, :show]
+    resources :solutions, only: [:new, :create, :show]
   end
 
   resources :solutions, only: [] do

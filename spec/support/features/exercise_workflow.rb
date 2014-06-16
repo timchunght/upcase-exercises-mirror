@@ -30,12 +30,11 @@ module Features
       create(:clone, user: user, exercise: exercise)
       create_public_key
       page.visit exercise_path(exercise, as: user)
-      stub_diff_command(filename) do
-        page.click_on I18n.t('exercises.show.submit_solution')
-      end
+      push_to_clone(filename)
+      page.click_on I18n.t('exercises.show.submit_solution')
     end
 
-    def update_solution(filename)
+    def push_to_clone(filename)
       stub_diff_command(filename) do
         with_api_client do |client|
           client.post api_pushes_url(user, exercise)
@@ -121,8 +120,10 @@ module Features
     end
 
     def with_api_client
-      Capybara.using_session 'api_client' do
-        yield Capybara.current_session.driver
+      Capybara.using_driver :rack_test do
+        Capybara.using_session 'api_client' do
+          yield Capybara.current_session.driver
+        end
       end
     end
 

@@ -3,8 +3,6 @@
     exercise: overview.exercise,
     clone: overview.clone)
 
-  = button_to t('exercises.show.submit_solution'),
-      exercise_solutions_path(overview.exercise),
-      method: :post
+  = render 'exercises/submit_solution', overview: overview
 - else
   = render 'gitolite/public_keys/new'

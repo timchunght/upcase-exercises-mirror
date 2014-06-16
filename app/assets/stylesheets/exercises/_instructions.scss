@@ -71,6 +71,11 @@ section.main article.main-inner, .preview {
         color: #fff;
       }
     }
+
+    input[disabled] {
+      background: grayscale($button-green);
+      cursor: not-allowed;
+    }
   }
 }
 

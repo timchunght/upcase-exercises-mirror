@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Clone do
   it { should belong_to(:exercise) }
   it { should belong_to(:user) }
+  it { should have_many(:revisions).dependent(:destroy) }
   it { should have_one(:solution).dependent(:destroy) }
 
   it 'enforces the Git SHA format' do
@@ -39,15 +40,36 @@ describe Clone do
   end
 
   describe '#create_revision!' do
-    it 'delegates to its solution' do
+    it 'creates a new revision with the given attributes' do
+      revision = double('revisions.create!')
       solution = build_stubbed(:solution)
       clone = build_stubbed(:clone, solution: solution)
-      solution.stub(:create_revision!)
-      args = double('args')
+      clone.
+        revisions.
+        stub(:create!).
+        with(diff: 'example', solution: solution).
+        and_return(revision)
 
-      clone.create_revision!(args)
+      result = clone.create_revision!(diff: 'example')
 
-      expect(solution).to have_received(:create_revision!).with(args)
+      expect(result).to eq(revision)
+    end
+  end
+
+  describe '#create_solution!' do
+    it 'creates a solution with the latest revision' do
+      revision = double('revisions.latest')
+      solution = double('Solution.create!')
+      clone = build_stubbed(:clone)
+      clone.revisions.stub(:latest).and_return(revision)
+      Solution.stub(:create!).with(clone: clone).and_return(solution)
+      revision.stub(:update_attributes!)
+
+      result = clone.create_solution!
+
+      expect(result).to eq(solution)
+      expect(revision).to have_received(:update_attributes!).
+        with(solution: solution)
     end
   end
 end

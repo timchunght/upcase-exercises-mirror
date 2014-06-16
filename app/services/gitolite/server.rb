@@ -22,7 +22,6 @@ module Gitolite
     def fetch_diff(clone)
       diff = find_clone(clone.exercise, clone.user).diff(clone.parent_sha)
       observer.diff_fetched(clone, diff)
-      diff
     end
 
     def create_exercise(name)

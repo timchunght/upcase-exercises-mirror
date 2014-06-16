@@ -20,11 +20,7 @@ class Solution < ActiveRecord::Base
     comments.present?
   end
 
-  def create_revision!(attributes)
-    revisions.create!(attributes)
-  end
-
   def latest_revision
-    revisions.order(created_at: :desc).first
+    revisions.latest
   end
 end
