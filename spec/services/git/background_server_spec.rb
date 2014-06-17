@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Git::BackgroundServer do
-  %w(fetch_diff find_clone find_source).each do |method_name|
+  %w(find_clone find_source).each do |method_name|
     describe "##{method_name}" do
       it 'delegates and returns immediately' do
         expected_result = double('expected_result')
@@ -18,7 +18,7 @@ describe Git::BackgroundServer do
     end
   end
 
-  %w(add_key create_clone create_exercise).each do |method_name|
+  %w(add_key create_clone create_exercise fetch_diff).each do |method_name|
     describe "##{method_name}" do
       it 'creates a background job to delegate' do
         args = %w(one two)
