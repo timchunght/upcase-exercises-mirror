@@ -6,41 +6,46 @@ module Git
   class DiffFile
     attr_accessor :name
 
-    def initialize(line_factory)
+    def initialize(line_factory, limit)
       @line_factory = line_factory
+      @limit = limit
       @lines = []
     end
 
     def blank?
-      @lines.blank?
+      lines.blank?
     end
 
     def append_unchanged(line)
-      @lines << @line_factory.new(
-        text: line,
-        changed: false,
-        file_name: name,
-        number: next_line_number
-      )
+      append_line(line, changed: false)
     end
 
     def append_changed(line)
-      @lines << @line_factory.new(
-        text: line,
-        changed: true,
-        file_name: name,
-        number: next_line_number
-      )
+      append_line(line, changed: true)
     end
 
     def each_line(&block)
-      @lines.each(&block)
+      lines.each(&block)
     end
 
     private
 
+    attr_reader :limit, :lines, :line_factory
+
+    def append_line(text, attributes)
+      if next_line_number <= limit
+        lines << line_factory.new(
+          {
+            text: text,
+            file_name: name,
+            number: next_line_number
+          }.merge(attributes)
+        )
+      end
+    end
+
     def next_line_number
-      @lines.length + 1
+      lines.length + 1
     end
   end
 end

@@ -175,7 +175,7 @@ factory :diff_parser do |container|
 end
 
 factory :diff_file do |container|
-  Git::DiffFile.new(container[:diff_line])
+  Git::DiffFile.new(container[:diff_line], ENV.fetch('MAX_DIFF_LINES').to_i)
 end
 
 factory :diff_line do |container|

@@ -52,6 +52,18 @@ describe Git::DiffFile do
     end
   end
 
+  describe '#each_line' do
+    it 'limits the number of added lines' do
+      file = build_file(2)
+
+      file.append_unchanged 'one'
+      file.append_changed 'two'
+      file.append_unchanged 'three'
+
+      expect(file.each_line.map(&:to_s)).to eq([' one', '+two'])
+    end
+  end
+
   describe '#append_unchanged' do
     it 'appends an unchanged line to its buffer' do
       file = build_file
@@ -74,7 +86,7 @@ describe Git::DiffFile do
     end
   end
 
-  def build_file
-    Git::DiffFile.new(Git::DiffLine)
+  def build_file(limit = 100)
+    Git::DiffFile.new(Git::DiffLine, limit)
   end
 end
