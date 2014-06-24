@@ -15,6 +15,9 @@ waitForSubmittableSolution = ->
     $('#submit-solution').load($('#submit-solution').data('url'))
     setTimeout(waitForSubmittableSolution, pollDelay)
 
+$('body').on 'ajax:success', '.clone-help', (e, html) ->
+  $('#overview').html(html)
+
 $('body').on 'ajax:success', '#overview form', (e, html) ->
   $('#overview').html(html)
   waitForClone()

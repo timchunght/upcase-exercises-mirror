@@ -2,7 +2,7 @@ class Gitolite::PublicKeysController < ApplicationController
   def create
     @public_key = create_public_key
     add_public_key_to_gitolite
-    redirect_to :back
+    redirect_to :back, notice: I18n.t('gitolite.public_keys.create.notice')
   end
 
   private

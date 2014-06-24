@@ -28,10 +28,16 @@ en:
 
   exercises:
     show:
+      clone_help: 'Getting an error when cloning?'
       no_commits: 'Waiting for your first commit...'
       push_solution: 'Push Solution'
       start_exercise: 'Start Exercise'
       submit_solution: 'Submit solution for peer review'
+
+  gitolite:
+    public_keys:
+      create:
+        notice: 'Your public key has been added.'
 
   mailer:
     comment:

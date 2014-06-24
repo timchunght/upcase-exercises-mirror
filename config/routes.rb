@@ -3,6 +3,8 @@ Whetstone::Application.routes.draw do
   get '/auth/:provider/callback', to: 'oauth_callbacks#show'
   get '/auth/failure', to: 'dashboards#show'
 
+  resource :clone_help_page, only: [:show]
+
   resources :exercises, only: :show do
     resource :clone, only: [:create, :show]
     resources :solutions, only: [:new, :create, :show]

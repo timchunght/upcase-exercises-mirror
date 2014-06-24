@@ -13,6 +13,4 @@
 
       [let us know]: mailto:learn@thoughtbot.com
 
-  = simple_form_for Gitolite::PublicKey.new do |form|
-    = form.input :data
-    = form.submit
+  = render 'gitolite/public_keys/form'

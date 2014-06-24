@@ -26,6 +26,11 @@ section.main article.main-inner, .preview {
     line-height: 1.8em;
   }
 
+  .clone-help {
+    margin-bottom: 0;
+    text-align: right;
+  }
+
   .intro, .setup {
     border-bottom: 1px solid #EEE;
     padding: $base-margin/2 0 $base-margin*1.25;
@@ -82,4 +87,3 @@ section.main article.main-inner, .preview {
 .prettyprint {
   font-size: 1rem;
 }
-

@@ -98,6 +98,10 @@ module Features
       end
     end
 
+    def request_clone_help
+      page.click_on I18n.t('exercises.show.clone_help')
+    end
+
     private
 
     attr_reader :exercise, :page, :user
