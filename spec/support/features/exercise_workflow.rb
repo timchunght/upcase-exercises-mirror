@@ -26,6 +26,14 @@ module Features
       page.click_on I18n.t('helpers.submit.gitolite_public_key.create')
     end
 
+    def set_username(username)
+      page.fill_in(
+        I18n.t('simple_form.labels.user.username'),
+        with: username
+      )
+      page.click_on I18n.t('helpers.submit.username.update')
+    end
+
     def submit_solution(filename = 'example.txt')
       create(:clone, user: user, exercise: exercise)
       create_public_key

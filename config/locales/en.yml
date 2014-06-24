@@ -66,11 +66,15 @@ en:
         create: 'Create Exercise'
       gitolite_public_key:
         create: 'Upload'
+      username:
+        update: 'Set Username'
 
   simple_form:
     labels:
       gitolite_public_key:
         data: 'Public key'
+      user:
+        username: 'Username'
 
   time:
     formats:

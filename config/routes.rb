@@ -12,6 +12,8 @@ Whetstone::Application.routes.draw do
     resources :comments, only: [:new, :create]
   end
 
+  resource :username, only: :update
+
   namespace :admin do
     root to: 'dashboards#show'
     resources :exercises, only: [:index, :new, :create, :edit, :update]

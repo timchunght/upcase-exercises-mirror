@@ -77,6 +77,18 @@ describe Overview do
     end
   end
 
+  describe '#username?' do
+    it 'delegates to its user' do
+      user_result = double('user.username?')
+      user = double('user', username?: user_result)
+      overview = build_overview(user: user)
+
+      result = overview.username?
+
+      expect(result).to eq(user_result)
+    end
+  end
+
   def build_overview(
     exercise: double('exercise'),
     participation: double('participation'),

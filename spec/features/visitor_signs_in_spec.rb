@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 feature 'Visitor signs in' do
-  scenario 'using OAuth against existing Learn account' do
+  scenario 'with valid username' do
+    FakeLearn.sign_in 'username' => 'testuser'
     visit root_url
     click_on 'Authorize'
 

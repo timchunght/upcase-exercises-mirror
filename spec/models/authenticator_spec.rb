@@ -11,6 +11,23 @@ describe Authenticator do
 
         expect(user).to eq(existing_user)
       end
+
+      it 'updates attributes besides username' do
+        existing_user =
+          create(:user, learn_uid: 1, first_name: 'old', username: 'old')
+        auth_hash = build_auth_hash(
+          'uid' => 1,
+          'info' => {
+            'first_name' => 'new',
+            'username' => 'new'
+          }
+        )
+
+        Authenticator.new(auth_hash).authenticate
+
+        expect(existing_user.reload.first_name).to eq('new')
+        expect(existing_user.reload.username).to eq('old')
+      end
     end
 
     context 'without an existing user' do
@@ -31,6 +48,16 @@ describe Authenticator do
         expect(user.username).to eq(auth_hash['info']['username'])
         expect(user.avatar_url).to eq(auth_hash['info']['avatar_url'])
       end
+
+      it 'ignores invalid usernames' do
+        create(:user, username: 'existing')
+        auth_hash = build_auth_hash('info' => { 'username' => 'existing' })
+
+        user = Authenticator.new(auth_hash).authenticate
+
+        expect(user).to be_persisted
+        expect(user.username).to be_nil
+      end
     end
 
     def build_auth_hash(overrides = {})
@@ -46,10 +73,10 @@ describe Authenticator do
           'last_name' => 'User',
           'username' => 'testuser',
           'avatar_url' => 'avatar_url'
-        },
+        }.merge(overrides['info'] || {}),
         'provider' => 'learn',
         'uid' => 1
-      }.merge(overrides)
+      }.merge(overrides.except('info'))
     end
   end
 end

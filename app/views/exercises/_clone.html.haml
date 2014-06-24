@@ -1,8 +1,11 @@
-- if overview.has_public_key?
-  = render('exercises/instructions',
-    exercise: overview.exercise,
-    clone: overview.clone)
+- if overview.username?
+  - if overview.has_public_key?
+    = render 'exercises/instructions',
+      exercise: overview.exercise,
+      clone: overview.clone
 
-  = render 'exercises/submit_solution', overview: overview
+    = render 'exercises/submit_solution', overview: overview
+  - else
+    = render 'gitolite/public_keys/new'
 - else
-  = render 'gitolite/public_keys/new'
+  = render 'usernames/new', user: current_user

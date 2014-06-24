@@ -6,7 +6,8 @@ class Authenticator
 
   def authenticate
     find_or_initialize_user.tap do |user|
-      user.update_attributes!(user_attributes)
+      update user
+      add_username_to user
     end
   end
 
@@ -14,6 +15,14 @@ class Authenticator
 
   def find_or_initialize_user
     User.find_or_initialize_by(learn_uid: uid)
+  end
+
+  def uid
+    auth_hash['uid'].to_s
+  end
+
+  def update(user)
+    user.update_attributes!(user_attributes)
   end
 
   def user_attributes
@@ -24,13 +33,20 @@ class Authenticator
       email: info['email'],
       first_name: info['first_name'],
       last_name: info['last_name'],
-      subscriber: info['has_active_subscription'],
-      username: info['username']
+      subscriber: info['has_active_subscription']
     }
   end
 
-  def uid
-    auth_hash['uid'].to_s
+  def add_username_to(user)
+    unless user.username?
+      attempt_to_set user, :username, info['username']
+    end
+  end
+
+  def attempt_to_set(user, attribute, value)
+    unless user.update_attributes(attribute => value)
+      user[attribute] = nil
+    end
   end
 
   def info

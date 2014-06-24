@@ -4,6 +4,7 @@ class Overview
   attr_reader :exercise
   delegate :title, to: :exercise
   delegate :has_clone?, :unpushed?, to: :participation
+  delegate :username?, to: :user
 
   def clone
     participation.find_clone

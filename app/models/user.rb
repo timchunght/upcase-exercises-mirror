@@ -5,7 +5,12 @@ class User < ActiveRecord::Base
   has_many :clones, dependent: :destroy
   has_many :public_keys, dependent: :destroy, class_name: 'Gitolite::PublicKey'
 
-  validates :username, format: /\A[a-zA-Z0-9_-]+\z/
+  validates(
+    :username,
+    allow_blank: true,
+    format: /\A[a-zA-Z0-9_-]+\z/,
+    uniqueness: true,
+  )
 
   friendly_id :username, use: [:finders]
 
