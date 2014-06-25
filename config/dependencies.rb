@@ -2,23 +2,6 @@ factory :authenticator do |container|
   Authenticator.new(container[:auth_hash])
 end
 
-decorate :authenticator do |component, container|
-  Gitolite::PublicKeyAuthenticator.new(
-    component,
-    container[:auth_hash],
-    container[:public_key_syncronizer]
-  )
-end
-
-factory :public_key_syncronizer do |container|
-  Gitolite::PublicKeySyncronizer.new(
-    server: container[:git_server],
-    local_keys: container[:local_keys],
-    remote_keys: container[:remote_keys],
-    user: container[:user]
-  )
-end
-
 service :git_server do |container|
   Git::BackgroundServer.new(
     container[:immediate_git_server],
