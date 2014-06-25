@@ -16,7 +16,7 @@ aside.comments {
     padding: 0;
   }
 
-  li {
+  > ol > li {
     padding: 1.5rem 0 1.5rem 0;
     position: relative;
     color: $medium-gray;
@@ -89,6 +89,15 @@ aside.comments {
         padding: 0;
       }
 
+      ul, ol {
+        margin-left: 1rem;
+        list-style-type: disc;
+        margin-bottom: .5rem;
+      }
+
+      ol {
+        list-style-type: decimal;
+      }
     }
 
     &.solution-comment {
