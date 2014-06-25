@@ -2,16 +2,34 @@ require 'spec_helper'
 
 describe ClonesController do
   describe '#create' do
-    it 'creates a new clone for the user' do
-      exercise = build_stubbed(:exercise)
-      participation = stub_service(:current_participation)
-      participation.stub(:create_clone)
+    context 'for a user with a username' do
+      it 'creates a new clone for the user' do
+        exercise = build_stubbed(:exercise)
+        participation = stub_service(:current_participation)
+        participation.stub(:create_clone)
+        user = build_stubbed(:user, username: 'hello')
 
-      sign_in
-      post :create, exercise_id: exercise.to_param
+        sign_in_as user
+        post :create, exercise_id: exercise.to_param
 
-      expect(controller).not_to render_with_layout
-      expect(participation).to have_received(:create_clone)
+        expect(controller).not_to render_with_layout
+        expect(participation).to have_received(:create_clone)
+      end
+    end
+
+    context 'for a user without a username' do
+      it 'prompts for a username' do
+        exercise = build_stubbed(:exercise)
+        participation = stub_service(:current_participation)
+        participation.stub(:create_clone)
+        user = build_stubbed(:user, username: '')
+
+        sign_in_as user
+        post :create, exercise_id: exercise.to_param
+
+        expect(controller).to render_template(partial: 'usernames/_edit')
+        expect(participation).not_to have_received(:create_clone)
+      end
     end
   end
 

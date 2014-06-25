@@ -27,5 +27,13 @@ class ShellStubber
 
   def fingerprint(fingerprint = VALID_FINGERPRINT)
     stubs.add(%r{ssh-keygen -lf .*}) { fingerprint }
+    self
+  end
+
+  def raise_for_invalid_fork
+    stubs.add(%r{(ssh git@.* fork sources/[^ ]+ /.*)}) do |command|
+      raise "Attempted to fork exercise without a username:\n#{command}"
+    end
+    self
   end
 end

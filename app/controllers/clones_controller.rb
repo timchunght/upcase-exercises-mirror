@@ -2,7 +2,11 @@ class ClonesController < ApplicationController
   layout false
 
   def create
-    dependencies[:current_participation].create_clone
+    if current_user.username?
+      dependencies[:current_participation].create_clone
+    else
+      render partial: 'usernames/edit', locals: { user: current_user }
+    end
   end
 
   def show

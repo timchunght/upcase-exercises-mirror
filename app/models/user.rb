@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   validates(
     :username,
-    allow_blank: true,
+    allow_nil: true,
     format: /\A[a-zA-Z0-9_-]+\z/,
     uniqueness: true,
   )

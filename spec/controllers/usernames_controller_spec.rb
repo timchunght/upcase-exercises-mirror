@@ -6,27 +6,26 @@ describe UsernamesController do
       it 'redirects back' do
         user_params = { 'username' => 'username' }
         user = build_stubbed(:user)
+        exercise = build_stubbed(:exercise)
         user.stub(:update_attributes).with(user_params).and_return(true)
-        referer = '/some/path'
 
         sign_in_as user
-        request.env['HTTP_REFERER'] = referer
-        put :update, user: user_params, format: :js
+        put :update, user: user_params, exercise_id: exercise.to_param
 
-        expect(controller).to redirect_to(referer)
+        expect(controller).to redirect_to(exercise_path(exercise))
       end
     end
 
     context 'with invalid parameters' do
       it 're-renders the form' do
         user = build_stubbed(:user)
+        exercise = build_stubbed(:exercise)
         user.stub(:update_attributes).and_return(false)
 
         sign_in_as user
-        put :update, user: { username: '' }, format: :js
+        put :update, user: { username: '' }, exercise_id: exercise.to_param
 
-        expect(controller).to render_template(:update)
-        expect(controller).not_to render_with_layout
+        expect(controller).to render_template(:edit)
       end
     end
   end

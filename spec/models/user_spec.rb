@@ -5,7 +5,7 @@ describe User do
   it { should have_many(:public_keys).dependent(:destroy) }
 
   it { should allow_value(nil).for(:username) }
-  it { should allow_value('').for(:username) }
+  it { should_not allow_value('').for(:username) }
   it { should allow_value('word').for(:username) }
   it { should allow_value('123').for(:username) }
   it { should allow_value('word123').for(:username) }

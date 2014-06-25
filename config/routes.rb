@@ -8,13 +8,12 @@ Whetstone::Application.routes.draw do
   resources :exercises, only: :show do
     resource :clone, only: [:create, :show]
     resources :solutions, only: [:new, :create, :show]
+    resource :username, only: :update
   end
 
   resources :solutions, only: [] do
     resources :comments, only: [:new, :create]
   end
-
-  resource :username, only: :update
 
   namespace :admin do
     root to: 'dashboards#show'

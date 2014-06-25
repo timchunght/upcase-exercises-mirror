@@ -53,24 +53,25 @@ feature 'User starts exercise', js: true do
 
   scenario 'without username and sets username' do
     exercise = create(:exercise)
-    workflow = start_exercise_workflow(username: '', exercise: exercise)
+    workflow = start_exercise_workflow(username: nil, exercise: exercise)
 
     workflow.start_exercise
     workflow.set_username 'mruser'
+    workflow.start_exercise
 
     expect(page).to display_exercise(exercise)
   end
 
   scenario 'without username and sets invalid username' do
-    create(:user, username: 'existing')
     exercise = create(:exercise)
-    workflow = start_exercise_workflow(username: '', exercise: exercise)
+    workflow = start_exercise_workflow(username: nil, exercise: exercise)
 
     workflow.start_exercise
-    workflow.set_username 'existing'
-    expect(page).to have_content('has already been taken')
+    workflow.set_username ''
+    expect(page).to have_content('is invalid')
 
     workflow.set_username 'mruser'
+    workflow.start_exercise
     expect(page).to display_exercise(exercise)
   end
 

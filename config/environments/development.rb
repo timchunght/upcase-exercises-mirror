@@ -41,7 +41,8 @@ Whetstone::Application.configure do
         clone_gitolite_admin_repo.
         head_sha.
         diff(IO.read(Rails.root.join('spec', 'fixtures', 'example.diff').to_s)).
-        fingerprint
+        fingerprint.
+        raise_for_invalid_fork
     end
   end
 end

@@ -6,7 +6,8 @@ module Features
       ShellStubber.new(stubs).
         clone_gitolite_admin_repo.
         head_sha.
-        fingerprint
+        fingerprint.
+        raise_for_invalid_fork
 
       yield
     end

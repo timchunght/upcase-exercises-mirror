@@ -50,8 +50,7 @@ describe Authenticator do
       end
 
       it 'ignores invalid usernames' do
-        create(:user, username: 'existing')
-        auth_hash = build_auth_hash('info' => { 'username' => 'existing' })
+        auth_hash = build_auth_hash('info' => { 'username' => '' })
 
         user = Authenticator.new(auth_hash).authenticate
 

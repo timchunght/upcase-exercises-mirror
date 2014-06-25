@@ -8,7 +8,7 @@ module Features
     def initialize(page, options = {})
       @page = page
       @exercise = options[:exercise] || create(:exercise)
-      username = options[:username] || 'myuser'
+      username = options.fetch(:username) { 'myuser' }
       @user = options[:user] || create(:user, username: username)
     end
 

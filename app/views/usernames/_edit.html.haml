@@ -7,6 +7,6 @@
       you by. This username will be used in Git URLs and displayed to other
       users.
 
-  = simple_form_for user, url: username_path, remote: true do |form|
+  = simple_form_for user, url: exercise_username_path(params[:exercise_id]) do |form|
     = form.input :username, label: false, placeholder: 'Username'
     = form.submit t('helpers.submit.username.update')
