@@ -6,6 +6,6 @@
 
     = render 'exercises/submit_solution', overview: overview
   - else
-    = render 'gitolite/public_keys/new'
+    = render 'gitolite/public_keys/new', return_to: request.path
 - else
   = render 'usernames/new', user: current_user

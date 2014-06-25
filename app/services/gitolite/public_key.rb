@@ -3,5 +3,14 @@ module Gitolite
   class PublicKey < ActiveRecord::Base
     validates :data, presence: true
     validates :user_id, presence: true
+    validate :check_fingerprint
+
+    private
+
+    def check_fingerprint
+      unless fingerprint.present?
+        errors.add :data, 'did not contain a valid SSH public key'
+      end
+    end
   end
 end

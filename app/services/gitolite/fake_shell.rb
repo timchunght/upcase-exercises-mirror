@@ -15,9 +15,12 @@ module Gitolite
     end
 
     def self.with_stubs
-      yield stubs
-    ensure
-      @stubs = Stubs.new
+      old_stubs = stubs.dup
+      begin
+        yield stubs
+      ensure
+        @stubs = old_stubs
+      end
     end
 
     def self.stub
@@ -33,16 +36,26 @@ module Gitolite
 
     class Stubs
       def initialize
-        @stubs = {}
+        @handlers = []
       end
 
       def add(pattern, &handler)
-        @stubs[pattern] = handler
+        handlers.unshift [pattern, handler]
       end
 
       def run(command)
         normalize_output output_from(command)
       end
+
+      def dup
+        Stubs.new.tap do |stubs|
+          stubs.handlers = handlers.dup
+        end
+      end
+
+      protected
+
+      attr_accessor :handlers
 
       private
 
@@ -55,7 +68,7 @@ module Gitolite
       end
 
       def find(command)
-        @stubs.find do |pattern, _|
+        handlers.detect do |(pattern, _)|
           pattern =~ command
         end
       end

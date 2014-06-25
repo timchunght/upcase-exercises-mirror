@@ -5,7 +5,8 @@ module Features
     Gitolite::FakeShell.with_stubs do |stubs|
       ShellStubber.new(stubs).
         clone_gitolite_admin_repo.
-        head_sha
+        head_sha.
+        fingerprint
 
       yield
     end

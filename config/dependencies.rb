@@ -237,6 +237,17 @@ service :current_public_keys do |container|
   container[:current_user].public_keys
 end
 
+decorate :current_public_keys do |public_keys, container|
+  Gitolite::FingerprintedPublicKeyCollection.new(
+    public_keys,
+    container[:fingerprinter]
+  )
+end
+
+service :fingerprinter do |container|
+  Gitolite::Fingerprinter.new(container[:shell])
+end
+
 service :current_user do |container|
   container[:clearance_session].current_user
 end

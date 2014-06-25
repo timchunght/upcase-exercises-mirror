@@ -18,7 +18,7 @@ module Features
       page.click_on I18n.t('exercises.show.start_exercise')
     end
 
-    def upload_public_key(key_text)
+    def upload_public_key(key_text = 'ssh-rsa 123')
       page.fill_in(
         I18n.t('simple_form.labels.gitolite_public_key.data'),
         with: key_text
@@ -107,7 +107,7 @@ module Features
     attr_reader :exercise, :page, :user
 
     def create_public_key(data: 'ssh-rsa 123')
-      @user.public_keys.create!(data: data)
+      @user.public_keys.create!(data: data, fingerprint: 'stubbed')
     end
 
     def stub_diff_command(filename)

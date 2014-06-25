@@ -13,4 +13,6 @@
 
       [let us know]: mailto:learn@thoughtbot.com
 
-  = render 'gitolite/public_keys/form'
+  = render 'gitolite/public_keys/form',
+    return_to: return_to,
+    public_key: Gitolite::PublicKey.new

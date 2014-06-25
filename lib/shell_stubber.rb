@@ -1,4 +1,11 @@
 class ShellStubber
+  VALID_FINGERPRINT = %w(
+    2048
+    d4:58:a1:cb:14:94:77:cf:e9:f4:b1:ac:2e:48:05:d2
+    user@example.com
+    (RSA)
+  ).join(' ')
+
   pattr_initialize :stubs
 
   def clone_gitolite_admin_repo
@@ -16,5 +23,9 @@ class ShellStubber
   def diff(diff = 'diff example.txt')
     stubs.add(%r{git diff}) { diff }
     self
+  end
+
+  def fingerprint(fingerprint = VALID_FINGERPRINT)
+    stubs.add(%r{ssh-keygen -lf .*}) { fingerprint }
   end
 end

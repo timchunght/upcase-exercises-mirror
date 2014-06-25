@@ -40,7 +40,8 @@ Whetstone::Application.configure do
       ShellStubber.new(stubs).
         clone_gitolite_admin_repo.
         head_sha.
-        diff(IO.read(Rails.root.join('spec', 'fixtures', 'example.diff').to_s))
+        diff(IO.read(Rails.root.join('spec', 'fixtures', 'example.diff').to_s)).
+        fingerprint
     end
   end
 end
