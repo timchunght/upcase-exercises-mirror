@@ -112,9 +112,8 @@ module Features
 
     def stub_diff_command(filename)
       Gitolite::FakeShell.with_stubs do |stubs|
-        stubs.add(%r{git diff}) do
-          generate_diff(filename)
-        end
+        ShellStubber.new(stubs).
+          diff(generate_diff(filename))
 
         yield
       end

@@ -1,13 +1,11 @@
+require 'shell_stubber'
+
 module Features
   def stub_git_commands
     Gitolite::FakeShell.with_stubs do |stubs|
-      stubs.add(%r{git clone [^ ]+gitolite-admin\.git}) do
-        FileUtils.mkdir_p('conf')
-      end
-
-      stubs.add(%r{git rev-parse HEAD}) do
-        'abcdef1234567890abcdef1234567890abcdef10'
-      end
+      ShellStubber.new(stubs).
+        clone_gitolite_admin_repo.
+        head_sha
 
       yield
     end

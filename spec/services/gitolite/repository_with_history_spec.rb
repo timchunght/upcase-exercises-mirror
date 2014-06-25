@@ -21,9 +21,8 @@ describe Gitolite::RepositoryWithHistory do
 
   def stub_revision
     Gitolite::FakeShell.with_stubs do |stubs|
-      stubs.add(%r{git rev-parse HEAD}) do
-        '05aa1bb6146da8d041eb37c4931e'
-      end
+      ShellStubber.new(stubs).
+        head_sha('05aa1bb6146da8d041eb37c4931e')
 
       yield
     end

@@ -24,9 +24,7 @@ describe Gitolite::DiffableRepository do
 
     def stub_diff
       Gitolite::FakeShell.with_stubs do |stubs|
-        stubs.add(%r{git diff}) do |target|
-          'diff deploy.rb'
-        end
+        ShellStubber.new(stubs).diff('diff deploy.rb')
 
         yield
       end
