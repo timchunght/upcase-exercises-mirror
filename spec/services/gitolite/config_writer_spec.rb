@@ -5,7 +5,7 @@ describe Gitolite::ConfigWriter do
     it 'writes the template into the given directory' do
       in_config_dir do
         stub_users(
-          [{ username: 'one' }, { username: 'two' }],
+          [{ username: 'one' }, { username: 'two' }, { username: nil }],
           admin_usernames: %w(apple berry)
         )
         sources = stub_sources(%w(sources/adam sources/billy))
@@ -96,7 +96,7 @@ describe Gitolite::ConfigWriter do
   def stub_user(attributes)
     double(
       'user',
-      username: attributes[:username] || 'mruser',
+      username: attributes.fetch(:username) { 'mruser' },
       public_keys: attributes[:public_keys] || []
     )
   end

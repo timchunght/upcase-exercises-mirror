@@ -47,7 +47,7 @@ module Gitolite
     end
 
     def usernames
-      User.by_username.map(&:username)
+      User.by_username.map(&:username).compact
     end
 
     def rewrite_key_directory
