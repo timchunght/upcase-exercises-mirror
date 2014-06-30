@@ -164,6 +164,12 @@
         float: left;
       }
 
+      .comment {
+        display: block;
+        margin: .5rem 0 0 $avatar-size;
+        padding-left: .75rem;
+      }
+
       .username {
         color: $base-font-color;
         font-weight: 600;
