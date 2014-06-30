@@ -5,8 +5,8 @@
     %pre
       %code= render clone.repository
     %p.clone-help
-      = link_to t('exercises.show.clone_help'),
-        clone_help_page_path(return_to: request.path),
+      = link_to t("exercises.show.clone_help"),
+        clone_help_page_path(return_to: exercise_path(clone.exercise)),
         remote: true
 
 %section.instructions

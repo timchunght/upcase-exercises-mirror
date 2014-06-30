@@ -5,4 +5,5 @@
 
   = render 'exercises/submit_solution', overview: overview
 - else
-  = render 'gitolite/public_keys/new', return_to: request.path
+  = render 'gitolite/public_keys/new',
+    return_to: exercise_path(overview.exercise)

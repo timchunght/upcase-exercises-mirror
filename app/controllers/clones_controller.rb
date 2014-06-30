@@ -1,5 +1,6 @@
 class ClonesController < ApplicationController
   layout false
+  before_filter :require_xhr
 
   def create
     if current_user.username?
@@ -16,6 +17,14 @@ class ClonesController < ApplicationController
       render
     else
       head :not_found
+    end
+  end
+
+  private
+
+  def require_xhr
+    unless request.xhr?
+      head :bad_request
     end
   end
 end

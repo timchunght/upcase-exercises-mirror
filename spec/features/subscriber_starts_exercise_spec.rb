@@ -6,7 +6,7 @@ feature 'User starts exercise', js: true do
     workflow = start_exercise_workflow(username: 'mruser', exercise: exercise)
 
     pause_background_jobs do
-      workflow.start_exercise(public_keys: ['ssh-rsa 123'])
+      workflow.start_exercise
       expect(page).to have_content(I18n.t('clones.create.pending'))
     end
 
@@ -14,20 +14,26 @@ feature 'User starts exercise', js: true do
     expect(page).to display_exercise(exercise)
   end
 
-  scenario 'without public key and uploads public key' do
+  scenario "with new account and sets username and public key" do
     exercise = create(:exercise)
-    workflow = start_exercise_workflow(exercise: exercise)
+    workflow = start_exercise_workflow(
+      exercise: exercise,
+      username: nil,
+      public_keys: []
+    )
 
-    workflow.start_exercise(public_keys: [])
-    workflow.upload_public_key 'ssh-rsa 123'
+    workflow.start_exercise
+    workflow.set_username "mruser"
+    workflow.start_exercise
+    workflow.upload_public_key "ssh-rsa 123"
 
     expect(page).to display_exercise(exercise)
   end
 
   scenario 'without public key and uploads invalid public key' do
     exercise = create(:exercise)
-    workflow = start_exercise_workflow(exercise: exercise)
-    workflow.start_exercise(public_keys: [])
+    workflow = start_exercise_workflow(exercise: exercise, public_keys: [])
+    workflow.start_exercise
 
     stub_invalid_fingerprint do
       workflow.upload_public_key
@@ -40,24 +46,16 @@ feature 'User starts exercise', js: true do
     end
   end
 
-  scenario 'with public bad key and uploads new public key' do
+  scenario "with public bad key and uploads new public key" do
     exercise = create(:exercise)
-    workflow = start_exercise_workflow(exercise: exercise)
+    workflow = start_exercise_workflow(
+      exercise: exercise,
+      public_keys: ["ssh-rsa invalid"]
+    )
 
-    workflow.start_exercise(public_keys: ['ssh-rsa invalid'])
+    workflow.start_exercise
     workflow.request_clone_help
-    workflow.upload_public_key 'ssh-rsa 123'
-
-    expect(page).to display_exercise(exercise)
-  end
-
-  scenario 'without username and sets username' do
-    exercise = create(:exercise)
-    workflow = start_exercise_workflow(username: nil, exercise: exercise)
-
-    workflow.start_exercise
-    workflow.set_username 'mruser'
-    workflow.start_exercise
+    workflow.upload_public_key "ssh-rsa 123"
 
     expect(page).to display_exercise(exercise)
   end

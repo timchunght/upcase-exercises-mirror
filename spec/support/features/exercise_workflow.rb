@@ -8,12 +8,13 @@ module Features
     def initialize(page, options = {})
       @page = page
       @exercise = options[:exercise] || create(:exercise)
-      username = options.fetch(:username) { 'myuser' }
+      username = options.fetch(:username) { "myuser" }
       @user = options[:user] || create(:user, username: username)
+      public_keys = options[:public_keys] || ["ssh-rsa 123"]
+      public_keys.each { |data| create_public_key(data: data) }
     end
 
-    def start_exercise(public_keys: ['ssh-rsa 123'])
-      public_keys.each { |data| create_public_key(data: data) }
+    def start_exercise
       page.visit exercise_path(exercise, as: user)
       page.click_on I18n.t('exercises.show.start_exercise')
     end

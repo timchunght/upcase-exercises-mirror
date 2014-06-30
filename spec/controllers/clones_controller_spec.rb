@@ -10,7 +10,7 @@ describe ClonesController do
         user = build_stubbed(:user, username: 'hello')
 
         sign_in_as user
-        post :create, exercise_id: exercise.to_param
+        xhr :post, :create, exercise_id: exercise.to_param
 
         expect(controller).not_to render_with_layout
         expect(participation).to have_received(:create_clone)
@@ -25,7 +25,7 @@ describe ClonesController do
         user = build_stubbed(:user, username: '')
 
         sign_in_as user
-        post :create, exercise_id: exercise.to_param
+        xhr :post, :create, exercise_id: exercise.to_param
 
         expect(controller).to render_template(partial: 'usernames/_edit')
         expect(participation).not_to have_received(:create_clone)
@@ -50,13 +50,22 @@ describe ClonesController do
       end
     end
 
+    context "as a non-XHR request" do
+      it "raises an invalid request error" do
+        sign_in
+        get :show, exercise_id: "1"
+
+        expect(controller).to respond_with(:bad_request)
+      end
+    end
+
     def show_overview(stubs)
       exercise = build_stubbed(:exercise)
       overview = stub_service(:current_overview)
       overview.stub(stubs)
 
       sign_in
-      get :show, exercise_id: exercise.to_param
+      xhr :get, :show, exercise_id: exercise.to_param
     end
   end
 end
