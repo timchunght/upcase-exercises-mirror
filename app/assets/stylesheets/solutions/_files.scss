@@ -114,30 +114,45 @@
   }
 
   .line-comments {
-    ol {
+
+    > ol {
       margin: 0;
       padding: 0;
+
+      > li {
+        display: block;
+        font-size: em(14px);
+        padding: 1rem 3rem 1.2rem;
+        position: relative;
+        border-bottom: 1px solid $base-border-color-2;
+
+        &:first-child {
+          border-top: 1px solid $base-border-color;
+          padding-top: 1rem;
+        }
+
+        &:last-child {
+          border-bottom: 1px solid $base-border-color;
+        }
+
+        &.form form {
+          margin-left: 1.5rem;
+          padding-left: .75rem;
+        }
+      }
     }
 
-    li {
-      display: block;
-      font-size: em(14px);
-      padding: 1rem 3rem 1.2rem;
-      position: relative;
-      border-bottom: 1px solid $base-border-color-2;
+    .comment {
 
-      &:first-child {
-        border-top: 1px solid $base-border-color;
-        padding-top: 1rem;
+      ul, ol {
+        margin-left: 1rem;
+        list-style-type: disc;
+        margin-bottom: .5rem;
       }
 
-      &:last-child {
-        border-bottom: 1px solid $base-border-color;
-      }
-
-      &.form form {
-        margin-left: 1.5rem;
-        padding-left: .75rem;
+      ol {
+        list-style-type: decimal;
+        margin: 0;
       }
     }
 
@@ -145,6 +160,7 @@
       color: #666;
       font-size: .8rem;
       line-height: 1.6rem;
+      padding-bottom: $base-padding;
 
       img {
         border-radius: 50%;
@@ -156,12 +172,6 @@
         font-weight: 600;
         padding: 1px 0 1px .75rem;
       }
-    }
-
-    .comment {
-      display: block;
-      margin: .5rem 0 0 $avatar-size;
-      padding-left: .75rem;
     }
 
     textarea {
