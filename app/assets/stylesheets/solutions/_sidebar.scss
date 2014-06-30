@@ -35,33 +35,14 @@
 }
 
 ul.solutions {
+  background: #fff;
   border: 1px solid $light-gray;
   list-style-type: none;
   margin: 0 0 2rem 0;
   padding: 0;
 
-  &.my-solution {
-    li {
-      .username {
-        color: darken($blue, 15%);
-      }
-
-      .review-status {
-        color: $blue-alt;
-
-        &:before {
-          background: $blue-alt;
-        }
-      }
-
-      &.active {
-        // active styles here
-      }
-    }
-  }
-
   li {
-    border-bottom: 1px solid $light-gray;
+    border-bottom: 1px solid lighten($light-gray, 6%);
     position: relative;
 
     &:last-of-type {
@@ -73,56 +54,65 @@ ul.solutions {
     }
 
     &.assigned .review-status {
-      color: $red;
-
-      &:before {
-        background: $red;
-      }
+      color: darken($medium-gray, 10%);
     }
 
     &.active a {
-      background: #fff;
-      box-shadow: 0 1px 0 rgba($red, 0.4);
+      box-shadow: rgba($base-border-active, 0.5) 0px 0px 0px 1px, rgba($base-bg-active, 0.5) 0px 0px 0px 2px inset;
+      background: rgba($base-bg-active, 0.3);
+      opacity: 1;
+
+      $color: #364A57;
+      .username {
+        color: $color;
+        font-weight: 600;
+      }
+
+      .review-status {
+        color: rgba($color, 0.5);
+      }
     }
 
     a {
       display: block;
-      padding: 1rem .5rem 1rem 1rem;
+      opacity: 0.85;
+      padding: 1rem 1rem 1rem 0.75rem;
       text-decoration: none;
-
-      &:hover {
-        background: #fff;
-      }
     }
 
+    &:hover a {
+      opacity: 1;
+    }
+
+    $image-margin: 0.6rem;
     img {
       border-radius: 50%;
       float: left;
       height: 24px;
-      margin-right: .75rem;
+      margin-right: $image-margin;
       width: 24px;
     }
 
     .username {
-      color: #333;
+      color: #444;
       display: block;
-      font-size: .9rem;
+      font-size: .8rem;
       line-height: $avatar-size;
       overflow: hidden;
       text-overflow: ellipsis;
+      @include transition(color 0.15s $ease-out-quad);
       white-space: nowrap;
+    }
+
+    &:hover .username {
+      color: #333;
     }
 
     .review-status {
       display: block;
       font-size: .75rem;
       margin-left: $avatar-size;
-      padding-left: .75rem;
-
-      &:before {
-        @include pseudo-circle-small;
-        left: 23px;
-      }
+      padding-left: $image-margin;
     }
   }
 }

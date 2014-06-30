@@ -55,7 +55,7 @@ en:
       assigned: 'Please review this solution.'
     statuses:
       submitted: 'Great solution!'
-      reviewing: "You have been assigned %{username}'s solution to review."
+      reviewing: "You have been assigned to review %{username}'s solution."
       awaiting_review: 'Your solution is awaiting review'
       completed: 'Your solution has been reviewed!'
       to_submit_revision: 'To submit a revision, push a new commit.'
