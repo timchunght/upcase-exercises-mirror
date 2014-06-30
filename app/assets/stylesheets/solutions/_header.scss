@@ -21,8 +21,8 @@ header.solutions-main {
     background: $sidebar-bg;
     margin: 0;
 
-    .active a {
-      box-shadow: 0 1px 0 rgba($highlight-blue, 0.4);
+    a {
+      opacity: 1;
     }
   }
 }
