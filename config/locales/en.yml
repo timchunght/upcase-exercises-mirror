@@ -54,7 +54,7 @@ en:
     solution:
       assigned: 'Please review this solution.'
     statuses:
-      submitted: 'Great solution!'
+      submitted: "Nice! You've submitted your solution."
       reviewing: "You have been assigned to review %{username}'s solution."
       awaiting_review: 'Your solution is awaiting review'
       completed: 'Your solution has been reviewed!'
@@ -71,7 +71,7 @@ en:
       exercise:
         create: 'Create Exercise'
       gitolite_public_key:
-        create: 'Upload'
+        create: 'Upload your public key'
       username:
         update: 'Set Username'
 
