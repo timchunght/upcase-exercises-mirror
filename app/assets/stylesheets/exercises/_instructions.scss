@@ -14,13 +14,6 @@ section.main article.main-inner, .preview {
     }
   }
 
-  h3, label {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1em;
-    text-transform: uppercase;
-  }
-
   p {
     margin-bottom: 1.2em;
     line-height: 1.8em;
@@ -80,6 +73,28 @@ section.main article.main-inner, .preview {
     input[disabled] {
       background: grayscale($button-green);
       cursor: not-allowed;
+    }
+  }
+
+  .instructions {
+    h1, h2, h3, label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 3em 0 1em;
+      text-transform: uppercase;
+    }
+
+    .title {
+      font-weight: 800;
+      margin-top: 0;
+    }
+
+    ol, ul {
+      margin-bottom: 2em;
+    }
+
+    pre code {
+      font-size: 1.1em;
     }
   }
 }
