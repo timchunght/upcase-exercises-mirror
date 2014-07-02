@@ -25,12 +25,18 @@
     }
   }
 
-  .code {
+  .highlight-scroll {
     border: 1px solid $base-border-color;
-    border-top-width: 0;
-    overflow-x: scroll;
-    padding: 0;
+    border-top: 0;
+    overflow-x: auto;
+  }
+
+  .code {
     @include border-bottom-radius(2px);
+    border-top-width: 0;
+    display: table;
+    min-width: 100%;
+    padding: 0;
 
     > div:first-of-type {
       padding-top: 0.5rem;
@@ -38,7 +44,6 @@
   }
 
   .line {
-    display: block;
     line-height: 1.6em;
     min-width: 100%;
     padding: 0 .75rem;
@@ -56,21 +61,17 @@
       }
     }
 
-    &:hover, &:hover:before, {
-      background: $highlight-yellow;
-    }
-
     &.comments {
       background: $highlight-green;
+    }
+
+    &:hover, &:hover:before, {
+      background: $highlight-yellow;
     }
 
     &.blank {
       code:after {
         content: " "; // preserve equal heights for blank & non-blank lines
-      }
-
-      &:hover, &:hover:before {
-        background: none;
       }
     }
 
@@ -114,7 +115,6 @@
   }
 
   .line-comments {
-
     > ol {
       margin: 0;
       padding: 0;
@@ -122,7 +122,7 @@
       > li {
         display: block;
         font-size: em(14px);
-        padding: 1rem 3rem 1.2rem;
+        padding: 1rem 2rem 1.2rem 1.5rem;
         position: relative;
         border-bottom: 1px solid $base-border-color-2;
 
@@ -135,10 +135,6 @@
           border-bottom: 1px solid $base-border-color;
         }
 
-        &.form form {
-          margin-left: 1.5rem;
-          padding-left: .75rem;
-        }
       }
     }
 
@@ -157,17 +153,11 @@
       color: #666;
       font-size: .8rem;
       line-height: 1.6rem;
-      padding-bottom: $base-padding;
+      padding-bottom: $base-padding/2;
 
       img {
         border-radius: 50%;
         float: left;
-      }
-
-      .comment {
-        display: block;
-        margin: .5rem 0 0 $avatar-size;
-        padding-left: .75rem;
       }
 
       .username {
@@ -175,6 +165,13 @@
         font-weight: 600;
         padding: 1px 0 1px .75rem;
       }
+    }
+
+    .comment, form {
+      display: block;
+      margin: 0 0 0 $avatar-size;
+      padding-left: .75rem;
+      width: 600px;
     }
 
     textarea {

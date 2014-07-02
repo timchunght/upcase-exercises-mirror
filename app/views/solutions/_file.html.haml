@@ -1,19 +1,20 @@
 %section.file
   %span.filename= file.name
-  .code
-    - file.each_line do |line|
-      = content_tag_with_conditional_classes( |
-        :div,                                 |
-        class_names: {                        |
-          blank: line.blank?,                 |
-          comments: line.changed?,            |
-          line: true                          |
-        }                                     |
-      ) do                                    |
-        .make-comment
-          = link_to '', line.new_comment_path, remote: true
-        %pre.prettyprint.lang-ruby
-          %code
-            :preserve
-              #{h line.text}
-      = render 'solutions/inline_comments', comments: line.comments, inline_comment_form_url: line.new_comment_path
+  .highlight-scroll
+    .code
+      - file.each_line do |line|
+        = content_tag_with_conditional_classes( |
+          :div,                                 |
+          class_names: {                        |
+            blank: line.blank?,                 |
+            comments: line.changed?,            |
+            line: true                          |
+          }                                     |
+        ) do                                    |
+          .make-comment
+            = link_to '', line.new_comment_path, remote: true
+          %pre.prettyprint.lang-ruby
+            %code
+              :preserve
+                #{h line.text}
+        = render 'solutions/inline_comments', comments: line.comments, inline_comment_form_url: line.new_comment_path
