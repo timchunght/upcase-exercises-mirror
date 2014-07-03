@@ -113,6 +113,13 @@
       display: table-cell;
       vertical-align: middle;
 
+      &.checkmark {
+        $s: 46px;
+        background: image_url('checkmark-icon.svg') no-repeat;
+        background-size: $s;
+        @include size($s);
+      }
+
       &.clock {
         $s: 40px;
         background: image_url('clock.svg') no-repeat;
