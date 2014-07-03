@@ -3,7 +3,7 @@ section.main article.main-inner, .preview {
     margin-bottom: 1.5rem;
 
     h1 {
-      font-weight: 600;
+      font-weight: 800;
     }
 
     h2 {
@@ -77,7 +77,7 @@ section.main article.main-inner, .preview {
   }
 
   .instructions {
-    h1, h2, h3, label {
+    h1, h2, h3 {
       font-size: 1.1rem;
       font-weight: 600;
       margin: 3em 0 1em;
@@ -85,12 +85,27 @@ section.main article.main-inner, .preview {
     }
 
     .title {
+      font-size: 1.71rem;
       font-weight: 800;
       margin-top: 0;
+      text-transform: none;
     }
 
     ol, ul {
       margin-bottom: 2em;
+    }
+
+    ol {
+      list-style: decimal;
+    }
+
+    ul {
+      list-style: disc;
+    }
+
+    li {
+      line-height: 1.6;
+      margin-bottom: 0.6em;
     }
 
     pre code {
