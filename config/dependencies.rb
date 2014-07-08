@@ -161,6 +161,15 @@ factory :diff_file do |container|
   Git::DiffFile.new(container[:diff_line], ENV.fetch('MAX_DIFF_LINES').to_i)
 end
 
+decorate :diff_file do |file, container|
+  CommentableFile.new(
+    file,
+    container[:comment_locator].new(
+      revision: container[:viewed_solution].latest_revision
+    )
+  )
+end
+
 factory :diff_line do |container|
   Git::DiffLine.new(
     text: container[:text],
@@ -190,8 +199,7 @@ decorate :diff_line do |diff_line, container|
     diff_line,
     container[:comment_locator].new(
       revision: container[:viewed_solution].latest_revision
-    ),
-    container[:viewed_solution]
+    )
   )
 end
 

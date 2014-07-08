@@ -135,6 +135,9 @@
           border-bottom: 1px solid $base-border-color;
         }
 
+        &.form {
+          display: none;
+        }
       }
     }
 

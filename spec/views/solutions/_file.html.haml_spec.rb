@@ -1,7 +1,7 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe 'solutions/_file.html.haml' do
-  it 'preserves whitespace' do
+describe "solutions/_file.html.haml" do
+  it "preserves whitespace" do
     input = <<-EOS.strip_heredoc
       class Example
         def one
@@ -12,20 +12,20 @@ describe 'solutions/_file.html.haml' do
       end
     EOS
 
-    render_file input
+    render_contents input
 
     expect(rendered_text).to eq(input)
   end
 
-  it 'highlights changed lines' do
+  it "highlights changed lines" do
     render_lines([
-     unchanged( 'class Example' ),
-     changed(   '  def one'     ),
-     changed(   '  end'         ),
-     unchanged( ''              ),
-     unchanged( '  def two'     ),
-     unchanged( '  end'         ),
-     unchanged( 'end'           )
+     unchanged( "class Example" ),
+     changed(   "  def one"     ),
+     changed(   "  end"         ),
+     unchanged( ""              ),
+     unchanged( "  def two"     ),
+     unchanged( "  end"         ),
+     unchanged( "end"           )
     ])
 
     expect(added_text.strip_heredoc).to eq(<<-TEXT.strip_heredoc)
@@ -34,7 +34,7 @@ describe 'solutions/_file.html.haml' do
     TEXT
   end
 
-  it 'marks blank lines' do
+  it "marks blank lines" do
     input = <<-EOS.strip_heredoc
       one
 
@@ -43,32 +43,47 @@ describe 'solutions/_file.html.haml' do
       three
     EOS
 
-    render_file input
+    render_contents input
 
     expect(blank_lines.length).to eq(2)
   end
 
-  it 'escapes markup 'do
-    input = '<p>Hello</p>'
+  it "escapes markup "do
+    input = "<p>Hello</p>"
 
-    render_file input
+    render_contents input
 
     expect(rendered_text.strip).to eq(input)
   end
 
-  def render_file(contents)
+  it "adds location metadata to files" do
+    render_file do |file|
+      file.stub(:location_template).and_return("123:file:?")
+    end
+
+    expect(rendered).to have_css("[data-role=file][data-location='123:file:?']")
+  end
+
+  def render_contents(contents)
     lines = contents.each_line.map { |text| unchanged(text.rstrip) }
     render_lines lines
   end
 
   def render_lines(lines)
-    solution = double('solution')
-    file = double('file', name: 'example.txt')
-    comment_locator = double('comment_locator', inline_comments_for: [])
-    yield_each(file.stub(:each_line), lines)
+    render_file do |file|
+      yield_each(file.stub(:each_line), lines)
+    end
+  end
+
+  def render_file
+    solution = double("solution")
+    file = double("file", name: "example.txt", location_template: "?")
+    comment_locator = double("comment_locator", inline_comments_for: [])
+    file.stub(:each_line)
+    yield file
 
     render(
-      'solutions/file',
+      "solutions/file",
       file: file,
       solution: solution,
       comment_locator: comment_locator
@@ -94,21 +109,20 @@ describe 'solutions/_file.html.haml' do
       changed?: changed,
       blank?: text.blank?,
       number: 1,
-      new_comment_path: '',
       comments: [],
     )
   end
 
   def rendered_text
-    lines('code')
+    lines("code")
   end
 
   def added_text
-    lines('.comments code')
+    lines(".comments code")
   end
 
   def blank_lines
-    lines('.blank code')
+    lines(".blank code")
   end
 
   def lines(selector)

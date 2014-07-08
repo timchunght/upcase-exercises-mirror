@@ -1,4 +1,4 @@
-%section.file
+%section.file{ :data => { :role => "file", :location => file.location_template } }
   %span.filename= file.name
   .highlight-scroll
     .code
@@ -9,12 +9,12 @@
             blank: line.blank?,                 |
             comments: line.changed?,            |
             line: true                          |
-          }                                     |
+          },                                    |
+          data: { role: 'line' }                |
         ) do                                    |
-          .make-comment
-            = link_to '', line.new_comment_path, remote: true
-          %pre.prettyprint.lang-ruby
+          %pre
             %code
               :preserve
                 #{h line.text}
-        = render 'solutions/inline_comments', comments: line.comments, inline_comment_form_url: line.new_comment_path
+        - if line.comments.any?
+          = render 'solutions/inline_comments', comments: line.comments, location: line.location

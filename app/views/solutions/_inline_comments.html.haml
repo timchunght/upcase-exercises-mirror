@@ -1,6 +1,6 @@
-- if comments.any?
-  .line-comments
-    %ol
-      = render comments
-      %li.form.show-form
-        = button_to t('comments.form.new'), inline_comment_form_url, remote: true, method: :get
+.line-comments{ :data => { "comments-for" => location } }
+  %ol{ :data => { :role => "inline-comments" } }
+    = render comments
+    = render 'comments/inline_form', solution: @review.viewed_solution, comment: Comment.new
+    %li.show-form{ :data => { :role => "form-toggle" } }
+      %button= t('comments.form.new')

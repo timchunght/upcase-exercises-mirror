@@ -1,25 +1,19 @@
 class CommentableLine < SimpleDelegator
-  def initialize(diff_line, comment_locator, solution)
-    @solution = solution
-    @comment_locator = comment_locator
-    @url_helper = UrlHelper.new
+  def initialize(diff_line, comment_locator)
     super(diff_line)
+    @diff_line = diff_line
+    @comment_locator = comment_locator
   end
 
   def comments
-    @comment_locator.inline_comments_for(file_name, number)
+    comment_locator.inline_comments_for(file_name, number)
   end
 
-  def new_comment_path
-    @url_helper.new_solution_comment_path(
-      @solution,
-      location: @comment_locator.location_for(file_name, number)
-    )
+  def location
+    comment_locator.location_for(diff_line.file_name, diff_line.number)
   end
 
   private
 
-  class UrlHelper
-    include Rails.application.routes.url_helpers
-  end
+  attr_reader :comment_locator, :diff_line
 end

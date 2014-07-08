@@ -23,12 +23,18 @@
         %b= t('.no_solutions_heading')
         = t('.no_solution_explanation')
 
-  %div.main-body
+  %div.main-body{ :data => { :role => 'review' } }
     %section.files.next-steps-active
       - @review.files.each do |file|
         = render 'file', file: file
 
-    %aside.comments.next-steps-active
+    %aside.comments.next-steps-active{ :data => { :role => 'top-level-comments' } }
       %ol
         = render @review.top_level_comments
         = render 'comments/form'
+
+    .make-comment{ :data => { :role => "make-comment" } }
+      = link_to '', '#'
+
+    %script{ :type => 'text/html', :data => { :template => 'inline-comments' } }
+      = render 'solutions/inline_comments', comments: [], location: ''

@@ -14,7 +14,6 @@ feature 'subscriber comments on solution', js: true do
     workflow.comment_on_solution_inline('Looks great')
 
     expect(page).to have_content('Looks great')
-    expect_inline_comment_input_to_be_empty
     expect_notification_to user.email, exercise.title
   end
 
@@ -31,16 +30,7 @@ feature 'subscriber comments on solution', js: true do
     workflow.comment_on_solution('Looks great!')
 
     expect(page).to have_content('Looks great!')
-    expect_comment_input_to_be_empty
     expect_notification_to other_user.email, exercise.title
-  end
-
-  def expect_inline_comment_input_to_be_empty
-    expect(find('.comment-textarea textarea').value).to eq ''
-  end
-
-  def expect_comment_input_to_be_empty
-    expect(page).to have_field('comment_text', with: '')
   end
 
   def expect_notification_to(email, exercise_title)

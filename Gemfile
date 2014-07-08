@@ -43,6 +43,7 @@ end
 group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
+  gem 'konacha'
   gem 'rspec-rails', '>= 2.14'
 end
 
@@ -54,7 +55,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'sinatra', require: false
   gem 'timecop'
-  gem 'webmock'
+  gem 'webmock', require: false
 end
 
 group :staging, :production do

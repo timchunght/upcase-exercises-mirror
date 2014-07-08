@@ -1,4 +1,6 @@
 class CommentLocator
+  LINE_NUMBER_PLACEHOLDER = "?"
+
   pattr_initialize [:comments, :revision]
 
   def inline_comments_for(file_name, line_number)
@@ -11,6 +13,10 @@ class CommentLocator
 
   def location_for(file_name, line_number)
     "#{revision.id}:#{file_name}:#{line_number}"
+  end
+
+  def location_template_for(file_name)
+    location_for(file_name, LINE_NUMBER_PLACEHOLDER)
   end
 
   private
