@@ -19,6 +19,17 @@ to log in to Whetstone. Additionally, if you clear out your Learn database,
 Whetstone's OAuth application will be lost, and you'll need to regenerate it
 and update .env with the new keys.
 
+Deploying
+---------
+
+We're using [CircleCI] to automatically deploy to staging once the tests pass.
+Once your branch is merged into master, CircleCI will run the tests and then
+deploy to staging.
+
+After acceptance is performed on staging, deploy to production as usual.
+
+[CircleCI]: https://circleci.com/gh/thoughtbot/whetstone
+
 Guidelines
 ----------
 
