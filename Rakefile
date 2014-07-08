@@ -5,5 +5,7 @@ require File.expand_path('../config/application', __FILE__)
 
 Whetstone::Application.load_tasks
 
-Rake::Task["default"].clear
-task default: %w(konacha:run spec)
+if Rake::Task.task_defined?("default")
+  Rake::Task["default"].clear
+  task default: %w(konacha:run spec)
+end
