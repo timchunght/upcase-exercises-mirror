@@ -1,9 +1,9 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Review do
-  describe '#exercise' do
-    it 'returns its exercise' do
-      exercise = double('exercise')
+  describe "#exercise" do
+    it "returns its exercise" do
+      exercise = double("exercise")
       review = build_review(exercise: exercise)
 
       result = review.exercise
@@ -12,10 +12,10 @@ describe Review do
     end
   end
 
-  describe '#status' do
-    it 'build status from its factory' do
-      status_factory = double('status_factory')
-      status = double('status')
+  describe "#status" do
+    it "build status from its factory" do
+      status_factory = double("status_factory")
+      status = double("status")
       status_factory.stub(:new).and_return(status)
       review = build_review(status_factory: status_factory)
 
@@ -25,52 +25,41 @@ describe Review do
     end
   end
 
-  describe '#has_solutions_by_other_users?' do
+  describe "#has_solutions_by_other_users?" do
     it "returns true with solutions besides the current user's" do
-      other_solution = stub_solution('other_solution')
+      other_solution = stub_solution("other_solution")
       review = build_review(other_solutions: [other_solution])
 
       expect(review).to have_solutions_by_other_users
     end
 
-    it 'returns false with only the submitted solution' do
+    it "returns false with only the submitted solution" do
       review = build_review(other_solutions: [])
 
       expect(review).not_to have_solutions_by_other_users
     end
   end
 
-  describe '#viewed_solution' do
-    it 'returns its viewed solution' do
-      viewed_solution = double('viewed_solution')
+  describe "#viewed_solution" do
+    it "returns its viewed solution" do
+      viewed_solution = double("viewed_solution")
       review = build_review(viewed_solution: viewed_solution)
 
       expect(review.viewed_solution).to eq(viewed_solution)
     end
   end
 
-  describe '#latest_revision' do
-    it 'delegates to the viewed solution' do
-      viewed_solution = double('viewed_solution', latest_revision: nil)
-      review = build_review(viewed_solution: viewed_solution)
-
-      review.latest_revision
-
-      expect(viewed_solution).to have_received(:latest_revision)
-    end
-  end
-
-  describe '#submitted?' do
-    context 'with a submitted solution' do
-      it 'returns true' do
-        review = build_review(submitted_solution: double('submitted_solution'))
+  describe "#submitted?" do
+    context "with a submitted solution" do
+      it "returns true" do
+        review = build_review(submitted_solution: double("submitted_solution"))
 
         expect(review).to be_submitted
       end
     end
 
-    context 'without a submitted solution' do
-      it 'returns false' do
+    context "without a submitted solution" do
+      it "returns false" do
         review = build_review(submitted_solution: nil)
 
         expect(review).not_to be_submitted
@@ -78,11 +67,11 @@ describe Review do
     end
   end
 
-  describe '#solutions_by_other_users' do
+  describe "#solutions_by_other_users" do
     it "returns solutions besides the current user's" do
-      submitted_solution = stub_solution('submitted_solution')
-      viewed_solution = stub_solution('viewed_solution')
-      other_solution = stub_solution('other_solution')
+      submitted_solution = stub_solution("submitted_solution")
+      viewed_solution = stub_solution("viewed_solution")
+      other_solution = stub_solution("other_solution")
       review = build_review(
         other_solutions: [other_solution, viewed_solution],
         submitted_solution: submitted_solution,
@@ -99,17 +88,17 @@ describe Review do
     end
   end
 
-  describe '#assigned_solution' do
-    it 'returns the first solution from another user' do
+  describe "#assigned_solution" do
+    it "returns the first solution from another user" do
       other_solutions =
-        [stub_solution('first_other'), stub_solution('second_other')]
+        [stub_solution("first_other"), stub_solution("second_other")]
       review = build_review(other_solutions: other_solutions)
 
       expect(review.assigned_solution).to eq other_solutions.first
     end
 
-    it 'assigns the submitted solution without another solution' do
-      submitted_solution = stub_solution('submitted_solution')
+    it "assigns the submitted solution without another solution" do
+      submitted_solution = stub_solution("submitted_solution")
       review = build_review(
         other_solutions: [],
         submitted_solution: submitted_solution
@@ -119,46 +108,46 @@ describe Review do
     end
   end
 
-  describe '#assigned_solver_username' do
-    it 'returns the username of the first solver besides the reviewer' do
-      submitted_solution = stub_solution('submitted_solution')
+  describe "#assigned_solver_username" do
+    it "returns the username of the first solver besides the reviewer" do
+      submitted_solution = stub_solution("submitted_solution")
       other_solutions = [
-        stub_solution('first_other', username: 'first username'),
-        stub_solution('second_other', username: 'second username')
+        stub_solution("first_other", username: "first username"),
+        stub_solution("second_other", username: "second username")
       ]
       review = build_review(
         other_solutions: other_solutions,
         submitted_solution: submitted_solution,
-        viewed_solution: stub_solution('viewed_solution'),
+        viewed_solution: stub_solution("viewed_solution"),
       )
 
-      expect(review.assigned_solver_username).to eq 'first username'
+      expect(review.assigned_solver_username).to eq "first username"
     end
   end
 
-  describe '#assigned_solver' do
-    it 'returns the first solver besides the reviewer' do
-      submitted_solution = stub_solution('submitted_solution')
+  describe "#assigned_solver" do
+    it "returns the first solver besides the reviewer" do
+      submitted_solution = stub_solution("submitted_solution")
       other_solutions = [
-        stub_solution('first_other', user: 'first user'),
-        stub_solution('second_other', user: 'second user')
+        stub_solution("first_other", user: "first user"),
+        stub_solution("second_other", user: "second user")
       ]
       review = build_review(
         other_solutions: other_solutions,
         submitted_solution: submitted_solution,
-        viewed_solution: stub_solution('viewed_solution'),
+        viewed_solution: stub_solution("viewed_solution"),
       )
 
-      expect(review.assigned_solver).to eq('first user')
+      expect(review.assigned_solver).to eq("first user")
     end
   end
 
-  describe '#submitted_solution' do
-    it 'returns the solution for the reviewing user' do
-      submitted_solution = stub_solution('submitted_solution')
+  describe "#submitted_solution" do
+    it "returns the solution for the reviewing user" do
+      submitted_solution = stub_solution("submitted_solution")
       review = build_review(
         submitted_solution: submitted_solution,
-        viewed_solution: stub_solution('viewed_solution')
+        viewed_solution: stub_solution("viewed_solution")
       )
 
       result = review.my_solution
@@ -169,11 +158,11 @@ describe Review do
     end
   end
 
-  describe '#files' do
-    it 'delegates to its viewed solution' do
-      files = double('files')
-      viewed_solution = double('solution', files: files)
-      review = build_review(viewed_solution: viewed_solution)
+  describe "#files" do
+    it "delegates to its revision" do
+      files = double("files")
+      revision = double("revision", files: files)
+      review = build_review(revision: revision)
 
       result = review.files
 
@@ -181,10 +170,10 @@ describe Review do
     end
   end
 
-  describe '#top_level_comments' do
-    it 'delegates to its comment finder' do
-      top_level_comments = double('comment_locator.top_level_comments')
-      comment_locator = double('comment_locator')
+  describe "#top_level_comments" do
+    it "delegates to its comment finder" do
+      top_level_comments = double("comment_locator.top_level_comments")
+      comment_locator = double("comment_locator")
       comment_locator.stub(:top_level_comments).and_return(top_level_comments)
       review = build_review(comment_locator: comment_locator)
 
@@ -194,11 +183,11 @@ describe Review do
     end
   end
 
-  describe '#viewing_other_solution?' do
+  describe "#viewing_other_solution?" do
     context "when viewing a solution other than the user's" do
-      it 'returns true' do
-        submitted_solution = stub_solution('submitted_solution')
-        viewed_solution = stub_solution('viewed_solution')
+      it "returns true" do
+        submitted_solution = stub_solution("submitted_solution")
+        viewed_solution = stub_solution("viewed_solution")
         review = build_review(
                    viewed_solution: viewed_solution,
                    submitted_solution: submitted_solution
@@ -211,8 +200,8 @@ describe Review do
     end
 
     context "when viewing the user's solution" do
-      it 'returns false' do
-        solution = stub_solution('solution')
+      it "returns false" do
+        solution = stub_solution("solution")
         review = build_review(
                    viewed_solution: solution,
                    submitted_solution: solution
@@ -225,12 +214,12 @@ describe Review do
     end
   end
 
-  describe '#user_is_awaiting_review?' do
-    context 'when the user has submitted a solution' do
+  describe "#user_is_awaiting_review?" do
+    context "when the user has submitted a solution" do
       context "and the user's solution has no comments" do
-        it 'returns true' do
+        it "returns true" do
           solution_with_no_comments =
-            stub_solution('no_comments_solution', has_comments?: false)
+            stub_solution("no_comments_solution", has_comments?: false)
 
           review = build_review(submitted_solution: solution_with_no_comments)
 
@@ -239,9 +228,9 @@ describe Review do
       end
 
       context "and the user's solution has comments" do
-        it 'returns false' do
+        it "returns false" do
           solution_with_comments =
-            stub_solution('solution_with_comments', has_comments?: true)
+            stub_solution("solution_with_comments", has_comments?: true)
 
           review = build_review(submitted_solution: solution_with_comments)
 
@@ -250,8 +239,8 @@ describe Review do
       end
     end
 
-    context 'when the user has not submitted a solution' do
-      it 'returns false' do
+    context "when the user has not submitted a solution" do
+      it "returns false" do
         review = build_review(submitted_solution: nil)
 
         expect(review.user_is_awaiting_review?).to be_false
@@ -259,11 +248,11 @@ describe Review do
     end
   end
 
-  describe '#user_has_reviewed_other_solution?' do
-    context 'when the user has commented on another solution' do
-      it 'returns true' do
-        user = double('user')
-        exercise = double('exercise')
+  describe "#user_has_reviewed_other_solution?" do
+    context "when the user has commented on another solution" do
+      it "returns true" do
+        user = double("user")
+        exercise = double("exercise")
         exercise.stub(:has_comments_from?).with(user).and_return(true)
 
         review = build_review(
@@ -275,10 +264,10 @@ describe Review do
       end
     end
 
-    context 'when the user has not commend on another solution' do
-      it 'returns false' do
-        user = double('user')
-        exercise = double('exercise')
+    context "when the user has not commend on another solution" do
+      it "returns false" do
+        user = double("user")
+        exercise = double("exercise")
         exercise.stub(:has_comments_from?).with(user).and_return(false)
 
         review = build_review(
@@ -291,13 +280,13 @@ describe Review do
     end
   end
 
-  describe '#user_has_given_and_received_review?' do
-    context 'when the user has given and received a review' do
-      it 'returns true' do
-        user = double('user')
-        submitted_solution = stub_solution('submitted_solution', user: user)
+  describe "#user_has_given_and_received_review?" do
+    context "when the user has given and received a review" do
+      it "returns true" do
+        user = double("user")
+        submitted_solution = stub_solution("submitted_solution", user: user)
         submitted_solution.stub(:has_comments?).and_return(true)
-        exercise = double('exercise')
+        exercise = double("exercise")
         exercise.stub(:has_comments_from?).with(user).and_return(true)
 
         review = build_review(
@@ -310,12 +299,12 @@ describe Review do
       end
     end
 
-    context 'when the user has not given a review' do
-      it 'returns false' do
-        user = double('user')
-        submitted_solution = stub_solution('submitted_solution', user: user)
+    context "when the user has not given a review" do
+      it "returns false" do
+        user = double("user")
+        submitted_solution = stub_solution("submitted_solution", user: user)
         submitted_solution.stub(:has_comments?).and_return(true)
-        exercise = double('exercise')
+        exercise = double("exercise")
         exercise.stub(:has_comments_from?).with(user).and_return(false)
 
         review = build_review(
@@ -328,12 +317,12 @@ describe Review do
       end
     end
 
-    context 'when the user has not receieved a review' do
-      it 'returns false' do
-        user = double('user')
-        submitted_solution = stub_solution('submitted_solution', user: user)
+    context "when the user has not receieved a review" do
+      it "returns false" do
+        user = double("user")
+        submitted_solution = stub_solution("submitted_solution", user: user)
         submitted_solution.stub(:has_comments?).and_return(false)
-        exercise = double('exercise')
+        exercise = double("exercise")
         exercise.stub(:has_comments_from?).with(user).and_return(false)
 
         review =
@@ -349,13 +338,14 @@ describe Review do
   end
 
   def build_review(
-    comment_locator: double('comment_locator'),
-    submitted_solution: stub_solution('submitted_solution'),
-    other_solutions: [stub_solution('other_solution')],
+    comment_locator: double("comment_locator"),
+    submitted_solution: stub_solution("submitted_solution"),
+    other_solutions: [stub_solution("other_solution")],
     viewed_solution: submitted_solution || other_solutions.first,
-    exercise: double('exercise'),
-    status_factory: double('status_factory'),
-    reviewer: double('user')
+    exercise: double("exercise"),
+    status_factory: double("status_factory"),
+    reviewer: double("user"),
+    revision: double("revision")
   )
     solutions = [submitted_solution, *other_solutions].compact
     Review.new(
@@ -366,6 +356,7 @@ describe Review do
       viewed_solution: viewed_solution,
       status_factory: status_factory,
       reviewer: reviewer,
+      revision: revision,
     )
   end
 

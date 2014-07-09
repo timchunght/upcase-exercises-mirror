@@ -9,16 +9,6 @@ describe Solution do
 
   it { should validate_presence_of(:clone) }
 
-  describe '#diff' do
-    it 'delegates to its latest revision' do
-      diff = 'diff example.txt'
-      solution = create(:solution)
-      revise solution, diff: diff
-
-      expect(solution.diff).to eq(diff)
-    end
-  end
-
   describe '#username' do
     it 'delegates to its clone' do
       clone = build_stubbed(:clone)

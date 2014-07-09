@@ -123,15 +123,14 @@ decorate :repository do |component, container|
 end
 
 factory :review do |container|
-  viewed_solution = Git::Solution.new(
-    container[:viewed_solution],
-    container[:diff_parser]
+  revision = container[:git_revision].new(
+    revision: container[:viewed_solution].latest_revision
   )
 
   Review.new(
     comment_locator: container[:comment_locator].new(
       comments: container[:viewed_solution].comments,
-      revision: container[:viewed_solution].latest_revision,
+      revision: revision,
     ),
     exercise: container[:exercise],
     solutions: container[:reviewable_solutions].new(
@@ -139,8 +138,16 @@ factory :review do |container|
     ),
     status_factory: container[:status],
     submitted_solution: container[:submitted_solution],
-    viewed_solution: viewed_solution,
-    reviewer: container[:current_user]
+    viewed_solution: container[:viewed_solution],
+    reviewer: container[:current_user],
+    revision: revision,
+  )
+end
+
+factory :git_revision do |container|
+  Git::Revision.new(
+    container[:revision],
+    container[:diff_parser]
   )
 end
 
@@ -165,7 +172,7 @@ decorate :diff_file do |file, container|
   CommentableFile.new(
     file,
     container[:comment_locator].new(
-      revision: container[:viewed_solution].latest_revision
+      revision: container[:revision]
     )
   )
 end
@@ -198,7 +205,7 @@ decorate :diff_line do |diff_line, container|
   CommentableLine.new(
     diff_line,
     container[:comment_locator].new(
-      revision: container[:viewed_solution].latest_revision
+      revision: container[:revision]
     )
   )
 end

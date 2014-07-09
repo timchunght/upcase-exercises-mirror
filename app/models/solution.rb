@@ -8,10 +8,6 @@ class Solution < ActiveRecord::Base
 
   validates :clone, presence: true
 
-  def diff
-    latest_revision.diff
-  end
-
   def username
     clone.username
   end

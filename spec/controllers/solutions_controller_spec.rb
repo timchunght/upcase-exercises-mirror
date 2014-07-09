@@ -57,7 +57,6 @@ describe SolutionsController do
       viewed_solution: viewed_solution,
       reviewer: an_instance_of(User),
     )
-    review.stub(:latest_revision)
     review.stub(:comments).and_return([])
     CommentLocator.stub(:new).and_return(double('comment_locator'))
 

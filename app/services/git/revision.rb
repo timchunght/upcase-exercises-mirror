@@ -1,8 +1,8 @@
 module Git
-  # Solution with files parsed from a Git diff.
-  class Solution < SimpleDelegator
-    def initialize(solution, parser_factory)
-      super(solution)
+  # Revision with files parsed from a Git diff.
+  class Revision < SimpleDelegator
+    def initialize(revision, parser_factory)
+      super(revision)
       @parser_factory = parser_factory
     end
 

@@ -4,6 +4,7 @@ class Review
     :comment_locator,
     :exercise,
     :reviewer,
+    :revision,
     :solutions,
     :status_factory,
     :submitted_solution,
@@ -40,11 +41,7 @@ class Review
   end
 
   def files
-    viewed_solution.files
-  end
-
-  def latest_revision
-    viewed_solution.latest_revision
+    revision.files
   end
 
   def top_level_comments
