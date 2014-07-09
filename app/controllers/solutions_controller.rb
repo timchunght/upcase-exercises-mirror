@@ -4,33 +4,25 @@ class SolutionsController < ApplicationController
   end
 
   def create
-    participation_by_current_user.find_or_create_solution
+    participation.find_or_create_solution
     redirect_to(
       exercise_solution_path(
         exercise,
-        review_solution_by(current_user).assigned_solver
+        review.assigned_solver
       )
     )
   end
 
-  def show
-    if can_view_solution?
-      @review = review_solution_by(user_from_params)
-    else
-      redirect_to exercise
-    end
-  end
-
   private
 
-  def participation_by_current_user
-    participation_by(current_user)
+  def assigned_solver
+    review.assigned_solver
   end
 
-  def participation_by(user)
-    dependencies[:participation_factory].new(
+  def participation
+    @participation ||= dependencies[:participation_factory].new(
       exercise: exercise,
-      user: user
+      user: current_user
     )
   end
 
@@ -38,34 +30,17 @@ class SolutionsController < ApplicationController
     @exercise ||= Exercise.find(params[:exercise_id])
   end
 
-  def can_view_solution?
-    admin_user? || solved_by_current_user?
+  def solution
+    participation.find_solution
   end
 
-  def admin_user?
-    current_user.admin?
-  end
-
-  def solved_by_current_user?
-    participation_by_current_user.has_solution?
-  end
-
-  def review_solution_by(user)
-    dependencies[:review_factory].new(
+  def review
+    @review ||= dependencies[:review_factory].new(
       exercise: exercise,
-      viewed_solution: participation_by(user).find_solution,
-      submitted_solution: solution_by_current_user,
+      viewed_solution: participation.find_solution,
+      submitted_solution: solution,
       reviewer: current_user,
+      revision: participation.latest_revision
     )
-  end
-
-  def solution_by_current_user
-    if solved_by_current_user?
-      participation_by_current_user.find_solution
-    end
-  end
-
-  def user_from_params
-    User.find(params[:id])
   end
 end

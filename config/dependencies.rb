@@ -127,7 +127,6 @@ end
 factory :review_factory do |container|
   revision = container[:git_revision_factory].new(
     comments: container[:viewed_solution].comments,
-    revision: container[:viewed_solution].latest_revision
   )
 
   Review.new(
@@ -142,8 +141,20 @@ factory :review_factory do |container|
     status_factory: container[:status_factory],
     submitted_solution: container[:submitted_solution],
     viewed_solution: container[:viewed_solution],
-    reviewer: container[:current_user],
+    reviewer: container[:reviewer],
     revision: revision,
+    revisions: DecoratingRelation.new(
+      ChronologicalQuery.new(container[:viewed_solution].revisions),
+      :revision,
+      container[:numbered_revision_factory]
+    )
+  )
+end
+
+factory :numbered_revision_factory do |container|
+  NumberedRevision.new(
+    container[:revision],
+    container[:viewed_solution].revisions
   )
 end
 

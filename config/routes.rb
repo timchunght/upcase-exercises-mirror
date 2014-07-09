@@ -8,9 +8,17 @@ Whetstone::Application.routes.draw do
   resources :exercises, only: :show do
     resource :clone, only: [:create, :show]
     resource :push, only: [:show]
-    resources :solutions, only: [:new, :create, :show]
+    resources :solutions, only: [:new, :create] do
+      resources :revisions, only: [:show]
+    end
     resource :username, only: :update
   end
+
+  get(
+    'exercises/:exercise_id/solutions/:solution_id',
+    to: 'revisions#show',
+    as: :exercise_solution
+  )
 
   resources :solutions, only: [] do
     resources :comments, only: [:new, :create]

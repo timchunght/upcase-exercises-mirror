@@ -1,0 +1,8 @@
+%ul.solutions.my-solution
+  - if review.submitted?
+    = render review.my_solution
+  - else
+    %li
+      = link_to exercise_path(review.exercise) do
+        = render 'solutions/user', user: current_user
+        %span.review-status= t('solutions.show.no_solution')

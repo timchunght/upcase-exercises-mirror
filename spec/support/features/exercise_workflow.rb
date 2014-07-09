@@ -90,7 +90,12 @@ module Features
     def click_top_submit
       page.within(".next-steps") do
         page.click_on I18n.t("solutions.new.submit_my_solution")
+        wait_for_submission_to_finish
       end
+    end
+
+    def wait_for_submission_to_finish
+      page.has_no_button?(I18n.t("solutions.new.submit_my_solution"))
     end
 
     def click_bottom_submit

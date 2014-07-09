@@ -1,6 +1,8 @@
 .line-comments{ :data => { "comments-for" => location } }
   %ol{ :data => { :role => "inline-comments" } }
     = render comments
-    = render 'comments/inline_form', solution: @review.viewed_solution, comment: Comment.new
+    = render 'comments/inline_form',
+      solution: review.viewed_solution,
+      comment: Comment.new
     %li.show-form{ :data => { :role => "form-toggle" } }
       %button= t('comments.form.new')

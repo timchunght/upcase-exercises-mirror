@@ -9,8 +9,9 @@ class Review
     :status_factory,
     :submitted_solution,
     :viewed_solution,
+    :revisions
   ])
-  attr_reader :exercise, :viewed_solution
+  attr_reader :exercise, :viewed_solution, :revision, :revisions
 
   def assigned_solution
     solutions_by_other_users.detect(&:assigned?) || submitted_solution
@@ -69,6 +70,10 @@ class Review
   def user_has_given_and_received_review?
     user_has_reviewed_other_solution? &&
       user_has_received_review?
+  end
+
+  def latest_revision?
+    revision.id == viewed_solution.latest_revision.id
   end
 
   private

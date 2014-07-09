@@ -9,4 +9,12 @@ class Revision < ActiveRecord::Base
   def self.latest
     order(created_at: :desc).first
   end
+
+  def latest?
+    self == solution.latest_revision
+  end
+
+  def self.find_by_number(solution, number)
+    solution.revisions.order(:created_at).at(number.to_i - 1)
+  end
 end

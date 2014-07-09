@@ -18,4 +18,42 @@ describe Revision do
       expect(result.diff).to eq('latest')
     end
   end
+
+  describe "#find_by_number" do
+    it "returns the revision version matching the number and solution" do
+      solution = create :solution
+      middle_revision = create :revision, created_at: 2.day.ago
+      latest_revision = create :revision, created_at: 1.day.ago
+      oldest_revision = create :revision, created_at: 3.day.ago
+      solution.revisions << [oldest_revision, middle_revision, latest_revision]
+
+      result = Revision.find_by_number(solution, "2")
+
+      expect(result.id).to eq middle_revision.id
+    end
+  end
+
+  describe "#latest?" do
+    context "when the revision is its solution latest revision" do
+      it "returns true" do
+        solution = create :solution
+        latest_revision = create :revision, created_at: 1.day.ago
+        oldest_revision = create :revision, created_at: 3.day.ago
+        solution.revisions << [oldest_revision, latest_revision]
+
+        expect(latest_revision.latest?).to be_true
+      end
+    end
+
+    context "when the revision is not its solution latest revision" do
+      it "returns false" do
+        solution = create :solution
+        latest_revision = create :revision, created_at: 1.day.ago
+        oldest_revision = create :revision, created_at: 3.day.ago
+        solution.revisions << [oldest_revision, latest_revision]
+
+        expect(oldest_revision.latest?).to be_false
+      end
+    end
+  end
 end

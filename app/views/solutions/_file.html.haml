@@ -17,4 +17,7 @@
               :preserve
                 #{h line.text}
         - if line.comments.any?
-          = render 'solutions/inline_comments', comments: line.comments, location: line.location
+          = render 'solutions/inline_comments',
+            comments: line.comments,
+            location: line.location,
+            review: review

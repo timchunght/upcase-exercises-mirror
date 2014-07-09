@@ -11,6 +11,13 @@ $large-size: $small-size + 7px;
   line-height: 0;
   width: $files-width;
   @include display(flex);
+  margin-left: $sidebar-width;
+  padding-left: $main-padding;
+
+  @include media(max-width $preserve-80-char) {
+    margin-left: $sidebar-width-sm;
+    padding-left: $main-padding-sm;
+  }
 
   ol {
     @include clearfix;
@@ -123,6 +130,7 @@ $large-size: $small-size + 7px;
       position: absolute;
       left: 0.5em;
       border-radius: $tooltip-image-size;
+      width: $tooltip-image-size;
     }
 
     span {

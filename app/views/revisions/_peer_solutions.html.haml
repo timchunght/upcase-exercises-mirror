@@ -1,0 +1,8 @@
+%h1 Peer Solutions
+- if @review.has_solutions_by_other_users?
+  %ul.solutions
+    = render @review.solutions_by_other_users
+- else
+  .no-solutions
+    %b= t('solutions.show.no_solutions_heading')
+    = t('solutions.show.no_solution_explanation')

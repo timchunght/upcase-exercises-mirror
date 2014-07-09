@@ -337,6 +337,33 @@ describe Review do
     end
   end
 
+  describe "#latest_revision?" do
+    context "when the revision is the viewed solution's latest revision" do
+      it "returns true" do
+        solution = create(:solution, :with_revision)
+        review = build_review(
+          revision: solution.latest_revision,
+          viewed_solution: solution
+        )
+
+        expect(review).to be_latest_revision
+      end
+    end
+
+    context "when the revision is not the viewed solution's latest revision" do
+      it "returns false" do
+        solution = create(:solution, :with_revision)
+        revision = create(:revision)
+        review = build_review(
+          revision: revision,
+          viewed_solution: solution
+        )
+
+        expect(review).not_to be_latest_revision
+      end
+    end
+  end
+
   def build_review(
     comment_locator: double("comment_locator"),
     submitted_solution: stub_solution("submitted_solution"),

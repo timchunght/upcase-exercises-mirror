@@ -34,4 +34,34 @@ describe DecoratingRelation do
       end
     end
   end
+
+  describe '#each' do
+    it 'decorates each yielded instance' do
+      records = [double(name: "one"), double(name: "two")]
+      decorator = Struct.new(:decorator) do
+        def initialize(hash)
+          @name = hash.fetch(:record).name
+        end
+
+        def to_s
+          @name
+        end
+      end
+      result = []
+      decorating_relation =
+        DecoratingRelation.new(records, :record, decorator)
+
+      decorating_relation.each { |yielded| result << yielded }
+
+      expect(result.map(&:to_s)).to eq(%w(one two))
+    end
+  end
+
+  it "is enumerable" do
+    records = []
+    decorator = double()
+    decorating_relation = DecoratingRelation.new(records, :record, decorator)
+
+    expect(decorating_relation).to be_a(Enumerable)
+  end
 end
