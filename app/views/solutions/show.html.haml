@@ -14,7 +14,7 @@
 
 %div.main-inner
   %nav.participants
-    %h1 Peer Solutions
+    %h1= t('.peer_solutions')
     - if @review.has_solutions_by_other_users?
       %ul.solutions
         = render @review.solutions_by_other_users

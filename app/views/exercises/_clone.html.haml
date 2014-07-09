@@ -3,7 +3,7 @@
     exercise: overview.exercise,
     clone: overview.clone
 
-  = render 'exercises/submit_solution', overview: overview
+  = render 'exercises/preview_my_solution', overview: overview
 - else
   = render 'gitolite/public_keys/new',
     return_to: exercise_path(overview.exercise)

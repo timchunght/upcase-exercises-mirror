@@ -25,6 +25,20 @@
   }
 }
 
+@mixin continue-button {
+  -webkit-font-smoothing: antialiased;
+  background: darken($button-green, 8%);
+  border-radius: 2px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 7px 7px*5;
+
+  &:active {
+    background: darken($button-green, 12%);
+  }
+}
+
 @mixin pseudo-circle {
   background: #fff;
   border: 3px solid #ddd;

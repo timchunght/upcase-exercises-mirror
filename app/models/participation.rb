@@ -37,6 +37,12 @@ class Participation
     end
   end
 
+  def latest_revision
+    if has_clone?
+      existing_clone.latest_revision
+    end
+  end
+
   private
 
   def existing_clone

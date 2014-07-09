@@ -31,6 +31,18 @@ describe Overview do
     end
   end
 
+  describe "#files" do
+    it "delegates to its revision" do
+      files = double("revision.files")
+      revision = double("revision", files: files)
+      overview = build_overview(revision: revision)
+
+      result = overview.files
+
+      expect(result).to eq(files)
+    end
+  end
+
   describe '#has_clone?' do
     it 'delegates to its participation' do
       participation_result = double('participation.has_clone?')
@@ -90,10 +102,16 @@ describe Overview do
   end
 
   def build_overview(
-    exercise: double('exercise'),
-    participation: double('participation'),
-    user: double('user')
+    exercise: double("exercise"),
+    participation: double("participation"),
+    revision: double("revision"),
+    user: double("user")
   )
-    Overview.new(exercise: exercise, participation: participation, user: user)
+    Overview.new(
+      exercise: exercise,
+      participation: participation,
+      revision: revision,
+      user: user,
+    )
   end
 end

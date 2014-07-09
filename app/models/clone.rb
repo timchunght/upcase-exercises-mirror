@@ -24,4 +24,8 @@ class Clone < ActiveRecord::Base
       revisions.latest.update_attributes!(solution: solution)
     end
   end
+
+  def latest_revision
+    revisions.latest
+  end
 end

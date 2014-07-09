@@ -1,0 +1,10 @@
+.next-steps-bottom {
+  form, div, .continue-button {
+    display: inline;
+  }
+
+  .continue-button {
+    @include continue-button;
+    margin-right: 1rem;
+  }
+}

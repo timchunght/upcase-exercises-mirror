@@ -35,12 +35,17 @@ module Features
       page.click_on I18n.t('helpers.submit.username.update')
     end
 
-    def submit_solution(filename = 'example.txt')
+    def preview_solution(filename = "example.txt")
       create(:clone, user: user, exercise: exercise)
       create_public_key
       page.visit exercise_path(exercise, as: user)
       push_to_clone(filename)
-      page.click_on I18n.t('exercises.show.submit_solution')
+      page.click_on I18n.t("exercises.show.preview_my_solution")
+    end
+
+    def submit_solution(filename = "example.txt")
+      preview_solution(filename)
+      click_top_submit
     end
 
     def push_to_clone(filename)
@@ -79,7 +84,19 @@ module Features
     end
 
     def click_continue
-      page.click_link I18n.t('solutions.show.continue')
+      page.click_on I18n.t('solutions.show.continue')
+    end
+
+    def click_top_submit
+      page.within(".next-steps") do
+        page.click_on I18n.t("solutions.new.submit_my_solution")
+      end
+    end
+
+    def click_bottom_submit
+      page.within(".next-steps-bottom") do
+        page.click_on I18n.t("solutions.new.submit_my_solution")
+      end
     end
 
     def create_solution_by_other_user(options = {})

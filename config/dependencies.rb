@@ -126,6 +126,7 @@ end
 
 factory :review_factory do |container|
   revision = container[:git_revision_factory].new(
+    comments: container[:viewed_solution].comments,
     revision: container[:viewed_solution].latest_revision
   )
 
@@ -194,7 +195,7 @@ end
 factory :comment_locator_factory do |container|
   CommentLocator.new(
     revision: container[:revision],
-    comments: ChronologicalQuery.new(container[:viewed_solution].comments)
+    comments: ChronologicalQuery.new(container[:comments])
   )
 end
 
@@ -298,9 +299,15 @@ service :current_overview do |container|
 end
 
 factory :overview_factory do |container|
+  revision = container[:git_revision_factory].new(
+    comments: Comment.none,
+    revision: container[:participation].latest_revision,
+  )
+
   Overview.new(
     exercise: container[:exercise],
     participation: container[:participation],
+    revision: revision,
     user: container[:user],
   )
 end

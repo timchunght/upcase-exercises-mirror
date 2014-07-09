@@ -72,4 +72,16 @@ describe Clone do
         with(solution: solution)
     end
   end
+
+  describe "#latest_revision" do
+    it "returns the most recently created revision for this clone" do
+      revision = double("revisions.latest")
+      clone = build_stubbed(:clone)
+      clone.revisions.stub(:latest).and_return(revision)
+
+      result = clone.latest_revision
+
+      expect(result).to eq(revision)
+    end
+  end
 end

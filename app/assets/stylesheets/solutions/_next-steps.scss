@@ -43,17 +43,8 @@
       }
     }
 
-    a.button {
-      background: darken($button-green, 8%);
-      border-radius: 2px;
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: bold;
-      padding: 7px 7px*5;
-
-      &:active {
-        background: darken($button-green, 12%);
-      }
+    .button {
+      @include continue-button;
 
       &.next-exercise {
         $bg: #8A5FC8;

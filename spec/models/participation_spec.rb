@@ -180,6 +180,28 @@ describe Participation do
     end
   end
 
+  describe "#latest_revision" do
+    context "with an existing clone" do
+      it "delegates to the clones's latest revision" do
+        revision = double("clone.latest_revision")
+        clone = build_stubbed(:clone)
+        clone.stub(:latest_revision).and_return(revision)
+        participation = build_participation(
+          existing_clone: clone
+        )
+
+        expect(participation.latest_revision).to eq(revision)
+      end
+    end
+
+    context "without an existing clone" do
+      it "returns nil" do
+        participation = build_participation(existing_clone: nil)
+        expect(participation.latest_revision).to be_nil
+      end
+    end
+  end
+
   describe '#push_to_clone' do
     context 'with an existing clone' do
       it 'updates existing solution' do

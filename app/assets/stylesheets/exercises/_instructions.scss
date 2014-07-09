@@ -51,26 +51,20 @@ section.main article.main-inner, .preview {
     }
   }
 
-  form {
+  input[type=submit], .button {
+    -webkit-font-smoothing: subpixel-antialiased;
     margin-top: $base-margin*2;
+    background: $button-green;
+    border-radius: 3px;
+    color: #fff;
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 400;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
 
-    input[type=submit] {
-      background: $button-green;
-      border-radius: 3px;
-      color: #fff;
-      display: block;
-      font-size: 1.2rem;
-      font-weight: 400;
-      padding: 1rem;
-      text-align: center;
-      width: 100%;
-
-      &:hover {
-        color: #fff;
-      }
-    }
-
-    input[disabled] {
+    &[disabled] {
       background: grayscale($button-green);
       cursor: not-allowed;
     }
