@@ -4,4 +4,4 @@ deployment:
     commands:
       - git push -f git@heroku.com:tbot-whetstone-staging.git $CIRCLE_SHA1:master
       - heroku run rake db:migrate --app tbot-whetstone-staging
-      - heroku reload --app tbot-whetstone-staging
+      - heroku restart --app tbot-whetstone-staging
