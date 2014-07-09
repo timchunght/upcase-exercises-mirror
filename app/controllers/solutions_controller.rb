@@ -1,9 +1,4 @@
 class SolutionsController < ApplicationController
-  def new
-    @overview = dependencies[:current_overview]
-    render layout: false
-  end
-
   def create
     participation_by_current_user.find_or_create_solution
     redirect_to exercise_solution_path(exercise, current_user)
