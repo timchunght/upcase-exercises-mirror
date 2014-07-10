@@ -8,7 +8,7 @@ This repository comes equipped with a self-setup script!
 
     % ./bin/setup
 
-After setting up, you can run the application using [foreman]:
+After setting up, you can run the application using foreman:
 
     % foreman start
 
