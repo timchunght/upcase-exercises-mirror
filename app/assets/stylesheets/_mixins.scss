@@ -37,6 +37,10 @@
   &:active {
     background: darken($button-green, 12%);
   }
+
+  &:hover {
+    background: darken($button-green, 8%);
+  }
 }
 
 @mixin pseudo-circle {
