@@ -19,7 +19,7 @@ class Api::PushesController < ApplicationController
   def participation
     exercise = Exercise.find(params[:exercise_id])
     user = User.find(params[:user_id])
-    dependencies[:participation].new(exercise: exercise, user: user)
+    dependencies[:participation_factory].new(exercise: exercise, user: user)
   end
 
   def render_success

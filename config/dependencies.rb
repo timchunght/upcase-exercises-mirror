@@ -1,11 +1,11 @@
-factory :authenticator do |container|
+factory :authenticator_factory do |container|
   Authenticator.new(container[:auth_hash])
 end
 
 service :git_server do |container|
   Git::BackgroundServer.new(
     container[:immediate_git_server],
-    container[:git_server_job]
+    container[:git_server_job_factory]
   )
 end
 
@@ -17,7 +17,7 @@ service :immediate_git_server do |container|
   )
 end
 
-factory :git_server_job do |container|
+factory :git_server_job_factory do |container|
   container[:queue].enqueue(
     Git::ServerJob.new(
       method_name: container[:method_name],
@@ -29,7 +29,9 @@ end
 service :git_observer do |container|
   CompositeObserver.new([
     Git::CloneObserver.new(clones: container[:clones]),
-    Git::LoggingObserver.new(container[:prefixed_logger].new(prefix: 'GIT: '))
+    Git::LoggingObserver.new(
+      container[:prefixed_logger_factory].new(prefix: "GIT: ")
+    )
   ])
 end
 
@@ -43,13 +45,13 @@ end
 
 service :config_committer do |container|
   Gitolite::ConfigCommitter.new(
-    repository_factory: container[:repository],
+    repository_factory: container[:repository_factory],
     config_writer: container[:config_writer]
   )
 end
 
 service :config_writer do |container|
-  Gitolite::ConfigWriter.new(ENV['PUBLIC_KEY'], container[:sources])
+  Gitolite::ConfigWriter.new(ENV["PUBLIC_KEY"], container[:sources])
 end
 
 service :sources do |container|
@@ -68,20 +70,20 @@ decorate :exercises do |exercises, container|
 end
 
 service :shell do |container|
-  ENV['SHELL_CLASS'].constantize.new
+  ENV["SHELL_CLASS"].constantize.new
 end
 
 decorate :shell do |shell, container|
-  Gitolite::IdentifiedShell.new(shell, ENV['IDENTITY'])
+  Gitolite::IdentifiedShell.new(shell, ENV["IDENTITY"])
 end
 
-factory :participation do |container|
+factory :participation_factory do |container|
   Participation.new(
     clones: CloneQuery.new(
       DecoratingRelation.new(
         container[:exercise].clones,
         :clone,
-        container[:git_clone]
+        container[:git_clone_factory]
       )
     ),
     exercise: container[:exercise],
@@ -90,53 +92,53 @@ factory :participation do |container|
   )
 end
 
-factory :git_clone do |container|
+factory :git_clone_factory do |container|
   Git::Clone.new(container[:clone], container[:git_server])
 end
 
-factory :repository do |container|
-  Git::Repository.new(host: ENV['GIT_SERVER_HOST'], path: container[:path])
+factory :repository_factory do |container|
+  Git::Repository.new(host: ENV["GIT_SERVER_HOST"], path: container[:path])
 end
 
 service :repository_finder do |container|
-  Gitolite::RepositoryFinder.new(container[:repository])
+  Gitolite::RepositoryFinder.new(container[:repository_factory])
 end
 
-decorate :repository do |component, container|
+decorate :repository_factory do |component, container|
   Gitolite::ClonableRepository.new(component, container[:shell])
 end
 
-decorate :repository do |component, container|
+decorate :repository_factory do |component, container|
   Gitolite::ForkableRepository.new(component, container[:shell])
 end
 
-decorate :repository do |component, container|
+decorate :repository_factory do |component, container|
   Gitolite::CommittableRepository.new(component, container[:shell])
 end
 
-decorate :repository do |component, container|
+decorate :repository_factory do |component, container|
   Gitolite::RepositoryWithHistory.new(component, container[:shell])
 end
 
-decorate :repository do |component, container|
+decorate :repository_factory do |component, container|
   Gitolite::DiffableRepository.new(component, container[:shell])
 end
 
-factory :review do |container|
-  revision = container[:git_revision].new(
+factory :review_factory do |container|
+  revision = container[:git_revision_factory].new(
     revision: container[:viewed_solution].latest_revision
   )
 
   Review.new(
-    comment_locator: container[:comment_locator].new(
+    comment_locator: container[:comment_locator_factory].new(
       comments: container[:viewed_solution].comments,
       revision: revision,
     ),
     exercise: container[:exercise],
-    solutions: container[:reviewable_solutions].new(
+    solutions: container[:reviewable_solutions_factory].new(
       solutions: container[:exercise].solutions
     ),
-    status_factory: container[:status],
+    status_factory: container[:status_factory],
     submitted_solution: container[:submitted_solution],
     viewed_solution: container[:viewed_solution],
     reviewer: container[:current_user],
@@ -144,14 +146,14 @@ factory :review do |container|
   )
 end
 
-factory :git_revision do |container|
+factory :git_revision_factory do |container|
   Git::Revision.new(
     container[:revision],
-    container[:diff_parser]
+    container[:diff_parser_factory]
   )
 end
 
-factory :status do |container|
+factory :status_factory do |container|
   Status::Finder.new([
     Status::AllStepsCompleted.new(container[:review]),
     Status::AwaitingReview.new(container[:review]),
@@ -160,24 +162,27 @@ factory :status do |container|
   ]).find
 end
 
-factory :diff_parser do |container|
-  Git::DiffParser.new(container[:diff], container[:diff_file])
+factory :diff_parser_factory do |container|
+  Git::DiffParser.new(container[:diff], container[:diff_file_factory])
 end
 
-factory :diff_file do |container|
-  Git::DiffFile.new(container[:diff_line], ENV.fetch('MAX_DIFF_LINES').to_i)
+factory :diff_file_factory do |container|
+  Git::DiffFile.new(
+    container[:diff_line_factory],
+    ENV.fetch("MAX_DIFF_LINES").to_i
+  )
 end
 
-decorate :diff_file do |file, container|
+decorate :diff_file_factory do |file, container|
   CommentableFile.new(
     file,
-    container[:comment_locator].new(
+    container[:comment_locator_factory].new(
       revision: container[:revision]
     )
   )
 end
 
-factory :diff_line do |container|
+factory :diff_line_factory do |container|
   Git::DiffLine.new(
     text: container[:text],
     changed: container[:changed],
@@ -186,14 +191,14 @@ factory :diff_line do |container|
   )
 end
 
-factory :comment_locator do |container|
+factory :comment_locator_factory do |container|
   CommentLocator.new(
     revision: container[:revision],
     comments: ChronologicalQuery.new(container[:viewed_solution].comments)
   )
 end
 
-factory :reviewable_solutions do |container|
+factory :reviewable_solutions_factory do |container|
   ReviewableSolutionQuery.new(container[:solutions])
 end
 
@@ -201,16 +206,16 @@ service :solutions do |container|
   Solution.all.includes(:user, :exercise).limit(50)
 end
 
-decorate :diff_line do |diff_line, container|
+decorate :diff_line_factory do |diff_line, container|
   CommentableLine.new(
     diff_line,
-    container[:comment_locator].new(
+    container[:comment_locator_factory].new(
       revision: container[:revision]
     )
   )
 end
 
-factory :prefixed_logger do |container|
+factory :prefixed_logger_factory do |container|
   PrefixedLogger.new(container[:logger], container[:prefix])
 end
 
@@ -230,7 +235,7 @@ decorate :mailer do |mailer, container|
   DelayedMailer.new(mailer)
 end
 
-factory :comment_notification do |container|
+factory :comment_notification_factory do |container|
   container[:mailer].comment(
     author: container[:comment].user,
     comment: container[:comment],
@@ -240,7 +245,7 @@ factory :comment_notification do |container|
   )
 end
 
-decorate :comment_notification do |message, container|
+decorate :comment_notification_factory do |message, container|
   FilteredMessage.new(
     message,
     filter: container[:comment].user,
@@ -278,21 +283,21 @@ service :requested_exercise do |container|
 end
 
 service :current_participation do |container|
-  container[:participation].new(
+  container[:participation_factory].new(
     exercise: container[:requested_exercise],
     user: container[:current_user]
   )
 end
 
 service :current_overview do |container|
-  container[:overview].new(
+  container[:overview_factory].new(
     exercise: container[:requested_exercise],
     participation: container[:current_participation],
     user: container[:current_user],
   )
 end
 
-factory :overview do |container|
+factory :overview_factory do |container|
   Overview.new(
     exercise: container[:exercise],
     participation: container[:participation],
@@ -304,7 +309,7 @@ service :clearance_session do |container|
   container[:rack_env][:clearance]
 end
 
-factory :event_tracker do |container|
+factory :event_tracker_factory do |container|
   EventTracker.new(
     container[:user],
     container[:exercise],
@@ -313,17 +318,17 @@ factory :event_tracker do |container|
 end
 
 service :analytics_backend do |container|
-  if ENV['SEGMENT_IO_KEY'].present?
-    Segment::Analytics.new(write_key: ENV['SEGMENT_IO_KEY'])
+  if ENV["SEGMENT_IO_KEY"].present?
+    Segment::Analytics.new(write_key: ENV["SEGMENT_IO_KEY"])
   else
     FakeAnalyticsBackend.new
   end
 end
 
-decorate :participation do |participation, container|
+decorate :participation_factory do |participation, container|
   TrackingParticipation.new(
     participation,
-    container[:event_tracker].new(user: container[:user])
+    container[:event_tracker_factory].new(user: container[:user])
   )
 end
 

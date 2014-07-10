@@ -61,7 +61,7 @@ describe OauthCallbacksController do
     build_stubbed(:user).tap do |user|
       auth_hash = stub_auth_hash
       authenticator =
-        stub_factory_instance(:authenticator, auth_hash: auth_hash)
+        stub_factory_instance(:authenticator_factory, auth_hash: auth_hash)
       authenticator.stub(:authenticate).and_return(user)
     end
   end

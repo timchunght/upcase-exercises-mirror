@@ -6,7 +6,7 @@ describe ExercisesController do
       exercise = build_stubbed(:exercise)
       user = build_stubbed(:user)
       stub_service(:current_overview)
-      tracker = stub_factory_instance(:event_tracker, user: user)
+      tracker = stub_factory_instance(:event_tracker_factory, user: user)
       tracker.stub(:track_exercise_visit)
       sign_in_as user
 

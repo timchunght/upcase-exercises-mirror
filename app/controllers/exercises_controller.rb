@@ -11,6 +11,6 @@ class ExercisesController < ApplicationController
   end
 
   def event_tracker
-    dependencies[:event_tracker].new(user: current_user)
+    dependencies[:event_tracker_factory].new(user: current_user)
   end
 end

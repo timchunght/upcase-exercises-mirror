@@ -34,7 +34,7 @@ describe Api::PushesController do
     Exercise.stub(:find).with(exercise.to_param).and_return(exercise)
     user = build_stubbed(:user)
     User.stub(:find).with(user.to_param).and_return(user)
-    factory = stub_factory(:participation)
+    factory = stub_factory(:participation_factory)
     factory.
       stub(:new).
       with(exercise: exercise, user: user).

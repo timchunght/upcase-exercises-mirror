@@ -47,11 +47,14 @@ describe SolutionsController do
     user = build_stubbed(:user)
     User.stub(:find).with(user.to_param).and_return(user)
     viewed_solution = build_stubbed(:solution)
-    participation =
-      stub_factory_instance(:participation, exercise: exercise, user: user)
+    participation = stub_factory_instance(
+      :participation_factory,
+      exercise: exercise,
+      user: user
+    )
     participation.stub(:find_solution).and_return(viewed_solution)
     review = stub_factory_instance(
-      :review,
+      :review_factory,
       exercise: exercise,
       submitted_solution: submitted_solution,
       viewed_solution: viewed_solution,
@@ -82,7 +85,11 @@ describe SolutionsController do
   def sign_in_as_user_with_participation_to(exercise, user_type)
     user = build_stubbed(user_type)
     sign_in_as user
-    stub_factory_instance(:participation, exercise: exercise, user: user)
+    stub_factory_instance(
+      :participation_factory,
+      exercise: exercise,
+      user: user
+    )
   end
 
   def show(exercise, user)

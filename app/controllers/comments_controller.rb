@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
   end
 
   def send_notification
-    dependencies[:comment_notification].new(comment: @comment).deliver
+    dependencies[:comment_notification_factory].new(comment: @comment).deliver
   end
 
   def solution
@@ -38,7 +38,7 @@ class CommentsController < ApplicationController
   end
 
   def event_tracker
-    dependencies[:event_tracker].new(
+    dependencies[:event_tracker_factory].new(
       user: current_user,
       exercise: solution.exercise
     )

@@ -19,7 +19,7 @@ class SolutionsController < ApplicationController
   end
 
   def participation_by(user)
-    dependencies[:participation].new(
+    dependencies[:participation_factory].new(
       exercise: exercise,
       user: user
     )
@@ -42,7 +42,7 @@ class SolutionsController < ApplicationController
   end
 
   def review_solution_by(user)
-    dependencies[:review].new(
+    dependencies[:review_factory].new(
       exercise: exercise,
       viewed_solution: participation_by(user).find_solution,
       submitted_solution: solution_by_current_user,
