@@ -8,9 +8,20 @@ $header-font-family: $base-font-family;
 
 // Sizes
 ///////////////////////////////////////////////////////////////////////////////
-$base-font-size: 0.95em;
+$base-font-size-sm-4: 11px;
+$base-font-size-sm-3: 12px;
+$base-font-size-sm-2: 13px;
+$base-font-size-sm-1: 14px;
+$base-font-size: 15px;
+$base-font-size-lg-1: 16px;
+$base-font-size-lg-2: 17px;
+$base-font-size-lg-3: 18px;
+
 $base-line-height: $base-font-size * 1.5;
 $base-border-radius: em(3);
+
+$h1-font-size: $base-font-size * 1.8;
+
 
 $base-margin: 20px;
 $base-padding: 16px;

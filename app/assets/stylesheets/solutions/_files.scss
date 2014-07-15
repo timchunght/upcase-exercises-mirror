@@ -17,7 +17,7 @@
       box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.5);
       color: #444;
       display: block;
-      font-size: .74rem;
+      font-size: $base-font-size-sm-3;
       font-weight: 600;
       @include linear-gradient(#F8F8F8, #EFEFEF);
       line-height: 2.3em;
@@ -29,6 +29,7 @@
     border: 1px solid $base-border-color;
     border-top: 0;
     overflow-x: auto;
+    overflow-y: hidden;
   }
 
   .code {
@@ -79,7 +80,6 @@
       @include position(absolute, 0 0 0 -0.8rem);
 
       a {
-        // margin-top: 1px;
         background-repeat: no-repeat;
         width: 22px;
         height: 22px;
@@ -108,23 +108,23 @@
 
   pre {
     display: inline-block;
-    font-size: 1.1rem;
     line-height: 1rem;
     margin: 0;
     padding: .1em 0 .3em 0;
   }
 
   .line-comments {
+    font-size: $base-font-size-sm-2;
+
     > ol {
       margin: 0;
       padding: 0;
 
       > li {
+        border-bottom: 1px solid $base-border-color-2;
         display: block;
-        font-size: em(14px);
         padding: 1rem 2rem 1.2rem 1.5rem;
         position: relative;
-        border-bottom: 1px solid $base-border-color-2;
 
         &:first-child {
           border-top: 1px solid $base-border-color;
@@ -154,7 +154,6 @@
 
     header {
       color: #666;
-      font-size: .8rem;
       line-height: 1.6rem;
       padding-bottom: $base-padding/2;
 
@@ -179,7 +178,7 @@
 
     textarea {
       margin: 0.5rem 0;
-      font-size: 0.8rem;
+      font-size: $base-font-size-sm-2;
     }
   }
 }

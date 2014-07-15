@@ -1,6 +1,6 @@
 aside.comments {
   float: right;
-  font-size: em(13px);
+  font-size: $base-font-size-sm-3;
   padding-left: 2%;
   width: $timeline-width;
 
@@ -82,7 +82,7 @@ aside.comments {
       padding-left: 1.25rem;
 
       &.line-num, &.timestamp {
-        font-size: em(12px);
+        font-size: $base-font-size-sm-4;
         color: $medium-gray;
         line-height: 1.5em;
         margin: 0;
@@ -105,12 +105,19 @@ aside.comments {
     }
   }
 
+  code {
+    background: lighten($light-gray, 5%);
+    border-radius: 3px;
+    font-size: $base-font-size-sm-3;
+    padding: 0 4px;
+  }
+
   form {
     margin-left: 1.25rem;
     padding-left: $avatar-size;
   }
 
   textarea {
-    font-size: 0.75rem;
+    font-size: $base-font-size-sm-3;
   }
 }

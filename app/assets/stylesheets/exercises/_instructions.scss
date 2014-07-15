@@ -45,23 +45,22 @@ section.main article.main-inner, .preview {
       background: #f6f6f6;
       border-radius: 3px;
       display: block;
-      overflow: scroll;
       padding: $base-padding;
       width: 100%;
     }
   }
 
   input[type=submit], .button {
-    -webkit-font-smoothing: subpixel-antialiased;
-    margin-top: $base-margin*2;
     background: $button-green;
     border-radius: 3px;
     color: #fff;
     display: block;
-    font-size: 1.2rem;
+    font-size: $base-font-size-lg-3;
     font-weight: 400;
+    margin-top: $base-margin*2;
     padding: 1rem;
     text-align: center;
+    -webkit-font-smoothing: subpixel-antialiased;
     width: 100%;
 
     &[disabled] {
@@ -71,18 +70,18 @@ section.main article.main-inner, .preview {
   }
 
   .instructions {
-    h1, h2, h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 3em 0 1em;
-      text-transform: uppercase;
-    }
-
     .title {
-      font-size: 1.71rem;
+      font-size: $h1-font-size;
       font-weight: 800;
       margin-top: 0;
       text-transform: none;
+    }
+
+    h1, h2, h3 {
+      font-size: $base-font-size-lg-1;
+      font-weight: 600;
+      margin: 3em 0 1em;
+      text-transform: uppercase;
     }
 
     ol, ul {
@@ -101,13 +100,5 @@ section.main article.main-inner, .preview {
       line-height: 1.6;
       margin-bottom: 0.6em;
     }
-
-    pre code {
-      font-size: 1.1em;
-    }
   }
-}
-
-.prettyprint {
-  font-size: 1rem;
 }

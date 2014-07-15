@@ -130,13 +130,13 @@ $large-size: $small-size + 7px;
       font-weight: 500;
 
       &.title {
-        font-size: em(14px);
+        font-size: $base-font-size-sm-2;
         font-weight: bold;
         margin-top: 6px;
       }
 
       &.timestamp {
-        font-size: em(12px);
+        font-size: $base-font-size-sm-4;
         color: $medium-gray;
       }
     }

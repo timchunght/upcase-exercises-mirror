@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: $base-font-size * 1.8;
+  font-size: $h1-font-size;
 }
 
 h2 {
@@ -105,11 +105,10 @@ cite {
   }
 }
 
-pre {
-  font-size: 1rem;
-}
-
 code {
   -webkit-font-smoothing: subpixel-antialiased;
-  font-size: 1.1rem;
+}
+
+.prettyprint {
+  font-size: $base-font-size-sm-1;
 }

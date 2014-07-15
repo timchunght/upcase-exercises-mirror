@@ -15,7 +15,7 @@ section.main article.main-inner {
         border-left-width: 0;
         @include display(flex);
         @include flex(1);
-        font-size: 0.9rem;
+        font-size: $base-font-size-sm-1;
         position: relative;
         text-align: center;
         @include transition(none);

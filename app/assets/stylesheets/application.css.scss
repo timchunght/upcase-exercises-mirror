@@ -1,10 +1,14 @@
 @charset 'utf-8';
 
+// Vendor
+@import 'prettify';
+
+// Bourbon
 @import 'bourbon';
 @import 'neat';
 @import 'bitters/bitters';
-@import 'prettify';
 
+// Our Styles
 @import 'variables';
 @import 'mixins';
 @import 'animations';
