@@ -1,6 +1,6 @@
 %ul.solutions.my-solution
-  - if solution.present?
-    = render solution, solutions: solutions
+  - if solutions.user_has_solution?
+    = render solutions.submitted_solution, solutions: solutions
   - else
     %li
       = link_to exercise_path(exercise) do

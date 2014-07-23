@@ -76,15 +76,23 @@ describe ReviewableSolutionsQuery do
     end
   end
 
-  describe "#assigned_solver_username" do
-    it "returns the solver username for the assigned solution" do
-      username = double("username")
-      assigned_solution = double("assigned_solution", username: username)
-      solutions = build_reviewable_solutions(solutions: [assigned_solution])
+  describe "#user_has_solution?" do
+    context "with a submitted solution" do
+      it "returns true" do
+       solutions = build_reviewable_solutions(
+          submitted_solution: double("submitted_solution")
+        )
 
-      result = solutions.assigned_solver_username
+        expect(solutions.user_has_solution?).to be_true
+      end
+    end
 
-      expect(result).to eq(username)
+    context "without a submitted solution" do
+      it "returns false" do
+        solutions = build_reviewable_solutions(submitted_solution: nil)
+
+        expect(solutions.user_has_solution?).to be_false
+      end
     end
   end
 

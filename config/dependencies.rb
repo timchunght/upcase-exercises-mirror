@@ -125,15 +125,16 @@ decorate :repository_factory do |component, container|
 end
 
 factory :review_factory do |container|
+  solutions = container[:reviewable_solutions_factory].new(
+    solutions: container[:exercise].solutions
+  )
+  status = container.service(:solutions) { solutions }[:status]
+
   Review.new(
     exercise: container[:exercise],
-    solutions: container[:reviewable_solutions_factory].new(
-      solutions: container[:exercise].solutions
-    ),
-    status_factory: container[:status_factory],
-    viewed_solution: container[:viewed_solution],
-    reviewer: container[:reviewer],
     feedback: container[:feedback],
+    solutions: solutions,
+    status: status,
   )
 end
 
@@ -170,14 +171,22 @@ factory :git_revision_factory do |container|
   )
 end
 
-factory :status_factory do |container|
+service :status do |container|
   Status::Finder.new([
-    Status::AllStepsCompleted.new(container[:review]),
-    Status::AwaitingReview.new(container[:review]),
-    Status::ReviewingOtherSolution.new(container[:review]),
-    Status::SubmittedSolution.new(container[:review]),
-    Status::NoSolution.new,
+    Status::AllStepsCompleted.new(container[:feedback_progress]),
+    Status::AwaitingReview.new(container[:feedback_progress]),
+    Status::ReviewingOtherSolution.new(container[:solutions]),
+    Status::SubmittedSolution.new(container[:solutions]),
+    Status::NoSolution.new
   ]).find
+end
+
+service :feedback_progress do |container|
+  FeedbackProgress.new(
+    exercise: container[:exercise],
+    reviewer: container[:reviewer],
+    submitted_solution: container[:submitted_solution]
+  )
 end
 
 factory :diff_parser_factory do |container|

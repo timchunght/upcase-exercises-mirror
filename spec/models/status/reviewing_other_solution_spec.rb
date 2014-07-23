@@ -4,13 +4,14 @@ describe Status::ReviewingOtherSolution do
   describe "#applicable?" do
     context "when the reviewer has a solution and views another solution" do
       it "returns true" do
-        review = double(
-          "review",
-          viewing_other_solution?: true,
+        solutions = double(
+          "solutions",
+          submitted_solution: double("submitted_solution"),
+          viewed_solution: double("viewed_solution"),
           user_has_solution?: true
         )
 
-        status = Status::ReviewingOtherSolution.new(review)
+        status = Status::ReviewingOtherSolution.new(solutions)
 
         expect(status).to be_applicable
       end
@@ -18,12 +19,14 @@ describe Status::ReviewingOtherSolution do
 
     context "when viewing the submitted solution" do
       it "returns false" do
-        review = double(
-          "review",
-          viewing_other_solution?: false,
+        solution = double("solution")
+        solutions = double(
+          "solutions",
+          submitted_solution: solution,
+          viewed_solution: solution,
           user_has_solution?: true
         )
-        status = Status::ReviewingOtherSolution.new(review)
+        status = Status::ReviewingOtherSolution.new(solutions)
 
         expect(status).not_to be_applicable
       end
@@ -31,24 +34,49 @@ describe Status::ReviewingOtherSolution do
 
     context "when the reviewer has no solution" do
       it "returns false" do
-        review = double(
-          "review",
-          viewing_other_solution?: true,
-          user_has_solution?: false
+        solutions = double(
+          "solutions",
+          submitted_solution: nil,
+          user_has_solution?: false,
+          viewed_solution: double("viewed_solution")
         )
-        status = Status::ReviewingOtherSolution.new(review)
+        status = Status::ReviewingOtherSolution.new(solutions)
 
         expect(status).not_to be_applicable
       end
     end
   end
 
+  describe "#assigned_solution" do
+    it "delegates to its solutions" do
+      solutions = double(
+        "solutions",
+        assigned_solution: double("assigned_solution"),
+      )
+      status = Status::ReviewingOtherSolution.new(solutions)
+
+      expect(status.assigned_solution).to eq(solutions.assigned_solution)
+    end
+  end
+
+  describe "#submitted_solution" do
+    it "delegates to its solutions" do
+      solutions = double(
+        "solutions",
+        submitted_solution: double("submitted_solution"),
+      )
+      status = Status::ReviewingOtherSolution.new(solutions)
+
+      expect(status.submitted_solution).to eq(solutions.submitted_solution)
+    end
+  end
+
   describe "#to_partial_path" do
     it "returns a string" do
-      status = Status::ReviewingOtherSolution.new(double("review"))
+      status = Status::ReviewingOtherSolution.new(double("solutions"))
       result = status.to_partial_path
 
-      expect(result).to eq("statuses/reviewing_solution")
+      expect(result).to eq("statuses/reviewing_other_solution")
     end
   end
 end

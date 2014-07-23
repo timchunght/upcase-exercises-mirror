@@ -1,12 +1,11 @@
 %header.solutions-main
   %nav.participants
     = render "my_solution",
-      solution: @review.submitted_solution,
       solutions: @review.solutions,
       exercise: @review.exercise
 
   %section.next-steps
-    = render @review.status
+    = render @review.status, status: @review.status
 
 %div.main-inner
   = render "solutions/revision_history", feedback: @review.feedback

@@ -1,0 +1,11 @@
+%div
+  .inner.has-icon
+    .icon.comment
+    .content
+      = render "statuses/assigned_solution",
+        assigned_solution: status.assigned_solution
+
+%div
+  .inner
+    = render "statuses/link_to_submitted_solution",
+      submitted_solution: status.submitted_solution

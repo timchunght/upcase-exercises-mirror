@@ -6,9 +6,5 @@
 
 %div
   .inner
-    %h2.title Next step, review a peer's solution.
-    = link_to(                                                             |
-        t('solutions.show.continue'),                                      |
-        exercise_solution_path(@review.exercise, @review.assigned_solver), |
-        class: 'button'                                                    |
-      )                                                                    |
+    = render "statuses/link_to_assigned_solution",
+      assigned_solution: status.assigned_solution

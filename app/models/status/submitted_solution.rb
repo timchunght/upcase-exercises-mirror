@@ -1,8 +1,10 @@
 class Status::SubmittedSolution
-  pattr_initialize :review
+  pattr_initialize :solutions
+
+  delegate :assigned_solution, to: :solutions
 
   def applicable?
-    review.user_has_solution?
+    solutions.user_has_solution?
   end
 
   def to_partial_path

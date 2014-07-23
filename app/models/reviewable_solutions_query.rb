@@ -20,7 +20,7 @@ class ReviewableSolutionsQuery
     assigned_solution.user
   end
 
-  def assigned_solver_username
-    assigned_solution.username
+  def user_has_solution?
+    submitted_solution.present?
   end
 end
