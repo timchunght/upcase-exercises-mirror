@@ -158,31 +158,6 @@ describe Review do
     end
   end
 
-  describe "#files" do
-    it "delegates to its revision" do
-      files = double("files")
-      revision = double("revision", files: files)
-      review = build_review(revision: revision)
-
-      result = review.files
-
-      expect(result).to eq(files)
-    end
-  end
-
-  describe "#top_level_comments" do
-    it "delegates to its comment finder" do
-      top_level_comments = double("comment_locator.top_level_comments")
-      comment_locator = double("comment_locator")
-      comment_locator.stub(:top_level_comments).and_return(top_level_comments)
-      review = build_review(comment_locator: comment_locator)
-
-      result = review.top_level_comments
-
-      expect(result).to eq(top_level_comments)
-    end
-  end
-
   describe "#viewing_other_solution?" do
     context "when viewing a solution other than the user's" do
       it "returns true" do
@@ -337,53 +312,24 @@ describe Review do
     end
   end
 
-  describe "#latest_revision?" do
-    context "when the revision is the viewed solution's latest revision" do
-      it "returns true" do
-        solution = create(:solution, :with_revision)
-        review = build_review(
-          revision: solution.latest_revision,
-          viewed_solution: solution
-        )
-
-        expect(review).to be_latest_revision
-      end
-    end
-
-    context "when the revision is not the viewed solution's latest revision" do
-      it "returns false" do
-        solution = create(:solution, :with_revision)
-        revision = create(:revision)
-        review = build_review(
-          revision: revision,
-          viewed_solution: solution
-        )
-
-        expect(review).not_to be_latest_revision
-      end
-    end
-  end
-
   def build_review(
-    comment_locator: double("comment_locator"),
     submitted_solution: stub_solution("submitted_solution"),
     other_solutions: [stub_solution("other_solution")],
     viewed_solution: submitted_solution || other_solutions.first,
     exercise: double("exercise"),
+    feedback: double("feedback"),
     status_factory: double("status_factory"),
-    reviewer: double("user"),
-    revision: double("revision")
+    reviewer: double("user")
   )
     solutions = [submitted_solution, *other_solutions].compact
     Review.new(
-      comment_locator: comment_locator,
       exercise: exercise,
+      feedback: feedback,
       solutions: solutions,
       submitted_solution: submitted_solution,
       viewed_solution: viewed_solution,
       status_factory: status_factory,
-      reviewer: reviewer,
-      revision: revision,
+      reviewer: reviewer
     )
   end
 

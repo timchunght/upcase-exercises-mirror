@@ -6,20 +6,9 @@
     = render @review.status
 
 %div.main-inner
-  = render "solutions/revision_history", review: @review
+  = render "solutions/revision_history", feedback: @review.feedback
 
   %nav.participants
     = render "peer_solutions", review: @review
 
-  %div.main-body{ :data => { :role => "review" } }
-    %section.files.next-steps-active
-      - @review.files.each do |file|
-        = render 'solutions/file', file: file, review: @review
-
-    %aside.comments.next-steps-active{ :data => { :role => 'top-level-comments' } }
-      %ol
-        = render @review.top_level_comments
-        = render 'comments/form'
-
-    - if @review.latest_revision?
-      = render "inline_comment_form", review: @review
+  = render "revisions/feedback", feedback: @review.feedback

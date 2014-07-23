@@ -1,17 +1,15 @@
 # Solutions and files to be displayed to a user performing a review.
 class Review
   pattr_initialize([
-    :comment_locator,
     :exercise,
     :reviewer,
-    :revision,
     :solutions,
     :status_factory,
     :submitted_solution,
     :viewed_solution,
-    :revisions
+    :feedback
   ])
-  attr_reader :exercise, :viewed_solution, :revision, :revisions
+  attr_reader :exercise, :viewed_solution, :feedback
 
   def assigned_solution
     solutions_by_other_users.detect(&:assigned?) || submitted_solution
@@ -41,14 +39,6 @@ class Review
     submitted_solution.present?
   end
 
-  def files
-    revision.files
-  end
-
-  def top_level_comments
-    comment_locator.top_level_comments
-  end
-
   def status
     status_factory.new(review: self)
   end
@@ -70,10 +60,6 @@ class Review
   def user_has_given_and_received_review?
     user_has_reviewed_other_solution? &&
       user_has_received_review?
-  end
-
-  def latest_revision?
-    revision.id == viewed_solution.latest_revision.id
   end
 
   private

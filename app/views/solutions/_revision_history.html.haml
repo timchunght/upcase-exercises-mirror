@@ -1,8 +1,8 @@
 %section.revision-history
   %ol
-    - review.revisions.each do |revision|
+    - feedback.revisions.each do |revision|
       = content_tag_with_conditional_classes :li,
-        class_names: { current: revision.id == review.revision.id } do
+        class_names: { current: revision.id == feedback.viewed_revision.id } do
         %div.tooltip
           = image_tag(revision.user.avatar_url)
           %span.title

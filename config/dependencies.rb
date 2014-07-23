@@ -125,15 +125,7 @@ decorate :repository_factory do |component, container|
 end
 
 factory :review_factory do |container|
-  revision = container[:git_revision_factory].new(
-    comments: container[:viewed_solution].comments,
-  )
-
   Review.new(
-    comment_locator: container[:comment_locator_factory].new(
-      comments: container[:viewed_solution].comments,
-      revision: revision,
-    ),
     exercise: container[:exercise],
     solutions: container[:reviewable_solutions_factory].new(
       solutions: container[:exercise].solutions
@@ -142,7 +134,21 @@ factory :review_factory do |container|
     submitted_solution: container[:submitted_solution],
     viewed_solution: container[:viewed_solution],
     reviewer: container[:reviewer],
-    revision: revision,
+    feedback: container[:feedback],
+  )
+end
+
+service :feedback do |container|
+  revision = container[:git_revision_factory].new(
+    comments: container[:viewed_solution].comments,
+  )
+
+  Feedback.new(
+    comment_locator: container[:comment_locator_factory].new(
+      comments: container[:viewed_solution].comments,
+      revision: revision,
+    ),
+    viewed_revision: revision,
     revisions: DecoratingRelation.new(
       ChronologicalQuery.new(container[:viewed_solution].revisions),
       :revision,
