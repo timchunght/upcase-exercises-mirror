@@ -1,4 +1,4 @@
-class ReviewableSolutionQuery
+class PrioritizedSolutionQuery
   include Enumerable
 
   pattr_initialize :relation

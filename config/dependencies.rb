@@ -131,7 +131,6 @@ factory :review_factory do |container|
       solutions: container[:exercise].solutions
     ),
     status_factory: container[:status_factory],
-    submitted_solution: container[:submitted_solution],
     viewed_solution: container[:viewed_solution],
     reviewer: container[:reviewer],
     feedback: container[:feedback],
@@ -216,8 +215,16 @@ factory :comment_locator_factory do |container|
   )
 end
 
+factory :prioritized_solutions_factory do |container|
+  PrioritizedSolutionQuery.new(container[:solutions])
+end
+
 factory :reviewable_solutions_factory do |container|
-  ReviewableSolutionQuery.new(container[:solutions])
+  ReviewableSolutionsQuery.new(
+    solutions: container[:prioritized_solutions_factory].new,
+    submitted_solution: container[:submitted_solution],
+    viewed_solution: container[:viewed_solution],
+  )
 end
 
 service :solutions do |container|

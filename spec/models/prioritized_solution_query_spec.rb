@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe ReviewableSolutionQuery do
+describe PrioritizedSolutionQuery do
   it 'is enumerable' do
-    expect(ReviewableSolutionQuery.new(Solution.all)).to be_a(Enumerable)
+    expect(PrioritizedSolutionQuery.new(Solution.all)).to be_a(Enumerable)
   end
 
   context '#each' do
@@ -11,7 +11,7 @@ describe ReviewableSolutionQuery do
       create_solution 'four', comments_count: 2, created_at: 1.day.ago
       create_solution 'one', comments_count: 0, created_at: 3.days.ago
       create_solution 'two', comments_count: 1, created_at: 2.days.ago
-      query = ReviewableSolutionQuery.new(Solution.all)
+      query = PrioritizedSolutionQuery.new(Solution.all)
 
       result = iterate_solutions(query)
 

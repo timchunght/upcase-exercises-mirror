@@ -6,7 +6,7 @@
     %aside.comments.next-steps-active{ :data => { :role => 'top-level-comments' } }
       %ol
         = render feedback.top_level_comments
-        = render 'comments/form'
+        = render 'comments/form', revision: feedback.viewed_revision
 
     - if feedback.latest_revision?
       = render "inline_comment_form", revision: feedback.viewed_revision

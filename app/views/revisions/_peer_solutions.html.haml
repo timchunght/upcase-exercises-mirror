@@ -1,7 +1,7 @@
 %h1 Peer Solutions
-- if @review.has_solutions_by_other_users?
+- if solutions.solutions_by_other_users.present?
   %ul.solutions
-    = render @review.solutions_by_other_users
+    = render solutions.solutions_by_other_users, solutions: solutions
 - else
   .no-solutions
     %b= t('solutions.show.no_solutions_heading')

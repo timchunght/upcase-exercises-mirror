@@ -5,39 +5,17 @@ class Review
     :reviewer,
     :solutions,
     :status_factory,
-    :submitted_solution,
     :viewed_solution,
     :feedback
   ])
-  attr_reader :exercise, :viewed_solution, :feedback
-
-  def assigned_solution
-    solutions_by_other_users.detect(&:assigned?) || submitted_solution
-  end
-
-  def assigned_solver
-    assigned_solution.user
-  end
-
-  def assigned_solver_username
-    assigned_solution.username
-  end
-
-  def has_solutions_by_other_users?
-    solutions_by_other_users.present?
-  end
-
-  def solutions_by_other_users
-    decorate_solutions(solutions.to_a - [submitted_solution])
-  end
-
-  def my_solution
-    decorate_solution submitted_solution
-  end
-
-  def submitted?
-    submitted_solution.present?
-  end
+  attr_reader :exercise, :viewed_solution, :feedback, :solutions
+  delegate(
+    :submitted_solution,
+    :solutions_by_other_users,
+    :assigned_solver,
+    :assigned_solver_username,
+    to: :solutions
+  )
 
   def status
     status_factory.new(review: self)
@@ -48,7 +26,7 @@ class Review
   end
 
   def user_is_awaiting_review?
-    if submitted?
+    if submitted_solution.present?
       submitted_solution_has_no_comments?
     end
   end
@@ -70,19 +48,5 @@ class Review
 
   def user_has_received_review?
     !user_is_awaiting_review?
-  end
-
-  def decorate_solutions(solutions)
-    solutions.each_with_index.map do |solution, index|
-      decorate_solution solution, index == 0
-    end
-  end
-
-  def decorate_solution(solution, assigned = false)
-    ViewableSolution.new(
-      solution,
-      active: solution.id == viewed_solution.id,
-      assigned: assigned
-    )
   end
 end

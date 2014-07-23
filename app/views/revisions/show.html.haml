@@ -1,6 +1,9 @@
 %header.solutions-main
   %nav.participants
-    = render "my_solution", review: @review
+    = render "my_solution",
+      solution: @review.submitted_solution,
+      solutions: @review.solutions,
+      exercise: @review.exercise
 
   %section.next-steps
     = render @review.status
@@ -9,6 +12,6 @@
   = render "solutions/revision_history", feedback: @review.feedback
 
   %nav.participants
-    = render "peer_solutions", review: @review
+    = render "peer_solutions", solutions: @review.solutions
 
   = render "revisions/feedback", feedback: @review.feedback

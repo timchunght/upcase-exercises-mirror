@@ -25,21 +25,6 @@ describe Review do
     end
   end
 
-  describe "#has_solutions_by_other_users?" do
-    it "returns true with solutions besides the current user's" do
-      other_solution = stub_solution("other_solution")
-      review = build_review(other_solutions: [other_solution])
-
-      expect(review).to have_solutions_by_other_users
-    end
-
-    it "returns false with only the submitted solution" do
-      review = build_review(other_solutions: [])
-
-      expect(review).not_to have_solutions_by_other_users
-    end
-  end
-
   describe "#viewed_solution" do
     it "returns its viewed solution" do
       viewed_solution = double("viewed_solution")
@@ -49,112 +34,48 @@ describe Review do
     end
   end
 
-  describe "#submitted?" do
-    context "with a submitted solution" do
-      it "returns true" do
-        review = build_review(submitted_solution: double("submitted_solution"))
-
-        expect(review).to be_submitted
-      end
-    end
-
-    context "without a submitted solution" do
-      it "returns false" do
-        review = build_review(submitted_solution: nil)
-
-        expect(review).not_to be_submitted
-      end
-    end
-  end
-
   describe "#solutions_by_other_users" do
-    it "returns solutions besides the current user's" do
-      submitted_solution = stub_solution("submitted_solution")
-      viewed_solution = stub_solution("viewed_solution")
-      other_solution = stub_solution("other_solution")
-      review = build_review(
-        other_solutions: [other_solution, viewed_solution],
-        submitted_solution: submitted_solution,
-        viewed_solution: viewed_solution
-      )
+    it "delegates to its solutions" do
+      solutions_by_other_users = double("solutions_by_other_users")
+      solutions =
+        double("solutions", solutions_by_other_users: solutions_by_other_users)
+      review = build_review(solutions: solutions)
 
       result = review.solutions_by_other_users
 
-      expect(result.map(&:name)).to eq(%w(other_solution viewed_solution))
-      expect(result[0]).to be_assigned
-      expect(result[0]).not_to be_active
-      expect(result[1]).to be_active
-      expect(result[1]).not_to be_assigned
-    end
-  end
-
-  describe "#assigned_solution" do
-    it "returns the first solution from another user" do
-      other_solutions =
-        [stub_solution("first_other"), stub_solution("second_other")]
-      review = build_review(other_solutions: other_solutions)
-
-      expect(review.assigned_solution).to eq other_solutions.first
-    end
-
-    it "assigns the submitted solution without another solution" do
-      submitted_solution = stub_solution("submitted_solution")
-      review = build_review(
-        other_solutions: [],
-        submitted_solution: submitted_solution
-      )
-
-      expect(review.assigned_solution).to eq submitted_solution
+      expect(result).to eq(solutions_by_other_users)
     end
   end
 
   describe "#assigned_solver_username" do
     it "returns the username of the first solver besides the reviewer" do
-      submitted_solution = stub_solution("submitted_solution")
-      other_solutions = [
-        stub_solution("first_other", username: "first username"),
-        stub_solution("second_other", username: "second username")
-      ]
-      review = build_review(
-        other_solutions: other_solutions,
-        submitted_solution: submitted_solution,
-        viewed_solution: stub_solution("viewed_solution"),
-      )
+      username = double("username")
+      solutions = double("solutions", assigned_solver_username: username)
+      review = build_review(solutions: solutions)
 
-      expect(review.assigned_solver_username).to eq "first username"
+      expect(review.assigned_solver_username).to eq(username)
     end
   end
 
   describe "#assigned_solver" do
-    it "returns the first solver besides the reviewer" do
-      submitted_solution = stub_solution("submitted_solution")
-      other_solutions = [
-        stub_solution("first_other", user: "first user"),
-        stub_solution("second_other", user: "second user")
-      ]
-      review = build_review(
-        other_solutions: other_solutions,
-        submitted_solution: submitted_solution,
-        viewed_solution: stub_solution("viewed_solution"),
-      )
+    it "returns the submitter of the assigned solution" do
+      solver = double("solver")
+      solutions = double("solutions", assigned_solver: solver)
+      review = build_review(solutions: solutions)
 
-      expect(review.assigned_solver).to eq("first user")
+      expect(review.assigned_solver).to eq(solver)
     end
   end
 
   describe "#submitted_solution" do
-    it "returns the solution for the reviewing user" do
-      submitted_solution = stub_solution("submitted_solution")
-      review = build_review(
-        submitted_solution: submitted_solution,
-        viewed_solution: stub_solution("viewed_solution")
-      )
+    it "delegates to solutions" do
+      submitted_solution = double("submitted_solution")
+      solutions = double("solutions", submitted_solution: submitted_solution)
+      review = build_review(solutions: solutions)
 
-      result = review.my_solution
+      result = review.submitted_solution
 
-      expect(result).to eq submitted_solution
-      expect(result).not_to be_active
-      expect(result).not_to be_assigned
+      expect(result).to eq(submitted_solution)
     end
   end
 
@@ -319,14 +240,17 @@ describe Review do
     exercise: double("exercise"),
     feedback: double("feedback"),
     status_factory: double("status_factory"),
-    reviewer: double("user")
+    reviewer: double("user"),
+    solutions: double(
+      "solutions",
+      solutions_by_other_users: other_solutions,
+      submitted_solution: submitted_solution
+    )
   )
-    solutions = [submitted_solution, *other_solutions].compact
     Review.new(
       exercise: exercise,
       feedback: feedback,
       solutions: solutions,
-      submitted_solution: submitted_solution,
       viewed_solution: viewed_solution,
       status_factory: status_factory,
       reviewer: reviewer

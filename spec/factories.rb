@@ -67,17 +67,6 @@ FactoryGirl.define do
     end
   end
 
-  factory :viewable_solution do
-    solution factory: [:solution, :with_revision]
-    active false
-    assigned false
-
-    to_create {}
-    initialize_with do
-      ViewableSolution.new(solution, active: active, assigned: assigned)
-    end
-  end
-
   factory :user do
     auth_token
     avatar_url 'https://gravat.ar/'

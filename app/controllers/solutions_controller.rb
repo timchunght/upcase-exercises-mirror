@@ -8,16 +8,12 @@ class SolutionsController < ApplicationController
     redirect_to(
       exercise_solution_path(
         exercise,
-        review.assigned_solver
+        solutions.assigned_solver
       )
     )
   end
 
   private
-
-  def assigned_solver
-    review.assigned_solver
-  end
 
   def participation
     @participation ||= dependencies[:participation_factory].new(
@@ -34,13 +30,11 @@ class SolutionsController < ApplicationController
     participation.find_solution
   end
 
-  def review
-    @review ||= dependencies[:review_factory].new(
-      exercise: exercise,
-      viewed_solution: participation.find_solution,
+  def solutions
+    dependencies[:reviewable_solutions_factory].new(
+      solutions: exercise.solutions,
       submitted_solution: solution,
-      reviewer: current_user,
-      revision: participation.latest_revision
+      viewed_solution: solution
     )
   end
 end
