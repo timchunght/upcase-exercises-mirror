@@ -231,6 +231,41 @@ describe Review do
         expect(review.user_has_given_and_received_review?).to be_false
       end
     end
+
+    context "when the user has not submitted a solution" do
+      it "returns false" do
+        user = double("user")
+        exercise = double("exercise")
+        exercise.stub(:has_comments_from?).with(user).and_return(true)
+
+        review =
+          build_review(
+            submitted_solution: nil,
+            reviewer: user,
+            exercise: exercise,
+          )
+
+        expect(review.user_has_given_and_received_review?).to be_false
+      end
+    end
+  end
+
+  describe "#user_has_solution?" do
+    context "with a submitted solution" do
+      it "returns true" do
+        review = build_review(submitted_solution: double("submitted_solution"))
+
+        expect(review.user_has_solution?).to be_true
+      end
+    end
+
+    context "without a submitted solution" do
+      it "returns false" do
+        review = build_review(submitted_solution: nil)
+
+        expect(review.user_has_solution?).to be_false
+      end
+    end
   end
 
   def build_review(

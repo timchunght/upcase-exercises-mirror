@@ -1,0 +1,13 @@
+%div
+  .inner
+    .content
+    %h1= t('solutions.statuses.no_solution')
+
+%div
+  .inner
+    %h2.title Next step, submit your solution.
+    = link_to(                           |
+        t('solutions.show.continue'),    |
+        exercise_path(@review.exercise), |
+        class: 'button'                  |
+      )                                  |

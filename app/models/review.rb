@@ -26,9 +26,7 @@ class Review
   end
 
   def user_is_awaiting_review?
-    if submitted_solution.present?
-      submitted_solution_has_no_comments?
-    end
+    user_has_solution? && submitted_solution_has_no_comments?
   end
 
   def user_has_reviewed_other_solution?
@@ -36,8 +34,11 @@ class Review
   end
 
   def user_has_given_and_received_review?
-    user_has_reviewed_other_solution? &&
-      user_has_received_review?
+    user_has_reviewed_other_solution? && user_has_received_review?
+  end
+
+  def user_has_solution?
+    submitted_solution.present?
   end
 
   private
@@ -47,6 +48,6 @@ class Review
   end
 
   def user_has_received_review?
-    !user_is_awaiting_review?
+    user_has_solution? && submitted_solution.has_comments?
   end
 end

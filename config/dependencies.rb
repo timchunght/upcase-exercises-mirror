@@ -175,7 +175,8 @@ factory :status_factory do |container|
     Status::AllStepsCompleted.new(container[:review]),
     Status::AwaitingReview.new(container[:review]),
     Status::ReviewingOtherSolution.new(container[:review]),
-    Status::SubmittedSolution.new,
+    Status::SubmittedSolution.new(container[:review]),
+    Status::NoSolution.new,
   ]).find
 end
 

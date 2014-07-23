@@ -1,23 +1,54 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Status::ReviewingOtherSolution do
-  describe '#applicable?' do
-    it "delegates to the review's viewing_other_solution? method" do
-      expected = double('expected')
-      review = double('review')
-      review.stub(:viewing_other_solution?).and_return(expected)
+  describe "#applicable?" do
+    context "when the reviewer has a solution and views another solution" do
+      it "returns true" do
+        review = double(
+          "review",
+          viewing_other_solution?: true,
+          user_has_solution?: true
+        )
 
-      result = Status::ReviewingOtherSolution.new(review).applicable?
+        status = Status::ReviewingOtherSolution.new(review)
 
-      expect(result).to eq(expected)
+        expect(status).to be_applicable
+      end
+    end
+
+    context "when viewing the submitted solution" do
+      it "returns false" do
+        review = double(
+          "review",
+          viewing_other_solution?: false,
+          user_has_solution?: true
+        )
+        status = Status::ReviewingOtherSolution.new(review)
+
+        expect(status).not_to be_applicable
+      end
+    end
+
+    context "when the reviewer has no solution" do
+      it "returns false" do
+        review = double(
+          "review",
+          viewing_other_solution?: true,
+          user_has_solution?: false
+        )
+        status = Status::ReviewingOtherSolution.new(review)
+
+        expect(status).not_to be_applicable
+      end
     end
   end
 
-  describe '#to_partial_path' do
-    it 'returns a string' do
-      result = Status::ReviewingOtherSolution.new(double('review')).to_partial_path
+  describe "#to_partial_path" do
+    it "returns a string" do
+      status = Status::ReviewingOtherSolution.new(double("review"))
+      result = status.to_partial_path
 
-      expect(result).to eq('statuses/reviewing_solution')
+      expect(result).to eq("statuses/reviewing_solution")
     end
   end
 end

@@ -2,7 +2,7 @@ class Status::ReviewingOtherSolution
   pattr_initialize :review
 
   def applicable?
-    review.viewing_other_solution?
+    review.user_has_solution? && review.viewing_other_solution?
   end
 
   def to_partial_path

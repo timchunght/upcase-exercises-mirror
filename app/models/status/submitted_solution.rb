@@ -1,6 +1,8 @@
 class Status::SubmittedSolution
+  pattr_initialize :review
+
   def applicable?
-    true
+    review.user_has_solution?
   end
 
   def to_partial_path
