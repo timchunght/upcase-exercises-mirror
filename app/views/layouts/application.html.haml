@@ -3,7 +3,7 @@
   %head
     %meta{ 'charset' => "utf-8" }
     %meta{ 'name' => "ROBOTS", 'content' => "NOODP" }
-    %title= content_for(:page_title) || 'thoughtbot Learn'
+    %title= content_for(:page_title) || 'Upcase'
     = stylesheet_link_tag '//cloud.typography.com/6716232/776984/css/fonts.css', :media => 'all'
     = stylesheet_link_tag :application, :media => 'all'
     = csrf_meta_tags
@@ -11,7 +11,7 @@
     = render 'flashes'
     %nav.main
       .nav-inner
-        = link_to '&larr; Back to dashboard'.html_safe, 'http://learn.thoughtbot.com', class: 'back'
+        = link_to '&larr; Back to dashboard'.html_safe, 'http://www.upcase.com', class: 'back'
     %section.main
       = yield
     = render 'javascript'

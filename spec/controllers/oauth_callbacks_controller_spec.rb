@@ -35,7 +35,7 @@ describe OauthCallbacksController do
 
         request_callback
 
-        should redirect_to('https://learn.thoughtbot.com/prime')
+        should redirect_to("https://www.upcase.com/prime")
         should_not be_signed_in
       end
     end
