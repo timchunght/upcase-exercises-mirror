@@ -12,12 +12,6 @@ class ClonesController < ApplicationController
 
   def show
     @overview = dependencies[:current_overview]
-
-    if @overview.has_clone?
-      render
-    else
-      head :not_found
-    end
   end
 
   private
