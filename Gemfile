@@ -27,6 +27,7 @@ gem 'rails', '>= 4.0.0'
 gem 'recipient_interceptor'
 gem 'sass-rails', '4.0.1'
 gem 'simple_form'
+gem 'rack-ssl-enforcer'
 gem 'uglifier'
 gem 'unicorn'
 
