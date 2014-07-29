@@ -4,15 +4,14 @@
   %header
     %h1= @overview.title
 
-  = render "exercises/intro", exercise: @overview.exercise
+  = render 'exercises/intro', exercise: @overview.exercise
 
-  #overview{ "data-clone-url" => exercise_clone_path(@overview.exercise),
-             "data-channel-name" => @overview.channel_name }
+  #overview{ 'data-clone-url' => exercise_clone_path(@overview.exercise) }
     - if @overview.has_clone?
-      = render "exercises/clone", overview: @overview
+      = render 'exercises/clone', overview: @overview
     - else
       = button_to(                               |
-        t(".start_exercise"),                    |
+        t('.start_exercise'),                    |
         exercise_clone_path(@overview.exercise), |
         method: :post,                           |
         remote: true,                            |

@@ -1,5 +1,4 @@
 <%= javascript_include_tag :application %>
-<%= javascript_include_tag :pusher %>
 
 <%= yield :javascript %>
 
@@ -10,14 +9,4 @@
     $.fx.off = true;
     $.ajaxSetup({ async: false });
   <% end %>
-<% end %>
-
-<% if defined?(PusherFake) %>
-  <script>
-    Pusher.instance = <%== PusherFake.javascript %>;
-  </script>
-<% else %>
-  <script>
-    Pusher.instance = new Pusher("<%=j Pusher.key %>");
-  </script>
 <% end %>
