@@ -3,7 +3,7 @@ require "spec_helper"
 describe EventTracker do
   describe "#solution_submitted" do
     it "tracks solution submission" do
-      user = double("user", learn_uid: 1)
+      user = double("user", upcase_uid: 1)
       exercise = double("exercise", slug: "an-exercise")
       tracker = EventTracker.new(user, exercise, analytics_backend)
 
@@ -17,7 +17,7 @@ describe EventTracker do
 
   describe "#clone_created" do
     it "tracks clone creation" do
-      user = double("user", learn_uid: 1)
+      user = double("user", upcase_uid: 1)
       exercise = double("exercise", slug: "an-exercise")
       tracker = EventTracker.new(user, exercise, analytics_backend)
 
@@ -31,7 +31,7 @@ describe EventTracker do
 
   describe "#revision_submitted" do
     it "tracks revision submission" do
-      user = double("user", learn_uid: 1)
+      user = double("user", upcase_uid: 1)
       exercise = double("exercise", slug: "an-exercise")
       tracker = EventTracker.new(user, exercise, analytics_backend)
 
@@ -45,7 +45,7 @@ describe EventTracker do
 
   describe "#exercise_visited" do
     it "tracks when a user visits an exercise" do
-      user = double("user", learn_uid: 1)
+      user = double("user", upcase_uid: 1)
       exercise = double("exercise", slug: "an-exercise")
       tracker = EventTracker.new(user, exercise, analytics_backend)
 
@@ -59,9 +59,9 @@ describe EventTracker do
 
   describe "#comment_created" do
     it "tracks user leaving comment and user receiving feedback" do
-      user = double("user", learn_uid: 1)
+      user = double("user", upcase_uid: 1)
       exercise = double("exercise", slug: "an-exercise")
-      other_user = double("other_user", learn_uid: 2)
+      other_user = double("other_user", upcase_uid: 2)
       solution = double("solution", user: other_user)
       tracker = EventTracker.new(user, exercise, analytics_backend)
 
@@ -86,7 +86,7 @@ describe EventTracker do
 
   def expected_options(event_name, user, exercise)
     {
-      user_id: user.learn_uid,
+      user_id: user.upcase_uid,
       event: event_name,
       properties: { exercise_slug: exercise.slug },
       integrations: { all: true }

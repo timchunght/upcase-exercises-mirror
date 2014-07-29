@@ -1,22 +1,22 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe OauthCallbacksController do
-  describe '#show' do
+  describe "#show" do
     context "with a return to URL" do
-      it 'returns to the return to URL' do
-        session[:return_to] = 'http://otherhost.com/return_to'
+      it "returns to the return to URL" do
+        session[:return_to] = "http://otherhost.com/return_to"
         user = stub_user_from_auth_hash
         user.stub(:admin?).and_return(false)
         user.stub(:subscriber?).and_return(true)
 
         request_callback
 
-        should redirect_to('/return_to')
+        should redirect_to("/return_to")
       end
     end
 
-    context 'with a non-admin subscriber' do
-      it 'signs in' do
+    context "with a non-admin subscriber" do
+      it "signs in" do
         user = stub_user_from_auth_hash
         user.stub(:subscriber?).and_return(true)
         user.stub(:admin?).and_return(false)
@@ -28,8 +28,8 @@ describe OauthCallbacksController do
       end
     end
 
-    context 'with a non-subscriber' do
-      it 'redirects without signing in' do
+    context "with a non-subscriber" do
+      it "redirects without signing in" do
         user = stub_user_from_auth_hash
         user.stub(:subscriber?).and_return(false)
 
@@ -41,7 +41,7 @@ describe OauthCallbacksController do
     end
 
     context "with an admin subscriber" do
-      it 'redirects to the admin dashboard' do
+      it "redirects to the admin dashboard" do
         user = stub_user_from_auth_hash
         user.stub(:admin?).and_return(true)
         user.stub(:subscriber?).and_return(true)
@@ -53,7 +53,7 @@ describe OauthCallbacksController do
     end
 
     def request_callback
-      get :show, provider: 'learn'
+      get :show, provider: "upcase"
     end
   end
 
@@ -67,8 +67,8 @@ describe OauthCallbacksController do
   end
 
   def stub_auth_hash
-    double('auth_hash').tap do |auth_hash|
-      request.env['omniauth.auth'] = auth_hash
+    double("auth_hash").tap do |auth_hash|
+      request.env["omniauth.auth"] = auth_hash
     end
   end
 end

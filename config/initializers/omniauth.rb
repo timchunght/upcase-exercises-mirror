@@ -1,14 +1,14 @@
-LEARN_CLIENT_ID = ENV['LEARN_CLIENT_ID']
-LEARN_CLIENT_SECRET = ENV['LEARN_CLIENT_SECRET']
-LEARN_URL = ENV['LEARN_URL']
+UPCASE_CLIENT_ID = ENV["UPCASE_CLIENT_ID"]
+UPCASE_CLIENT_SECRET = ENV["UPCASE_CLIENT_SECRET"]
+UPCASE_URL = ENV["UPCASE_URL"]
 
-require 'omniauth-learn'
+require "omniauth-upcase"
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider(
-    :learn,
-    LEARN_CLIENT_ID,
-    LEARN_CLIENT_SECRET
+    :upcase,
+    UPCASE_CLIENT_ID,
+    UPCASE_CLIENT_SECRET
   )
 end
 

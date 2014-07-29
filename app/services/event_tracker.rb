@@ -26,7 +26,7 @@ class EventTracker
 
   def track(event_name, user = user)
     analytics_backend.track(
-      user_id: user.learn_uid,
+      user_id: user.upcase_uid,
       event: event_name,
       properties: { exercise_slug: exercise.slug },
       integrations: { all: true }

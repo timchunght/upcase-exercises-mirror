@@ -7,7 +7,7 @@ FactoryGirl.define do
     "user#{n}@example.com"
   end
 
-  sequence :learn_uid do |n|
+  sequence :upcase_uid do |n|
     n
   end
 
@@ -73,7 +73,7 @@ FactoryGirl.define do
     email
     first_name 'Joe'
     last_name 'User'
-    learn_uid
+    upcase_uid
     username
 
     factory :admin do

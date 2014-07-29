@@ -1,4 +1,4 @@
-# Uses an omniauth hash to find or create a user from Learn.
+# Uses an omniauth hash to find or create a user from Upcase.
 class Authenticator
   include ::NewRelic::Agent::MethodTracer
 
@@ -14,7 +14,7 @@ class Authenticator
   private
 
   def find_or_initialize_user
-    User.find_or_initialize_by(learn_uid: uid)
+    User.find_or_initialize_by(upcase_uid: uid)
   end
 
   def uid

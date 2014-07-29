@@ -7,14 +7,14 @@
 
   <% if user %>
     <%= javascript_tag do %>
-      analytics.identify('<%= user.learn_uid %>',
+      analytics.identify('<%= user.upcase_uid %>',
         {
           email: '<%= user.email %>',
           first_name: '<%= user.first_name %>',
         },
         {
           Intercom: {
-            user_hash: '<%= OpenSSL::HMAC.hexdigest('sha256', ENV['INTERCOM_APP_SECRET'], user.learn_uid.to_s) %>',
+            user_hash: '<%= OpenSSL::HMAC.hexdigest('sha256', ENV['INTERCOM_APP_SECRET'], user.upcase_uid.to_s) %>',
           }
         });
     <% end %>

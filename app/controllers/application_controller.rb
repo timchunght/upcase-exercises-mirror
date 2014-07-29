@@ -11,6 +11,6 @@ class ApplicationController < ActionController::Base
   private
 
   def url_after_denied_access_when_signed_out
-    '/auth/learn'
+    "/auth/upcase"
   end
 end

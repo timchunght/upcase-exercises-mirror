@@ -3,7 +3,7 @@ require 'spec_helper'
 describe DashboardsController do
   describe "#show" do
     it "redirects to the Upcase dashboard" do
-      stub_const "LEARN_URL", "http://www.upcase.com"
+      stub_const "UPCASE_URL", "http://www.upcase.com"
 
       sign_in
       get :show
