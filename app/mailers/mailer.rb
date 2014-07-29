@@ -1,5 +1,5 @@
 class Mailer < ActionMailer::Base
-  FROM = 'learn@thoughtbot.com'
+  FROM = ENV.fetch("SUPPORT_EMAIL")
 
   def comment(arguments = {})
     @author = arguments.fetch(:author)
