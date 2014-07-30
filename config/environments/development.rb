@@ -1,4 +1,7 @@
+require "webmock"
+
 Whetstone::Application.configure do
+  include WebMock::API
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -41,5 +44,7 @@ Whetstone::Application.configure do
         fingerprint.
         raise_for_invalid_fork
     end
+
+    WebMock.stub_request(:post, /slack.com/)
   end
 end

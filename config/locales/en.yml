@@ -93,3 +93,6 @@ en:
       default: '%a, %b %-d, %Y at %r'
       date: '%b %-d, %Y'
       short: '%B %d'
+
+  slack:
+    new_solution: "A new solution has been posted by %{name}! You can view it here: <%{url}>"

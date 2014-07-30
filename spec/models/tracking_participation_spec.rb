@@ -1,51 +1,51 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe TrackingParticipation do
-  it 'delegates to participation' do
-    participation = double('participation', some_method: nil)
-    tracking_participation = TrackingParticipation.new(participation, double)
+describe ObservingParticipation do
+  it "delegates to participation" do
+    participation = double("participation", some_method: nil)
+    observing_participation = ObservingParticipation.new(participation, double)
 
-    tracking_participation.some_method
+    observing_participation.some_method
 
     expect(participation).to have_received(:some_method)
   end
 
-  describe '#create_clone' do
-    it 'tracks clone creation when a clone is created' do
-      participation = double('participation', create_clone: nil)
-      event_tracker = double('event_tracker', track_clone_creation: nil)
-      tracking_participation =
-        TrackingParticipation.new(participation, event_tracker)
+  describe "#create_clone" do
+    it "tracks clone creation when a clone is created" do
+      participation = double("participation", create_clone: nil)
+      observer = double("observer", clone_created: nil)
+      observing_participation =
+        ObservingParticipation.new(participation, observer)
 
-      tracking_participation.create_clone
+      observing_participation.create_clone
 
-      expect(event_tracker).to have_received(:track_clone_creation)
+      expect(observer).to have_received(:clone_created)
     end
   end
 
-  describe '#find_or_create_solution' do
-    it 'tracks solution submission when a solution is created' do
-      participation = double('participation', find_or_create_solution: nil)
-      event_tracker = double('event_tracker', track_solution_submission: nil)
-      tracking_participation =
-        TrackingParticipation.new(participation, event_tracker)
+  describe "#find_or_create_solution" do
+    it "tracks solution submission when a solution is created" do
+      participation = double("participation", find_or_create_solution: nil)
+      observer = double("observer", solution_submitted: nil)
+      observing_participation =
+        ObservingParticipation.new(participation, observer)
 
-      tracking_participation.find_or_create_solution
+      observing_participation.find_or_create_solution
 
-      expect(event_tracker).to have_received(:track_solution_submission)
+      expect(observer).to have_received(:solution_submitted)
     end
   end
 
-  describe '#push_to_clone' do
-    it 'tracks revision submission when a revision is created' do
-      participation = double('participation', push_to_clone: nil)
-      event_tracker = double('event_tracker', track_revision_submission: nil)
-      tracking_participation =
-        TrackingParticipation.new(participation, event_tracker)
+  describe "#push_to_clone" do
+    it "tracks revision submission when a revision is created" do
+      participation = double("participation", push_to_clone: nil)
+      observer = double("observer", revision_submitted: nil)
+      observing_participation =
+        ObservingParticipation.new(participation, observer)
 
-      tracking_participation.push_to_clone
+      observing_participation.push_to_clone
 
-      expect(event_tracker).to have_received(:track_revision_submission)
+      expect(observer).to have_received(:revision_submitted)
     end
   end
 end

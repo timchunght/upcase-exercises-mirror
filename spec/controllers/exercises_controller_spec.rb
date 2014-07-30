@@ -7,12 +7,12 @@ describe ExercisesController do
       user = build_stubbed(:user)
       stub_service(:current_overview)
       tracker = stub_factory_instance(:event_tracker_factory, user: user)
-      tracker.stub(:track_exercise_visit)
+      tracker.stub(:exercise_visited)
       sign_in_as user
 
       get :show, id: exercise.to_param
 
-      expect(tracker).to have_received(:track_exercise_visit)
+      expect(tracker).to have_received(:exercise_visited)
     end
   end
 end

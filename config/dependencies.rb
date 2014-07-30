@@ -367,9 +367,16 @@ service :analytics_backend do |container|
 end
 
 decorate :participation_factory do |participation, container|
-  TrackingParticipation.new(
+  ObservingParticipation.new(
     participation,
-    container[:event_tracker_factory].new(user: container[:user])
+    CompositeObserver.new([
+      container[:event_tracker_factory].new(user: container[:user]),
+      SlackObserver.new(
+        exercise: container[:exercise],
+        user: container[:user],
+        url_helper: UrlHelper.new(host: ENV["APP_DOMAIN"])
+      )
+    ])
   )
 end
 

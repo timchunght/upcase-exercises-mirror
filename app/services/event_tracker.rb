@@ -1,23 +1,23 @@
 class EventTracker
   pattr_initialize :user, :exercise, :analytics_backend
 
-  def track_solution_submission
+  def solution_submitted
     track('Submitted Solution')
   end
 
-  def track_clone_creation
+  def clone_created
     track('Started Exercise')
   end
 
-  def track_revision_submission
+  def revision_submitted
     track('Submitted Revision')
   end
 
-  def track_exercise_visit
+  def exercise_visited
     track('Visited Exercise')
   end
 
-  def track_comment_creation(solution)
+  def comment_created(solution)
     track('Left Comment')
     track('Received Feedback', solution.user)
   end

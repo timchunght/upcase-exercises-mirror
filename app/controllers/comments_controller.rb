@@ -34,7 +34,7 @@ class CommentsController < ApplicationController
   end
 
   def track_comment_creation
-    event_tracker.track_comment_creation(solution)
+    event_tracker.comment_created(solution)
   end
 
   def event_tracker

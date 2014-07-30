@@ -33,6 +33,10 @@ RSpec.configure do |config|
     end
   end
 
+  config.before(:each) do
+    stub_request(:post, /slack.com/)
+  end
+
   config.include Payload::Testing
 end
 

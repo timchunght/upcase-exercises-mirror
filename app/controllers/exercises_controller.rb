@@ -7,7 +7,7 @@ class ExercisesController < ApplicationController
   private
 
   def track_exercise_visit
-    event_tracker.track_exercise_visit
+    event_tracker.exercise_visited
   end
 
   def event_tracker
