@@ -42,5 +42,7 @@ module Whetstone
     require 'delayed_mailer'
 
     config.autoload_paths += ["#{config.root}/app/services"]
+
+    config.action_mailer.default_url_options = { host: ENV["APP_DOMAIN"] }
   end
 end
