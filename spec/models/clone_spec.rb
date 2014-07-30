@@ -71,20 +71,6 @@ describe Clone do
       expect(revision).to have_received(:update_attributes!).
         with(solution: solution)
     end
-
-    it "notifies an observer" do
-      revision = double(:revision, update_attributes!: nil)
-      revisions = double(:revisions, latest: revision)
-      clone = build_stubbed(:clone)
-      allow(clone).to receive(:revisions).and_return(revisions)
-      observer = double(:slack_observer)
-      allow(observer).to receive(:notify)
-      allow(clone).to receive(:observer).and_return(observer)
-
-      clone.create_solution!
-
-      expect(observer).to have_received(:notify)
-    end
   end
 
   describe "#latest_revision" do

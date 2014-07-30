@@ -30,7 +30,6 @@ gem 'simple_form'
 gem 'rack-ssl-enforcer'
 gem 'uglifier'
 gem 'unicorn'
-gem "slack-post"
 
 group :development do
   gem 'better_errors'
