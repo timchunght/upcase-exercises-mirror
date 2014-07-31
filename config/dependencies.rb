@@ -31,7 +31,8 @@ service :git_observer do |container|
     Git::CloneObserver.new(clones: container[:clones]),
     Git::LoggingObserver.new(
       container[:prefixed_logger_factory].new(prefix: "GIT: ")
-    )
+    ),
+    Git::PusherObserver.new(container[:clone_channel_factory])
   ])
 end
 
@@ -339,10 +340,19 @@ factory :overview_factory do |container|
   )
 
   Overview.new(
+    channel: container[:clone_channel_factory].new,
     exercise: container[:exercise],
     participation: container[:participation],
     revision: revision,
     user: container[:user],
+  )
+end
+
+factory :clone_channel_factory do |container|
+  Git::CloneChannel.new(
+    exercise: container[:exercise],
+    pusher: Pusher,
+    user: container[:user]
   )
 end
 

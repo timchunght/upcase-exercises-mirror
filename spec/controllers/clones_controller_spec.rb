@@ -42,14 +42,6 @@ describe ClonesController do
       end
     end
 
-    context 'without a clone' do
-      it 'renders not found' do
-        show_overview has_clone?: false
-
-        expect(controller).to respond_with(:not_found)
-      end
-    end
-
     context "as a non-XHR request" do
       it "raises an invalid request error" do
         sign_in

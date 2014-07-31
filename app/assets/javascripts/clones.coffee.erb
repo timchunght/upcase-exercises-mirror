@@ -1,26 +1,17 @@
-pollDelay = <%= ENV["POLL_DELAY"] %>
-
-waitForClone = () ->
-  $.ajax
-    method: "GET"
-    url: $("#overview").data("clone-url")
-    success: (html) ->
-      $("#overview").html(html)
-      waitForSubmittableSolution()
-    error: ->
-      setTimeout(waitForClone, pollDelay)
-
-waitForSubmittableSolution = ->
-  if $("#preview-my-solution :submit:disabled").length
-    $("#preview-my-solution").load($("#preview-my-solution").data("url"))
-    setTimeout(waitForSubmittableSolution, pollDelay)
-
-$("body").on "ajax:success", ".clone-help", (e, html) ->
-  $("#overview").html(html)
-
-$("body").on "ajax:success", "#overview form", (e, html) ->
-  $("#overview").html(html)
-  waitForClone()
-
 $ ->
-  waitForSubmittableSolution()
+  channelName = $("#overview").data("channel-name")
+  cloneUrl = $("#overview").data("clone-url")
+  if channelName
+    channel = Pusher.instance.subscribe(channelName)
+
+    channel.bind "cloned", ->
+      $("#overview").load(cloneUrl)
+
+    channel.bind "pushed", ->
+      $("#overview").load(cloneUrl)
+
+    $("body").on "ajax:success", ".clone-help", (e, html) ->
+      $("#overview").html(html)
+
+    $("body").on "ajax:success", "#overview form", (e, html) ->
+      $("#overview").html(html)

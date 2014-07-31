@@ -22,6 +22,7 @@ gem 'omniauth-oauth2'
 gem 'newrelic_rpm', '>= 3.6.7'
 gem 'payload'
 gem 'pg'
+gem 'pusher'
 gem 'rack-timeout'
 gem 'rails', '>= 4.0.0'
 gem 'recipient_interceptor'
@@ -43,6 +44,7 @@ end
 
 group :development, :test do
   gem 'pry-rails'
+  gem 'pusher-fake'
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
   gem 'konacha'
