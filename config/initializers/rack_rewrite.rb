@@ -1,4 +1,4 @@
-if ENV["APP_DOMAIN"].present?
+if Rails.env.staging? || Rails.env.production?
   require "rack/rewrite"
 
   Rails.configuration.middleware.insert_before(Rack::Runtime, Rack::Rewrite) do
