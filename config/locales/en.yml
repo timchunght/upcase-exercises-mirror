@@ -59,7 +59,7 @@ en:
       assigned: 'Please review this solution.'
     statuses:
       no_solution: "You haven't submitted a solution yet."
-      ready_for_submission: "Nice! You're solution is ready for submission."
+      ready_for_submission: "Nice! Your solution is ready for submission."
       submitted: "Nice! You've submitted your solution."
       reviewing: "You have been assigned to review %{username}'s solution."
       awaiting_review: 'Your solution is awaiting review'
