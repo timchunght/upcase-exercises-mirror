@@ -50,7 +50,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'konacha'
   gem 'rspec-rails', '>= 2.14'
-  gem 'webmock', require: false
 end
 
 group :test do
@@ -61,6 +60,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'sinatra', require: false
   gem 'timecop'
+  gem 'webmock', require: false
 end
 
 group :staging, :production do

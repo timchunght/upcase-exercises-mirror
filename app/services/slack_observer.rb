@@ -2,11 +2,12 @@ class SlackObserver
   pattr_initialize [
     :exercise,
     :user,
-    :url_helper
+    :url_helper,
+    :slack!
   ]
 
   def solution_submitted
-    Slack::Post.post(new_solution_message)
+    slack.post(new_solution_message)
   end
 
   def clone_created

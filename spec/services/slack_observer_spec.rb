@@ -10,16 +10,17 @@ describe SlackObserver do
         with(exercise, user).and_return("sweet_url")
       message = I18n.t "slack.new_solution", name: "awesome", url: "sweet_url"
 
-      allow(Slack::Post).to receive(:post)
+      slack = double(:slack, post: nil)
 
       observer = SlackObserver.new(
         exercise: exercise,
         user: user,
-        url_helper: url_helper
+        url_helper: url_helper,
+        slack: slack
       )
       observer.solution_submitted
 
-      expect(Slack::Post).to have_received(:post).with(message)
+      expect(slack).to have_received(:post).with(message)
     end
   end
 end

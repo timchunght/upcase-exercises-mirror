@@ -384,7 +384,8 @@ decorate :participation_factory do |participation, container|
       SlackObserver.new(
         exercise: container[:exercise],
         user: container[:user],
-        url_helper: UrlHelper.new(host: ENV["APP_DOMAIN"])
+        url_helper: UrlHelper.new(host: ENV["APP_DOMAIN"]),
+        slack: SLACK_POST
       )
     ])
   )

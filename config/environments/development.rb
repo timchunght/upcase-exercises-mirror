@@ -1,10 +1,4 @@
-require "webmock"
-
 Whetstone::Application.configure do
-  include WebMock::API
-  WebMock.disable_net_connect!(allow_localhost: true)
-
-  WebMock.stub_request(:post, /slack.com/)
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
