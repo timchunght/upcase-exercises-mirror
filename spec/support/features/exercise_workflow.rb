@@ -51,7 +51,15 @@ module Features
     def push_to_clone(filename)
       stub_diff_command(filename) do
         with_api_client do |client|
-          client.post api_pushes_url(user, exercise)
+          client.post(
+            api_pushes_url(user, exercise),
+            nil,
+            "HTTP_AUTHORIZATION" =>
+              ActionController::HttpAuthentication::Basic.encode_credentials(
+                ENV["API_USERNAME"],
+                ENV["API_PASSWORD"]
+              )
+          )
         end
       end
     end
