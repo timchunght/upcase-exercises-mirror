@@ -2,6 +2,6 @@ deployment:
   staging:
     branch: master
     commands:
-      - git push -f git@heroku.com:tbot-whetstone-staging.git $CIRCLE_SHA1:master
-      - heroku run rake db:migrate --app tbot-whetstone-staging
-      - heroku restart --app tbot-whetstone-staging
+      - git push -f git@heroku.com:upcase-exercises-staging.git $CIRCLE_SHA1:master
+      - heroku run rake db:migrate --app upcase-exercises-staging
+      - heroku restart --app upcase-exercises-staging
