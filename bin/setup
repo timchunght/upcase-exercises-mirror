@@ -30,7 +30,7 @@ else
 fi
 
 # Set up deploys
-git remote add staging git@heroku.com:tbot-whetstone-staging.git
-heroku join --app tbot-whetstone-staging
-git remote add production git@heroku.com:tbot-whetstone-production.git
-heroku join --app tbot-whetstone-production
+git remote add staging git@heroku.com:upcase-exercises-staging.git
+heroku join --app upcase-exercises-staging
+git remote add production git@heroku.com:upcase-exercises.git
+heroku join --app upcase-exercises
