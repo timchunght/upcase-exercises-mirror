@@ -140,6 +140,21 @@ describe Git::DiffParser do
       end
     end
 
+    context "with a binary file" do
+      it "returns a single line" do
+        result = parse_diff(<<-DIFF)
+          diff --git a/path/to/binary b/path/to/binary
+          new file mode 100644
+          index 0000000..fc03bbf
+          Binary files /dev/null and b/path/to/binary differ
+        DIFF
+
+        expect(result).to eq(
+          "path/to/binary" => [" # Binary file changed"]
+        )
+      end
+    end
+
     context 'with an unknown line' do
       it 'raises a parse error' do
         expect { parse_diff('oops') }

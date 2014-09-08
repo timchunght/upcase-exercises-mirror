@@ -31,6 +31,9 @@ module Git
         delete_file
       when /^(index|-|@@|new file mode|old mode|new mode|\\)/
         # Ignore
+      when /^Binary files .* and b\/(.*) differ/
+        set_filename $1
+        append_unchanged "# Binary file changed"
       else
         parse_error(line)
       end
