@@ -251,8 +251,8 @@ GEM
     slack-post (0.0.1)
       yajl-ruby
     slop (3.5.0)
-    spring (1.0.0)
-    spring-commands-rspec (1.0.1)
+    spring (1.1.3)
+    spring-commands-rspec (1.0.2)
       spring (>= 0.9.1)
     sprockets (2.10.1)
       hike (~> 1.2)
