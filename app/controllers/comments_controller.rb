@@ -35,6 +35,14 @@ class CommentsController < ApplicationController
 
   def track_comment_creation
     event_tracker.comment_created(solution)
+    status_updater.comment_created
+  end
+
+  def status_updater
+    dependencies[:status_updater_factory].new(
+      user: current_user,
+      exercise: solution.exercise
+    )
   end
 
   def event_tracker

@@ -8,20 +8,19 @@ feature 'subscriber comments on solution', js: true do
     workflow.create_completed_solution(user)
     commenting_user = create(:user)
     workflow.create_completed_solution(commenting_user)
-
     visit exercise_solution_path(exercise, user, as: commenting_user)
-
     workflow.comment_on_solution_inline('Looks great')
 
     expect(page).to have_content('Looks great')
     expect_notification_to user.email, exercise.title
+    expect_upcase_status_update commenting_user, exercise, 'Finished'
   end
 
   scenario 'at the top level' do
     exercise = create(:exercise)
     user = create(:user)
     workflow = start_exercise_workflow(exercise: exercise, user: user)
-    solution = workflow.create_completed_solution(user)
+    workflow.create_completed_solution(user)
     other_user = create(:user)
     workflow.create_completed_solution(other_user)
 
@@ -31,6 +30,7 @@ feature 'subscriber comments on solution', js: true do
 
     expect(page).to have_content('Looks great!')
     expect_notification_to other_user.email, exercise.title
+    expect_upcase_status_update user, exercise, 'Finished'
   end
 
   def expect_notification_to(email, exercise_title)

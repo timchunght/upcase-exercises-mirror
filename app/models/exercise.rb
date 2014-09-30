@@ -12,6 +12,8 @@ class Exercise < ActiveRecord::Base
 
   friendly_id :title, use: [:slugged, :finders]
 
+  before_create :set_uuid
+
   def self.alphabetical
     order(:slug)
   end
@@ -26,5 +28,9 @@ class Exercise < ActiveRecord::Base
 
   def has_comments_from?(user)
     comments.where(user: user).present?
+  end
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid
   end
 end

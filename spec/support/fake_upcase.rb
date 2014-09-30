@@ -5,6 +5,7 @@ class FakeUpcase < Sinatra::Base
   set :raise_errors, true
 
   UPCASE_DASHBOARD = "Upcase Dashboard"
+  cattr_accessor :status_updates
 
   def self.sign_in(attributes = {})
     @@upcase_user = {
@@ -18,6 +19,10 @@ class FakeUpcase < Sinatra::Base
       "public_keys" => ["ssh-rsa abcdefg"],
       "username" => "testuser"
     }.merge(attributes)
+  end
+
+  def self.initialize_status_updates
+    @@status_updates = []
   end
 
   get "/oauth/authorize" do
@@ -42,6 +47,15 @@ class FakeUpcase < Sinatra::Base
 
   get "/dashboard" do
     UPCASE_DASHBOARD
+  end
+
+  post "/api/v1/exercises/:exercise_uuid/status" do
+    @@status_updates << {
+      authorization_http_header: @env["HTTP_AUTHORIZATION"],
+      exercise_uuid: params[:exercise_uuid],
+      state: params[:state]
+    }
+    status 200
   end
 end
 
@@ -74,6 +88,7 @@ WebMock.disable_net_connect!
 RSpec.configure do |config|
   config.before do
     FakeUpcase.sign_in
+    FakeUpcase.initialize_status_updates
     WebMock.
       stub_request(:any, %r{#{Regexp.escape(UPCASE_URL)}.*}).
       to_rack(FakeUpcase)

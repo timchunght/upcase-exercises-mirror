@@ -3,11 +3,13 @@ require 'spec_helper'
 feature 'User starts exercise', js: true do
   scenario 'with public key and receives clone URL and instructions' do
     exercise = create(:exercise, title: 'nullobject')
-    workflow = start_exercise_workflow(username: 'mruser', exercise: exercise)
+    user = create(:user, username: 'mruser')
+    workflow = start_exercise_workflow(user: user, exercise: exercise)
 
     pause_background_jobs do
       workflow.start_exercise
       expect(page).to have_content(I18n.t('clones.create.pending'))
+      expect_upcase_status_update user, exercise, "Started"
     end
 
     expect(page).to have_content(%r{git clone git@.*:mruser/nullobject.git})

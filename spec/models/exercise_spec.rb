@@ -56,6 +56,14 @@ describe Exercise do
     end
   end
 
+  context "#uuid" do
+    it "sets a random uuid when an exercise is created" do
+      exercise = create(:exercise)
+
+      expect(exercise.uuid).to be_present
+    end
+  end
+
   describe '#has_solutions?' do
     context 'with a solution' do
       it 'returns true' do

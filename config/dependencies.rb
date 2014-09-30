@@ -368,12 +368,35 @@ factory :event_tracker_factory do |container|
   )
 end
 
+factory :status_updater_factory do |container|
+  StatusUpdater.new(
+    user: container[:user],
+    exercise: container[:exercise],
+    upcase_client: container[:upcase_client]
+  )
+end
+
 service :analytics_backend do |container|
   if ENV["SEGMENT_IO_KEY"].present?
     Segment::Analytics.new(write_key: ENV["SEGMENT_IO_KEY"])
   else
     FakeAnalyticsBackend.new
   end
+end
+
+service :oauth_upcase_client do |container|
+  OAuth2::Client.new(
+    ENV['UPCASE_CLIENT_ID'],
+    ENV['UPCASE_CLIENT_SECRET'],
+    site: ENV['UPCASE_URL']
+  )
+end
+
+service :upcase_client do |container|
+  UpcaseClient.new(
+    container[:user].auth_token,
+    container[:oauth_upcase_client]
+  )
 end
 
 decorate :participation_factory do |participation, container|
@@ -386,6 +409,11 @@ decorate :participation_factory do |participation, container|
         user: container[:user],
         url_helper: UrlHelper.new(host: ENV["APP_DOMAIN"]),
         slack: SLACK_POST
+      ),
+      StatusUpdater.new(
+        exercise: container[:exercise],
+        user: container[:user],
+        upcase_client: container[:upcase_client]
       )
     ])
   )
