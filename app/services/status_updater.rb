@@ -14,7 +14,7 @@ class StatusUpdater
   end
 
   def comment_created
-    update_with('Finished')
+    update_with('Reviewed')
   end
 
   private

@@ -26,5 +26,5 @@ describe StatusUpdater do
   it_updates_remote_status to: "Started", when: :clone_created
   it_updates_remote_status to: "Submitted", when: :solution_submitted
   it_updates_remote_status to: "Pushed", when: :revision_submitted
-  it_updates_remote_status to: "Finished", when: :comment_created
+  it_updates_remote_status to: "Reviewed", when: :comment_created
 end
