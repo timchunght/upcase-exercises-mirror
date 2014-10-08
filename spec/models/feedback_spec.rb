@@ -60,15 +60,31 @@ describe Feedback do
     end
   end
 
+  describe "#create_comment" do
+    it "delegates to its comment locator" do
+      create_comment = double("comment_locator.create_comment")
+      comment_params = double("comment_params")
+      comment_locator = double("comment_locator")
+      comment_locator.stub(:create_comment).and_return(create_comment)
+      feedback = build_feedback(comment_locator: comment_locator)
+
+      result = feedback.create_comment(comment_params)
+
+      expect(result).to eq(create_comment)
+      expect(comment_locator).
+        to have_received(:create_comment).with(comment_params)
+    end
+  end
+
   def build_feedback(
-    viewed_revision: double("viewed_revision"),
+    comment_locator: double("comment_locator"),
     revisions: double("revisions"),
-    comment_locator: double("comment_locator")
+    viewed_revision: double("viewed_revision")
   )
     Feedback.new(
-      viewed_revision: viewed_revision,
+      comment_locator: comment_locator,
       revisions: revisions,
-      comment_locator: comment_locator
+      viewed_revision: viewed_revision
     )
   end
 end

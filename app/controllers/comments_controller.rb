@@ -6,19 +6,18 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = create_comment
-    send_notification
-    track_comment_creation
+    @comment = feedback.create_comment(comment_params)
   end
 
   private
 
-  def create_comment
-    solution.comments.create!(comment_params)
-  end
-
-  def send_notification
-    dependencies[:comment_notification_factory].new(comment: @comment).deliver
+  def feedback
+    dependencies[:feedback_factory].new(
+      exercise: solution.exercise,
+      reviewer: current_user,
+      revision: solution.latest_revision,
+      viewed_solution: solution
+    )
   end
 
   def solution
@@ -31,24 +30,5 @@ class CommentsController < ApplicationController
 
   def new_params
     params.permit(:solution_id, :location)
-  end
-
-  def track_comment_creation
-    event_tracker.comment_created(solution)
-    status_updater.comment_created
-  end
-
-  def status_updater
-    dependencies[:status_updater_factory].new(
-      user: current_user,
-      exercise: solution.exercise
-    )
-  end
-
-  def event_tracker
-    dependencies[:event_tracker_factory].new(
-      user: current_user,
-      exercise: solution.exercise
-    )
   end
 end

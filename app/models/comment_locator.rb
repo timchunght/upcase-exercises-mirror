@@ -19,6 +19,10 @@ class CommentLocator
     location_for(file_name, LINE_NUMBER_PLACEHOLDER)
   end
 
+  def create_comment(params)
+    comments.create(params)
+  end
+
   private
 
   def comments_for(location)

@@ -1,7 +1,8 @@
-class ChronologicalQuery
+class ChronologicalQuery < SimpleDelegator
   include Enumerable
 
   def initialize(relation)
+    super(relation)
     @relation = relation
   end
 

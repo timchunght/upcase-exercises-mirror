@@ -7,8 +7,8 @@ describe StatusUpdater do
     upcase_client
   end
 
-  def self.it_updates_remote_status(opts)
-    it "##{opts[:when]} updates the remote status with #{opts[:to]}" do
+  def self.it_updates_remote_status(to: raise)
+    it "updates the remote status with #{to}" do
       exercise = double("exercise", uuid: "exercise-uuid")
       status_updater = StatusUpdater.new(
         user: create(:user),
@@ -16,15 +16,26 @@ describe StatusUpdater do
         upcase_client: upcase_client
       )
 
-      status_updater.send(opts[:when])
+      yield status_updater
 
       expect(upcase_client).
-        to have_received(:update_status).with(exercise.uuid, opts[:to])
+        to have_received(:update_status).with(exercise.uuid, to)
     end
   end
 
-  it_updates_remote_status to: "Started", when: :clone_created
-  it_updates_remote_status to: "Submitted", when: :solution_submitted
-  it_updates_remote_status to: "Pushed", when: :revision_submitted
-  it_updates_remote_status to: "Reviewed", when: :comment_created
+  it_updates_remote_status to: "Started" do |status_updater|
+    status_updater.clone_created
+  end
+
+  it_updates_remote_status to: "Submitted" do |status_updater|
+    status_updater.solution_submitted
+  end
+
+  it_updates_remote_status to: "Pushed" do |status_updater|
+    status_updater.revision_submitted
+  end
+
+  it_updates_remote_status to: "Reviewed" do |status_updater|
+    status_updater.comment_created("comment")
+  end
 end

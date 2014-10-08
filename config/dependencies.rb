@@ -133,13 +133,13 @@ factory :review_factory do |container|
 
   Review.new(
     exercise: container[:exercise],
-    feedback: container[:feedback],
+    feedback: container[:feedback_factory].new,
     solutions: solutions,
     status: status,
   )
 end
 
-service :feedback do |container|
+factory :feedback_factory do |container|
   revision = container[:git_revision_factory].new(
     comments: container[:viewed_solution].comments,
   )
@@ -154,7 +154,19 @@ service :feedback do |container|
       ChronologicalQuery.new(container[:viewed_solution].revisions),
       :revision,
       container[:numbered_revision_factory]
-    )
+    ),
+    comments: container[:viewed_solution].comments
+  )
+end
+
+decorate :feedback_factory do |feedback, container|
+  ObservingFeedback.new(
+    feedback,
+    CompositeObserver.new([
+      container[:event_tracker_factory].new(user: container[:reviewer]),
+      CommentNotifier.new(container[:comment_notification_factory]),
+      container[:status_updater_factory].new(user: container[:reviewer])
+    ])
   )
 end
 

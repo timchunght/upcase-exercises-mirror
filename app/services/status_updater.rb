@@ -13,7 +13,7 @@ class StatusUpdater
     update_with('Submitted')
   end
 
-  def comment_created
+  def comment_created(_comment)
     update_with('Reviewed')
   end
 

@@ -62,10 +62,10 @@ describe EventTracker do
       user = double("user", upcase_uid: 1)
       exercise = double("exercise", slug: "an-exercise")
       other_user = double("other_user", upcase_uid: 2)
-      solution = double("solution", user: other_user)
+      comment = double("comment", solution_submitter: other_user)
       tracker = EventTracker.new(user, exercise, analytics_backend)
 
-      tracker.comment_created(solution)
+      tracker.comment_created(comment)
 
       expect(analytics_backend).
         to have_received(:track).

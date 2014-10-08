@@ -69,6 +69,23 @@ describe CommentLocator do
     end
   end
 
+  describe "#create_comment" do
+    it "delegates to its comments" do
+      create = double("comments.create")
+      comment_params = double("comment_params")
+      comments = double("comments")
+      comments.stub(:create).and_return(create)
+      revision = double("revision")
+      locator = CommentLocator.new(comments: comments, revision: revision)
+
+      result = locator.create_comment(comment_params)
+
+      expect(result).to eq(create)
+      expect(comments).
+        to have_received(:create).with(comment_params)
+    end
+  end
+
   def stub_comment(text, location)
     double("comment_#{text}", text: text, location: location)
   end
