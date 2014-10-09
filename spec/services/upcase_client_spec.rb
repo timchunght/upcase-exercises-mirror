@@ -14,7 +14,11 @@ describe UpcaseClient do
         Airbrake.stub(:notify)
 
         expect do
-          UpcaseClient.new("token", client).update_status("exercise", "state")
+          UpcaseClient.new(client).update_status(
+            double(auth_token: "token"),
+            "exercise",
+            "state"
+          )
         end.not_to raise_exception
         expect(Airbrake).to have_received(:notify)
       end

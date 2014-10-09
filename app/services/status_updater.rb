@@ -20,6 +20,6 @@ class StatusUpdater
   private
 
   def update_with(state)
-    upcase_client.update_status(exercise.uuid, state)
+    upcase_client.update_status(user, exercise.uuid, state)
   end
 end

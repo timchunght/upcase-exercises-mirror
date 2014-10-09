@@ -451,7 +451,6 @@ end
 
 service :upcase_client do |container|
   UpcaseClient.new(
-    container[:user].auth_token,
     container[:oauth_upcase_client]
   )
 end

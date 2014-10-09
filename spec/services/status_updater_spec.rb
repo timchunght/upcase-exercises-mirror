@@ -9,9 +9,10 @@ describe StatusUpdater do
 
   def self.it_updates_remote_status(to:)
     it "updates the remote status with #{to}" do
+      user = create(:user)
       exercise = double("exercise", uuid: "exercise-uuid")
       status_updater = StatusUpdater.new(
-        user: create(:user),
+        user: user,
         exercise: exercise,
         upcase_client: upcase_client
       )
@@ -19,7 +20,7 @@ describe StatusUpdater do
       yield status_updater
 
       expect(upcase_client).
-        to have_received(:update_status).with(exercise.uuid, to)
+        to have_received(:update_status).with(user, exercise.uuid, to)
     end
   end
 
