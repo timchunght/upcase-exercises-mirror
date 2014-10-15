@@ -32,7 +32,7 @@ describe RevisionsHelper do
     end
   end
 
-  def stub_revision(latest: raise)
+  def stub_revision(latest:)
     double(
       :revision,
       exercise: build_stubbed(:exercise),

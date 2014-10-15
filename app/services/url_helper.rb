@@ -3,7 +3,7 @@
 class UrlHelper
   include Rails.application.routes.url_helpers
 
-  def initialize(host: raise)
+  def initialize(host:)
     default_url_options[:host] = host
   end
 end

@@ -7,7 +7,7 @@ describe StatusUpdater do
     upcase_client
   end
 
-  def self.it_updates_remote_status(to: raise)
+  def self.it_updates_remote_status(to:)
     it "updates the remote status with #{to}" do
       exercise = double("exercise", uuid: "exercise-uuid")
       status_updater = StatusUpdater.new(

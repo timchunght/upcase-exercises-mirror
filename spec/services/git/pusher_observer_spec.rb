@@ -30,7 +30,7 @@ describe Git::PusherObserver do
     end
   end
 
-  def stub_channel(exercise: raise, user: raise)
+  def stub_channel(exercise:, user:)
     channel_factory = double("channel_factory")
     channel = double("channel")
     allow(channel_factory).
