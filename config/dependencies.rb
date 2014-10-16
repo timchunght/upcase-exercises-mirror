@@ -164,9 +164,15 @@ decorate :feedback_factory do |feedback, container|
     feedback,
     CompositeObserver.new([
       container[:event_tracker_factory].new(user: container[:reviewer]),
-      CommentNotifier.new(container[:comment_notification_factory]),
+      container[:comment_notifier_factory].new,
       container[:status_updater_factory].new(user: container[:reviewer])
     ])
+  )
+end
+
+factory :comment_notifier_factory do |container|
+  container[:rescuing_observer_factory].new(
+    observer: CommentNotifier.new(container[:comment_notification_factory])
   )
 end
 
@@ -373,18 +379,22 @@ service :clearance_session do |container|
 end
 
 factory :event_tracker_factory do |container|
-  EventTracker.new(
-    container[:user],
-    container[:exercise],
-    container[:analytics_backend]
+  container[:rescuing_observer_factory].new(
+    observer: EventTracker.new(
+      container[:user],
+      container[:exercise],
+      container[:analytics_backend]
+    )
   )
 end
 
 factory :status_updater_factory do |container|
-  StatusUpdater.new(
-    user: container[:user],
-    exercise: container[:exercise],
-    upcase_client: container[:upcase_client]
+  container[:rescuing_observer_factory].new(
+    observer: StatusUpdater.new(
+      exercise: container[:exercise],
+      user: container[:user],
+      upcase_client: container[:upcase_client]
+    )
   )
 end
 
@@ -416,21 +426,30 @@ decorate :participation_factory do |participation, container|
     participation,
     CompositeObserver.new([
       container[:event_tracker_factory].new(user: container[:user]),
-      SlackObserver.new(
-        exercise: container[:exercise],
-        user: container[:user],
-        url_helper: UrlHelper.new(host: ENV["APP_DOMAIN"]),
-        slack: SLACK_POST
-      ),
-      StatusUpdater.new(
-        exercise: container[:exercise],
-        user: container[:user],
-        upcase_client: container[:upcase_client]
-      )
+      container[:slack_observer].new,
+      container[:status_updater_factory].new
     ])
+  )
+end
+
+factory :slack_observer do |container|
+  container[:rescuing_observer_factory].new(
+    observer: SlackObserver.new(
+      exercise: container[:exercise],
+      user: container[:user],
+      url_helper: UrlHelper.new(host: ENV["APP_DOMAIN"]),
+      slack: SLACK_POST
+    )
   )
 end
 
 service :exercise do |container|
   container[:requested_exercise]
+end
+
+factory :rescuing_observer_factory do |container|
+  RescuingObserver.new(
+    container[:observer],
+    error_notifier: container[:error_notifier]
+  )
 end
