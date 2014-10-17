@@ -11,7 +11,6 @@ feature 'Admin creates exercise' do
     )
     click_button I18n.t('helpers.submit.exercise.create')
 
-    click_on 'Shakespeare Analyzer'
     expect(page).to have_content('Shakespeare Analyzer')
     expect(page).to have_git_url('shakespeare-analyzer')
   end

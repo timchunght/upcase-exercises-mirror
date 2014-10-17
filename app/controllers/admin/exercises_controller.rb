@@ -10,7 +10,7 @@ class Admin::ExercisesController < Admin::BaseController
   def create
     @exercise = exercises.new(exercise_params)
     if @exercise.save
-      redirect_to admin_exercises_path
+      redirect_to edit_admin_exercise_path(@exercise)
     else
       render :new
     end
