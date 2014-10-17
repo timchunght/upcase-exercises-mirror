@@ -70,6 +70,29 @@ decorate :exercises do |exercises, container|
   Gitolite::ReloadingCollection.new(exercises)
 end
 
+decorate :exercises do |exercises, container|
+  DecoratingRelation.new(exercises, :exercise, container[:git_exercise_factory])
+end
+
+decorate :exercises do |exercises, container|
+  DecoratingRelation.new(
+    exercises,
+    :exercise,
+    container[:observed_exercise_factory]
+  )
+end
+
+factory :observed_exercise_factory do |container|
+  ObservableRecord.new(
+    container[:exercise],
+    Git::ExerciseObserver.new(container[:git_server])
+  )
+end
+
+factory :git_exercise_factory do |container|
+  Git::Exercise.new(container[:exercise], container[:git_server])
+end
+
 service :shell do |container|
   ENV["SHELL_CLASS"].constantize.new
 end

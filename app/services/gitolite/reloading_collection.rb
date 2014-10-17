@@ -6,6 +6,8 @@ module Gitolite
 
     pattr_initialize :relation
 
+    delegate :find, :new, to: :relation
+
     def each(&block)
       relation.reload.each(&block)
     end
