@@ -168,14 +168,14 @@ factory :feedback_factory do |container|
   )
 
   Feedback.new(
-    comment_locator: container[:comment_locator_factory].new(
-      comments: container[:viewed_solution].comments,
-      revision: revision,
-    ),
+    comment_locator:
+      container.decorate(:revision) { revision }[:comment_locator_factory].new(
+        comments: container[:viewed_solution].comments
+      ),
     viewed_revision: revision,
     revisions: DecoratingRelation.new(
       ChronologicalQuery.new(container[:viewed_solution].revisions),
-      :revision,
+      :base_revision,
       container[:numbered_revision_factory]
     ),
     comments: container[:viewed_solution].comments
@@ -201,7 +201,7 @@ end
 
 factory :numbered_revision_factory do |container|
   NumberedRevision.new(
-    container[:revision],
+    container[:base_revision],
     container[:viewed_solution].revisions
   )
 end
@@ -245,9 +245,7 @@ end
 decorate :diff_file_factory do |file, container|
   CommentableFile.new(
     file,
-    container[:comment_locator_factory].new(
-      revision: container[:revision]
-    )
+    container[:comment_locator_factory].new
   )
 end
 
@@ -268,7 +266,9 @@ factory :comment_locator_factory do |container|
 end
 
 factory :prioritized_solutions_factory do |container|
-  PrioritizedSolutionQuery.new(container[:solutions])
+  PrioritizedSolutionQuery.new(
+    Solution.all.includes(:user, :exercise).limit(50)
+  )
 end
 
 factory :reviewable_solutions_factory do |container|
@@ -279,16 +279,10 @@ factory :reviewable_solutions_factory do |container|
   )
 end
 
-service :solutions do |container|
-  Solution.all.includes(:user, :exercise).limit(50)
-end
-
 decorate :diff_line_factory do |diff_line, container|
   CommentableLine.new(
     diff_line,
-    container[:comment_locator_factory].new(
-      revision: container[:revision]
-    )
+    container[:comment_locator_factory].new
   )
 end
 
@@ -448,7 +442,7 @@ decorate :participation_factory do |participation, container|
   ObservingParticipation.new(
     participation,
     CompositeObserver.new([
-      container[:event_tracker_factory].new(user: container[:user]),
+      container[:event_tracker_factory].new,
       container[:slack_observer].new,
       container[:status_updater_factory].new
     ])
@@ -464,10 +458,6 @@ factory :slack_observer do |container|
       slack: SLACK_POST
     )
   )
-end
-
-service :exercise do |container|
-  container[:requested_exercise]
 end
 
 factory :rescuing_observer_factory do |container|
