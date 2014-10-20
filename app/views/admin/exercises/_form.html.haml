@@ -1,6 +1,11 @@
 = simple_form_for [:admin, exercise] do |form|
   = form.input :title
 
+  %h3 Summary
+  .editor#summary
+    = form.input_field :summary
+    .preview#summary
+
   %h3 Intro
   .editor#intro
     = form.input_field :intro

@@ -4,6 +4,7 @@ feature 'Admin creates exercise' do
   scenario 'with valid data' do
     visit_new_exercise_form
     fill_in 'Title', with: 'Shakespeare Analyzer'
+    fill_in "exercise_summary", with: "Let's analyze Shakespeare's materials"
     fill_in 'exercise_intro', with: 'This is going to be a great exercise'
     fill_in(
       'exercise_instructions',

@@ -15,6 +15,10 @@ FactoryGirl.define do
     "Title #{n} Text"
   end
 
+  sequence :summary do |n|
+    "Summary #{n} Text"
+  end
+
   sequence :username do |n|
     sprintf('username%04d', n)
   end
@@ -34,6 +38,7 @@ FactoryGirl.define do
 
   factory :exercise do
     title
+    summary
     instructions 'Instructions'
     intro 'Introduction'
   end
