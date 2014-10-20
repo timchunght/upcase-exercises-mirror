@@ -1,6 +1,8 @@
 module Git
   # Parses diffs produced by `git diff` into files.
   class DiffParser
+    include ::NewRelic::Agent::MethodTracer
+
     # Raises when unrecognized lines are encountered in diffs.
     class ParseError < StandardError
     end
@@ -67,5 +69,7 @@ module Git
     def parse_error(line)
       raise ParseError, "Couldn't parse line: #{line.inspect}"
     end
+
+    add_method_tracer :parse
   end
 end
