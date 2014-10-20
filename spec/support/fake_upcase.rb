@@ -57,6 +57,30 @@ class FakeUpcase < Sinatra::Base
     }
     status 200
   end
+
+  put "/api/v1/exercises/:exercise_uuid" do
+    attributes = %w(title url summary)
+
+    if attributes.all? { |attribute| params[:exercise][attribute].present? }
+      status 200
+      {
+        id: 1,
+        title: params[:exercise][:title],
+        url: params[:exercise][:url],
+        summary: params[:exercise][:summary],
+        created_at: Time.current,
+        updated_at: Time.current,
+        uuid: params[:exercise_uuid]
+      }.to_json
+    else
+      status 422
+      missing_attributes = attributes - params[:exercise].keys
+      {
+        error: Hash[ missing_attributes.map { |attribute| [attribute, "can't be blank"] }
+        ]
+      }.to_json
+    end
+  end
 end
 
 class HostMap
@@ -89,8 +113,13 @@ RSpec.configure do |config|
   config.before do
     FakeUpcase.sign_in
     FakeUpcase.initialize_status_updates
+    host_with_port = UPCASE_URL.split("//")[1]
+
     WebMock.
-      stub_request(:any, %r{#{Regexp.escape(UPCASE_URL)}.*}).
+      stub_request(
+        :any,
+        %r{http:\/\/(\S+:\S+@)?#{Regexp.escape(host_with_port)}.*}
+      ).
       to_rack(FakeUpcase)
   end
 end

@@ -78,11 +78,19 @@ decorate :exercises do |exercises, container|
   DecoratingRelation.new(
     exercises,
     :exercise,
-    container[:observed_exercise_factory]
+    container[:git_observed_exercise_factory]
   )
 end
 
-factory :observed_exercise_factory do |container|
+decorate :exercises do |exercises, container|
+  DecoratingRelation.new(
+    exercises,
+    :exercise,
+    container[:upcase_observed_exercise_factory]
+  )
+end
+
+factory :git_observed_exercise_factory do |container|
   ObservableRecord.new(
     container[:exercise],
     Git::ExerciseObserver.new(container[:git_server])
@@ -91,6 +99,20 @@ end
 
 factory :git_exercise_factory do |container|
   Git::Exercise.new(container[:exercise], container[:git_server])
+end
+
+factory :upcase_observed_exercise_factory do |container|
+  ObservableRecord.new(
+    container[:exercise],
+    container[:upcase_exercise_observer].new
+  )
+end
+
+factory :upcase_exercise_observer do |container|
+  Upcase::ExerciseObserver.new(
+    upcase_client: container[:upcase_client],
+    url_helper: container[:url_helper]
+  )
 end
 
 service :shell do |container|
@@ -463,6 +485,10 @@ decorate :participation_factory do |participation, container|
       container[:status_updater_factory].new
     ])
   )
+end
+
+service :url_helper do
+  UrlHelper.new(host: ENV["APP_DOMAIN"])
 end
 
 factory :rescuing_observer_factory do |container|
