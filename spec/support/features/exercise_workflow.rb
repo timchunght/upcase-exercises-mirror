@@ -116,7 +116,8 @@ module Features
       diff = generate_diff(options[:filename] || 'otherfile.txt')
       user = options[:user] ||
                create(:user, username: options[:username] || 'otheruser')
-      clone = create(:clone, user: user, exercise: exercise)
+      clone =
+        create(:clone, user: user, exercise: options[:exercise] || exercise)
       create(:solution, clone: clone).tap do |solution|
         create(:revision, diff: diff, solution: solution)
       end

@@ -1,5 +1,5 @@
 class Admin::SolutionsController < Admin::BaseController
   def index
-    @solutions = dependencies[:prioritized_solutions_factory].new
+    @solutions = dependencies[:latest_solutions]
   end
 end

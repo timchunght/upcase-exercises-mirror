@@ -266,8 +266,12 @@ factory :comment_locator_factory do |container|
 end
 
 factory :prioritized_solutions_factory do |container|
-  PrioritizedSolutionQuery.new(
-    Solution.all.includes(:user, :exercise).limit(50)
+  PrioritizedSolutionQuery.new(container[:solutions])
+end
+
+service :latest_solutions do |container|
+  container[:prioritized_solutions_factory].new(
+    solutions: Solution.includes(:user, :exercise).limit(50)
   )
 end
 
