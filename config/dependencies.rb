@@ -163,15 +163,16 @@ factory :review_factory do |container|
 end
 
 factory :feedback_factory do |container|
+  comment_locator = container[:comment_locator_factory].new(
+    comments: container[:viewed_solution].comments
+  )
+
   revision = container[:git_revision_factory].new(
-    comments: container[:viewed_solution].comments,
+    comment_locator: comment_locator
   )
 
   Feedback.new(
-    comment_locator:
-      container.decorate(:revision) { revision }[:comment_locator_factory].new(
-        comments: container[:viewed_solution].comments
-      ),
+    comment_locator: comment_locator,
     viewed_revision: revision,
     revisions: DecoratingRelation.new(
       ChronologicalQuery.new(container[:viewed_solution].revisions),
@@ -245,7 +246,7 @@ end
 decorate :diff_file_factory do |file, container|
   CommentableFile.new(
     file,
-    container[:comment_locator_factory].new
+    container[:comment_locator]
   )
 end
 
@@ -266,12 +267,16 @@ factory :comment_locator_factory do |container|
 end
 
 factory :prioritized_solutions_factory do |container|
-  PrioritizedSolutionQuery.new(container[:solutions])
+  PrioritizedSolutionQuery.new(container[:solutions].includes(:exercise, :user))
+end
+
+decorate :prioritized_solutions_factory do |solutions, _container|
+  MemoizedEnumerable.new(solutions)
 end
 
 service :latest_solutions do |container|
   container[:prioritized_solutions_factory].new(
-    solutions: Solution.includes(:user, :exercise).limit(50)
+    solutions: Solution.limit(50)
   )
 end
 
@@ -286,7 +291,7 @@ end
 decorate :diff_line_factory do |diff_line, container|
   CommentableLine.new(
     diff_line,
-    container[:comment_locator_factory].new
+    container[:comment_locator]
   )
 end
 
@@ -373,9 +378,14 @@ service :current_overview do |container|
 end
 
 factory :overview_factory do |container|
+  latest_revision = container[:participation].latest_revision
+
   revision = container[:git_revision_factory].new(
-    comments: Comment.none,
-    revision: container[:participation].latest_revision,
+    comment_locator: container[:comment_locator_factory].new(
+      comments: Comment.none,
+      revision: latest_revision
+    ),
+    revision: latest_revision,
   )
 
   Overview.new(
