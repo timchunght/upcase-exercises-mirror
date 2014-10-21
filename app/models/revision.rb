@@ -4,7 +4,7 @@ class Revision < ActiveRecord::Base
   has_one :exercise, through: :solution
   has_one :user, through: :solution
 
-  validates :diff, presence: true
+  validates :diff, presence: true, length: { maximum: 10.megabytes }
 
   def self.latest
     order(created_at: :desc).first

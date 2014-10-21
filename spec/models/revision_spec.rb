@@ -6,6 +6,7 @@ describe Revision do
   it { should have_one(:exercise).through(:solution) }
   it { should have_one(:user).through(:solution) }
   it { should validate_presence_of(:diff) }
+  it { should ensure_length_of(:diff).is_at_most(10.megabytes) }
 
   describe '#latest' do
     it 'returns the most recently created revision' do
