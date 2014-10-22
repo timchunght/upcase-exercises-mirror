@@ -274,10 +274,14 @@ decorate :prioritized_solutions_factory do |solutions, _container|
   MemoizedEnumerable.new(solutions)
 end
 
-service :latest_solutions do |container|
+service :unreviewed_solutions do |container|
   container[:prioritized_solutions_factory].new(
     solutions: Solution.limit(50)
   )
+end
+
+service :latest_solutions do |_container|
+  Solution.order(created_at: :desc).includes(:exercise, :user).limit(50)
 end
 
 factory :reviewable_solutions_factory do |container|

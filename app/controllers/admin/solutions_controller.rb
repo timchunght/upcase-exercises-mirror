@@ -1,5 +1,5 @@
 class Admin::SolutionsController < Admin::BaseController
   def index
-    @solutions = dependencies[:latest_solutions]
+    @solutions = dependencies[:unreviewed_solutions]
   end
 end

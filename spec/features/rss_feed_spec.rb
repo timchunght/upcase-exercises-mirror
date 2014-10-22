@@ -26,12 +26,12 @@ feature "RSS feed" do
       text: "Latest Solutions To Upcase Exercises"
     )
     expect(page).to have_xpath(
-      "//rss/channel/item/title",
-      text: "Solution to Make the donuts by wendy"
+      "//rss/channel/item[1]/title",
+      text: "Solution to Make the donuts by billy"
     )
     expect(page).to have_xpath(
-      "//rss/channel/item/title",
-      text: "Solution to Make the donuts by billy"
+      "//rss/channel/item[2]/title",
+      text: "Solution to Make the donuts by wendy"
     )
   end
 end
