@@ -457,20 +457,8 @@ decorate :participation_factory do |participation, container|
     participation,
     CompositeObserver.new([
       container[:event_tracker_factory].new,
-      container[:slack_observer].new,
       container[:status_updater_factory].new
     ])
-  )
-end
-
-factory :slack_observer do |container|
-  container[:rescuing_observer_factory].new(
-    observer: SlackObserver.new(
-      exercise: container[:exercise],
-      user: container[:user],
-      url_helper: UrlHelper.new(host: ENV["APP_DOMAIN"]),
-      slack: SLACK_POST
-    )
   )
 end
 
