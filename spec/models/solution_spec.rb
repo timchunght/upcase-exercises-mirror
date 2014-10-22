@@ -9,6 +9,16 @@ describe Solution do
 
   it { should validate_presence_of(:clone) }
 
+  describe "#title" do
+    it "delegates to its clone" do
+      clone = build_stubbed(:clone)
+      clone.stub(:title).and_return("title")
+      solution = build_stubbed(:solution, clone: clone)
+
+      expect(solution.title).to eq(clone.title)
+    end
+  end
+
   describe '#username' do
     it 'delegates to its clone' do
       clone = build_stubbed(:clone)

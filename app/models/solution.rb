@@ -8,6 +8,10 @@ class Solution < ActiveRecord::Base
 
   validates :clone, presence: true
 
+  def title
+    clone.title
+  end
+
   def username
     clone.username
   end
