@@ -1,0 +1,9 @@
+- if overview.has_clone?
+  = render "exercises/clone", overview: overview
+- else
+  = button_to(                              |
+    t("exercises.show.start_exercise"),     |
+    exercise_clone_path(overview.exercise), |
+    method: :post,                          |
+    remote: true,                           |
+  )                                         |

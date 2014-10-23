@@ -22,7 +22,6 @@ describe Gitolite::PublicKeysController do
         expect(public_keys).to have_received(:new).with(data: 'ssh-rsa 123')
         expect(git_server).to have_received(:add_key).with(user.username)
         expect(controller).to redirect_to(return_to)
-        expect(controller).to set_the_flash
       end
     end
 

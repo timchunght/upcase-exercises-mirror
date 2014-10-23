@@ -30,14 +30,10 @@ en:
     show:
       clone_help: 'Getting an error when cloning?'
       no_commits: 'Waiting for your first commit...'
+      public_key_pending: "We're adding your public key to our Git server. This may take a minute."
       push_solution: 'Push Solution'
       start_exercise: 'Start Exercise'
       preview_my_solution: 'Preview my solution'
-
-  gitolite:
-    public_keys:
-      create:
-        notice: 'Your public key has been added.'
 
   mailer:
     comment:

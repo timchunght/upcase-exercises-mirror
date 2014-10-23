@@ -3,10 +3,7 @@ class Gitolite::PublicKeysController < ApplicationController
     @public_key = build_public_key
     if @public_key.save
       add_public_key_to_gitolite
-      redirect_to(
-        return_to,
-        notice: I18n.t('gitolite.public_keys.create.notice')
-      )
+      redirect_to return_to
     else
       render :new
     end

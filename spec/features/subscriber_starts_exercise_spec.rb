@@ -27,7 +27,11 @@ feature 'User starts exercise', js: true do
     workflow.start_exercise
     workflow.set_username "mruser"
     workflow.start_exercise
-    workflow.upload_public_key "ssh-rsa 123"
+
+    pause_background_jobs do
+      workflow.upload_public_key "ssh-rsa 123"
+      expect(page).to have_content(I18n.t("exercises.show.public_key_pending"))
+    end
 
     expect(page).to display_exercise(exercise)
   end

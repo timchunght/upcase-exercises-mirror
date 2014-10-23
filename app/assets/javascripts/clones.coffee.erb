@@ -10,6 +10,9 @@ $ ->
     channel.bind "pushed", ->
       $("#overview").load(cloneUrl)
 
+    channel.bind "uploaded_key", ->
+      $("#overview").load(cloneUrl)
+
     $("body").on "ajax:success", ".clone-help", (e, html) ->
       $("#overview").html(html)
 

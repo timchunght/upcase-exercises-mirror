@@ -8,12 +8,7 @@
 
   #overview{ "data-clone-url" => exercise_clone_path(@overview.exercise),
              "data-channel-name" => @overview.channel_name }
-    - if @overview.has_clone?
-      = render "exercises/clone", overview: @overview
+    - if @overview.has_pending_public_keys?
+      = render "gitolite/public_keys/pending"
     - else
-      = button_to(                               |
-        t(".start_exercise"),                    |
-        exercise_clone_path(@overview.exercise), |
-        method: :post,                           |
-        remote: true,                            |
-      )                                          |
+      = render "exercises/exercise", overview: @overview

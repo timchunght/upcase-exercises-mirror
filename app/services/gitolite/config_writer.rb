@@ -38,11 +38,11 @@ module Gitolite
     end
 
     def admin_usernames
-      [SERVER_USERNAME] + User.admin_usernames
+      [SERVER_USERNAME] + ::User.admin_usernames
     end
 
     def usernames
-      User.by_username.map(&:username).compact
+      ::User.by_username.map(&:username).compact
     end
 
     def rewrite_key_directory
@@ -60,7 +60,7 @@ module Gitolite
     end
 
     def write_user_keys
-      User.by_username.each do |user|
+      ::User.by_username.each do |user|
         write_keys_for user.username, public_keys.for(user)
       end
     end

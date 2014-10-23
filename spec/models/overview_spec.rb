@@ -113,6 +113,18 @@ describe Overview do
     end
   end
 
+  describe "#has_pending_public_keys?" do
+    it "delegates to its user" do
+      user_result = double("user.has_pending_public_keys?")
+      user = double("user", has_pending_public_keys?: user_result)
+      overview = build_overview(user: user)
+
+      result = overview.has_pending_public_keys?
+
+      expect(result).to eq(user_result)
+    end
+  end
+
   def build_overview(
     channel: double("channel"),
     exercise: double("exercise"),

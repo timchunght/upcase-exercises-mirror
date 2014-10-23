@@ -45,17 +45,26 @@ service :queue do |container|
 end
 
 service :config_committer do |container|
-  Gitolite::ConfigCommitter.new(
-    repository_factory: container[:repository_factory],
-    config_writer: container[:config_writer]
+  public_keys =
+    container[:gitolite_public_key_query].new(relation: Gitolite::PublicKey.all)
+
+  Gitolite::PublicKeyTrackingCommitter.new(
+    Gitolite::ConfigCommitter.new(
+      repository_factory: container[:repository_factory],
+      config_writer: Gitolite::ConfigWriter.new(
+        public_keys: public_keys,
+        server_key: ENV["PUBLIC_KEY"],
+        sources: container[:sources]
+      )
+    ),
+    public_keys: public_keys
   )
 end
 
-service :config_writer do |container|
-  Gitolite::ConfigWriter.new(
-    public_keys: Gitolite::PublicKeyQuery.new(Gitolite::PublicKey.all),
-    server_key: ENV["PUBLIC_KEY"],
-    sources: container[:sources]
+factory :gitolite_public_key_query do |container|
+  Gitolite::PublicKeyQuery.new(
+    relation: container[:relation],
+    observer: Gitolite::PusherObserver.new(container[:user_channel_factory])
   )
 end
 
@@ -425,7 +434,16 @@ factory :overview_factory do |container|
     exercise: container[:exercise],
     participation: container[:participation],
     revision: revision,
-    user: container[:user],
+    user: container[:gitolite_user],
+  )
+end
+
+service :gitolite_user do |container|
+  Gitolite::User.new(
+    container[:user],
+    public_keys: container[:gitolite_public_key_query].new(
+      relation: container[:user].public_keys
+    )
   )
 end
 

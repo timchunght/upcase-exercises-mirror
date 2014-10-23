@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016064452) do
+ActiveRecord::Schema.define(version: 20141022185241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,13 +67,15 @@ ActiveRecord::Schema.define(version: 20141016064452) do
   add_index "exercises", ["uuid"], name: "index_exercises_on_uuid", unique: true, using: :btree
 
   create_table "public_keys", force: true do |t|
-    t.integer  "user_id",     null: false
-    t.text     "data",        null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "fingerprint", null: false
+    t.integer  "user_id",                    null: false
+    t.text     "data",                       null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "fingerprint",                null: false
+    t.boolean  "pending",     default: true, null: false
   end
 
+  add_index "public_keys", ["pending"], name: "index_public_keys_on_pending", using: :btree
   add_index "public_keys", ["user_id"], name: "index_public_keys_on_user_id", using: :btree
 
   create_table "revisions", force: true do |t|
