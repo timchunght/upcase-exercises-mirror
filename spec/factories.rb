@@ -108,4 +108,14 @@ FactoryGirl.define do
        end
     DIFF
   end
+
+  factory :public_key, class: "Gitolite::PublicKey" do
+    ignore do
+      user { create(:user) }
+    end
+
+    data "ssh-rsa 123"
+    fingerprint "ccab:dd"
+    user_id { user.id }
+  end
 end

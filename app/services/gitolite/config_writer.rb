@@ -10,10 +10,7 @@ module Gitolite
     TEMPLATE_PATH =
       Rails.root.join('app', 'views', 'gitolite_config', 'gitolite.conf.erb')
 
-    def initialize(server_key, sources)
-      @server_key = server_key
-      @sources = sources
-    end
+    pattr_initialize [:public_keys!, :server_key!, :sources!]
 
     def write
       write_config_file
@@ -21,8 +18,6 @@ module Gitolite
     end
 
     private
-
-    attr_reader :sources
 
     def write_config_file
       open_config_file do |file|
@@ -61,12 +56,12 @@ module Gitolite
     end
 
     def write_staging_key
-      write_key "#{KEYDIR_PATH}/#{SERVER_USERNAME}.pub", @server_key
+      write_key "#{KEYDIR_PATH}/#{SERVER_USERNAME}.pub", server_key
     end
 
     def write_user_keys
       User.by_username.each do |user|
-        write_keys_for user.username, user.public_keys
+        write_keys_for user.username, public_keys.for(user)
       end
     end
 

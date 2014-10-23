@@ -1,19 +1,25 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Gitolite::ConfigWriter do
-  describe '#write' do
-    it 'writes the template into the given directory' do
+  describe "#write" do
+    it "writes the template into the given directory" do
       in_config_dir do
+        key_query = double("key_query")
         stub_users(
-          [{ username: 'one' }, { username: 'two' }, { username: nil }],
-          admin_usernames: %w(apple berry)
+          [{ username: "one" }, { username: "two" }, { username: nil }],
+          admin_usernames: %w(apple berry),
+          key_query: key_query
         )
         sources = stub_sources(%w(sources/adam sources/billy))
-        config = Gitolite::ConfigWriter.new('ssh-rsa server', sources)
+        config = Gitolite::ConfigWriter.new(
+          public_keys: key_query,
+          server_key: "ssh-rsa server",
+          sources: sources
+        )
 
         config.write
 
-        result = IO.read('conf/gitolite.conf')
+        result = IO.read("conf/gitolite.conf")
         expect(result).to eq(<<-CONFIG.strip_heredoc)
           @admins = server apple berry
 
@@ -41,35 +47,43 @@ describe Gitolite::ConfigWriter do
       end
     end
 
-    it 'rewrites the public key directory' do
+    it "rewrites the public key directory" do
       in_config_dir do
         create_preexisting_key
 
-        stub_users([
-          {
-            username: 'one',
-            public_keys: [
-              stub_key(1, 'abc'),
-              stub_key(2, 'def')
-            ]
-          },
-          {
-            username: 'two',
-            public_keys: [
-              stub_key(3, 'ghi')
-            ]
-          }
-        ])
+        key_query = double("key_query")
+        stub_users(
+          [
+            {
+              username: "one",
+              public_keys: [
+                stub_key(1, "abc"),
+                stub_key(2, "def")
+              ]
+            },
+            {
+              username: "two",
+              public_keys: [
+                stub_key(3, "ghi")
+              ]
+            }
+          ],
+          key_query: key_query
+        )
         sources = stub_sources
-        config = Gitolite::ConfigWriter.new('ssh-rsa server', sources)
+        config = Gitolite::ConfigWriter.new(
+          public_keys: key_query,
+          server_key: "ssh-rsa server",
+          sources: sources
+        )
 
         config.write
 
         expect(existing_keys).to eq(
-          '1/one.pub' => 'abc',
-          '2/one.pub' => 'def',
-          '3/two.pub' => 'ghi',
-          'server.pub' => 'ssh-rsa server'
+          "1/one.pub" => "abc",
+          "2/one.pub" => "def",
+          "3/two.pub" => "ghi",
+          "server.pub" => "ssh-rsa server"
         )
       end
     end
@@ -78,49 +92,47 @@ describe Gitolite::ConfigWriter do
   def in_config_dir
     Dir.mktmpdir do |path|
       FileUtils.chdir(path) do
-        FileUtils.mkdir('conf')
+        FileUtils.mkdir("conf")
         yield
       end
     end
   end
 
-  def stub_users(attributes_collection, options = {})
+  def stub_users(attributes_collection, admin_usernames: [], key_query:)
     users = attributes_collection.map do |attributes|
-      stub_user(attributes)
+      stub_user(key_query: key_query, **attributes)
     end
 
     User.stub(:by_username).and_return(users)
-    User.stub(:admin_usernames).and_return(options[:admin_usernames] || [])
+    User.stub(:admin_usernames).and_return(admin_usernames)
   end
 
-  def stub_user(attributes)
-    double(
-      'user',
-      username: attributes.fetch(:username) { 'mruser' },
-      public_keys: attributes[:public_keys] || []
-    )
+  def stub_user(username: "mruser", key_query:, public_keys: [])
+    double("user", username: username).tap do |user|
+      key_query.stub(:for).with(user).and_return(public_keys)
+    end
   end
 
   def stub_sources(paths = [])
     paths.map do |path|
-      double('source', path: path)
+      double("source", path: path)
     end
   end
 
   def create_preexisting_key
-    FileUtils.mkdir('keydir')
-    File.open('keydir/preexisting.pub', 'w') do |file|
-      file.puts 'pre-existing key'
+    FileUtils.mkdir("keydir")
+    File.open("keydir/preexisting.pub", "w") do |file|
+      file.puts "pre-existing key"
     end
   end
 
   def stub_key(id, data)
-    double('public_key', id: id, data: data)
+    double("public_key", id: id, data: data)
   end
 
   def existing_keys
-    Dir.glob('keydir/**/*.*').inject({}) do |result, path|
-      key = path.sub(%r{^keydir/}, '')
+    Dir.glob("keydir/**/*.*").inject({}) do |result, path|
+      key = path.sub(%r{^keydir/}, "")
       result.update(key => IO.read(path).chop)
     end
   end

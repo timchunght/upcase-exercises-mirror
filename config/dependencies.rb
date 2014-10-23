@@ -52,7 +52,11 @@ service :config_committer do |container|
 end
 
 service :config_writer do |container|
-  Gitolite::ConfigWriter.new(ENV["PUBLIC_KEY"], container[:sources])
+  Gitolite::ConfigWriter.new(
+    public_keys: Gitolite::PublicKeyQuery.new(Gitolite::PublicKey.all),
+    server_key: ENV["PUBLIC_KEY"],
+    sources: container[:sources]
+  )
 end
 
 service :sources do |container|
