@@ -4,8 +4,8 @@ describe Git::PusherObserver do
   describe "#clone_created" do
     it "sends a trigger to pusher" do
       exercise = double("exercise")
-      user = double("user")
-      stub_channel(exercise: exercise, user: user) do |channel, channel_factory|
+      user = double("user", id: "abc")
+      stub_channel(user: user) do |channel, channel_factory|
         observer = Git::PusherObserver.new(channel_factory)
 
         observer.clone_created(exercise, user, double("sha"))
@@ -17,10 +17,9 @@ describe Git::PusherObserver do
 
   describe "#diff_fetched" do
     it "sends a trigger to pusher" do
-      exercise = double("exercise")
-      user = double("user")
-      clone = double("clone", exercise: exercise, user: user)
-      stub_channel(exercise: exercise, user: user) do |channel, channel_factory|
+      user = double("user", id: "abc")
+      clone = double("clone", user_id: user.id)
+      stub_channel(user: user) do |channel, channel_factory|
         observer = Git::PusherObserver.new(channel_factory)
 
         observer.diff_fetched(clone, double("diff"))
@@ -30,12 +29,12 @@ describe Git::PusherObserver do
     end
   end
 
-  def stub_channel(exercise:, user:)
+  def stub_channel(user:)
     channel_factory = double("channel_factory")
     channel = double("channel")
     allow(channel_factory).
       to receive(:new).
-      with(exercise: exercise, user: user).
+      with(user_id: user.id).
       and_return(channel)
     allow(channel).to receive(:trigger)
 

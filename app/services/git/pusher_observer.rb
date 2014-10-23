@@ -3,14 +3,12 @@ module Git
   class PusherObserver
     pattr_initialize :channel_factory
 
-    def clone_created(exercise, user, _sha)
-      channel_factory.new(exercise: exercise, user: user).trigger("cloned")
+    def clone_created(_exercise, user, _sha)
+      channel_factory.new(user_id: user.id).trigger("cloned")
     end
 
     def diff_fetched(clone, _diff)
-      channel_factory.
-        new(exercise: clone.exercise, user: clone.user).
-        trigger("pushed")
+      channel_factory.new(user_id: clone.user_id).trigger("pushed")
     end
   end
 end
