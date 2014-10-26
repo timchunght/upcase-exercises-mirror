@@ -1,3 +1,9 @@
-= "git clone #{repository.url}"
-= "cd #{repository.name}"
-bin/setup
+%pre
+  %code
+    :preserve
+      git clone #{repository.url}
+      cd #{repository.name}
+      bin/setup
+%p
+  The host fingerprint is
+  %code= repository.fingerprint

@@ -156,7 +156,11 @@ factory :git_clone_factory do |container|
 end
 
 factory :repository_factory do |container|
-  Git::Repository.new(host: ENV["GIT_SERVER_HOST"], path: container[:path])
+  Git::Repository.new(
+    host: ENV["GIT_SERVER_HOST"],
+    fingerprint: ENV["GIT_SERVER_FINGERPRINT"],
+    path: container[:path]
+  )
 end
 
 service :repository_finder do |container|
