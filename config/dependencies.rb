@@ -438,6 +438,13 @@ factory :overview_factory do |container|
     exercise: container[:exercise],
     participation: container[:participation],
     revision: revision,
+    solutions: container[:reviewable_solutions_factory].new(
+      solutions: container[:exercise].solutions,
+      submitted_solution: container[:participation].has_solution? ?
+        container[:participation].find_solution :
+        nil,
+      viewed_solution: nil
+    ),
     user: container[:gitolite_user],
   )
 end

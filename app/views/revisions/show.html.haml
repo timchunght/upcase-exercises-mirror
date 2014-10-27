@@ -1,3 +1,7 @@
+= render "exercises/navigation",
+  exercise: @review.exercise,
+  solutions: @review.solutions
+
 %header.solutions-main
   %nav.participants
     = render "my_solution",

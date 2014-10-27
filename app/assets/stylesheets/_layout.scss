@@ -82,7 +82,8 @@ nav.main {
         padding-right: 2em;
       }
 
-      &.active {
+      .revisions-show &.solutions,
+      .exercises-show &.instructions {
         color: $base-font-color;
 
         &.solutions {

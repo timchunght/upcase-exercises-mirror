@@ -1,5 +1,9 @@
 - content_for :page_title, @overview.title
 
+= render "exercises/navigation",
+  exercise: @overview.exercise,
+  solutions: @overview.solutions
+
 %article.main-inner
   %header
     %h1= @overview.title

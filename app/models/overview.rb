@@ -1,7 +1,14 @@
 # Facade to encapsulate data for exercise overview and instructions page.
 class Overview
-  pattr_initialize [:channel!, :exercise!, :participation!, :revision!, :user!]
-  attr_reader :exercise
+  pattr_initialize [
+    :channel!,
+    :exercise!,
+    :participation!,
+    :revision!,
+    :solutions!,
+    :user!
+  ]
+  attr_reader :exercise, :solutions
   delegate :name, to: :channel, prefix: true
   delegate :title, to: :exercise
   delegate :has_clone?, :unpushed?, to: :participation

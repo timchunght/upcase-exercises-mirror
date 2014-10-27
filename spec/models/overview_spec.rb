@@ -10,6 +10,15 @@ describe Overview do
     end
   end
 
+  describe "#solutions" do
+    it "returns its solutions" do
+      solutions = double("solutions")
+      overview = build_overview(solutions: solutions)
+
+      expect(overview.solutions).to eq(solutions)
+    end
+  end
+
   describe "#title" do
     it "delegates to its exercise" do
       exercise = double("exercise", title: "expected")
@@ -130,6 +139,7 @@ describe Overview do
     exercise: double("exercise"),
     participation: double("participation"),
     revision: double("revision"),
+    solutions: double("solutions"),
     user: double("user")
   )
     Overview.new(
@@ -137,6 +147,7 @@ describe Overview do
       exercise: exercise,
       participation: participation,
       revision: revision,
+      solutions: solutions,
       user: user,
     )
   end
