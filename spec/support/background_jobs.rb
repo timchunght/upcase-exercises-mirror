@@ -11,10 +11,15 @@ module BackgroundJobs
     delay_jobs = Delayed::Worker.delay_jobs
     Delayed::Worker.delay_jobs = true
     yield
-    Delayed::Worker.new.work_off
+
+    unless delay_jobs
+      Delayed::Worker.new.work_off
+    end
   ensure
     Delayed::Worker.delay_jobs = delay_jobs
   end
+
+  module_function :pause_background_jobs
 end
 
 RSpec.configure do |config|

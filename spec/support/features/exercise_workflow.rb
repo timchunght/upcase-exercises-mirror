@@ -2,7 +2,6 @@ module Features
   class ExerciseWorkflow
     include Rails.application.routes.url_helpers
     include FactoryGirl::Syntax::Methods
-
     self.default_url_options = { host: 'www.example.com' }
 
     def initialize(page, options = {})
@@ -15,8 +14,10 @@ module Features
     end
 
     def start_exercise
-      page.visit exercise_path(exercise, as: user)
-      page.click_on I18n.t('exercises.show.start_exercise')
+      BackgroundJobs.pause_background_jobs do
+        page.visit exercise_path(exercise, as: user)
+        page.click_on I18n.t("exercises.show.start_exercise")
+      end
     end
 
     def upload_public_key(key_text = 'ssh-rsa 123')
