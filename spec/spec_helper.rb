@@ -33,6 +33,13 @@ RSpec.configure do |config|
     end
   end
 
+  config.before(:each, js: true) do
+    page.driver.browser.url_blacklist = [
+      "http://cloud.typography.com",
+      "http://stats.pusher.com"
+    ]
+  end
+
   config.include Payload::Testing
 end
 
