@@ -9,9 +9,20 @@
     = csrf_meta_tags
   %body{ 'class' => "#{body_class}" }
     = render 'flashes'
+
     %nav.main
-      .nav-inner
+      .nav-back
         = link_to '&larr; Back to dashboard'.html_safe, 'http://www.upcase.com', class: 'back'
+
+      // Needs DEV
+      .tabs
+        = link_to 'Solutions', '#', class: 'solutions active'
+        = link_to 'Instructions', '#', class: 'instructions'
+
+      // Needs DEV
+      %h1.exercise-title
+        %span Null Object: Part One
+
     %section.main
       = yield
     = render 'javascript'

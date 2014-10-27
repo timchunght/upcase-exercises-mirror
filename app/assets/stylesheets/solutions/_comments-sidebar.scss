@@ -4,7 +4,7 @@ aside.comments {
   padding-left: 2%;
   width: $timeline-width;
 
-  @include media($break-80-char) {
+  @include media($collapse-comments) {
     float: left;
     padding-left: 0;
     width: 75%;

@@ -1,9 +1,9 @@
 .files {
   float: left;
   width: $files-width;
-  min-width: 656px; //preserve 80 char width
+  min-width: $files-80-char-width; //preserve 80 char width
 
-  @include media($break-80-char) {
+  @include media($collapse-comments) {
     width: 95%;
   }
 

@@ -24,7 +24,7 @@
     margin-bottom: 0.65em;
   }
 
-  @include media(max-width $preserve-80-char) {
+  @include media($tighten) {
     padding: 2.2rem  1.2rem;
     width: $sidebar-width-sm;
 

@@ -14,7 +14,7 @@ $large-size: $small-size + 7px;
   margin-left: $sidebar-width;
   padding-left: $main-padding;
 
-  @include media(max-width $preserve-80-char) {
+  @include media($tighten) {
     margin-left: $sidebar-width-sm;
     padding-left: $main-padding-sm;
   }

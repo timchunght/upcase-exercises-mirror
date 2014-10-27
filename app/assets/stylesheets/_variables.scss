@@ -5,10 +5,14 @@ $blue: $blue;
 $blue-alt: #1785E7;
 $avatar-size: 1.5rem;
 
+$nav-height: 60px;
+
 $sidebar-width: 18.5rem;
 $sidebar-width-sm: 17.5rem;
 $sidebar-bg: #f6f6f6;
 $sidebar-border: #efefef;
+$sidebar-padding: 2.2rem 1.8rem;
+$sidebar-padding-sm: 2.2rem 1.2rem;
 
 $next-steps-bg: #FFF5C2;
 $next-steps-border: #C49B61;
@@ -26,8 +30,10 @@ $timeline-width: 100% - $files-width;
 $main-padding: 3rem;
 $main-padding-sm: 2rem;
 
-$preserve-80-char: 1385px;
-$break-80-char: max-width (1385px - (16px*2));
+$files-80-char-width: 668px;
+$preserve-80-char-width: 1405px;
+$tighten: max-width ($preserve-80-char-width);
+$collapse-comments: max-width ($preserve-80-char-width - (16px*2));
 
 // Background blue:
 $base-bg-active: #B2DCFD;

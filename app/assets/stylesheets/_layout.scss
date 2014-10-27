@@ -26,24 +26,85 @@ ol {
 }
 
 nav.main {
+  $tabs-padding-top: 13px;
+  $tab-padding: 1.7em 4em 0;
+  $tab-height: $nav-height - $tabs-padding-top;
   background: #3E3C44;
+  height: $nav-height;
+  min-width: $min-width-main;
+
+  .align-main {
+    padding-right: nth($sidebar-padding, 2);
+  }
+
+  &, a {
+    color: #999;
+  }
 
   a {
-    color: #fff;
     display: block;
     float: left;
-    padding: 1.2rem 0;
+    height: $nav-height;
+    line-height: 1;
+    padding: 1.8em 0 0;
   }
 
-  .nav-inner {
-    @include align-main-container;
-    padding-bottom: 0;
-    padding-top: 0;
+  .nav-back {
     @include clearfix;
+    float: left;
+    height: $nav-height;
+    padding: 0 nth($sidebar-padding, 1);
+    width: $sidebar-width;
+
+    @include media($tighten) {
+      padding: 0 nth($sidebar-padding-sm, 2);
+      width: $sidebar-width-sm;
+    }
   }
 
-  .back {
-    color: #999;
+  .tabs {
+    float: left;
+    margin-left: 1px;
+    padding-top: $tabs-padding-top;
+
+    a {
+      border-radius: 4px 4px 0 0;
+      font-size: $base-font-size-sm-3;
+      font-weight: 600;
+      height: $tab-height;
+      line-height: 1;
+      margin-right: 4px;
+      padding: $tab-padding;
+      text-transform: uppercase;
+
+      @include media(max-width 960px) {
+        padding-left: 2em;
+        padding-right: 2em;
+      }
+
+      &.active {
+        color: $base-font-color;
+
+        &.solutions {
+          background: $sidebar-bg;
+        }
+
+        &.instructions {
+          background: #fff;
+        }
+      }
+    }
+  }
+
+  .exercise-title {
+    float: right;
+    font-size: $base-font-size-sm-1;
+    height: $tab-height;
+
+    span {
+      display: inline-block;
+      padding: 2.1em 3em 0 0;
+    }
   }
 
   .exercise-nav {
@@ -112,7 +173,7 @@ nav.exercise {
   min-width: $min-width-main;
   padding: 0 $main-padding-sm 2rem $main-padding;
 
-  @include media(max-width $preserve-80-char) {
+  @include media($tighten) {
     margin-left: $sidebar-width-sm;
     padding-left: $main-padding-sm;
   }

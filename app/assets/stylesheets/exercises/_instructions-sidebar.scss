@@ -1,0 +1,116 @@
+nav.participants {
+  $margin: 2em;
+
+  .solution-status {
+    h1 {
+      margin-top: $base-margin;
+
+      &:first-of-type {
+        margin-top: 0;
+      }
+    }
+
+    .no-solutions, .next-steps-sidebar {
+      margin-bottom: 1.25em;
+
+      a {
+        display: block;
+        margin-top: 1em;
+
+        &.button {
+           @extend %exercise-buttons;
+        }
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+
+    .icon {
+      margin: 0 auto;
+      padding-bottom: $base-padding*3;
+
+      &.clock {
+        @extend %icon-clock;
+      }
+
+      &.complete-check {
+        @extend %icon-complete-check;
+      }
+    }
+
+    .affirmation {
+      background: white;
+      border: 1px solid darken($sidebar-border, 5%);
+      color: darken($green, 8%);
+      text-align: center;
+
+      &.message {
+        padding: 20px;
+      }
+
+      .complete-check-wrapper {
+        background: $bg-green;
+        padding: 1em 0;
+      }
+    }
+  }
+
+  &.instructions-sidebar {
+    @extend %sidebar;
+    padding: 0;
+
+    header.solutions-main {
+      margin: 0 0;
+    }
+
+    header.solutions-main, .padding {
+      padding: $sidebar-padding; //.padding only applies padding
+
+      @include media($tighten) {
+        padding: $sidebar-padding-sm;
+      }
+    }
+
+    h5 {
+      text-transform: uppercase;
+      font-size: em(13);
+      margin-bottom: $margin;
+    }
+
+    .recent-activity {
+       margin-top: $margin*1.25;
+
+      > a {
+        font-size: em(13);
+      }
+
+      ul {
+        line-height: 1.2;
+        font-size: em(13);
+
+        li {
+          position: relative;
+          padding-left: 2.75em;
+        }
+
+        img {
+          border-radius: 50%;
+          left: 0;
+          top: 0;
+          position: absolute;
+          vertical-align: top;
+        }
+
+        .timestamp {
+          color: $medium-gray;
+          display: block;
+          font-size: em(9px);
+          line-height: 1.5em;
+          margin-bottom: $margin;
+        }
+      }
+    }
+  }
+}
