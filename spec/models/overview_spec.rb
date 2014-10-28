@@ -52,6 +52,17 @@ describe Overview do
     end
   end
 
+  describe "has_pending_clone?" do
+    it "delegates to clone#pending?" do
+      clone = double("clone", pending?: false)
+      participation = double("participation", find_clone: clone)
+      overview = build_overview(participation: participation)
+
+      expect(overview).not_to have_pending_clone
+      expect(clone).to have_received(:pending?)
+    end
+  end
+
   describe "#files" do
     it "delegates to its revision" do
       files = double("revision.files")

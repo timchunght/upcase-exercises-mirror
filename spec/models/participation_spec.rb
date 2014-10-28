@@ -11,7 +11,7 @@ describe Participation do
     end
 
     context "with an existing clone" do
-      it "returns true" do
+      it "returns true when clone is not pending" do
         existing_clone = build_stubbed(:clone)
         participation = build_participation(existing_clone: existing_clone)
 
@@ -46,20 +46,27 @@ describe Participation do
   end
 
   describe "#create_clone" do
-    it "tells the Git server to clone an exercise for the given user" do
+    it "create pending clone object and tell Git server to clone an exercise" do
       exercise = build_stubbed(:exercise)
       user = build_stubbed(:user)
       git_server = double("git_server")
       git_server.stub(:create_clone)
+      clones = double("clones", create!: true)
       participation = build_participation(
         exercise: exercise,
         user: user,
-        git_server: git_server
+        git_server: git_server,
+        clones: clones
       )
 
       participation.create_clone
 
       expect(git_server).to have_received(:create_clone).with(exercise, user)
+      expect(clones).to have_received(:create!).with(
+        exercise: exercise,
+        user: user,
+        pending: true
+      )
     end
   end
 

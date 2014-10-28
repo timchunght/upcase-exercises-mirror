@@ -1,5 +1,8 @@
 - if overview.has_clone?
-  = render "exercises/clone", overview: overview
+  - if overview.has_pending_clone?
+    = t("clones.create.pending")
+  - else
+    = render "exercises/clone", overview: overview
 - else
   = button_to(                              |
     t("exercises.show.start_exercise"),     |

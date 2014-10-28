@@ -4,6 +4,7 @@ class Participation
   pattr_initialize [:exercise, :user, :git_server, :clones]
 
   def create_clone
+    clones.create!(exercise: exercise, user: user, pending: true)
     git_server.create_clone(exercise, user)
   end
 

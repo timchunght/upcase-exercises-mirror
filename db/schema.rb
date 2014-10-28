@@ -11,17 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141022185241) do
+ActiveRecord::Schema.define(version: 20141028082534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "clones", force: true do |t|
-    t.integer  "user_id",     null: false
-    t.integer  "exercise_id", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "user_id",                    null: false
+    t.integer  "exercise_id",                null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "parent_sha"
+    t.boolean  "pending",     default: true, null: false
   end
 
   add_index "clones", ["exercise_id"], name: "index_clones_on_exercise_id", using: :btree

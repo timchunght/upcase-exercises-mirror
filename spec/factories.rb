@@ -27,6 +27,12 @@ FactoryGirl.define do
     exercise
     user
     parent_sha '1234567890123456789012345678901234567890'
+    pending false
+
+    trait :pending do
+      parent_sha nil
+      pending true
+    end
   end
 
   factory :comment do

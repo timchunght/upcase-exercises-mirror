@@ -21,6 +21,10 @@ class Overview
     participation.find_clone
   end
 
+  def has_pending_clone?
+    clone.pending?
+  end
+
   def has_public_key?
     user.public_keys.any?
   end

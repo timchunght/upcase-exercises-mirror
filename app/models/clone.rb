@@ -5,7 +5,7 @@ class Clone < ActiveRecord::Base
   has_many :revisions, dependent: :destroy
   has_one :solution, dependent: :destroy
 
-  validates! :parent_sha, format: /\A[a-z0-9]{40}\z/
+  validates! :parent_sha, format: /\A[a-z0-9]{40}\z/, unless: :pending?
 
   def title
     exercise.title

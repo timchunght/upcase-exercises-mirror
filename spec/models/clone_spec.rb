@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Clone do
+  let(:subject) { build_stubbed(:clone) }
+
   it { should belong_to(:exercise) }
   it { should belong_to(:user) }
   it { should have_many(:revisions).dependent(:destroy) }
@@ -19,6 +21,14 @@ describe Clone do
     should_not allow_value('a' * 41).
       for(:parent_sha).
         strict
+    should_not allow_value(nil).
+      for(:parent_sha).
+        strict
+  end
+
+  context "with pending clone" do
+    let(:subject) { build_stubbed(:clone, :pending) }
+    it { should allow_value(nil).for(:parent_sha).strict }
   end
 
   describe '#title' do
