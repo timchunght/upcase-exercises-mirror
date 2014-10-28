@@ -1,8 +1,8 @@
 class Status::AllStepsCompleted
-  pattr_initialize :feedback_progress
+  pattr_initialize :progressing_user
 
   def applicable?
-    feedback_progress.user_has_given_and_received_review?
+    progressing_user.has_given_and_received_review?
   end
 
   def to_partial_path

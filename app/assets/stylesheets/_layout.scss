@@ -5,8 +5,13 @@ html, body {
 body {
   margin: 0;
 
-  &.exercises, &.clones, &.admin-exercises {
+  &.admin-exercises, &.admin-dashboards {
     background: $sidebar-bg;
+
+    article.main-inner {
+      background: #fff;
+      @include align-main-container;
+    }
   }
 }
 
@@ -15,9 +20,8 @@ section.main {
     background: none;
   }
 
-  article.main-inner {
-    @include align-main-container;
-    background: #fff;
+  .main-inner.instructions {
+    max-width: $max-width-main;
   }
 }
 

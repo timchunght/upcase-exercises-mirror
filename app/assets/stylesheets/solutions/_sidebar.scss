@@ -1,44 +1,13 @@
 .participants {
-  background: $sidebar-bg;
-  padding: 2.2rem 1.8rem;
-  @include position(absolute, 0px 0 0px 0);
-  width: $sidebar-width;
-
-  // Fix for full-width sidebar
-  &:after {
-    background: $sidebar-bg;
-    border-right: 1px solid $sidebar-border;
-    content: "";
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: $sidebar-width;
-    z-index: -1;
-  }
-
-  h1 {
-    color: #444;
-    font-size: em(22px);
-    font-weight: 300;
-    margin-bottom: 0.65em;
-  }
-
-  @include media($tighten) {
-    padding: 2.2rem  1.2rem;
-    width: $sidebar-width-sm;
-
-    &:after {
-      width: $sidebar-width-sm;
-    }
-  }
+  @extend %sidebar;
 }
 
 ul.solutions {
   background: #fff;
   border: 1px solid $light-gray;
+  border-bottom: 0;
   list-style-type: none;
-  margin: 0 0 2rem 0;
+  margin: 0 0 1.25rem 0;
   padding: 0;
 
   li {
@@ -95,13 +64,13 @@ ul.solutions {
     }
 
     .username {
+      @include transition(color 0.15s $ease-out-quad);
       color: #444;
       display: block;
       font-size: .8rem;
       line-height: $avatar-size;
       overflow: hidden;
       text-overflow: ellipsis;
-      @include transition(color 0.15s $ease-out-quad);
       white-space: nowrap;
     }
 
@@ -118,16 +87,12 @@ ul.solutions {
   }
 }
 
-.no-solutions {
-  background: $next-steps-bg;
-  border: 1px solid $next-steps-border;
-  color: $next-steps-color;
-  font-size: 0.9rem;
-  padding: 20px;
-  text-align: center;
+.no-solutions, .next-steps-sidebar {
+  @extend %solution-status;
+}
 
-  b {
-    display: inline-block;
-    margin-bottom: 1em;
-  }
+.exercise-progress-bar {
+  background: #F7F7F7;
+  border: 1px solid $light-gray;
+  border-top: 0;
 }

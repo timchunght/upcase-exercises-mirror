@@ -4,11 +4,13 @@ class Overview
     :channel!,
     :exercise!,
     :participation!,
+    :progress!,
     :revision!,
     :solutions!,
+    :status!,
     :user!
   ]
-  attr_reader :exercise, :solutions
+  attr_reader :exercise, :progress, :solutions, :status
   delegate :name, to: :channel, prefix: true
   delegate :title, to: :exercise
   delegate :has_clone?, :unpushed?, to: :participation

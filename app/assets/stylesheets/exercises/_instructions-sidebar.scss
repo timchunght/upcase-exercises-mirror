@@ -1,29 +1,30 @@
-nav.participants {
+nav.instructions-sidebar {
   $margin: 2em;
 
   .solution-status {
-    h1 {
-      margin-top: $base-margin;
+    @extend %solution-status;
 
-      &:first-of-type {
-        margin-top: 0;
-      }
-    }
-
-    .no-solutions, .next-steps-sidebar {
-      margin-bottom: 1.25em;
-
-      a {
+    .inner {
+      .button {
+        @extend %exercise-buttons;
         display: block;
-        margin-top: 1em;
+        margin-top: 1.5em;
+      }
 
-        &.button {
-           @extend %exercise-buttons;
+      .content {
+        > p {
+          line-height: 1.5;
         }
       }
 
-      p {
-        margin-bottom: 0;
+      h2 {
+        line-height: 1.5;
+      }
+
+      .title {
+        border-top: 1px solid #eddaa5;
+        font-size: 14px;
+        padding-top: 2em;
       }
     }
 
@@ -31,12 +32,33 @@ nav.participants {
       margin: 0 auto;
       padding-bottom: $base-padding*3;
 
+      &.checkmark {
+        @extend %icon-complete-check;
+      }
+
       &.clock {
         @extend %icon-clock;
       }
 
-      &.complete-check {
-        @extend %icon-complete-check;
+      &.comment {
+        @extend %icon-comment;
+      }
+    }
+
+    h1 {
+      color: $brown;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5em;
+      margin-top: $base-margin;
+    }
+
+    .no-solutions, .next-steps-sidebar {
+      margin-bottom: 1.25em;
+      padding: 2em;
+
+      p {
+        margin-bottom: 0;
       }
     }
 

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Status::SubmittedSolution do
   describe "#to_partial_path" do
     it "returns a string" do
-      status = Status::SubmittedSolution.new(double("solutions"))
+      status = build_status
 
       result = status.to_partial_path
 
@@ -15,7 +15,7 @@ describe Status::SubmittedSolution do
     context "when the user has a solution" do
       it "returns true" do
         solutions =  double("solutions", user_has_solution?: true)
-        status = Status::SubmittedSolution.new(solutions)
+        status = build_status(solutions: solutions)
 
         result = status.applicable?
 
@@ -26,7 +26,7 @@ describe Status::SubmittedSolution do
     context "when the user has no solution" do
       it "returns false" do
         solutions =  double("solutions", user_has_solution?: false)
-        status = Status::SubmittedSolution.new(solutions)
+        status = build_status(solutions: solutions)
 
         result = status.applicable?
 
@@ -38,12 +38,16 @@ describe Status::SubmittedSolution do
   describe "#assigned_solution" do
     it "delegates to its solutions" do
       solutions = double(
-        "solutions",
-        assigned_solution: double("assigned_solution"),
+        :solutions,
+        assigned_solution: double(:assigned_solution)
       )
-      status = Status::SubmittedSolution.new(solutions)
+      status = build_status(solutions: solutions)
 
       expect(status.assigned_solution).to eq(solutions.assigned_solution)
     end
+  end
+
+  def build_status(solutions: double(:solutions))
+    Status::SubmittedSolution.new(solutions)
   end
 end

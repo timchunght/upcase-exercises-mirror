@@ -27,6 +27,10 @@ en:
       new: 'Add comment'
 
   exercises:
+    progress:
+      submitted: 'Submitted a solution'
+      peer_review: 'Reviewed a peer'
+      my_review: 'Reviewed by a peer'
     show:
       clone_help: 'Getting an error when cloning?'
       no_commits: 'Waiting for your first commit...'
@@ -34,6 +38,11 @@ en:
       push_solution: 'Push Solution'
       start_exercise: 'Start Exercise'
       preview_my_solution: 'Preview my solution'
+
+  gitolite:
+    public_keys:
+      create:
+        notice: 'Your public key has been added.'
 
   mailer:
     comment:

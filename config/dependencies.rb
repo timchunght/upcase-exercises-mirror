@@ -191,11 +191,12 @@ factory :review_factory do |container|
   solutions = container[:reviewable_solutions_factory].new(
     solutions: container[:exercise].solutions
   )
-  status = container.service(:solutions) { solutions }[:status]
+  status = container[:status_factory].new(solutions: solutions)
 
   Review.new(
     exercise: container[:exercise],
     feedback: container[:feedback_factory].new,
+    progress: container[:progressing_user_factory].new(solutions: solutions),
     solutions: solutions,
     status: status,
   )
@@ -253,20 +254,20 @@ factory :git_revision_factory do |container|
   )
 end
 
-service :status do |container|
+factory :status_factory do |container|
   Status::Finder.new([
-    Status::AllStepsCompleted.new(container[:feedback_progress]),
-    Status::AwaitingReview.new(container[:feedback_progress]),
+    Status::AllStepsCompleted.new(container[:progressing_user_factory].new),
+    Status::AwaitingReview.new(container[:progressing_user_factory].new),
     Status::ReviewingOtherSolution.new(container[:solutions]),
     Status::SubmittedSolution.new(container[:solutions]),
     Status::NoSolution.new
   ]).find
 end
 
-service :feedback_progress do |container|
-  FeedbackProgress.new(
+factory :progressing_user_factory do |container|
+  ProgressingUser.new(
     exercise: container[:exercise],
-    reviewer: container[:reviewer],
+    user: container[:current_user],
     submitted_solution: container[:submitted_solution]
   )
 end
@@ -416,12 +417,22 @@ service :current_overview do |container|
   container[:overview_factory].new(
     exercise: container[:requested_exercise],
     participation: container[:current_participation],
-    user: container[:current_user],
+    user: container[:current_user]
   )
 end
 
 factory :overview_factory do |container|
   latest_revision = container[:participation].latest_revision
+
+  submitted_solution = container[:participation].has_solution? ?
+    container[:participation].find_solution :
+    nil
+
+  solutions = container[:reviewable_solutions_factory].new(
+    solutions: container[:exercise].solutions,
+    submitted_solution: submitted_solution,
+    viewed_solution: nil
+  )
 
   revision = container[:git_revision_factory].new(
     comment_locator: container[:comment_locator_factory].new(
@@ -437,15 +448,17 @@ factory :overview_factory do |container|
     ),
     exercise: container[:exercise],
     participation: container[:participation],
-    revision: revision,
-    solutions: container[:reviewable_solutions_factory].new(
-      solutions: container[:exercise].solutions,
-      submitted_solution: container[:participation].has_solution? ?
-        container[:participation].find_solution :
-        nil,
-      viewed_solution: nil
+    progress: container[:progressing_user_factory].new(
+      solutions: solutions,
+      submitted_solution: submitted_solution
     ),
-    user: container[:gitolite_user],
+    revision: revision,
+    solutions: solutions,
+    status: container[:status_factory].new(
+      solutions: solutions,
+      submitted_solution: submitted_solution
+    ),
+    user: container[:gitolite_user]
   )
 end
 

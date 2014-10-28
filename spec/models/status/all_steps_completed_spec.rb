@@ -4,11 +4,11 @@ describe Status::AllStepsCompleted do
   describe '#applicable?' do
     it 'delegates to the feedback progress' do
       expected = double('expected')
-      feedback_progress = double('feedback_progress')
-      feedback_progress.
-        stub(:user_has_given_and_received_review?).
+      progressing_user = double('progressing_user')
+      progressing_user.
+        stub(:has_given_and_received_review?).
         and_return(expected)
-      status = Status::AllStepsCompleted.new(feedback_progress)
+      status = build_status(progressing_user: progressing_user)
 
       result = status.applicable?
 
@@ -18,11 +18,15 @@ describe Status::AllStepsCompleted do
 
   describe '#to_partial_path' do
     it 'returns a string' do
-      status = Status::AllStepsCompleted.new(double('feedback_progress'))
+      status = build_status
 
       result = status.to_partial_path
 
       expect(result).to eq('statuses/all_steps_completed')
     end
+  end
+
+  def build_status(progressing_user: double(:progressing_user))
+    Status::AllStepsCompleted.new(progressing_user)
   end
 end

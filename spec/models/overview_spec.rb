@@ -134,21 +134,47 @@ describe Overview do
     end
   end
 
+  describe "#progress" do
+    it "returns its progress" do
+      progress = double("progress")
+      overview = build_overview(progress: progress)
+
+      result = overview.progress
+
+      expect(result).to eq(progress)
+    end
+  end
+
+  describe "#status" do
+    it "returns its status" do
+      status = double("status")
+      overview = build_overview(status: status)
+
+      result = overview.status
+
+      expect(result).to eq(status)
+    end
+  end
+
   def build_overview(
     channel: double("channel"),
     exercise: double("exercise"),
     participation: double("participation"),
+    progress: double("progress"),
     revision: double("revision"),
     solutions: double("solutions"),
+    status: double("status"),
     user: double("user")
   )
     Overview.new(
       channel: channel,
       exercise: exercise,
       participation: participation,
+      progress: progress,
       revision: revision,
       solutions: solutions,
-      user: user,
+      status: status,
+      user: user
     )
   end
 end

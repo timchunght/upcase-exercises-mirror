@@ -4,9 +4,13 @@
 
 %header.solutions-main
   %nav.participants
-    = render "my_solution",
+    = render "exercises/my_solution",
       solutions: @review.solutions,
       exercise: @review.exercise
+
+    .exercise-progress-bar
+      = render "exercises/progress_bar", progress: @review.progress
+
 
   %section.next-steps
     = render @review.status, status: @review.status

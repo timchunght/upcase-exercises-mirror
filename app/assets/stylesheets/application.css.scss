@@ -10,12 +10,14 @@
 
 // Our Styles
 @import 'variables';
+@import 'extends';
 @import 'mixins';
 @import 'animations';
 @import 'layout';
 
 @import 'exercises/instructions';
 @import 'exercises/instructions-demo';
+@import 'exercises/instructions-sidebar';
 @import 'exercises/clone';
 
 @import 'public-keys/**';

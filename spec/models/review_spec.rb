@@ -23,6 +23,17 @@ describe Review do
     end
   end
 
+  describe "#progress" do
+    it "returns its progress" do
+      progress = double("progress")
+      review = build_review(progress: progress)
+
+      result = review.progress
+
+      expect(result).to eq(progress)
+    end
+  end
+
   describe "#solutions" do
     it "returns its solutions" do
       solutions = double("solutions")
@@ -48,12 +59,14 @@ describe Review do
   def build_review(
     exercise: double("exercise"),
     feedback: double("feedback"),
+    progress: double("progress"),
     solutions: double("solutions"),
     status: double("status")
   )
     Review.new(
       exercise: exercise,
       feedback: feedback,
+      progress: progress,
       solutions: solutions,
       status: status,
     )

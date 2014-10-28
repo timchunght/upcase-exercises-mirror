@@ -25,6 +25,13 @@ $h1-font-size: $base-font-size * 1.8;
 
 $base-margin: 20px;
 $base-padding: 16px;
+$sidebar-padding: 2.2rem 1.8rem;
+$sidebar-padding-sm: 2.2rem 1.2rem;
+
+// Layout
+$max-width-main: 1400px;
+$min-width-main: 800px;
+
 
 // Colors
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,11 +47,11 @@ $light-green: #E6EFC2;
 // Body Color
 $base-body-color: white;
 
-//  Font Colors
+// Font Colors
 $base-font-color: $dark-gray;
 $base-accent-color: $blue;
 
-//  Text Link Colors
+// Text Link Colors
 $base-link-color: $base-accent-color;
 $hover-link-color: darken($base-accent-color, 15);
 
@@ -56,6 +63,3 @@ $base-border-color-2: #efefef;
 $error-color: $light-red;
 $notice-color: $light-yellow;
 $success-color: $light-green;
-
-$max-width-main: 1400px;
-$min-width-main: 756px;

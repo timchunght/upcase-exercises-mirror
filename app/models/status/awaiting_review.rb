@@ -1,9 +1,9 @@
 class Status::AwaitingReview
-  pattr_initialize :feedback_progress
+  pattr_initialize :progressing_user
 
   def applicable?
-    feedback_progress.user_has_reviewed_other_solution? &&
-      feedback_progress.user_is_awaiting_review?
+    progressing_user.has_reviewed_other_solution? &&
+      progressing_user.awaiting_review?
   end
 
   def to_partial_path

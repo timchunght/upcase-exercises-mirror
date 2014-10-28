@@ -44,16 +44,7 @@
     }
 
     .button {
-      @include continue-button;
-
-      &.next-exercise {
-        $bg: #8A5FC8;
-        background: $bg;
-
-        &:active {
-          background: darken($bg, 6%);
-        }
-      }
+      @extend %exercise-buttons;
     }
 
     &:after {
@@ -105,29 +96,15 @@
       vertical-align: middle;
 
       &.checkmark {
-        $s: 46px;
-        background: image_url('checkmark-icon.svg') no-repeat;
-        background-size: $s;
-        @include size($s);
+        @extend %icon-checkmark;
       }
 
       &.clock {
-        $s: 40px;
-        background: image_url('clock.svg') no-repeat;
-        background-size: $s;
-        @include size($s);
+        @extend %icon-clock;
       }
 
       &.comment {
-        $s: 42px 37px;
-        background: image_url('comment-icon.svg') no-repeat;
-        background-position: 0px 3px;
-        background-size: $s;
-        @include size($s);
-      }
-
-      &.avatar {
-        vertical-align: top;
+        @extend %icon-comment;
       }
 
       img {

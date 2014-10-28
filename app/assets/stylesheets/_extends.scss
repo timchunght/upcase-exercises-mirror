@@ -89,3 +89,17 @@
   background-size: $s;
   @include size($s);
 }
+
+%solution-status {
+  background: $next-steps-bg;
+  border: 1px solid $next-steps-border;
+  color: $next-steps-color;
+  font-size: 0.9rem;
+  padding: 20px;
+  text-align: center;
+
+  b {
+    display: inline-block;
+    margin-bottom: 1em;
+  }
+}

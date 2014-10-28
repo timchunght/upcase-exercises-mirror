@@ -6,7 +6,7 @@
   }
 
   .continue-button {
-    @include continue-button;
+    @extend %exercise-buttons;
     margin-right: 1rem;
   }
 }
