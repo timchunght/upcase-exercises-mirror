@@ -9,3 +9,10 @@ if Rake::Task.task_defined?("default")
   Rake::Task["default"].clear
   task default: %w(konacha:run spec)
 end
+
+if defined? RSpec
+  task(:spec).clear
+  RSpec::Core::RakeTask.new(:spec) do |t|
+    t.verbose = false
+  end
+end
