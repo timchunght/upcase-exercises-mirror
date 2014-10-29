@@ -9,7 +9,7 @@ feature 'User starts exercise', js: true do
     pause_background_jobs do
       workflow.start_exercise
       expect(page).to have_content(I18n.t('clones.create.pending'))
-      expect_upcase_status_update user, exercise, "Started"
+      expect_upcase_status_update user, exercise, "In Progress"
     end
 
     expect(page).to have_content(%r{git clone git@.*:mruser/nullobject.git})

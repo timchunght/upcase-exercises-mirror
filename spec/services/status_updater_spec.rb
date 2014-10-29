@@ -24,19 +24,11 @@ describe StatusUpdater do
     end
   end
 
-  it_updates_remote_status to: "Started" do |status_updater|
+  it_updates_remote_status to: "In Progress" do |status_updater|
     status_updater.clone_created
   end
 
-  it_updates_remote_status to: "Submitted" do |status_updater|
-    status_updater.solution_submitted
-  end
-
-  it_updates_remote_status to: "Pushed" do |status_updater|
-    status_updater.revision_submitted
-  end
-
-  it_updates_remote_status to: "Reviewed" do |status_updater|
+  it_updates_remote_status to: "Complete" do |status_updater|
     status_updater.comment_created("comment")
   end
 end

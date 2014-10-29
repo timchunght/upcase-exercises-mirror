@@ -13,7 +13,7 @@ feature 'subscriber comments on solution', js: true do
 
     expect(page).to have_content('Looks great')
     expect_notification_to user.email, exercise.title
-    expect_upcase_status_update commenting_user, exercise, 'Reviewed'
+    expect_upcase_status_update commenting_user, exercise, "Complete"
   end
 
   scenario 'at the top level' do
@@ -30,7 +30,7 @@ feature 'subscriber comments on solution', js: true do
 
     expect(page).to have_content('Looks great!')
     expect_notification_to other_user.email, exercise.title
-    expect_upcase_status_update user, exercise, 'Reviewed'
+    expect_upcase_status_update user, exercise, "Complete"
   end
 
   def expect_notification_to(email, exercise_title)

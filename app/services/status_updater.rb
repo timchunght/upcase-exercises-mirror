@@ -2,19 +2,11 @@ class StatusUpdater
   pattr_initialize [:user!, :exercise!, :upcase_client!]
 
   def clone_created
-    update_with('Started')
-  end
-
-  def revision_submitted
-    update_with('Pushed')
-  end
-
-  def solution_submitted
-    update_with('Submitted')
+    update_with("In Progress")
   end
 
   def comment_created(_comment)
-    update_with('Reviewed')
+    update_with("Complete")
   end
 
   private

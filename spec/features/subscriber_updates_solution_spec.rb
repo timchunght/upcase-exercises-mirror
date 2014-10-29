@@ -8,11 +8,8 @@ feature 'subscriber updates solution', js: true do
     workflow.submit_solution 'first_revision'
 
     expect(page).to have_content('first_revision')
-    expect_upcase_status_update user, exercise, 'Submitted'
 
     workflow.push_to_clone 'second_revision'
-    expect_upcase_status_update user, exercise, 'Pushed'
-
     workflow.view_my_solution
     expect(page).to have_content('second_revision')
   end
