@@ -27,6 +27,6 @@ class UpcaseClient
   def rescue_common_errors
     yield
   rescue *HTTP_ERRORS, OAuth2::Error => exception
-    Airbrake.notify(exception)
+    error_notifier.notify(exception)
   end
 end

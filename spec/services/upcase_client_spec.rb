@@ -13,16 +13,19 @@ describe UpcaseClient do
         token.stub(:post).and_raise(error)
         client = double(request: nil)
         OAuth2::AccessToken.stub(:new).and_return(token)
-        Airbrake.stub(:notify)
+        error_notifier = double("error_notifier")
+        error_notifier.stub(:notify).and_raise(error)
+        upcase_client = UpcaseClient.new(client)
+        upcase_client.stub(:error_notifier).and_return(error_notifier)
 
         expect do
-          UpcaseClient.new(client).update_status(
+          upcase_client.update_status(
             double(auth_token: "token"),
             "exercise",
             "state"
           )
-        end.not_to raise_exception
-        expect(Airbrake).to have_received(:notify)
+        end.to raise_exception
+        expect(error_notifier).to have_received(:notify)
       end
     end
   end
@@ -57,14 +60,14 @@ describe UpcaseClient do
 
     context "with invalid attributes" do
       it "notifies airbrake" do
-        Airbrake.stub(:notify)
+        error_notifier = double("error_notifier")
+        error_notifier.stub(:notify)
         upcase_client = UpcaseClient.new(oauth_upcase_client)
+        upcase_client.stub(:error_notifier).and_return(error_notifier)
 
-        expect do
-          upcase_client.synchronize_exercise(uuid: "UUID", title: "")
-        end.not_to raise_exception
+        upcase_client.synchronize_exercise(uuid: "UUID", title: "")
 
-        expect(Airbrake).to have_received(:notify)
+        expect(error_notifier).to have_received(:notify)
       end
     end
 
@@ -74,18 +77,21 @@ describe UpcaseClient do
           token = double
           token.stub(:put).and_raise(error)
           client = double(client_credentials: double(get_token: token))
-          Airbrake.stub(:notify)
           attributes = {
             title: "Refactoring",
             url: "https://exercise.upcase.com/exercises/refactoring",
             summary: "Just make the code looks better!",
             uuid: "UUID"
           }
+          error_notifier = double("error_notifier")
+          error_notifier.stub(:notify).and_raise(error)
+          upcase_client = UpcaseClient.new(client)
+          upcase_client.stub(:error_notifier).and_return(error_notifier)
 
           expect do
-            UpcaseClient.new(client).synchronize_exercise(attributes)
-          end.not_to raise_exception
-          expect(Airbrake).to have_received(:notify)
+            upcase_client.synchronize_exercise(attributes)
+          end.to raise_exception(error)
+          expect(error_notifier).to have_received(:notify)
         end
       end
     end

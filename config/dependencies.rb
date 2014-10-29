@@ -348,7 +348,11 @@ service :logger do |container|
 end
 
 service :error_notifier do |container|
-  Airbrake
+  if Rails.env.development? || Rails.env.test?
+    ErrorReraiser.new
+  else
+    Airbrake
+  end
 end
 
 service :mailer do |container|

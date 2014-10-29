@@ -5,6 +5,12 @@ class StatusUpdater
     update_with("In Progress")
   end
 
+  def revision_submitted
+  end
+
+  def solution_submitted
+  end
+
   def comment_created(_comment)
     update_with("Complete")
   end
