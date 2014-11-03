@@ -43,7 +43,7 @@ describe Overview do
   describe "#clone" do
     it "delegates to its participation" do
       clone = double("clone")
-      participation = double("participation", find_clone: clone)
+      participation = double("participation", clone: clone)
       overview = build_overview(participation: participation)
 
       result = overview.clone
@@ -52,38 +52,28 @@ describe Overview do
     end
   end
 
-  describe "has_pending_clone?" do
-    it "delegates to clone#pending?" do
-      clone = double("clone", pending?: false)
-      participation = double("participation", find_clone: clone)
-      overview = build_overview(participation: participation)
-
-      expect(overview).not_to have_pending_clone
-      expect(clone).to have_received(:pending?)
-    end
-  end
-
   describe "#files" do
-    it "delegates to its revision" do
-      files = double("revision.files")
-      revision = double("revision", files: files)
-      overview = build_overview(revision: revision)
+    context "with a revision" do
+      it "unwraps its revision's files" do
+        files = double("revision.files")
+        revision = double("revision", files: files)
+        overview = build_overview(revision: revision.wrapped)
 
-      result = overview.files
+        result = overview.files
 
-      expect(result).to eq(files)
+        expect(result).to eq(files)
+      end
     end
-  end
 
-  describe "#has_clone?" do
-    it "delegates to its participation" do
-      participation_result = double("participation.has_clone?")
-      participation = double("participation", has_clone?: participation_result)
-      overview = build_overview(participation: participation)
+    context "without a revision" do
+      it "returns an empty array" do
+        revision = nil
+        overview = build_overview(revision: revision.wrapped)
 
-      result = overview.has_clone?
+        result = overview.files
 
-      expect(result).to eq(participation_result)
+        expect(result).to eq([])
+      end
     end
   end
 

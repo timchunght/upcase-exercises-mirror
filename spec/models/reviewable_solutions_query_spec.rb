@@ -11,7 +11,7 @@ describe ReviewableSolutionsQuery do
 
       result = reviewable_solutions.submitted_solution
 
-      expect(result).to eq(submitted_solution)
+      expect(result).to eq(submitted_solution.wrapped)
     end
   end
 
@@ -103,7 +103,7 @@ describe ReviewableSolutionsQuery do
   )
     ReviewableSolutionsQuery.new(
       solutions: solutions,
-      submitted_solution: submitted_solution,
+      submitted_solution: submitted_solution.wrapped,
       viewed_solution: viewed_solution,
     )
   end

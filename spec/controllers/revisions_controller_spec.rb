@@ -37,8 +37,6 @@ describe RevisionsController do
                         exercise: build_stubbed(:exercise))
     sign_in_as visitor
 
-    is_owner = (visitor == owner)
-
     allow(Exercise).to receive(:find).and_return(exercise)
     allow(User).to receive(:find).and_return(owner)
 
@@ -46,23 +44,25 @@ describe RevisionsController do
     revision = build_stubbed(:revision)
     allow(Revision).to receive(:find_by_number).and_return(revision)
 
+    if visitor == owner
+      submitted_solution = solution
+    else
+      submitted_solution = nil
+    end
+
     visitor_participation = participation_factory(visitor, exercise)
-    allow(visitor_participation).to receive(:has_solution?).and_return(is_owner)
+    allow(visitor_participation).
+      to receive(:solution).and_return(submitted_solution.wrapped)
 
     owner_participation = participation_factory(owner, exercise)
-    allow(owner_participation).to receive(:has_solution?).and_return(true)
-    allow(owner_participation).to receive(:find_solution).and_return(solution)
-
-    submitted_solution = nil
-    if is_owner
-      submitted_solution = solution
-    end
+    allow(owner_participation).
+      to receive(:solution).and_return(solution.wrapped)
 
     stub_factory_instance(
       :review_factory,
       exercise: exercise,
       viewed_solution: solution,
-      submitted_solution: submitted_solution,
+      submitted_solution: submitted_solution.wrapped,
       reviewer: visitor,
       revision: revision
     )

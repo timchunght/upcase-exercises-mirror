@@ -1,7 +1,7 @@
 %ul.solutions.my-solution
-  - if solutions.user_has_solution?
-    = render solutions.submitted_solution, solutions: solutions
-  - else
+  - solutions.submitted_solution.present do |solution|
+    = render solution, solutions: solutions
+  - solutions.submitted_solution.blank do
     %li
       = link_to exercise_path(exercise) do
         = render 'solutions/user', user: current_user

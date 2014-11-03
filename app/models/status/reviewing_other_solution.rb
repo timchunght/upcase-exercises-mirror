@@ -1,9 +1,15 @@
 class Status::ReviewingOtherSolution
   pattr_initialize :solutions
-  delegate :assigned_solution, :submitted_solution, to: :solutions
+  delegate :assigned_solution, to: :solutions
 
   def applicable?
-    solutions.user_has_solution? && viewing_other_solution?
+    solutions.submitted_solution.
+      fmap { |solution| solution != solutions.viewed_solution }.
+      unwrap_or(false)
+  end
+
+  def submitted_solution
+    solutions.submitted_solution.unwrap
   end
 
   def to_partial_path

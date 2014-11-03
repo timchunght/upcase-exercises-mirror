@@ -13,16 +13,11 @@ class Overview
   attr_reader :exercise, :progress, :solutions, :status
   delegate :name, to: :channel, prefix: true
   delegate :title, to: :exercise
-  delegate :has_clone?, :unpushed?, to: :participation
-  delegate :files, to: :revision
+  delegate :clone, :unpushed?, to: :participation
   delegate :has_pending_public_keys?, :username?, to: :user
 
-  def clone
-    participation.find_clone
-  end
-
-  def has_pending_clone?
-    clone.pending?
+  def files
+    revision.fmap(&:files).unwrap_or([])
   end
 
   def has_public_key?

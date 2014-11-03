@@ -36,7 +36,7 @@ describe ClonesController do
   describe '#show' do
     context 'with an existing clone' do
       it 'renders success' do
-        show_overview has_clone?: true
+        show_overview clone: double("clone").wrapped
 
         expect(controller).to respond_with(:success)
       end

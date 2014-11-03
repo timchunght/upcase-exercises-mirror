@@ -217,7 +217,7 @@ describe ProgressingUser do
     user: double("user")
   )
     ProgressingUser.new(
-      submitted_solution: submitted_solution,
+      submitted_solution: submitted_solution.wrapped,
       exercise: exercise,
       user: user
     )

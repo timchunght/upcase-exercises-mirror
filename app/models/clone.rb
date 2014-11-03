@@ -7,6 +7,10 @@ class Clone < ActiveRecord::Base
 
   validates! :parent_sha, format: /\A[a-z0-9]{40}\z/, unless: :pending?
 
+  def solution
+    super.wrapped
+  end
+
   def title
     exercise.title
   end
@@ -16,7 +20,7 @@ class Clone < ActiveRecord::Base
   end
 
   def create_revision!(attributes)
-    revisions.create!(attributes.merge(solution: solution))
+    revisions.create!(attributes.merge(solution: solution.unwrap_or(nil)))
   end
 
   def create_solution!
@@ -26,6 +30,6 @@ class Clone < ActiveRecord::Base
   end
 
   def latest_revision
-    revisions.latest
+    revisions.latest.wrapped
   end
 end

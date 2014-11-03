@@ -9,7 +9,7 @@ class ObservingParticipation < SimpleDelegator
     super
   end
 
-  def find_or_create_solution
+  def create_solution
     observer.solution_submitted
     super
   end

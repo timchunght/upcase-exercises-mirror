@@ -1,47 +1,16 @@
 require "spec_helper"
 
 describe Participation do
-  describe "#has_clone?" do
-    context "with no existing clone" do
-      it "returns false" do
-        participation = build_participation(existing_clone: nil)
+  describe "#clone" do
+    it "delegates to its clones" do
+      existing_clone = build_stubbed(:clone)
+      user = build_stubbed(:user)
+      participation =
+        build_participation(existing_clone: existing_clone, user: user)
 
-        expect(participation).not_to have_clone
-      end
-    end
+      result = participation.clone
 
-    context "with an existing clone" do
-      it "returns true when clone is not pending" do
-        existing_clone = build_stubbed(:clone)
-        participation = build_participation(existing_clone: existing_clone)
-
-        expect(participation).to have_clone
-      end
-    end
-  end
-
-  describe "#find_clone_for" do
-    context "with no existing clone" do
-      it "raises an exception" do
-        user = build_stubbed(:user)
-        participation = build_participation(user: user)
-
-        expect { participation.find_clone }.
-          to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-
-    context "with an existing clone" do
-      it "returns the existing clone" do
-        existing_clone = build_stubbed(:clone)
-        user = build_stubbed(:user)
-        participation =
-          build_participation(existing_clone: existing_clone, user: user)
-
-        result = participation.find_clone
-
-        expect(result).to eq(existing_clone)
-      end
+      expect(result).to eq(existing_clone.wrapped)
     end
   end
 
@@ -70,50 +39,48 @@ describe Participation do
     end
   end
 
-  describe "#find_or_create_solution" do
+  describe "#create_solution" do
     context "with an existing clone and an existing solution" do
-      it "returns the existing solution" do
+      it "doesn't create a solution" do
         existing_clone = build_stubbed(:clone)
         existing_solution = build_stubbed(:solution)
-        existing_clone.stub(:solution).and_return(existing_solution)
+        existing_clone.stub(:solution).and_return(existing_solution.wrapped)
+        existing_clone.stub(:create_solution!)
         user = build_stubbed(:user)
         participation =
           build_participation(existing_clone: existing_clone, user: user)
 
-        result = participation.find_or_create_solution
+        participation.create_solution
 
-        expect(result).to eq(existing_solution)
+        expect(existing_clone).not_to have_received(:create_solution!)
       end
     end
 
     context "with an existing clone and no existing solution" do
       it "creates a new solution" do
-        solution = build_stubbed(:solution)
-        clone = build_stubbed(:clone)
-        clone.stub(:solution).and_return(nil)
-        clone.stub(:create_solution!).and_return(solution)
-        participation = build_participation(existing_clone: clone)
+        existing_clone = build_stubbed(:clone)
+        existing_clone.stub(:solution).and_return(nil.wrapped)
+        existing_clone.stub(:create_solution!)
+        participation = build_participation(existing_clone: existing_clone)
 
-        result = participation.find_or_create_solution
+        participation.create_solution
 
-        expect(result).to eq(solution)
+        expect(existing_clone).to have_received(:create_solution!)
       end
     end
 
     context "with no existing clone" do
       it "raises an exception" do
-        user = build_stubbed(:user)
-        participation = build_participation(user: user)
+        participation = build_participation(existing_clone: nil)
 
-        expect { participation.find_or_create_solution }.
-          to raise_error(ActiveRecord::RecordNotFound)
+        expect { participation.create_solution }.to raise_error(IndexError)
       end
     end
   end
 
-  describe "#has_solution?" do
-    context "with a clone and a solution" do
-      it "returns true" do
+  describe "#solution" do
+    context "with an existing clone" do
+      it "delegates to its clone" do
         existing_clone = build_stubbed(:clone)
         existing_solution = build_stubbed(:solution)
         existing_clone.stub(:solution).and_return(existing_solution)
@@ -121,68 +88,18 @@ describe Participation do
         participation =
           build_participation(existing_clone: existing_clone, user: user)
 
-        expect(participation).to have_solution
-      end
-    end
-
-    context "with a clone and no solution" do
-      it "returns false" do
-        existing_clone = build_stubbed(:clone)
-        existing_clone.stub(:solution).and_return(nil)
-        user = build_stubbed(:user)
-        participation =
-          build_participation(existing_clone: existing_clone, user: user)
-
-        expect(participation).not_to have_solution
-      end
-    end
-
-    context "without a clone" do
-      it "returns false" do
-        user = build_stubbed(:user)
-        participation = build_participation(user: user)
-
-        expect(participation).not_to have_solution
-      end
-    end
-  end
-
-  describe "#find_solution" do
-    context "with an existing clone and solution" do
-      it "returns the existing solution" do
-        existing_clone = build_stubbed(:clone)
-        existing_solution = build_stubbed(:solution)
-        existing_clone.stub(:solution).and_return(existing_solution)
-        user = build_stubbed(:user)
-        participation =
-          build_participation(existing_clone: existing_clone, user: user)
-
-        result = participation.find_solution
+        result = participation.solution
 
         expect(result).to eq(existing_solution)
       end
     end
 
-    context "with an existing clone but no solution" do
-      it "raises an exception" do
-        existing_clone = build_stubbed(:clone)
-        existing_clone.stub(:solution).and_return(nil)
-        user = build_stubbed(:user)
-        participation =
-          build_participation(existing_clone: existing_clone, user: user)
-
-        expect { participation.find_solution }.
-          to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-
     context "with no existing clone" do
-      it "raises an exception" do
+      it "returns blank" do
         user = build_stubbed(:user)
         participation = build_participation(user: user)
 
-        expect { participation.find_solution }.
-          to raise_error(ActiveRecord::RecordNotFound)
+        expect(participation.solution).to be_blank
       end
     end
   end
@@ -202,9 +119,9 @@ describe Participation do
     end
 
     context "without an existing clone" do
-      it "returns nil" do
+      it "returns a blank" do
         participation = build_participation(existing_clone: nil)
-        expect(participation.latest_revision).to be_nil
+        expect(participation.latest_revision).to be_blank
       end
     end
   end
@@ -283,7 +200,8 @@ describe Participation do
     git_server: double(:git_server),
     user: build_stubbed(:user)
   )
-    clones.stub(:for_user).with(user).and_return(existing_clone)
+    clones.stub(:for_user).with(user).and_return(existing_clone.wrapped)
+
     Participation.new(
       exercise: exercise,
       git_server: git_server,

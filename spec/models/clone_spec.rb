@@ -31,6 +31,17 @@ describe Clone do
     it { should allow_value(nil).for(:parent_sha).strict }
   end
 
+  describe "#solution" do
+    it "wraps its association" do
+      solution = build_stubbed(:solution)
+      clone = build_stubbed(:clone, solution: solution)
+
+      result = clone.solution
+
+      expect(result).to eq(solution.wrapped)
+    end
+  end
+
   describe '#title' do
     it 'delegates to its exercise' do
       exercise = build_stubbed(:exercise)
@@ -91,7 +102,7 @@ describe Clone do
 
       result = clone.latest_revision
 
-      expect(result).to eq(revision)
+      expect(result).to eq(revision.wrapped)
     end
   end
 end

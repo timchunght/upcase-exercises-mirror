@@ -9,11 +9,11 @@ class ReviewableSolutionsQuery
   attr_reader :submitted_solution, :viewed_solution
 
   def solutions_by_other_users
-    solutions.to_a - [submitted_solution]
+    solutions.to_a - submitted_solution.to_a
   end
 
   def assigned_solution
-    solutions_by_other_users.first || submitted_solution
+    solutions_by_other_users.first || submitted_solution.unwrap
   end
 
   def assigned_solver

@@ -32,6 +32,7 @@ gem 'rack-rewrite'
 gem 'rack-ssl-enforcer'
 gem 'uglifier'
 gem 'unicorn'
+gem 'wrapped', '~> 0.0.3'
 
 group :development do
   gem 'better_errors'

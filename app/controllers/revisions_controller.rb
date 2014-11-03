@@ -10,15 +10,11 @@ class RevisionsController < ApplicationController
   private
 
   def can_view_solution?
-    admin_user? || solved_by_current_user?
+    admin_user? || solution_by_current_user.present?
   end
 
   def admin_user?
     current_user.admin?
-  end
-
-  def solved_by_current_user?
-    participation_by_current_user.has_solution?
   end
 
   def review
@@ -43,9 +39,7 @@ class RevisionsController < ApplicationController
   end
 
   def solution_by_current_user
-    if solved_by_current_user?
-      participation_by_current_user.find_solution
-    end
+    participation_by_current_user.solution
   end
 
   def revision_by_number
@@ -67,7 +61,7 @@ class RevisionsController < ApplicationController
   end
 
   def solution
-    @solution ||= participation_by(user).find_solution
+    @solution ||= participation_by(user).solution.unwrap
   end
 
   def revision

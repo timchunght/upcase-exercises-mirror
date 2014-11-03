@@ -7,7 +7,7 @@ class ProgressingUser
   end
 
   def awaiting_review?
-    has_submitted_solution? && submitted_solution_has_no_comments?
+    submitted_solution.fmap(&:has_comments?).fmap(&:!).unwrap_or(false)
   end
 
   def has_reviewed_other_solution?
@@ -15,16 +15,10 @@ class ProgressingUser
   end
 
   def has_received_review?
-    has_submitted_solution? && submitted_solution.has_comments?
+    submitted_solution.fmap(&:has_comments?).unwrap_or(false)
   end
 
   def has_given_and_received_review?
     has_reviewed_other_solution? && has_received_review?
-  end
-
-  private
-
-  def submitted_solution_has_no_comments?
-    !submitted_solution.has_comments?
   end
 end

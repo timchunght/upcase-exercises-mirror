@@ -4,7 +4,7 @@ class SolutionsController < ApplicationController
   end
 
   def create
-    participation.find_or_create_solution
+    participation.create_solution
     redirect_to(
       exercise_solution_path(
         exercise,
@@ -27,7 +27,7 @@ class SolutionsController < ApplicationController
   end
 
   def solution
-    participation.find_solution
+    participation.solution
   end
 
   def solutions

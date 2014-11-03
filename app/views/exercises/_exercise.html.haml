@@ -1,9 +1,9 @@
-- if overview.has_clone?
-  - if overview.has_pending_clone?
+- overview.clone.present do |instance|
+  - if instance.pending?
     = t("clones.create.pending")
   - else
-    = render "exercises/clone", overview: overview
-- else
+    = render "exercises/clone", overview: overview, clone: instance
+- overview.clone.blank do
   = button_to(                              |
     t("exercises.show.start_exercise"),     |
     exercise_clone_path(overview.exercise), |

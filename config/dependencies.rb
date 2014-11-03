@@ -428,9 +428,7 @@ end
 factory :overview_factory do |container|
   latest_revision = container[:participation].latest_revision
 
-  submitted_solution = container[:participation].has_solution? ?
-    container[:participation].find_solution :
-    nil
+  submitted_solution = container[:participation].solution
 
   solutions = container[:reviewable_solutions_factory].new(
     solutions: container[:exercise].solutions,
@@ -438,13 +436,15 @@ factory :overview_factory do |container|
     viewed_solution: nil
   )
 
-  revision = container[:git_revision_factory].new(
-    comment_locator: container[:comment_locator_factory].new(
-      comments: Comment.none,
-      revision: latest_revision
-    ),
-    revision: latest_revision,
-  )
+  revision = latest_revision.fmap do |instance|
+    container[:git_revision_factory].new(
+      comment_locator: container[:comment_locator_factory].new(
+        comments: Comment.none,
+        revision: instance
+      ),
+      revision: instance,
+    )
+  end
 
   Overview.new(
     channel: container[:user_channel_factory].new(

@@ -6,7 +6,7 @@ describe Status::ReviewingOtherSolution do
       it "returns true" do
         solutions = double(
           "solutions",
-          submitted_solution: double("submitted_solution"),
+          submitted_solution: double("submitted_solution").wrapped,
           viewed_solution: double("viewed_solution"),
           user_has_solution?: true
         )
@@ -22,7 +22,7 @@ describe Status::ReviewingOtherSolution do
         solution = double("solution")
         solutions = double(
           "solutions",
-          submitted_solution: solution,
+          submitted_solution: solution.wrapped,
           viewed_solution: solution,
           user_has_solution?: true
         )
@@ -36,7 +36,7 @@ describe Status::ReviewingOtherSolution do
       it "returns false" do
         solutions = double(
           "solutions",
-          submitted_solution: nil,
+          submitted_solution: nil.wrapped,
           user_has_solution?: false,
           viewed_solution: double("viewed_solution")
         )
@@ -60,14 +60,15 @@ describe Status::ReviewingOtherSolution do
   end
 
   describe "#submitted_solution" do
-    it "delegates to its solutions" do
+    it "unwraps from its solutions" do
+      submitted_solution = double("submitted_solution")
       solutions = double(
         "solutions",
-        submitted_solution: double("submitted_solution"),
+        submitted_solution: submitted_solution.wrapped,
       )
       status = Status::ReviewingOtherSolution.new(solutions)
 
-      expect(status.submitted_solution).to eq(solutions.submitted_solution)
+      expect(status.submitted_solution).to eq(submitted_solution)
     end
   end
 
