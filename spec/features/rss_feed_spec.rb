@@ -20,16 +20,18 @@ feature "RSS feed" do
       )
     )
 
-    expect(page).to have_xpath("//rss[@version='2.0']")
-    expect(page).to have_xpath(
+    feed = Capybara.string(page.body)
+
+    expect(feed).to have_xpath("//rss[@version='2.0']")
+    expect(feed).to have_xpath(
       "//rss/channel/title",
       text: "Latest Solutions To Upcase Exercises"
     )
-    expect(page).to have_xpath(
+    expect(feed).to have_xpath(
       "//rss/channel/item[1]/title",
       text: "Solution to Make the donuts by billy"
     )
-    expect(page).to have_xpath(
+    expect(feed).to have_xpath(
       "//rss/channel/item[2]/title",
       text: "Solution to Make the donuts by wendy"
     )
