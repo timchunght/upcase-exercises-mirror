@@ -524,7 +524,8 @@ end
 
 service :upcase_client do |container|
   UpcaseClient.new(
-    container[:oauth_upcase_client]
+    container[:oauth_upcase_client],
+    error_notifier: container[:error_notifier]
   )
 end
 

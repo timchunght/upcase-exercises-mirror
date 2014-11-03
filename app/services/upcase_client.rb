@@ -1,5 +1,5 @@
 class UpcaseClient
-  pattr_initialize :oauth_upcase_client
+  pattr_initialize :oauth_upcase_client, [:error_notifier!]
 
   def update_status(user, exercise_uuid, state)
     rescue_common_errors do
