@@ -1,7 +1,7 @@
 module Gitolite
   # SSH public keys are required to authenticate Git over SSH.
   class PublicKey < ActiveRecord::Base
-    validates :data, presence: true
+    validates :data, presence: true, uniqueness: true
     validates :user_id, presence: true
     validate :check_fingerprint
 

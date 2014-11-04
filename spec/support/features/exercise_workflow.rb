@@ -139,12 +139,8 @@ module Features
 
     attr_reader :exercise, :page, :user
 
-    def create_public_key(data: "ssh-rsa 123")
-      @user.public_keys.create!(
-        data: data,
-        fingerprint: "stubbed",
-        pending: false
-      )
+    def create_public_key(attributes = {})
+      create(:public_key, attributes.merge(user: user, pending: false))
     end
 
     def stub_diff_command(filename)

@@ -26,6 +26,14 @@ en:
       submit: 'Comment'
       new: 'Add comment'
 
+  activerecord:
+    errors:
+      models:
+        gitolite/public_key:
+          attributes:
+            data:
+              taken: "has already been used. Please generate a new SSH keypair for this user."
+
   exercises:
     progress:
       submitted: 'Submitted a solution'

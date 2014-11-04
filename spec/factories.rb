@@ -23,6 +23,10 @@ FactoryGirl.define do
     sprintf('username%04d', n)
   end
 
+  sequence :public_key_data do |n|
+    "ssh-rsa #{n}"
+  end
+
   factory :clone do
     exercise
     user
@@ -126,7 +130,7 @@ FactoryGirl.define do
       user { create(:user) }
     end
 
-    data "ssh-rsa 123"
+    data { generate(:public_key_data) }
     fingerprint "ccab:dd"
     user_id { user.id }
   end
