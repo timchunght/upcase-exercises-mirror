@@ -6,7 +6,9 @@ describe RescuingObserver do
       it "delegates and returns nil" do
         observer = double("observer")
         parameter = double("parameter")
-        observer.stub(:event_triggered).and_return("Observer Return")
+        allow(observer).
+          to receive(:event_triggered).
+          and_return("Observer Return")
         rescuing_observer = build_rescuing_oberver(observer: observer)
 
         result = rescuing_observer.event_triggered(parameter)
@@ -21,8 +23,8 @@ describe RescuingObserver do
         observer = double("observer")
         error_notifier = double("error_notifier")
         exception = StandardError.new("Observer Error")
-        observer.stub(:event_triggered).and_raise(exception)
-        error_notifier.stub(:notify)
+        allow(observer).to receive(:event_triggered).and_raise(exception)
+        allow(error_notifier).to receive(:notify)
         rescuing_observer = build_rescuing_oberver(
           observer: observer,
           error_notifier: error_notifier
@@ -44,7 +46,7 @@ describe RescuingObserver do
 
     it "returns true for observer methods" do
       observer = double("observer")
-      observer.stub(:message)
+      allow(observer).to receive(:message)
       rescuing_observer = build_rescuing_oberver(observer: observer)
 
       expect(rescuing_observer).to respond_to(:message)

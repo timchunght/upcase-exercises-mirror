@@ -16,7 +16,10 @@ describe Git::Clone do
       exercise = double('exercise')
       repository = double('repository')
       server = double('server')
-      server.stub(:find_clone).with(exercise, user).and_return(repository)
+      allow(server).
+        to receive(:find_clone).
+        with(exercise, user).
+        and_return(repository)
       clone = double('clone', user: user, exercise: exercise)
       git_clone = Git::Clone.new(clone, server)
 

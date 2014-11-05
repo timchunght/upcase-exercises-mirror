@@ -4,7 +4,7 @@ describe Git::LoggingObserver do
   describe '#clone_created' do
     it 'logs the exercise, user, and sha' do
       logger = double('logger')
-      logger.stub(:info)
+      allow(logger).to receive(:info)
       exercise = double('exercise', title: 'exercise')
       user = double('user', username: 'user')
       sha = 'sha123'
@@ -20,7 +20,7 @@ describe Git::LoggingObserver do
   describe '#diff_fetched' do
     it 'logs clone and diff size' do
       logger = double('logger')
-      logger.stub(:info)
+      allow(logger).to receive(:info)
       clone = double('clone', title: 'exercise', username: 'user')
       diff = '123456789'
       observer = Git::LoggingObserver.new(logger)

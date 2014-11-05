@@ -15,7 +15,10 @@ describe Git::Exercise do
       repository = double('repository')
       exercise = double('exercise')
       server = double('server')
-      server.stub(:find_source).with(exercise).and_return(repository)
+      allow(server).
+        to receive(:find_source).
+        with(exercise).
+        and_return(repository)
       git_exercise = Git::Exercise.new(exercise, server)
 
       expect(git_exercise.source).to eq(repository)

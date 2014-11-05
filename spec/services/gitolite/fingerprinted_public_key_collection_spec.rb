@@ -7,9 +7,12 @@ describe Gitolite::FingerprintedPublicKeyCollection do
       key = double('key')
       fingerprint = double('fingerprint')
       relation = double('relation')
-      relation.stub(:new).and_return(key)
+      allow(relation).to receive(:new).and_return(key)
       fingerprinter = double('fingerprinter')
-      fingerprinter.stub(:fingerprint).with(data).and_return(fingerprint)
+      allow(fingerprinter).
+        to receive(:fingerprint).
+        with(data).
+        and_return(fingerprint)
       collection = Gitolite::FingerprintedPublicKeyCollection.new(
         relation,
         fingerprinter
@@ -28,7 +31,7 @@ describe Gitolite::FingerprintedPublicKeyCollection do
       criteria = double('criteria')
       value = double('relation.exists?(criteria)')
       relation = double('relation')
-      relation.stub(:exists?).with(criteria).and_return(value)
+      allow(relation).to receive(:exists?).with(criteria).and_return(value)
       fingerprinter = double('fingerprinter')
       collection =
         Gitolite::FingerprintedPublicKeyCollection.new(relation, fingerprinter)

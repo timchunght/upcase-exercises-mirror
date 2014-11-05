@@ -42,7 +42,7 @@ describe Revision do
         oldest_revision = create :revision, created_at: 3.day.ago
         solution.revisions << [oldest_revision, latest_revision]
 
-        expect(latest_revision.latest?).to be_true
+        expect(latest_revision.latest?).to be_truthy
       end
     end
 
@@ -53,7 +53,7 @@ describe Revision do
         oldest_revision = create :revision, created_at: 3.day.ago
         solution.revisions << [oldest_revision, latest_revision]
 
-        expect(oldest_revision.latest?).to be_false
+        expect(oldest_revision.latest?).to be_falsey
       end
     end
   end

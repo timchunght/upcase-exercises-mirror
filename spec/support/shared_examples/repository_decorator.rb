@@ -1,4 +1,4 @@
-share_examples_for :repository_decorator do
+shared_examples_for :repository_decorator do
   it 'delegates to its component' do
     repository = double('repository', path: 'expected path')
 

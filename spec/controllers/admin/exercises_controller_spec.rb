@@ -8,9 +8,9 @@ describe Admin::ExercisesController do
       sign_in_as build_stubbed(:admin)
       attributes = attributes_for(:exercise).stringify_keys
       exercise = build_stubbed(:exercise)
-      exercise.stub(:save).and_return(true)
+      allow(exercise).to receive(:save).and_return(true)
       exercises = stub_service(:exercises)
-      exercises.stub(:new).with(attributes).and_return(exercise)
+      allow(exercises).to receive(:new).with(attributes).and_return(exercise)
 
       post :create, exercise: attributes
 

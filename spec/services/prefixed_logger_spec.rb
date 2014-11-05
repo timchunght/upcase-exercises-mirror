@@ -5,7 +5,7 @@ describe PrefixedLogger do
     describe "##{level}" do
       it 'delegates to its logger with a prefix' do
         logger = double('logger')
-        logger.stub(level.to_sym)
+        allow(logger).to receive(level.to_sym)
         prefixed = PrefixedLogger.new(logger, 'PREFIX: ')
 
         prefixed.send(level, 'message')

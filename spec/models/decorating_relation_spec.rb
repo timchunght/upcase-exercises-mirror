@@ -9,9 +9,15 @@ describe DecoratingRelation do
           record = double('record')
           decorated_record = double('decorated_record')
           relation = double('relation')
-          relation.stub(method_name).with(*arguments).and_return(record)
+          allow(relation).
+            to receive(method_name).
+            with(*arguments).
+            and_return(record)
           decorator = double('decorator')
-          decorator.stub(:new).with(record: record).and_return(decorated_record)
+          allow(decorator).
+            to receive(:new).
+            with(record: record).
+            and_return(decorated_record)
           decorating_relation =
             DecoratingRelation.new(relation, :record, decorator)
 

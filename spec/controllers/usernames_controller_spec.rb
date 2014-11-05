@@ -7,7 +7,10 @@ describe UsernamesController do
         user_params = { 'username' => 'username' }
         user = build_stubbed(:user)
         exercise = build_stubbed(:exercise)
-        user.stub(:update_attributes).with(user_params).and_return(true)
+        allow(user).
+          to receive(:update_attributes).
+          with(user_params).
+          and_return(true)
 
         sign_in_as user
         put :update, user: user_params, exercise_id: exercise.to_param
@@ -20,7 +23,7 @@ describe UsernamesController do
       it 're-renders the form' do
         user = build_stubbed(:user)
         exercise = build_stubbed(:exercise)
-        user.stub(:update_attributes).and_return(false)
+        allow(user).to receive(:update_attributes).and_return(false)
 
         sign_in_as user
         put :update, user: { username: '' }, exercise_id: exercise.to_param

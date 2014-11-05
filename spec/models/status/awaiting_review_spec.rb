@@ -5,42 +5,42 @@ describe Status::AwaitingReview do
     context "if user has performed a review but are awaiting review" do
       it "returns true" do
         progressing_user = double('progressing_user')
-        progressing_user.
-          stub(:has_reviewed_other_solution?).
+        allow(progressing_user).
+          to receive(:has_reviewed_other_solution?).
           and_return(true)
-        progressing_user.stub(:awaiting_review?).and_return(true)
+        allow(progressing_user).to receive(:awaiting_review?).and_return(true)
 
         result = build_status(progressing_user).applicable?
 
-        expect(result).to be_true
+        expect(result).to be_truthy
       end
     end
 
     context "if the user has not reviewed their other solution" do
       it "returns false" do
         progressing_user = double('progressing_user')
-        progressing_user.
-          stub(:has_reviewed_other_solution?).
+        allow(progressing_user).
+          to receive(:has_reviewed_other_solution?).
           and_return(false)
-        progressing_user.stub(:awaiting_review?).and_return(true)
+        allow(progressing_user).to receive(:awaiting_review?).and_return(true)
 
         result = build_status(progressing_user).applicable?
 
-        expect(result).to be_false
+        expect(result).to be_falsey
       end
     end
 
     context "if the user has already received a review" do
       it "returns false" do
         progressing_user = double('progressing_user')
-        progressing_user.
-          stub(:has_reviewed_other_solution?).
+        allow(progressing_user).
+          to receive(:has_reviewed_other_solution?).
           and_return(true)
-        progressing_user.stub(:awaiting_review?).and_return(false)
+        allow(progressing_user).to receive(:awaiting_review?).and_return(false)
 
         result = build_status(progressing_user).applicable?
 
-        expect(result).to be_false
+        expect(result).to be_falsey
       end
     end
   end

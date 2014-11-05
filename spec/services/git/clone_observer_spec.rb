@@ -28,7 +28,7 @@ describe Git::CloneObserver do
     it "creates a new revision" do
       diff = "--- +++"
       clone = double("clone")
-      clone.stub(:create_revision!)
+      allow(clone).to receive(:create_revision!)
       observer = Git::CloneObserver.new(clones: double("clones"))
 
       observer.diff_fetched(clone, diff)

@@ -51,7 +51,9 @@ describe Feedback do
     it "delegates to its comment locator" do
       top_level_comments = double("comment_locator.top_level_comments")
       comment_locator = double("comment_locator")
-      comment_locator.stub(:top_level_comments).and_return(top_level_comments)
+      allow(comment_locator).
+        to receive(:top_level_comments).
+        and_return(top_level_comments)
       feedback = build_feedback(comment_locator: comment_locator)
 
       result = feedback.top_level_comments
@@ -65,7 +67,9 @@ describe Feedback do
       create_comment = double("comment_locator.create_comment")
       comment_params = double("comment_params")
       comment_locator = double("comment_locator")
-      comment_locator.stub(:create_comment).and_return(create_comment)
+      allow(comment_locator).
+        to receive(:create_comment).
+        and_return(create_comment)
       feedback = build_feedback(comment_locator: comment_locator)
 
       result = feedback.create_comment(comment_params)

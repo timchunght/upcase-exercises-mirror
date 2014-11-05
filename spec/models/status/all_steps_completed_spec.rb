@@ -5,8 +5,8 @@ describe Status::AllStepsCompleted do
     it 'delegates to the feedback progress' do
       expected = double('expected')
       progressing_user = double('progressing_user')
-      progressing_user.
-        stub(:has_given_and_received_review?).
+      allow(progressing_user).
+        to receive(:has_given_and_received_review?).
         and_return(expected)
       status = build_status(progressing_user: progressing_user)
 

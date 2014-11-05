@@ -73,8 +73,14 @@ FactoryGirl.define do
     end
 
     after :stub do |solution, attributes|
-      solution.stub(:exercise).and_return(attributes.clone.exercise)
-      solution.stub(:user).and_return(attributes.clone.user)
+      extend RSpec::Mocks::ExampleMethods
+
+      allow(solution).
+        to receive(:exercise).
+        and_return(attributes.clone.exercise)
+      allow(solution).
+        to receive(:user).
+        and_return(attributes.clone.user)
     end
   end
 

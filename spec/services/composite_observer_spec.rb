@@ -4,7 +4,7 @@ describe CompositeObserver do
   describe '#method_missing' do
     it 'delegates to each of its observers' do
       observers = [double('one'), double('two')]
-      observers.each { |observer| observer.stub(:message) }
+      observers.each { |observer| allow(observer).to receive(:message) }
       args = double('args')
       composite = CompositeObserver.new(observers)
 
@@ -25,7 +25,7 @@ describe CompositeObserver do
 
     it 'returns true for observer methods' do
       responding = double('one')
-      responding.stub(:message)
+      allow(responding).to receive(:message)
       composite = CompositeObserver.new([double('non_responding'), responding])
 
       expect(composite).to respond_to(:message)

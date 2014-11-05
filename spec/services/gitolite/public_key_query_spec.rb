@@ -73,7 +73,7 @@ describe Gitolite::PublicKeyQuery do
         create(:public_key, pending: false, user: second)
         create(:public_key, pending: false, user: no_pending)
         observer = double("observer")
-        observer.stub(:key_uploaded)
+        allow(observer).to receive(:key_uploaded)
         query = build_public_key_query(observer: observer)
 
         query.clear_pending  do
@@ -103,7 +103,7 @@ describe Gitolite::PublicKeyQuery do
       it "doesn't notify its observer" do
         create(:public_key, pending: true)
         observer = double("observer")
-        observer.stub(:key_uploaded)
+        allow(observer).to receive(:key_uploaded)
         query = build_public_key_query(observer: observer)
 
         begin

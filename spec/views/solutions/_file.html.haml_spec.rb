@@ -58,7 +58,7 @@ describe "solutions/_file.html.haml" do
 
   it "adds location metadata to files" do
     render_file do |file|
-      file.stub(:location_template).and_return("123:file:?")
+      allow(file).to receive(:location_template).and_return("123:file:?")
     end
 
     expect(rendered).to have_css("[data-role=file][data-location='123:file:?']")
@@ -71,7 +71,7 @@ describe "solutions/_file.html.haml" do
 
   def render_lines(lines)
     render_file do |file|
-      yield_each(file.stub(:each_line), lines)
+      yield_each(allow(file).to(receive(:each_line)), lines)
     end
   end
 
@@ -79,7 +79,7 @@ describe "solutions/_file.html.haml" do
     solution = double("solution")
     file = double("file", name: "example.txt", location_template: "?")
     comment_locator = double("comment_locator", inline_comments_for: [])
-    file.stub(:each_line)
+    allow(file).to receive(:each_line)
     yield file
 
     render(

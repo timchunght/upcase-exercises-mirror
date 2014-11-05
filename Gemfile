@@ -49,7 +49,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
   gem 'konacha'
-  gem 'rspec-rails', '>= 2.14'
+  gem 'rspec-rails', '~> 3.1.0'
 end
 
 group :test do

@@ -103,13 +103,13 @@ describe Gitolite::ConfigWriter do
       stub_user(key_query: key_query, **attributes)
     end
 
-    User.stub(:by_username).and_return(users)
-    User.stub(:admin_usernames).and_return(admin_usernames)
+    allow(User).to receive(:by_username).and_return(users)
+    allow(User).to receive(:admin_usernames).and_return(admin_usernames)
   end
 
   def stub_user(username: "mruser", key_query:, public_keys: [])
     double("user", username: username).tap do |user|
-      key_query.stub(:for).with(user).and_return(public_keys)
+      allow(key_query).to receive(:for).with(user).and_return(public_keys)
     end
   end
 

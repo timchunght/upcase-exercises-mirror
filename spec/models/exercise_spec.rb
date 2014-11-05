@@ -31,15 +31,14 @@ describe Exercise do
       it 'returns true' do
         exercise = create(:exercise)
         user = double('user')
-        exercise.
-          comments.
-          stub(:where).
+        allow(exercise.comments).
+          to receive(:where).
           with(user: user).
           and_return([double('comment')])
 
         result = exercise.has_comments_from?(user)
 
-        expect(result).to be_true
+        expect(result).to be_truthy
       end
     end
 
@@ -47,11 +46,13 @@ describe Exercise do
       it 'returns false' do
         exercise = create(:exercise)
         user = double('user')
-        exercise.comments.stub(:where).with(user: user).and_return([])
+        allow(exercise.comments).
+          to receive(:where).
+          with(user: user).and_return([])
 
         result = exercise.has_comments_from?(user)
 
-        expect(result).to be_false
+        expect(result).to be_falsey
       end
     end
   end

@@ -12,17 +12,17 @@ describe Solution do
   describe "#title" do
     it "delegates to its clone" do
       clone = build_stubbed(:clone)
-      clone.stub(:title).and_return("title")
+      allow(clone).to receive(:title).and_return("title")
       solution = build_stubbed(:solution, clone: clone)
 
       expect(solution.title).to eq(clone.title)
     end
   end
 
-  describe '#username' do
-    it 'delegates to its clone' do
+  describe "#username" do
+    it "delegates to its clone" do
       clone = build_stubbed(:clone)
-      clone.stub(:username).and_return('username')
+      allow(clone).to receive(:username).and_return("username")
       solution = build_stubbed(:solution, clone: clone)
 
       expect(solution.username).to eq(clone.username)
@@ -33,7 +33,7 @@ describe Solution do
     it 'returns the most recently created revision for this solution' do
       revision = double('revisions.latest')
       solution = build_stubbed(:solution)
-      solution.revisions.stub(:latest).and_return(revision)
+      allow(solution.revisions).to receive(:latest).and_return(revision)
 
       result = solution.latest_revision
 
@@ -47,7 +47,7 @@ describe Solution do
         solution = create(:solution)
         create(:comment, solution: solution)
 
-        expect(solution.has_comments?).to be_true
+        expect(solution.has_comments?).to be_truthy
       end
     end
 
@@ -55,7 +55,7 @@ describe Solution do
       it 'returns false' do
         solution = build_stubbed(:solution)
 
-        expect(solution.has_comments?).to be_false
+        expect(solution.has_comments?).to be_falsey
       end
     end
   end

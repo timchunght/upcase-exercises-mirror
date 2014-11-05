@@ -3,7 +3,7 @@ RSpec::Matchers.define :have_executed_commands do |*expected_commands|
     check_commands shell.commands, expected_commands
   end
 
-  failure_message_for_should do |shell|
+  failure_message do |shell|
     "Expected shell to execute #{inspect_commands(expected_commands)}\n\n" \
       "But got #{inspect_commands(shell.commands)}"
   end

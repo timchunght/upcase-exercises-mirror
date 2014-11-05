@@ -182,7 +182,7 @@ describe Git::DiffParser do
 
     def build_parser(diff)
       factory = double('factory')
-      factory.stub(:new) do
+      allow(factory).to receive(:new) do
         Git::DiffFile.new(Git::DiffLine, 100)
       end
 

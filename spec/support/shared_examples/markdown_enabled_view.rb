@@ -1,4 +1,4 @@
-share_examples_for :markdown_enabled_view do
+shared_examples_for :markdown_enabled_view do
   it 'renders text in markdown format' do
     markdown = '*hello*'
 

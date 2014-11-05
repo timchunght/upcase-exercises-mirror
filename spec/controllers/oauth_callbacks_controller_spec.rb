@@ -6,8 +6,8 @@ describe OauthCallbacksController do
       it "returns to the return to URL" do
         session[:return_to] = "http://otherhost.com/return_to"
         user = stub_user_from_auth_hash
-        user.stub(:admin?).and_return(false)
-        user.stub(:subscriber?).and_return(true)
+        allow(user).to receive(:admin?).and_return(false)
+        allow(user).to receive(:subscriber?).and_return(true)
 
         request_callback
 
@@ -18,8 +18,8 @@ describe OauthCallbacksController do
     context "with a non-admin subscriber" do
       it "signs in" do
         user = stub_user_from_auth_hash
-        user.stub(:subscriber?).and_return(true)
-        user.stub(:admin?).and_return(false)
+        allow(user).to receive(:subscriber?).and_return(true)
+        allow(user).to receive(:admin?).and_return(false)
 
         request_callback
 
@@ -31,7 +31,7 @@ describe OauthCallbacksController do
     context "with a non-subscriber" do
       it "redirects without signing in" do
         user = stub_user_from_auth_hash
-        user.stub(:subscriber?).and_return(false)
+        allow(user).to receive(:subscriber?).and_return(false)
 
         request_callback
 
@@ -43,8 +43,8 @@ describe OauthCallbacksController do
     context "with an admin subscriber" do
       it "redirects to the admin dashboard" do
         user = stub_user_from_auth_hash
-        user.stub(:admin?).and_return(true)
-        user.stub(:subscriber?).and_return(true)
+        allow(user).to receive(:admin?).and_return(true)
+        allow(user).to receive(:subscriber?).and_return(true)
 
         request_callback
 
@@ -62,7 +62,7 @@ describe OauthCallbacksController do
       auth_hash = stub_auth_hash
       authenticator =
         stub_factory_instance(:authenticator_factory, auth_hash: auth_hash)
-      authenticator.stub(:authenticate).and_return(user)
+      allow(authenticator).to receive(:authenticate).and_return(user)
     end
   end
 

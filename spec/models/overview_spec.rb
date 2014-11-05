@@ -81,7 +81,7 @@ describe Overview do
     context "for a user with a public key" do
       it "returns true" do
         user = build_stubbed(:user)
-        user.stub(:public_keys).and_return([double("public_key")])
+        allow(user).to receive(:public_keys).and_return([double("public_key")])
         overview = build_overview(user: user)
 
         expect(overview).to have_public_key
@@ -91,7 +91,7 @@ describe Overview do
     context "for a user with no public keys" do
       it "returns false" do
         user = build_stubbed(:user)
-        user.stub(:public_keys).and_return([])
+        allow(user).to receive(:public_keys).and_return([])
         overview = build_overview(user: user)
 
         expect(overview).not_to have_public_key

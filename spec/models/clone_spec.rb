@@ -65,9 +65,8 @@ describe Clone do
       revision = double('revisions.create!')
       solution = build_stubbed(:solution)
       clone = build_stubbed(:clone, solution: solution)
-      clone.
-        revisions.
-        stub(:create!).
+      allow(clone.revisions).
+        to receive(:create!).
         with(diff: 'example', solution: solution).
         and_return(revision)
 
@@ -82,9 +81,14 @@ describe Clone do
       revision = double('revisions.latest')
       solution = double('Solution.create!')
       clone = build_stubbed(:clone)
-      clone.revisions.stub(:latest).and_return(revision)
-      Solution.stub(:create!).with(clone: clone).and_return(solution)
-      revision.stub(:update_attributes!)
+      allow(clone.revisions).
+        to receive(:latest).
+        and_return(revision)
+      allow(Solution).
+        to receive(:create!).
+        with(clone: clone).
+        and_return(solution)
+      allow(revision).to receive(:update_attributes!)
 
       result = clone.create_solution!
 
@@ -98,7 +102,7 @@ describe Clone do
     it "returns the most recently created revision for this clone" do
       revision = double("revisions.latest")
       clone = build_stubbed(:clone)
-      clone.revisions.stub(:latest).and_return(revision)
+      allow(clone.revisions).to receive(:latest).and_return(revision)
 
       result = clone.latest_revision
 

@@ -23,13 +23,16 @@ describe Gitolite::ReloadingCollection do
     end
   end
 
-  share_examples_for "relation delegation" do |method_name:|
+  shared_examples_for "relation delegation" do |method_name:|
     describe "##{method_name}" do
       it "delegates directly to the relation" do
         argument = double("argument")
         record = double("record")
         relation = double("relation")
-        relation.stub(method_name).with(argument).and_return(record)
+        allow(relation).
+          to receive(method_name).
+          with(argument).
+          and_return(record)
         reloading_collection = Gitolite::ReloadingCollection.new(relation)
 
         result = reloading_collection.__send__(method_name, argument)

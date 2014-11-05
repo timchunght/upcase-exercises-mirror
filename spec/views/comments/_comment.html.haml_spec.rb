@@ -25,7 +25,7 @@ describe 'comments/_comment.html' do
     it_behaves_like :markdown_enabled_view do
       def render_markdown(markdown)
         comment = build_stubbed(:comment, text: markdown)
-        comment.stub(:top_level?).and_return(true)
+        allow(comment).to receive(:top_level?).and_return(true)
 
         render comment
       end
@@ -36,7 +36,7 @@ describe 'comments/_comment.html' do
     it_behaves_like :markdown_enabled_view do
       def render_markdown(markdown)
         comment = build_stubbed(:comment, text: markdown)
-        comment.stub(:top_level?).and_return(false)
+        allow(comment).to receive(:top_level?).and_return(false)
 
         render comment
       end

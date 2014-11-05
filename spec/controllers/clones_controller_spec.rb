@@ -6,7 +6,7 @@ describe ClonesController do
       it 'creates a new clone for the user' do
         exercise = build_stubbed(:exercise)
         participation = stub_service(:current_participation)
-        participation.stub(:create_clone)
+        allow(participation).to receive(:create_clone)
         user = build_stubbed(:user, username: 'hello')
 
         sign_in_as user
@@ -21,7 +21,7 @@ describe ClonesController do
       it 'prompts for a username' do
         exercise = build_stubbed(:exercise)
         participation = stub_service(:current_participation)
-        participation.stub(:create_clone)
+        allow(participation).to receive(:create_clone)
         user = build_stubbed(:user, username: '')
 
         sign_in_as user
@@ -54,7 +54,7 @@ describe ClonesController do
     def show_overview(stubs)
       exercise = build_stubbed(:exercise)
       overview = stub_service(:current_overview)
-      overview.stub(stubs)
+      allow(overview).to receive_messages(stubs)
 
       sign_in
       xhr :get, :show, exercise_id: exercise.to_param

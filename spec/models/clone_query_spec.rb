@@ -7,7 +7,10 @@ describe CloneQuery do
         user = double("user", id: 123)
         clone = double("clone")
         relation = double("relation")
-        relation.stub(:find_by).with(user_id: user.id).and_return(clone)
+        allow(relation).
+          to receive(:find_by).
+          with(user_id: user.id).
+          and_return(clone)
         query = CloneQuery.new(relation)
 
         result = query.for_user(user)
@@ -33,7 +36,7 @@ describe CloneQuery do
       expected = double("expected")
       arguments = double("arguments")
       relation = double("relation")
-      relation.stub(:create!).and_return(expected)
+      allow(relation).to receive(:create!).and_return(expected)
       query = CloneQuery.new(relation)
 
       result = query.create!(arguments)

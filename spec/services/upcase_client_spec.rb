@@ -11,9 +11,9 @@ describe UpcaseClient do
       it "notifies airbrake of trapped #{error}" do
         error_notifier = double("error_notifier", notify: nil)
         token = double
-        token.stub(:post).and_raise(error)
+        allow(token).to receive(:post).and_raise(error)
         client = double(request: nil)
-        OAuth2::AccessToken.stub(:new).and_return(token)
+        allow(OAuth2::AccessToken).to receive(:new).and_return(token)
         upcase_client = build_upcase_client(
           client: client,
           error_notifier: error_notifier
@@ -105,7 +105,7 @@ describe UpcaseClient do
 
   def client_credentials_fail_with(error)
     token = double
-    token.stub(:put).and_raise(error)
+    allow(token).to receive(:put).and_raise(error)
     double(get_token: token)
   end
 end

@@ -1,19 +1,25 @@
 require 'spec_helper'
 
 describe Gitolite::Server do
-  describe '#create_clone' do
-    it 'creates a Gitolite fork and notifies the observer' do
-      exercise = double('exercise', slug: 'exercise')
-      user = double('user', username: 'username')
-      source = double('source')
-      source.stub(:create_fork)
-      clone = double('clone', path: 'username/exercise')
-      clone.stub(:head).and_return('sha123')
-      repository_finder = double('repository_finder')
-      repository_finder.stub(:find_source).with(exercise).and_return(source)
-      repository_finder.stub(:find_clone).with(exercise, user).and_return(clone)
-      observer = double('observer')
-      observer.stub(:clone_created)
+  describe "#create_clone" do
+    it "creates a Gitolite fork and notifies the observer" do
+      exercise = double("exercise", slug: "exercise")
+      user = double("user", username: "username")
+      source = double("source")
+      allow(source).to receive(:create_fork)
+      clone = double("clone", path: "username/exercise")
+      allow(clone).to receive(:head).and_return("sha123")
+      repository_finder = double("repository_finder")
+      allow(repository_finder).
+        to receive(:find_source).
+        with(exercise).
+        and_return(source)
+      allow(repository_finder).
+        to receive(:find_clone).
+        with(exercise, user).
+        and_return(clone)
+      observer = double("observer")
+      allow(observer).to receive(:clone_created)
       server = build(
         :git_server,
         observer: observer,
@@ -22,9 +28,9 @@ describe Gitolite::Server do
 
       server.create_clone(exercise, user)
 
-      expect(source).to have_received(:create_fork).with('username/exercise')
+      expect(source).to have_received(:create_fork).with("username/exercise")
       expect(observer).to have_received(:clone_created).
-        with(exercise, user, 'sha123')
+        with(exercise, user, "sha123")
     end
   end
 
@@ -34,10 +40,10 @@ describe Gitolite::Server do
       exercise = double('exercise')
       repository = double('repository')
       repository_finder = double('repository_finder')
-      repository_finder
-        .stub(:find_clone)
-        .with(exercise, user)
-        .and_return(repository)
+      allow(repository_finder).
+        to receive(:find_clone).
+        with(exercise, user).
+        and_return(repository)
       server = build(:git_server, repository_finder: repository_finder)
 
       clone = server.find_clone(exercise, user)
@@ -46,15 +52,15 @@ describe Gitolite::Server do
     end
   end
 
-  describe '#find_source' do
-    it 'delegates to its repository finder' do
-      exercise = double('exercise')
-      repository = double('repository')
-      repository_finder = double('repository_finder')
-      repository_finder
-        .stub(:find_source)
-        .with(exercise)
-        .and_return(repository)
+  describe "#find_source" do
+    it "delegates to its repository finder" do
+      exercise = double("exercise")
+      repository = double("repository")
+      repository_finder = double("repository_finder")
+      allow(repository_finder).
+        to receive(:find_source).
+        with(exercise).
+        and_return(repository)
       server = build(:git_server, repository_finder: repository_finder)
 
       source = server.find_source(exercise)
@@ -63,19 +69,19 @@ describe Gitolite::Server do
     end
   end
 
-  describe '#fetch_diff' do
-    it 'updates the solution with a new diff' do
-      clone = build_stubbed(:clone, parent_sha: 'a_sha')
-      diff = '--- +++'
-      repository = double('repository')
-      repository.stub(:diff).with('a_sha').and_return(diff)
-      repository_finder = double('repository_finder')
-      repository_finder
-        .stub(:find_clone)
-        .with(clone.exercise, clone.user)
-        .and_return(repository)
-      observer = double('observer')
-      observer.stub(:diff_fetched)
+  describe "#fetch_diff" do
+    it "updates the solution with a new diff" do
+      clone = build_stubbed(:clone, parent_sha: "a_sha")
+      diff = "--- +++"
+      repository = double("repository")
+      allow(repository).to receive(:diff).with("a_sha").and_return(diff)
+      repository_finder = double("repository_finder")
+      allow(repository_finder).
+        to receive(:find_clone).
+        with(clone.exercise, clone.user).
+        and_return(repository)
+      observer = double("observer")
+      allow(observer).to receive(:diff_fetched)
       server = build(
         :git_server,
         observer: observer,
@@ -115,7 +121,7 @@ describe Gitolite::Server do
 
   def stub_config_committer
     double('config_committer').tap do |config_committer|
-      config_committer.stub(:write)
+      allow(config_committer).to receive(:write)
     end
   end
 end

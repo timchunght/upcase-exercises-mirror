@@ -11,7 +11,7 @@ describe ChronologicalQuery do
     create = double("comments.create")
     comment_params = double("comment_params")
     comments = double("comments")
-    comments.stub(:create).and_return(create)
+    allow(comments).to receive(:create).and_return(create)
     query = ChronologicalQuery.new(comments)
 
     result = query.create(comment_params)

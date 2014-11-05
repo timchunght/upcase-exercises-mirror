@@ -11,7 +11,7 @@ describe ExercisesController do
         user: user,
         exercise: exercise
       )
-      tracker.stub(:exercise_visited)
+      allow(tracker).to receive(:exercise_visited)
       sign_in_as user
 
       get :show, id: exercise.to_param

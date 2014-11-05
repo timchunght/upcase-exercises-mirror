@@ -20,17 +20,17 @@ describe Gitolite::ConfigCommitter do
 
     def stub_config_writer
       double('gitolite_config_writer').tap do |config|
-        config.stub(:write)
+        allow(config).to receive(:write)
       end
     end
 
     def stub_committable_repository(repository_factory)
       double('repository').tap do |repository|
-        repository_factory
-          .stub(:new)
-          .with(path: Gitolite::ConfigCommitter::ADMIN_REPO_NAME)
-          .and_return(repository)
-        repository.stub(:commit).and_yield
+        allow(repository_factory).
+          to receive(:new).
+          with(path: Gitolite::ConfigCommitter::ADMIN_REPO_NAME).
+          and_return(repository)
+        allow(repository).to receive(:commit).and_yield
       end
     end
   end

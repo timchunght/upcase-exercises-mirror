@@ -34,7 +34,7 @@ describe CommentableLine do
       )
       location = double("comment_locator.location_for")
       comment_locator = double("comment_locator")
-      comment_locator.stub(:location_for).
+      allow(comment_locator).to receive(:location_for).
         with(diff_line.file_name, diff_line.number).
         and_return(location)
       line = CommentableLine.new(diff_line, comment_locator)
@@ -44,5 +44,4 @@ describe CommentableLine do
       expect(result).to eq(location)
     end
   end
-
 end

@@ -5,9 +5,9 @@ describe Gitolite::PublicKeyTrackingCommitter do
     it "delegates and clears pending keys" do
       message = double("message")
       committer = double("committer")
-      committer.stub(:write)
+      allow(committer).to receive(:write)
       public_keys = double("public_keys")
-      public_keys.stub(:clear_pending).and_yield
+      allow(public_keys).to receive(:clear_pending).and_yield
       tracking_committer =
         Gitolite::PublicKeyTrackingCommitter.new(committer, public_keys: public_keys)
 

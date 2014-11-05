@@ -195,7 +195,10 @@ describe ProgressingUser do
 
   def stub_exercise_with_comments_from(user)
     double("exercise").tap do |exercise|
-      exercise.stub(:has_comments_from?).with(user).and_return(true)
+      allow(exercise).
+        to receive(:has_comments_from?).
+        with(user).
+        and_return(true)
     end
   end
 

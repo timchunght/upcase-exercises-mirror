@@ -19,7 +19,7 @@ describe Status::SubmittedSolution do
 
         result = status.applicable?
 
-        expect(result).to be_true
+        expect(result).to be_truthy
       end
     end
 
@@ -30,7 +30,7 @@ describe Status::SubmittedSolution do
 
         result = status.applicable?
 
-        expect(result).to be_false
+        expect(result).to be_falsey
       end
     end
   end

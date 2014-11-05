@@ -6,8 +6,8 @@ describe Api::PushesController do
       context "with an unknown solution" do
         it "returns an empty 404" do
           participation = double("participation")
-          participation.
-            stub(:push_to_clone).
+          allow(participation).
+            to receive(:push_to_clone).
             and_raise(ActiveRecord::RecordNotFound)
 
           push_solution_for participation
@@ -20,7 +20,7 @@ describe Api::PushesController do
       context "with an existing solution" do
         it "triggers an update" do
           participation = double("participation")
-          participation.stub(:push_to_clone)
+          allow(participation).to receive(:push_to_clone)
 
           push_solution_for participation
 
@@ -32,12 +32,15 @@ describe Api::PushesController do
 
     def push_solution_for(participation)
       exercise = build_stubbed(:exercise)
-      Exercise.stub(:find).with(exercise.to_param).and_return(exercise)
+      allow(Exercise).
+        to receive(:find).
+        with(exercise.to_param).
+        and_return(exercise)
       user = build_stubbed(:user)
-      User.stub(:find).with(user.to_param).and_return(user)
+      allow(User).to receive(:find).with(user.to_param).and_return(user)
       factory = stub_factory(:participation_factory)
-      factory.
-        stub(:new).
+      allow(factory).
+        to receive(:new).
         with(exercise: exercise, user: user).
         and_return(participation)
       authenticate

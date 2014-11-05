@@ -15,6 +15,10 @@ module EagerLoadMatcher
       @output.second.size == @output.third.size
     end
 
+    def supports_block_expectations?
+      true
+    end
+
     def failure_message
       'Expected block to be eager loaded, but received extra queries. ' \
         "Queries:\n#{@output.third.join("\n")}"

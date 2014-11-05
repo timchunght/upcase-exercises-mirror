@@ -5,11 +5,11 @@ describe Gitolite::PublicKeysController do
     context 'with valid parameters' do
       it 'creates the key and updates Gitolite' do
         git_server = stub_service(:git_server)
-        git_server.stub(:add_key)
+        allow(git_server).to receive(:add_key)
         user = build_stubbed(:user)
         public_key = double('public_key', save: true)
         public_keys = stub_service(:current_public_keys)
-        public_keys.stub(:new).and_return(public_key)
+        allow(public_keys).to receive(:new).and_return(public_key)
         return_to = '/some/path'
 
         sign_in_as user
@@ -30,7 +30,7 @@ describe Gitolite::PublicKeysController do
         user = build_stubbed(:user)
         public_key = double('public_key', save: false)
         public_keys = stub_service(:current_public_keys)
-        public_keys.stub(:new).and_return(public_key)
+        allow(public_keys).to receive(:new).and_return(public_key)
 
         sign_in_as user
         post :create, gitolite_public_key: { data: '' }

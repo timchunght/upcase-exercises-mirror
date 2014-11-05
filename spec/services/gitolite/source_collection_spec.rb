@@ -14,7 +14,10 @@ describe Gitolite::SourceCollection do
       repository_finder = double('repository_finder')
       sources = exercises.map do |exercise|
         double('source').tap do |source|
-          repository_finder.stub(:find_source).with(exercise).and_return(source)
+          allow(repository_finder).
+            to receive(:find_source).
+            with(exercise).
+            and_return(source)
         end
       end
       result = []

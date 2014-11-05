@@ -79,7 +79,7 @@ describe EventTracker do
   def analytics_backend
     @analytics_backend ||= begin
       analytics_backend = double("analytics_backend")
-      analytics_backend.stub(:track)
+      allow(analytics_backend).to receive(:track)
       analytics_backend
     end
   end

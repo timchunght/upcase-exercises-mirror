@@ -21,7 +21,9 @@ RSpec.configure do |config|
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
   config.infer_base_class_for_anonymous_controllers = true
-  config.order = 'random'
+  config.infer_spec_type_from_file_location!
+  config.raise_errors_for_deprecations!
+  config.order = :random
   config.use_transactional_fixtures = false
 
   config.before(:suite) do

@@ -15,7 +15,7 @@ describe Git::Revision do
       files = double("files")
       parser = double("parser", parse: files)
       parser_factory = double("parser_factory")
-      parser_factory.stub(:new).with(diff: diff).and_return(parser)
+      allow(parser_factory).to receive(:new).with(diff: diff).and_return(parser)
       revision = build_stubbed(:revision, diff: diff)
       git_revision = Git::Revision.new(revision, parser_factory)
 

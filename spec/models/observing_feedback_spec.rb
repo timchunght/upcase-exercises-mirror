@@ -15,9 +15,12 @@ describe ObservingFeedback do
       comment = double("comment")
       comment_params = double("comment_params")
       feedback = double("feedback")
-      feedback.stub(:create_comment).with(comment_params).and_return(comment)
+      allow(feedback).
+        to receive(:create_comment).
+        with(comment_params).
+        and_return(comment)
       observer = double("observer")
-      observer.stub(:comment_created)
+      allow(observer).to receive(:comment_created)
       observing_feedback =
         ObservingFeedback.new(feedback, observer)
 

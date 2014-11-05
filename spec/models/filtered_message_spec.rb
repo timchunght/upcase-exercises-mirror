@@ -27,7 +27,7 @@ describe FilteredMessage do
 
   def deliver_message(attributes)
     double('message').tap do |message|
-      message.stub(:deliver)
+      allow(message).to receive(:deliver)
       FilteredMessage.new(message, attributes).deliver
     end
   end

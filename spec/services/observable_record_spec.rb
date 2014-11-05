@@ -13,7 +13,7 @@ describe ObservableRecord do
     expect(observable_record).to be_a(SimpleDelegator)
   end
 
-  share_examples_for "tracks save" do
+  shared_examples_for "tracks save" do
     context "for a new, valid record" do
       it "notifies the observer of create and save" do
         record = FakeRecord.new(persisted: false, valid: true)
@@ -93,9 +93,9 @@ describe ObservableRecord do
 
   def stub_observer
     double("observer").tap do |observer|
-      observer.stub(:saved)
-      observer.stub(:created)
-      observer.stub(:updated)
+      allow(observer).to receive(:saved)
+      allow(observer).to receive(:created)
+      allow(observer).to receive(:updated)
     end
   end
 end

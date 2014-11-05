@@ -19,7 +19,7 @@ describe Participation do
       exercise = build_stubbed(:exercise)
       user = build_stubbed(:user)
       git_server = double("git_server")
-      git_server.stub(:create_clone)
+      allow(git_server).to receive(:create_clone)
       clones = double("clones", create!: true)
       participation = build_participation(
         exercise: exercise,
@@ -44,8 +44,10 @@ describe Participation do
       it "doesn't create a solution" do
         existing_clone = build_stubbed(:clone)
         existing_solution = build_stubbed(:solution)
-        existing_clone.stub(:solution).and_return(existing_solution.wrapped)
-        existing_clone.stub(:create_solution!)
+        allow(existing_clone).
+          to receive(:solution).
+          and_return(existing_solution.wrapped)
+        allow(existing_clone).to receive(:create_solution!)
         user = build_stubbed(:user)
         participation =
           build_participation(existing_clone: existing_clone, user: user)
@@ -59,8 +61,8 @@ describe Participation do
     context "with an existing clone and no existing solution" do
       it "creates a new solution" do
         existing_clone = build_stubbed(:clone)
-        existing_clone.stub(:solution).and_return(nil.wrapped)
-        existing_clone.stub(:create_solution!)
+        allow(existing_clone).to receive(:solution).and_return(nil.wrapped)
+        allow(existing_clone).to receive(:create_solution!)
         participation = build_participation(existing_clone: existing_clone)
 
         participation.create_solution
@@ -83,7 +85,9 @@ describe Participation do
       it "delegates to its clone" do
         existing_clone = build_stubbed(:clone)
         existing_solution = build_stubbed(:solution)
-        existing_clone.stub(:solution).and_return(existing_solution)
+        allow(existing_clone).
+          to receive(:solution).
+          and_return(existing_solution)
         user = build_stubbed(:user)
         participation =
           build_participation(existing_clone: existing_clone, user: user)
@@ -109,7 +113,7 @@ describe Participation do
       it "delegates to the clones's latest revision" do
         revision = double("clone.latest_revision")
         clone = build_stubbed(:clone)
-        clone.stub(:latest_revision).and_return(revision)
+        allow(clone).to receive(:latest_revision).and_return(revision)
         participation = build_participation(
           existing_clone: clone
         )
@@ -166,7 +170,7 @@ describe Participation do
     context "with a clone but no revisions" do
       it "returns true" do
         clone = build_stubbed(:clone)
-        clone.revisions.stub(:any?).and_return(false)
+        allow(clone.revisions).to receive(:any?).and_return(false)
         participation = build_participation(existing_clone: clone)
 
         expect(participation).to be_unpushed
@@ -176,7 +180,7 @@ describe Participation do
     context "with a clone and revisions" do
       it "returns false" do
         clone = build_stubbed(:clone)
-        clone.revisions.stub(:any?).and_return(true)
+        allow(clone.revisions).to receive(:any?).and_return(true)
         participation = build_participation(existing_clone: clone)
 
         expect(participation).not_to be_unpushed
@@ -186,8 +190,8 @@ describe Participation do
 
   def stub_git_server(options = {})
     double("git_server").tap do |git_server|
-      git_server.
-        stub(:fetch_diff).
+      allow(git_server).
+        to receive(:fetch_diff).
         with(options[:clone]).
         and_return(options[:diff] || "diff")
     end
@@ -200,7 +204,10 @@ describe Participation do
     git_server: double(:git_server),
     user: build_stubbed(:user)
   )
-    clones.stub(:for_user).with(user).and_return(existing_clone.wrapped)
+    allow(clones).
+      to receive(:for_user).
+      with(user).
+      and_return(existing_clone.wrapped)
 
     Participation.new(
       exercise: exercise,

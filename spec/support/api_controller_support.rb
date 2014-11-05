@@ -1,4 +1,4 @@
-share_examples_for "API Controller" do
+shared_examples_for "API Controller" do
   controller described_class do
     def auth_test
       render nothing: true

@@ -14,8 +14,8 @@ describe CommentableFile do
       template = double("comment_locator.location_template_for")
       diff_file = double("diff_file", name: "example.txt")
       comment_locator = double("comment_locator")
-      comment_locator.
-        stub(:location_template_for).
+      allow(comment_locator).
+        to receive(:location_template_for).
         with(diff_file.name).
         and_return(template)
       commentable_file = CommentableFile.new(diff_file, comment_locator)

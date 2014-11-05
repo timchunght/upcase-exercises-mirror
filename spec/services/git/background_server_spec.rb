@@ -8,7 +8,10 @@ describe Git::BackgroundServer do
         job_factory = double('job_factory')
         args = %w(one two)
         server = double('server')
-        server.stub(method_name).with(*args).and_return(expected_result)
+        allow(server).
+          to receive(method_name).
+          with(*args).
+          and_return(expected_result)
         background_server = Git::BackgroundServer.new(server, job_factory)
 
         result = background_server.send(method_name, *args)
@@ -24,7 +27,7 @@ describe Git::BackgroundServer do
         args = %w(one two)
         server = double('server')
         job_factory = double('job_factory')
-        job_factory.stub(:new)
+        allow(job_factory).to receive(:new)
         background_server = Git::BackgroundServer.new(server, job_factory)
 
         result = background_server.send(method_name, *args)

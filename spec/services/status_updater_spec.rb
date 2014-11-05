@@ -3,7 +3,7 @@ require "spec_helper"
 describe StatusUpdater do
   let(:upcase_client) do
     upcase_client = double("upcase_client")
-    upcase_client.stub(:update_status)
+    allow(upcase_client).to receive(:update_status)
     upcase_client
   end
 

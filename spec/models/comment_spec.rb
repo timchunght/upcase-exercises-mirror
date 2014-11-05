@@ -19,7 +19,7 @@ describe Comment do
     it 'returns the user who created the solution the comment is attached to' do
       submitter = double('submitter')
       comment = build_stubbed(:comment)
-      comment.solution.stub(:user).and_return(submitter)
+      allow(comment.solution).to receive(:user).and_return(submitter)
 
       result = comment.solution_submitter
 
@@ -31,7 +31,7 @@ describe Comment do
     it 'returns the exercise being commented on' do
       exercise = double('exercise')
       comment = build_stubbed(:comment)
-      comment.solution.stub(:exercise).and_return(exercise)
+      allow(comment.solution).to receive(:exercise).and_return(exercise)
 
       result = comment.exercise
 

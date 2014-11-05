@@ -5,7 +5,7 @@ describe Git::ExerciseObserver do
     it "notifies the Git server" do
       exercise = double("exercise", slug: double("slug"))
       server = double("server")
-      server.stub(:create_exercise)
+      allow(server).to receive(:create_exercise)
       observer = build_observer(server: server)
 
       observer.created(exercise)

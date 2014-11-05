@@ -74,7 +74,7 @@ describe CommentLocator do
       create = double("comments.create")
       comment_params = double("comment_params")
       comments = double("comments")
-      comments.stub(:create).and_return(create)
+      allow(comments).to receive(:create).and_return(create)
       revision = double("revision")
       locator = CommentLocator.new(comments: comments, revision: revision)
 

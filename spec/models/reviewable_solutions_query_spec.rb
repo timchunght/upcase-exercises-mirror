@@ -79,11 +79,11 @@ describe ReviewableSolutionsQuery do
   describe "#user_has_solution?" do
     context "with a submitted solution" do
       it "returns true" do
-       solutions = build_reviewable_solutions(
+        solutions = build_reviewable_solutions(
           submitted_solution: double("submitted_solution")
         )
 
-        expect(solutions.user_has_solution?).to be_true
+        expect(solutions.user_has_solution?).to be_truthy
       end
     end
 
@@ -91,7 +91,7 @@ describe ReviewableSolutionsQuery do
       it "returns false" do
         solutions = build_reviewable_solutions(submitted_solution: nil)
 
-        expect(solutions.user_has_solution?).to be_false
+        expect(solutions.user_has_solution?).to be_falsey
       end
     end
   end

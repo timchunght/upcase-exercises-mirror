@@ -5,10 +5,10 @@ describe CommentNotifier do
     it "delivers a new comment notification" do
       comment = double("comment")
       notification = double("notification")
-      notification.stub(:deliver)
+      allow(notification).to receive(:deliver)
       notification_factory = double("factory")
-      notification_factory.
-        stub("new").
+      allow(notification_factory).
+        to receive(:new).
         with(comment: comment).
         and_return(notification)
       comment_notifier = CommentNotifier.new(notification_factory)
