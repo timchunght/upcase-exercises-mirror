@@ -96,6 +96,7 @@ FactoryGirl.define do
     last_name 'User'
     upcase_uid
     username
+    subscriber true
 
     factory :admin do
       admin true
