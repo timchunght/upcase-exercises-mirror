@@ -32,10 +32,12 @@ feature "subscriber moves through review workflow" do
     expect_to_be_on_solution(exercise, user)
     expect(page).to have_content(I18n.t("solutions.statuses.awaiting_review"))
 
-    create_comment_on(solution_for(user))
+    comment = create_comment_on(solution_for(user))
     workflow.view_my_solution
 
-    expect(page).to have_content(I18n.t("solutions.statuses.completed"))
+    expect(page).to have_content(
+      I18n.t("solutions.statuses.completed", username: comment.user.username)
+    )
   end
 
   def solution_for(user)

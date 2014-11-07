@@ -23,4 +23,8 @@ class ReviewableSolutionsQuery
   def user_has_solution?
     submitted_solution.present?
   end
+
+  def solution_reviewer
+    submitted_solution.flat_map(&:first_commenter)
+  end
 end

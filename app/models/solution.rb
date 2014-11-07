@@ -20,6 +20,10 @@ class Solution < ActiveRecord::Base
     comments.present?
   end
 
+  def first_commenter
+    comments.order(:id).first.wrapped.fmap(&:user)
+  end
+
   def latest_revision
     revisions.latest
   end

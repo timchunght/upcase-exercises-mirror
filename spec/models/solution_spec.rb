@@ -60,6 +60,25 @@ describe Solution do
     end
   end
 
+  describe "#first_commenter" do
+    context "when the solution has comments" do
+      it "returns commenter of first comments" do
+        solution = create(:solution)
+        comments = create_list(:comment, 2, solution: solution)
+
+        expect(solution.first_commenter.unwrap).to eq comments.first.user
+      end
+    end
+
+    context "when the solution has no comments" do
+      it "returns nil" do
+        solution = build_stubbed(:solution)
+
+        expect(solution.first_commenter).to be_blank
+      end
+    end
+  end
+
   def revise(solution, attributes)
     create :revision, attributes.merge(solution: solution)
   end

@@ -256,7 +256,10 @@ end
 
 factory :status_factory do |container|
   Status::Finder.new([
-    Status::AllStepsCompleted.new(container[:progressing_user_factory].new),
+    Status::AllStepsCompleted.new(
+      progressing_user: container[:progressing_user_factory].new,
+      reviewer: container[:solutions].solution_reviewer
+    ),
     Status::AwaitingReview.new(container[:progressing_user_factory].new),
     Status::ReviewingOtherSolution.new(container[:solutions]),
     Status::SubmittedSolution.new(container[:solutions]),

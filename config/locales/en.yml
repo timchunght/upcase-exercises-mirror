@@ -76,7 +76,7 @@ en:
       submitted: "Nice! You've submitted your solution."
       reviewing: "You have been assigned to review %{username}'s solution."
       awaiting_review: 'Your solution is awaiting review'
-      completed: 'Your solution has been reviewed!'
+      completed: "Your solution has been reviewed by %{username}!"
       to_submit_revision: 'To submit a revision, push a new commit.'
       we_will_email_you: 'We will email you when your solution has been reviewed'
 

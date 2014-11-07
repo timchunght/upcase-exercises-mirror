@@ -16,6 +16,22 @@ describe Status::AllStepsCompleted do
     end
   end
 
+  describe "#reviewer_username" do
+    it "returns reviewer's username" do
+      status = build_status(reviewer: double(username: "jdoe"))
+
+      expect(status.reviewer_username).to eq "jdoe"
+    end
+  end
+
+  describe "#reviewer_avatar_url" do
+    it "returns reviewer's avatar_url" do
+      status = build_status(reviewer: double(avatar_url: "URL"))
+
+      expect(status.reviewer_avatar_url).to eq "URL"
+    end
+  end
+
   describe '#to_partial_path' do
     it 'returns a string' do
       status = build_status
@@ -26,7 +42,13 @@ describe Status::AllStepsCompleted do
     end
   end
 
-  def build_status(progressing_user: double(:progressing_user))
-    Status::AllStepsCompleted.new(progressing_user)
+  def build_status(
+    progressing_user: double(:progressing_user),
+    reviewer: double(:reviewer)
+  )
+    Status::AllStepsCompleted.new(
+      progressing_user: progressing_user,
+      reviewer: reviewer.wrapped
+    )
   end
 end

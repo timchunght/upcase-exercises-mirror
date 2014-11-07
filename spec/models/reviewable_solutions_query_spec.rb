@@ -96,6 +96,21 @@ describe ReviewableSolutionsQuery do
     end
   end
 
+  describe "#solution_reviewer" do
+    it "returns the first commenter for the submitted solution" do
+      commenter = double("commenter")
+      submitted_solution = double(
+        "solution",
+        first_commenter: commenter.wrapped
+      )
+      solutions = build_reviewable_solutions(
+        submitted_solution: submitted_solution
+      )
+
+      expect(solutions.solution_reviewer.unwrap).to eq commenter
+    end
+  end
+
   def build_reviewable_solutions(
     solutions: double(:solutions),
     submitted_solution: double(:submitted_solution),
