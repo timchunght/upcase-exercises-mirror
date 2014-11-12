@@ -61,7 +61,8 @@ class RevisionsController < ApplicationController
   end
 
   def solution
-    @solution ||= participation_by(user).solution.unwrap
+    @solution ||= participation_by(user).solution.
+      blank { raise ActiveRecord::RecordNotFound }.unwrap
   end
 
   def revision
