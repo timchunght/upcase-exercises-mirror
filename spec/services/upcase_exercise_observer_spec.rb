@@ -11,9 +11,10 @@ describe Upcase::ExerciseObserver do
 
       expect(upcase_client).
         to have_received(:synchronize_exercise).with(
+          edit_url: "EDIT_URL",
+          summary: exercise.summary,
           title: exercise.title,
           url: "URL",
-          summary: exercise.summary,
           uuid: exercise.uuid
         )
     end
@@ -36,9 +37,14 @@ describe Upcase::ExerciseObserver do
   end
 
   def build_observer(upcase_client: double("upcase_client"))
+    url_helper = double(
+      "url_helper",
+      edit_admin_exercise_url: "EDIT_URL",
+      exercise_url: "URL"
+    )
     Upcase::ExerciseObserver.new(
       upcase_client: upcase_client,
-      url_helper: double("url_helper", exercise_url: "URL")
+      url_helper: url_helper
     )
   end
 end

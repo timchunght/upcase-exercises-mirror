@@ -68,6 +68,7 @@ class FakeUpcase < Sinatra::Base
         title: params[:exercise][:title],
         url: params[:exercise][:url],
         summary: params[:exercise][:summary],
+        edit_url: params[:exercise][:edit_url],
         created_at: Time.current,
         updated_at: Time.current,
         uuid: params[:exercise_uuid]

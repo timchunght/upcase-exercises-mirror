@@ -41,9 +41,11 @@ describe UpcaseClient do
 
     it "sends data with correct attributes" do
       attributes = {
+        edit_url:
+          "https://exercise.upcase.com/admin/exercises/refactoring/edit",
+        summary: "Just make the code looks better!",
         title: "Refactoring",
         url: "https://exercise.upcase.com/exercises/refactoring",
-        summary: "Just make the code looks better!",
         uuid: "UUID"
       }
       upcase_client = build_upcase_client(client: oauth_upcase_client)
@@ -52,6 +54,7 @@ describe UpcaseClient do
       expect(response.status).to eq 200
 
       json_response = JSON.parse(response.body)
+      expect(json_response["edit_url"]).to eq attributes[:edit_url]
       expect(json_response["title"]).to eq attributes[:title]
       expect(json_response["url"]).to eq attributes[:url]
       expect(json_response["summary"]).to eq attributes[:summary]

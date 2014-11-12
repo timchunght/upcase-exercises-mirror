@@ -4,9 +4,10 @@ module Upcase
 
     def saved(exercise)
       upcase_client.synchronize_exercise(
+        edit_url: url_helper.edit_admin_exercise_url(exercise),
+        summary: exercise.summary,
         title: exercise.title,
         url: url_helper.exercise_url(exercise),
-        summary: exercise.summary,
         uuid: exercise.uuid
       )
     end
