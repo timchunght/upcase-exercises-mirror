@@ -6,7 +6,7 @@ module Upcase
       dependencies[:immediate_upcase_client].send(method_name, *data)
     end
 
-    def error(job, exception)
+    def error(_job, exception)
       dependencies[:error_notifier].notify(exception)
     end
 
