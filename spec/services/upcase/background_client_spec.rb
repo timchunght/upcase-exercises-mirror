@@ -5,12 +5,12 @@ describe Upcase::BackgroundClient do
     describe "##{method_name}" do
       it "creates a background job to delegate" do
         args = %w(one two)
-        server = double("server")
+        client = double("client")
         job_factory = double("job_factory")
         allow(job_factory).to receive(:new)
-        background_server = Upcase::BackgroundClient.new(server, job_factory)
+        background_client = Upcase::BackgroundClient.new(client, job_factory)
 
-        result = background_server.send(method_name, *args)
+        result = background_client.send(method_name, *args)
 
         expect(result).to be_nil
         expect(job_factory).to have_received(:new).

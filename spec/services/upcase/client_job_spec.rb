@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Upcase::ClientJob do
   describe "#perform" do
-    it "calls the correct method on the Upcase server" do
+    it "calls the correct method on the Upcase client" do
       upcase_client = double("upcase_client")
       allow(upcase_client).to receive(:expected_method)
       stub_dependencies immediate_upcase_client: upcase_client
