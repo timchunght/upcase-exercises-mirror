@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.4'
+ruby '2.1.5'
 
 gem 'airbrake'
 gem 'analytics-ruby', require: 'segment/analytics'
