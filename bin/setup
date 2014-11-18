@@ -15,22 +15,41 @@ bundle exec rake db:setup dev:prime
 # Set up configurable environment variables
 if [ ! -f .env ]; then
   cp .sample.env .env
-  echo "*** Make sure to edit .env in this directory! ***"
+fi
+
+# Set up OAuth2 tokens
+if [ -d ../upcase ]; then
+  ../upcase/bin/configure_oauth_tokens_for_client \
+    upcase-exercises \
+    7000 \
+    "$(pwd)/.env"
 fi
 
 # Pick a port for Foreman
 echo "port: 7000" > .foreman
 
-# Set up DNS via Pow
-if [ -d ~/.pow ]
-then
-  echo 7000 > ~/.pow/`basename $PWD`
-else
-  echo "Pow not set up but the team uses it for this project. Setup: http://goo.gl/RaDPO"
+# Set up deploys
+if ! git remote | grep 'staging' > /dev/null; then
+  git remote add staging git@heroku.com:upcase-exercises-staging.git
 fi
 
-# Set up deploys
-git remote add staging git@heroku.com:upcase-exercises-staging.git
-heroku join --app upcase-exercises-staging
-git remote add production git@heroku.com:upcase-exercises.git
-heroku join --app upcase-exercises
+if ! git remote | grep 'production' > /dev/null; then
+  git remote add production git@heroku.com:upcase-exercises.git
+fi
+
+if ! command -v heroku > /dev/null; then
+  printf 'Heroku Toolbelt is not installed.\n'
+  printf 'See https://toolbelt.heroku.com/ for install instructions.\n'
+fi
+
+if heroku join --app upcase-exercises-staging > /dev/null; then
+  printf 'You are a collaborator on the "upcase-exercises-staging" Heroku app\n'
+else
+  printf 'Ask for access to the "upcase-exercises-staging" Heroku app\n'
+fi
+
+if heroku join --app upcase-exercises > /dev/null; then
+  printf 'You are a collaborator on the "upcase-exercises" Heroku app\n'
+else
+  printf 'Ask for access to the "upcase-exercises" Heroku app\n'
+fi
