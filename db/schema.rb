@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106034655) do
+ActiveRecord::Schema.define(version: 20141119080725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,17 @@ ActiveRecord::Schema.define(version: 20141106034655) do
 
   add_index "solutions", ["clone_id"], name: "index_solutions_on_clone_id", unique: true, using: :btree
   add_index "solutions", ["comments_count"], name: "index_solutions_on_comments_count", using: :btree
+
+  create_table "subscriptions", force: true do |t|
+    t.integer  "solution_id", null: false
+    t.integer  "user_id",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subscriptions", ["solution_id", "user_id"], name: "index_subscriptions_on_solution_id_and_user_id", unique: true, using: :btree
+  add_index "subscriptions", ["solution_id"], name: "index_subscriptions_on_solution_id", using: :btree
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.datetime "created_at",                                     null: false

@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :clones, dependent: :destroy
   has_many :public_keys, dependent: :destroy, class_name: 'Gitolite::PublicKey'
+  has_many :subscriptions, dependent: :destroy
 
   validates(
     :username,

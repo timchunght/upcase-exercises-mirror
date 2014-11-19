@@ -126,7 +126,7 @@ module Features
 
     def create_completed_solution(user)
       clone = create(:clone, user: user, exercise: exercise)
-      create(:solution, clone: clone).tap do |solution|
+      create(:solution, :with_subscription, clone: clone).tap do |solution|
         create(:revision, solution: solution)
       end
     end

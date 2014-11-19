@@ -6,6 +6,8 @@ class Comment < ActiveRecord::Base
 
   validates :text, presence: true
 
+  delegate :subscribers, to: :solution
+
   def self.new_top_level
     new(location: TOP_LEVEL)
   end

@@ -8,7 +8,7 @@ class StatusUpdater
   def revision_submitted
   end
 
-  def solution_submitted
+  def solution_submitted(_solution)
   end
 
   def comment_created(_comment)
