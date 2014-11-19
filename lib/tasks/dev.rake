@@ -1,11 +1,11 @@
 namespace :dev do
-  desc 'Create sample data for local development'
-  task prime: ['db:setup'] do
+  desc "Create sample data for local development"
+  task prime: ["db:setup"] do
     if Rails.env.production?
-      raise 'This task cannot be run in the production environment'
+      raise "This task cannot be run in the production environment"
     end
 
-    require 'factory_girl_rails'
+    require "factory_girl_rails"
 
     create_users
     create_exercises
@@ -16,29 +16,23 @@ namespace :dev do
   def create_exercises
     header "Exercises"
 
-    exercise = FactoryGirl.create(
-      :exercise,
-      title: 'Shakespeare Analyzer',
-      instructions: 'As a Shakespeare buff, do this exercise'
-    )
+    create_exercise "Passing Your First Test"
+    create_exercise "Testing ActiveRecord"
+    create_exercise "Write an Integration Test"
+    create_exercise "Extract Method"
+    create_exercise "Extract Class"
+    create_exercise "Replace Variable with Query"
+    create_exercise "Install Xcode"
+    create_exercise "Install Homebrew"
+    create_exercise "Intro to the App Store"
+    create_exercise "Install Java"
+    create_exercise "Learn FRP"
+    create_exercise "Root your phone"
+  end
 
-    puts_exercise exercise
-
-    exercise = FactoryGirl.create(
-      :exercise,
-      title: "Ask don't tell",
-      instructions: "Tell me how you ask."
-    )
-    puts_exercise exercise
-
-    exercise = FactoryGirl.create(
-      :exercise,
-      title: 'Leap Year',
-      instructions: "Write a program that tells you whether or not a given year is a " +
-        "leap year. Remember the following leap year constraints. Leap year is" +
-        "every four years, but skips every one hundred, but is a leap year " +
-        "every four hundred"
-    )
+  def create_exercise(title)
+    exercise = FactoryGirl.create(:exercise, title: title)
+    sync_exercise_uuid_for exercise
     puts_exercise exercise
   end
 
@@ -139,6 +133,14 @@ namespace :dev do
     solution = FactoryGirl.create(:solution, clone: clone)
     solution.revisions = [FactoryGirl.create(:revision, solution: solution)]
     puts_solution solution
+  end
+
+  def sync_exercise_uuid_for(exercise)
+    upcase_connection.update <<-SQL.squish
+      UPDATE exercises
+      SET uuid = '#{exercise.uuid}'
+      WHERE title = '#{exercise.title}'
+    SQL
   end
 
   def upcase_user_id_for(email)
