@@ -12,6 +12,9 @@
           },                                    |
           data: { role: 'line' }                |
         ) do                                    |
+          - if line.comments.any?
+            = render "comments/show_comments_icon", comments: line.comments
+
           %pre
             %code
               :preserve

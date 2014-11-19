@@ -1,7 +1,7 @@
 class @Review
   constructor: (@element) ->
     @element.find("[data-role=file]").each (_, element) =>
-      new File(this, $(element), @template("inline-comments"))
+      new File(this, $(element), @template)
     @hoverIcon = @element.find("[data-role=make-comment]")
     @prepareTopLevelComments()
     prettyPrint()
@@ -19,11 +19,14 @@ class @Review
   makeCommentClicked: (line) =>
     line.toggleCommentForm()
 
+  showCommentsClicked: (line) =>
+    line.toggleComments()
+
   commentFormSubmitted: (container, result) =>
     container.addComment(result)
     container.closeCommentForm()
 
-  template: (name) ->
+  template: (name) =>
     @element.find("[data-template='#{name}']").html()
 
 class TopLevelComments
@@ -42,29 +45,35 @@ class TopLevelComments
     @element.find("textarea").val("")
 
 class File
-  constructor: (@review, @element, @commentsTemplate) ->
+  constructor: (@review, @element, @template) ->
     @element.find("[data-role=line]").each (index, element) =>
       lineNumber = index + 1
       locationTemplate = @element.data("location")
       location = locationTemplate.replace("?", lineNumber)
-      new Line(@review, $(element), location, @commentsTemplate)
+      new Line(@review, $(element), location, @template)
 
 class Line
-  constructor: (@review, @element, @location, @commentsTemplate) ->
+  constructor: (@review, @element, @location, @template) ->
     @element.on "mouseenter", @mouseEnter
     @element.find("pre").addClass("prettyprint")
     @findComments()
+    @findToggleIcon()
 
   mouseEnter: =>
     @review.lineHovered(this)
 
   showMakeCommentIcon: (icon) ->
-    icon.prependTo(@element)
-    icon.on "click", @makeCommentClicked
+    if @toggleIcon.length == 0
+      icon.prependTo(@element)
+      icon.on "click", @makeCommentClicked
 
   makeCommentClicked: (event) =>
     event.preventDefault()
     @review.makeCommentClicked(this)
+
+  showCommentsClicked: (event) =>
+    event.preventDefault()
+    @review.showCommentsClicked(this)
 
   toggleCommentForm: () ->
     unless @comments?
@@ -82,9 +91,25 @@ class Line
       @formToggle().show()
 
   openCommentForm: ->
+    unless @comments.is(":visible")
+      @showComments()
+
     @commentForm().show()
     @formToggle().hide()
     @commentForm().find("textarea").focus()
+
+  toggleComments: () ->
+    if @comments.is(":visible")
+      @hideComments()
+    else
+      @showComments()
+
+  showComments: () ->
+    @comments.show()
+
+  hideComments: () ->
+    @closeCommentForm()
+    @comments.hide()
 
   commentForm: () ->
     @comments.find("[data-role=comment-form]")
@@ -94,6 +119,17 @@ class Line
 
   addComment: (html) ->
     @commentForm().before(html)
+    @renderToggleIcon()
+
+  renderToggleIcon: ->
+    @toggleIcon.remove()
+    toggleIcon = $(@template("show-comments"))
+    toggleIcon.find("a").text(@commentsCount())
+    toggleIcon.prependTo(@element)
+    @findToggleIcon()
+
+  commentsCount: ->
+    @comments.find("[data-role=comment]").length
 
   prepareComments: ->
     @comments.find("form").on("ajax:success", @commentFormSubmitted)
@@ -106,8 +142,12 @@ class Line
       @comments = comments
       @prepareComments()
 
+  findToggleIcon: ->
+    @toggleIcon = @element.find("[data-role='show-comments']")
+    @toggleIcon.on("click", @showCommentsClicked)
+
   renderComments: ->
-    @comments = $(@commentsTemplate)
+    @comments = $(@template("inline-comments"))
     @comments.attr("data-comments-for": @location)
     @element.after(@comments)
     @prepareComments()
