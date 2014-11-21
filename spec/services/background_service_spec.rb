@@ -24,7 +24,11 @@ describe BackgroundService do
       error_notifier = double("error_notifier")
       allow(error_notifier).to receive(:notify)
       stub_dependencies error_notifier: error_notifier
-      job = BackgroundService.new(service: service, method_name: "expected_method", data: [])
+      job = BackgroundService.new(
+        service: service,
+        method_name: "expected_method",
+        data: []
+      )
 
       job.error(job, error)
 
