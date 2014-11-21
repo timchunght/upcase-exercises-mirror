@@ -19,7 +19,8 @@ end
 
 factory :git_server_job_factory do |container|
   container[:queue].enqueue(
-    Git::ServerJob.new(
+    BackgroundService.new(
+      service: container[:immediate_git_server],
       method_name: container[:method_name],
       data: container[:data],
     )
@@ -541,7 +542,8 @@ end
 
 factory :upcase_client_job_factory do |container|
   container[:queue].enqueue(
-    Upcase::ClientJob.new(
+    BackgroundService.new(
+      service: container[:immediate_upcase_client],
       method_name: container[:method_name],
       data: container[:data],
     )
