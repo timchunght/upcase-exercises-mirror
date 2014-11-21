@@ -14,7 +14,7 @@ describe "Review", ->
     $("body").html(html).find("[data-role=review]")
 
   commentsTemplate = """
-    <div>
+    <div style="display: none">
       <ol data-role="inline-comments">
         <li data-role="comment-form" style="display: none">
           <form>
@@ -29,9 +29,18 @@ describe "Review", ->
     </div>
   """
 
+  showCommentsTemplate = """
+    <div data-role="show-comments">
+      <a href="#">0</a>
+    </div>
+  """
+
   templates = """
     <script type="text/html" data-template="inline-comments">
       #{commentsTemplate}
+    </script>
+    <script type="text/html" data-template="show-comments">
+      #{showCommentsTemplate}
     </script>
     <div data-role="make-comment">
       <a href="#"></a>
@@ -62,8 +71,10 @@ describe "Review", ->
     $.each file.lines, (index, line) ->
       lineNumber = index + 1
       location = locationTemplate.replace("?", lineNumber)
-      fileElement.append buildLineMarkup(line)
+      lineElement = buildLineMarkup(line)
+      fileElement.append lineElement
       if line.comments?
+        $(showCommentsTemplate).prependTo(lineElement)
         fileElement.append buildCommentsMarkup(location, line.comments)
 
     fileElement
@@ -104,8 +115,14 @@ describe "Review", ->
   clickInlineCommentIcon = ->
     $("[data-role=make-comment] a").click()
 
+  clickShowCommentsIcon = ->
+    commentsIcon().click()
+
+  commentsIcon = ->
+    $("[data-role=show-comments] a")
+
   openCommentForm = ->
-    $("[data-role=form-toggle] button").click()
+    $("[data-role=form-toggle] button:visible").click()
 
   expectToAddInlineCommentTo = (data) ->
     template = makeTemplate
@@ -119,12 +136,18 @@ describe "Review", ->
     clickInlineCommentIcon()
     template.find("textarea").val("New comment")
 
-    inlineCommentForm().trigger("ajax:success", "<li>New comment</li>")
+    inlineCommentForm().trigger(
+      "ajax:success",
+      """
+        <li data-role="comment">New comment</li>
+      """
+    )
 
     expect(template.find("textarea")).to.have.value("")
     expect(inlineCommentForm()).to.be.hidden
     expect(commentsForLocation("123:file:1").text()).
       to.include("New comment")
+    expect(commentsIcon().text()).to.eq(data.indicator)
 
   it "highlights code blocks", ->
     template = makeTemplate lines: [{ text: "one" }, { text: "two" }]
@@ -165,6 +188,7 @@ describe "Review", ->
 
     new Review(template)
 
+    clickShowCommentsIcon()
     openCommentForm()
 
     expect(template.find("input[name='comment[location]']")).
@@ -190,6 +214,30 @@ describe "Review", ->
     expect(inlineCommentForm()).to.be.visible
     expect(template.find("button")).to.be.hidden
 
+  it "toggles the inline comments", ->
+    template = makeTemplate
+      location: "123:file:?"
+      lines: [
+        { text: "one" }
+        { text: "two", comments: ["Hello"] }
+        { text: "three" }
+      ]
+
+    new Review(template)
+    clickShowCommentsIcon()
+
+    clickShowCommentsIcon()
+    expect(commentsForLocation("123:file:2")).to.be.hidden
+    expect(inlineCommentForm().length).to.equal(1)
+    expect(inlineCommentForm()).to.be.hidden
+    expect(template.find("button")).to.be.hidden
+
+    clickShowCommentsIcon()
+    expect(commentsForLocation("123:file:2")).to.be.visible
+    expect(inlineCommentForm().length).to.equal(1)
+    expect(inlineCommentForm()).to.be.hidden
+    expect(template.find("button")).to.be.visible
+
   it "only adds one hover target", ->
     template = makeTemplate lines: [{ text: "Line" }]
 
@@ -202,10 +250,10 @@ describe "Review", ->
     expect(template.find('a').length).to.equal(1)
 
   it "adds the first inline comment", ->
-    expectToAddInlineCommentTo comments: []
+    expectToAddInlineCommentTo indicator: "1"
 
   it "adds the second inline comment", ->
-    expectToAddInlineCommentTo comments: ["first"]
+    expectToAddInlineCommentTo comments: ["first"], indicator: "2"
 
   it "adds a top-level comment", ->
     template = makeTemplate lines: []

@@ -12,3 +12,18 @@
     opacity: 1;
   }
 }
+
+%animation-bob {
+  @include animation(bob .5s $ease-out-back infinite forwards);
+  @include animation-direction(alternate);
+}
+
+@include keyframes(bob) {
+  0% {
+    @include transform(translateY(3px));
+  }
+
+  100% {
+    @include transform(translateY(-3px));
+  }
+}

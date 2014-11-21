@@ -8,5 +8,4 @@
       = time_ago_in_words(comment.created_at)
       ago
   %span.comment
-    :markdown
-      #{comment.text}
+    = html_escaped_markdown(comment.text)
