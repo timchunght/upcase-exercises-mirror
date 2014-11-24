@@ -67,6 +67,9 @@ describe "Review", ->
     fileElement = $("<div/>").attr
       "data-role": "file"
       "data-location": locationTemplate
+    fileElement.append $("<span/>").
+      attr(class: "filename").
+      text(file.filename || "testing.rb")
 
     $.each file.lines, (index, line) ->
       lineNumber = index + 1
@@ -155,6 +158,26 @@ describe "Review", ->
     new Review(template)
 
     expect(template.find("pre")).to.have.class("prettyprint")
+    expect(prettyPrint).to.have.been.called
+
+  it "adds highlight language hint based on file extension", ->
+    template = makeTemplate
+      lines: [{ text: "one" }, { text: "two" }]
+      filename: "testing.rb"
+
+    new Review(template)
+
+    expect(template.find("pre")).to.have.class("lang-rb")
+    expect(prettyPrint).to.have.been.called
+
+  it "does not add highlight language hint if file has no extension", ->
+    template = makeTemplate
+      lines: [{ text: "one" }, { text: "two" }]
+      filename: "testing"
+
+    new Review(template)
+
+    expect(template.find("pre")).not.to.have.class("lang-")
     expect(prettyPrint).to.have.been.called
 
   it "displays an inline comment form for the first comment", ->
