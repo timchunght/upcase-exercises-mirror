@@ -10,8 +10,22 @@ class Mailer < ActionMailer::Base
 
     mail(
       from: FROM,
-      subject: default_i18n_subject(exercise: @exercise.title),
+      subject: subject_for_comment,
       to: @recipient.email,
     )
+  end
+
+  private
+
+  def subject_for_comment
+    if @recipient == @submitter
+      I18n.t("mailer.comment.subject.self", exercise: @exercise.title)
+    else
+      I18n.t(
+        "mailer.comment.subject.others",
+        exercise: @exercise.title,
+        username: @submitter.username
+      )
+    end
   end
 end

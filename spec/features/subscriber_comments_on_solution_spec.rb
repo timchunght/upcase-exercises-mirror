@@ -12,7 +12,7 @@ feature 'subscriber comments on solution', js: true do
     workflow.comment_on_solution_inline('Looks great')
 
     expect(page).to have_content('Looks great')
-    expect_notification_to user.email, exercise.title
+    expect_self_notification_to user.email, exercise.title
     expect_upcase_status_update commenting_user, exercise, "Complete"
   end
 
@@ -29,21 +29,36 @@ feature 'subscriber comments on solution', js: true do
     workflow.comment_on_solution('Looks great!')
 
     expect(page).to have_content('Looks great!')
-    expect_notification_to other_user.email, exercise.title
+    expect_self_notification_to other_user.email, exercise.title
     expect_upcase_status_update user, exercise, "Complete"
 
     reset_mailer
     visit exercise_solution_path(exercise, other_user, as: other_user)
     workflow.comment_on_solution("Thanks!")
 
-    expect_notification_to user.email, exercise.title
+    expect_others_notification_to(
+      user.email,
+      other_user.username,
+      exercise.title
+    )
     expect_no_notification_to other_user.email
   end
 
-  def expect_notification_to(email, exercise_title)
+  def expect_self_notification_to(email, exercise_title)
     message = open_last_email_for(email)
     expect(message).to have_subject(
-      I18n.t('mailer.comment.subject', exercise: exercise_title)
+      I18n.t("mailer.comment.subject.self", exercise: exercise_title)
+    )
+  end
+
+  def expect_others_notification_to(email, submitter_username, exercise_title)
+    message = open_last_email_for(email)
+    expect(message).to have_subject(
+      I18n.t(
+        "mailer.comment.subject.others",
+        exercise: exercise_title,
+        username: submitter_username
+      )
     )
   end
 

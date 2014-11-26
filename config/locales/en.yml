@@ -54,7 +54,9 @@ en:
 
   mailer:
     comment:
-      subject: 'You received a comment on your solution to %{exercise}'
+      subject:
+        self: "A comment was posted on your solution to %{exercise}"
+        others: "New comment on %{username}'s solution to %{exercise}"
 
   solutions:
     new:
