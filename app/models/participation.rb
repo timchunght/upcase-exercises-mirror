@@ -21,7 +21,7 @@ class Participation
   end
 
   def create_solution
-    solution.blank { clone.unwrap.create_solution! }
+    solution.unwrap_or { clone.unwrap.create_solution! }
   end
 
   def push_to_clone

@@ -5,18 +5,18 @@ class ObservingParticipation < SimpleDelegator
   end
 
   def create_clone
-    observer.clone_created
     super
+    observer.clone_created
   end
 
   def create_solution
-    observer.solution_submitted
-    super
+    solution = super
+    observer.solution_submitted(solution)
   end
 
   def push_to_clone
-    observer.revision_submitted
     super
+    observer.revision_submitted
   end
 
   private

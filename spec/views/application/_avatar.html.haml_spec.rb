@@ -6,6 +6,9 @@ describe 'application/_avatar.html.haml' do
 
     render 'avatar', user: user
 
-    expect(rendered).to have_css("img[src='#{user.avatar_url}?s=24']")
+    image = Capybara.string(rendered).find("img")
+    expect(image["alt"]).to eq(user.username)
+    expect(image["src"]).to eq("#{user.avatar_url}?s=24")
+    expect(image["title"]).to eq(user.username)
   end
 end

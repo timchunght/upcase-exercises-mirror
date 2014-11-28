@@ -12,7 +12,17 @@
 //
 //= require jquery
 //= require jquery_ujs
+//
 //= require prettify
+//= require lang-css.js
+//= require lang-erlang.js
+//= require lang-go.js
+//= require lang-hs.js
+//= require lang-lisp.js
+//= require lang-scala.js
+//= require lang-sql.js
+//= require lang-yaml.js
+//
 //= require masonry.pkgd.min
 //
 //= require jquery.caret

@@ -76,6 +76,10 @@ FactoryGirl.define do
       revisions { [build(:revision)] }
     end
 
+    trait :with_subscription do
+      subscriptions { [build(:subscription, user: user)] }
+    end
+
     after :stub do |solution, attributes|
       extend RSpec::Mocks::ExampleMethods
 
@@ -134,5 +138,10 @@ FactoryGirl.define do
     data { generate(:public_key_data) }
     fingerprint "ccab:dd"
     user_id { user.id }
+  end
+
+  factory :subscription do
+    solution
+    user
   end
 end

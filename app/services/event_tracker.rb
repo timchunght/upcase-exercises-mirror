@@ -1,7 +1,7 @@
 class EventTracker
   pattr_initialize :user, :exercise, :analytics_backend
 
-  def solution_submitted
+  def solution_submitted(_solution)
     track("Submitted Solution")
   end
 

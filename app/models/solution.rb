@@ -3,8 +3,10 @@ class Solution < ActiveRecord::Base
   belongs_to :clone
   has_many :comments, dependent: :destroy
   has_many :revisions, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_one :exercise, through: :clone
   has_one :user, through: :clone
+  has_many :subscribers, through: :subscriptions, source: :user
 
   validates :clone, presence: true
 

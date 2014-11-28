@@ -5,9 +5,10 @@ describe EventTracker do
     it "tracks solution submission" do
       user = double("user", upcase_uid: 1)
       exercise = double("exercise", slug: "an-exercise")
+      solution = double("solution")
       tracker = EventTracker.new(user, exercise, analytics_backend)
 
-      tracker.solution_submitted
+      tracker.solution_submitted(solution)
 
       expect(analytics_backend).
         to have_received(:track).

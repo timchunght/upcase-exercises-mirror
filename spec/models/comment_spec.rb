@@ -64,4 +64,15 @@ describe Comment do
       end
     end
   end
+
+  describe "#subscribers" do
+    it "delegates to solution" do
+      solution = double("solution", subscribers: [])
+      comment = build_stubbed(:comment)
+      allow(comment).to receive(:solution).and_return(solution)
+
+      expect(comment.subscribers).to eq []
+      expect(solution).to have_received(:subscribers)
+    end
+  end
 end

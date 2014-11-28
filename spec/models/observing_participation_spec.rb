@@ -25,14 +25,15 @@ describe ObservingParticipation do
 
   describe "#create_solution" do
     it "tracks solution submission when a solution is created" do
-      participation = double("participation", create_solution: nil)
+      solution = double("wrapped solution")
+      participation = double("participation", create_solution: solution)
       observer = double("observer", solution_submitted: nil)
       observing_participation =
         ObservingParticipation.new(participation, observer)
 
       observing_participation.create_solution
 
-      expect(observer).to have_received(:solution_submitted)
+      expect(observer).to have_received(:solution_submitted).with(solution)
     end
   end
 

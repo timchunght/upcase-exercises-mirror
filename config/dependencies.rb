@@ -230,7 +230,8 @@ decorate :feedback_factory do |feedback, container|
     CompositeObserver.new([
       container[:event_tracker_factory].new(user: container[:reviewer]),
       container[:comment_notifier_factory].new,
-      container[:status_updater_factory].new(user: container[:reviewer])
+      container[:status_updater_factory].new(user: container[:reviewer]),
+      container[:subscription_observer_factory].new
     ])
   )
 end
@@ -371,7 +372,7 @@ factory :comment_notification_factory do |container|
   container[:mailer].comment(
     author: container[:comment].user,
     comment: container[:comment],
-    recipient: container[:comment].solution_submitter,
+    recipient: container[:recipient],
     exercise: container[:comment].exercise,
     submitter: container[:comment].solution_submitter,
   )
@@ -381,7 +382,7 @@ decorate :comment_notification_factory do |message, container|
   FilteredMessage.new(
     message,
     filter: container[:comment].user,
-    recipient: container[:comment].solution_submitter,
+    recipient: container[:recipient]
   )
 end
 
@@ -555,9 +556,14 @@ decorate :participation_factory do |participation, container|
     participation,
     CompositeObserver.new([
       container[:event_tracker_factory].new,
-      container[:status_updater_factory].new
+      container[:status_updater_factory].new,
+      container[:subscription_observer_factory].new
     ])
   )
+end
+
+factory :subscription_observer_factory do |container|
+  SubscriptionObserver.new(container[:current_user])
 end
 
 service :url_helper do

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe User do
   it { should have_many(:clones).dependent(:destroy) }
   it { should have_many(:public_keys).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should allow_value(nil).for(:username) }
   it { should_not allow_value('').for(:username) }

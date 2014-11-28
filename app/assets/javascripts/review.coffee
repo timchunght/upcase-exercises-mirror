@@ -46,16 +46,28 @@ class TopLevelComments
 
 class File
   constructor: (@review, @element, @template) ->
+    @extractFileType()
     @element.find("[data-role=line]").each (index, element) =>
       lineNumber = index + 1
       locationTemplate = @element.data("location")
       location = locationTemplate.replace("?", lineNumber)
-      new Line(@review, $(element), location, @template)
+      new Line(@review, $(element), location, @fileType, @template)
+
+  extractFileType: ->
+    filename = @element.find("span.filename").text()
+    match = filename.match(/\.([^.]+)$/)
+
+    if match
+      @fileType = match[1]
 
 class Line
-  constructor: (@review, @element, @location, @template) ->
+  constructor: (@review, @element, @location, fileType, @template) ->
     @element.on "mouseenter", @mouseEnter
     @element.find("pre").addClass("prettyprint")
+
+    if fileType
+      @element.find("pre").addClass("lang-#{fileType}")
+
     @findComments()
     @findToggleIcon()
 
