@@ -9,7 +9,8 @@ describe BackgroundService do
       job = BackgroundService.new(
         service: service,
         method_name: "expected_method",
-        data: args)
+        data: args
+      )
 
       job.perform
 
