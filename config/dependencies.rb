@@ -528,26 +528,9 @@ service :oauth_upcase_client do |container|
 end
 
 service :upcase_client do |container|
-  Upcase::BackgroundClient.new(
-    container[:immediate_upcase_client],
-    container[:upcase_client_job_factory]
-  )
-end
-
-service :immediate_upcase_client do |container|
   UpcaseClient.new(
     container[:oauth_upcase_client],
     error_notifier: container[:error_notifier]
-  )
-end
-
-factory :upcase_client_job_factory do |container|
-  container[:queue].enqueue(
-    BackgroundService.new(
-      service: container[:immediate_upcase_client],
-      method_name: container[:method_name],
-      data: container[:data],
-    )
   )
 end
 
