@@ -4,3 +4,7 @@ $('.exercise-demo').on 'click', 'li', (event) ->
   if $(@).is(':last-child')
     $(@).addClass('completed')
   false
+
+$("a.fingerprints-toggle").on "click", ->
+  $("pre.fingerprints").slideToggle()
+  false

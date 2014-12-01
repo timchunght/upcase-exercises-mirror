@@ -46,6 +46,7 @@ en:
       push_solution: 'Push Solution'
       start_exercise: 'Start Exercise'
       preview_my_solution: 'Preview my solution'
+      view_fingerprints: "View host fingerprints"
 
   gitolite:
     public_keys:

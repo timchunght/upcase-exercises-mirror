@@ -48,6 +48,10 @@ section.main article.main-inner, .preview {
       padding: $base-padding;
       width: 100%;
     }
+
+    &.fingerprints {
+      display: none;
+    }
   }
 
   input[type=submit], .button {

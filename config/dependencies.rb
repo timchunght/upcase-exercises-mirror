@@ -158,7 +158,9 @@ end
 factory :repository_factory do |container|
   Git::Repository.new(
     host: ENV["GIT_SERVER_HOST"],
-    fingerprint: ENV["GIT_SERVER_FINGERPRINT"],
+    dsa_fingerprint: ENV["GIT_SERVER_DSA_FINGERPRINT"],
+    rsa_fingerprint: ENV["GIT_SERVER_RSA_FINGERPRINT"],
+    ecdsa_fingerprint: ENV["GIT_SERVER_ECDSA_FINGERPRINT"],
     path: container[:path]
   )
 end

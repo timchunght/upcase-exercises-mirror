@@ -1,11 +1,27 @@
 require "spec_helper"
 
 describe Git::Repository do
-  describe "#fingerprint" do
-    it "returns its fingerprint" do
-      repository = repo(fingerprint: "02:12:13")
+  describe "#dsa_fingerprint" do
+    it "returns its DSA fingerprint" do
+      repository = repo(dsa_fingerprint: "02:12:13")
 
-      expect(repository.fingerprint).to eq("02:12:13")
+      expect(repository.dsa_fingerprint).to eq("02:12:13")
+    end
+  end
+
+  describe "#rsa_fingerprint" do
+    it "returns its RSA fingerprint" do
+      repository = repo(rsa_fingerprint: "02:12:13")
+
+      expect(repository.rsa_fingerprint).to eq("02:12:13")
+    end
+  end
+
+  describe "#ecdsa_fingerprint" do
+    it "returns its ECDSA fingerprint" do
+      repository = repo(ecdsa_fingerprint: "02:12:13")
+
+      expect(repository.ecdsa_fingerprint).to eq("02:12:13")
     end
   end
 
@@ -43,8 +59,19 @@ describe Git::Repository do
     end
   end
 
-  def repo(host: "example.com", path: "user/repo",
-      fingerprint: "bc:09:e9:de:68:04:04:5f:2f:0d:da:b7:d2:ac:3a:2a")
-    Git::Repository.new(host: host, path: path, fingerprint: fingerprint)
+  def repo(
+    host: "example.com",
+    path: "user/repo",
+    dsa_fingerprint: "b5:64:af:b5:07:98:23:c9:e2:38:fc:cd:cf:f7:69:57",
+    rsa_fingerprint: "c6:1a:c2:61:98:bf:04:0e:80:82:d8:69:94:ee:f6:9a",
+    ecdsa_fingerprint: "84:9b:40:53:78:a6:2a:94:61:8f:9c:b7:87:53:2e:f6"
+  )
+    Git::Repository.new(
+      host: host,
+      path: path,
+      dsa_fingerprint: dsa_fingerprint,
+      rsa_fingerprint: rsa_fingerprint,
+      ecdsa_fingerprint: ecdsa_fingerprint
+    )
   end
 end

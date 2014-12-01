@@ -6,7 +6,9 @@ module Git
     def initialize(attributes)
       @host = attributes[:host]
       @path = attributes[:path]
-      @fingerprint = attributes[:fingerprint]
+      @dsa_fingerprint = attributes[:dsa_fingerprint]
+      @rsa_fingerprint = attributes[:rsa_fingerprint]
+      @ecdsa_fingerprint = attributes[:ecdsa_fingerprint]
     end
 
     def name
@@ -17,6 +19,11 @@ module Git
       "git@#{host}:#{path}.git"
     end
 
-    attr_reader :path, :host, :fingerprint
+    attr_reader \
+      :dsa_fingerprint,
+      :ecdsa_fingerprint,
+      :host,
+      :path,
+      :rsa_fingerprint
   end
 end
