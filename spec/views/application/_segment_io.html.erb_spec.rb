@@ -21,6 +21,7 @@ describe 'application/_segment_io.html.erb' do
         expect(rendered).to include(user.upcase_uid.to_s)
         expect(rendered).to include(user.email)
         expect(rendered).to include(user.first_name)
+        expect(rendered).to include(user.username)
       end
 
       it 'sends a user_hash to enable secure mode in Intercom' do
