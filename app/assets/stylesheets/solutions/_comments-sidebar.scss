@@ -103,6 +103,10 @@ aside.comments {
     &.solution-comment {
       color: $base-font-color;
     }
+
+    input[type="submit"][disabled] {
+      background: $medium-gray;
+    }
   }
 
   code {

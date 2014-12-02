@@ -3,4 +3,4 @@
     html: { class: 'comment-form' } do |f|
     = f.hidden_field :location
     = f.input :text, label: false, placeholder: 'Write a general comment about this solution'
-    = f.submit t('.submit')
+    = f.submit t('.submit'), "data-disable-with" => "Submitting ..."
