@@ -2,30 +2,36 @@ require "spec_helper"
 
 describe UpcaseClient do
   COMMON_ERRORS = [
-    *HTTP_ERRORS,
+    *HTTP_ERRORS.map(&:new),
     OAuth2::Error.new(OAuth2::Response.new(Faraday::Response.new))
   ]
 
-  describe ".update_state" do
+  describe "#update_status" do
     COMMON_ERRORS.each do |error|
       it "notifies airbrake of trapped #{error}" do
         error_notifier = double("error_notifier", notify: nil)
         token = double
         allow(token).to receive(:post).and_raise(error)
         client = double(request: nil)
+        user = build_stubbed(:user)
         allow(OAuth2::AccessToken).to receive(:new).and_return(token)
         upcase_client = build_upcase_client(
           client: client,
           error_notifier: error_notifier
         )
 
-        upcase_client.update_status(
-          double(auth_token: "token"),
-          "exercise",
-          "state"
-        )
+        upcase_client.update_status(user, "uuid", "state")
 
-        expect(error_notifier).to have_received(:notify)
+        expect(error_notifier).to have_received(:notify).with(
+          error_class: error.class,
+          error_message: "Error in UpcaseClient#update_status",
+          parameters: {
+            user_id: user.id,
+            exercise_uuid: "uuid",
+            state: "state",
+            exception_message: error.message
+          }
+        )
       end
     end
   end
@@ -93,7 +99,11 @@ describe UpcaseClient do
 
           upcase_client.synchronize_exercise(attributes)
 
-          expect(error_notifier).to have_received(:notify)
+          expect(error_notifier).to have_received(:notify).with(
+            error_class: error.class,
+            error_message: "Error in UpcaseClient#synchronize_exercise",
+            parameters: attributes.merge(exception_message: error.message)
+          )
         end
       end
     end
