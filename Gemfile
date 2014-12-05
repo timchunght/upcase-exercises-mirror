@@ -54,6 +54,7 @@ end
 
 group :test do
   gem "capybara-webkit", ">= 1.0.0"
+  gem "codeclimate-test-reporter", require: false
   gem "database_cleaner"
   gem "email_spec"
   gem "launchy"

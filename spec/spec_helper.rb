@@ -1,5 +1,18 @@
 ENV['RAILS_ENV'] = 'test'
 
+if ENV["CODECLIMATE_REPO_TOKEN"]
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.configure do |config|
+    config.logger.level = Logger::WARN
+  end
+  CodeClimate::TestReporter.start
+end
+
+if ENV["COVERAGE"]
+  require "simplecov"
+  SimpleCov.start "rails"
+end
+
 require File.expand_path('../../config/environment', __FILE__)
 
 require 'rspec/rails'
@@ -46,4 +59,4 @@ RSpec.configure do |config|
 end
 
 Capybara.javascript_driver = :webkit
-WebMock.disable_net_connect!(allow_localhost: true)
+WebMock.disable_net_connect!(allow_localhost: true, allow: "codeclimate.com")
